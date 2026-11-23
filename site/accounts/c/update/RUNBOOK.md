@@ -16,7 +16,7 @@ Asked by Dinis Cruz in studio.c's session (https://claude.ai/code/session_01Kw9U
 Mistral Voxtral Mini TTS, preset voice James (`"voice": "mistral:voxtral-mini-tts-3:voice_3150"`), for every presenter: Dinis's choice on 23 November 2026 after the tests in ../notes/2026-11-23__voice-quality/. gpt-audio's ballad and sage are retired. Sound chain: plain gain to -18 LUFS, soxr to 48 kHz, 4x-oversampled limiter at -2 dBTP, mono AAC 192 kb/s.
 
 ## Credits
-Every Reel ends on a credits card (3.5 s, readable when paused), added by make.py, Dinis's rule of 23 Nov 2026: made by Claude (Anthropic) as studio.c with its sub-agents; the actual voice model, provider and voice; the presenter, synthetic, from the PrompTugal.news presenters library (bulletins.b), CC BY 4.0; music (none so far); sources (storyboard.json in the post folder); posting only with the owner's yes; riskmandate.ai.
+Every Reel ends on a credits card (3.5 s, readable when paused), added by make.py, Dinis's rule of 23 Nov 2026: made by Claude (Anthropic) as studio.c with its sub-agents; the actual voice model, provider and voice; the presenter, synthetic, from the PrompTugal.news presenters library (bulletins.b), CC BY 4.0; music (none so far); sources (storyboard.json in the post folder); posted under a written rule that the owner reviews; riskmandate.ai.
 
 ## storyboard.json
 `{ "window", "presenter" (library id), "presenter_name", "voice" (gpt-audio voice), "voice_direction", "cover": {"hold":1.2,"date","kicker","headline" (may use <em>),"sub"}, "beats": [{"id":"b1","narration","visual":{"kind", ...,"caption"?},"gesture"?,"facts":[source urls]}], "caption" (Instagram caption), "stats" (pages of [label,value] rows, filled by studio.c) }`

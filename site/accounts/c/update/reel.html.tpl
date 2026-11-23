@@ -119,9 +119,9 @@ S.welcome = t => {
       text(540,930,'Checked before it goes live',{size:52});
     } else { const q=back(ap(t,K.yes,.5)); g0(`translate(540 420) scale(${q})`);
       rect(-260,-260,520,440,{fill:'#f6efe2',r:28}); site(-230,-230,460,250,4); const ok=ap(t,K.saysyes+.3,.4);
-      rect(-200,40,400,80,{fill:ok>0?C.green:'#f3e2b8',r:40}); text(0,95,ok>0?'Approved':'Waiting for a yes',{size:38,fill:C.navy}); g1();
-      const bp=ap(t,K.saysyes,.25), sc=1-.12*Math.sin(Math.PI*bp); g0(`translate(540 790) scale(${sc})`); rect(-170,-60,340,120,{fill:C.gold,r:60}); text(0,22,'Yes',{size:66,fill:C.navy}); g1();
-      text(540,960,'Posted only with a person’s yes',{size:46,op:ease(ap(t,K.yes+.4,.5))}); }
+      rect(-200,40,400,80,{fill:ok>0?C.green:'#f3e2b8',r:40}); text(0,95,ok>0?'Published':'Checked by the rule',{size:38,fill:C.navy}); g1();
+      const bp=ap(t,K.saysyes,.25), sc=1-.12*Math.sin(Math.PI*bp); g0(`translate(540 790) scale(${sc})`); rect(-230,-60,460,120,{fill:C.gold,r:60}); text(0,22,'Owner reviews',{size:56,fill:C.navy}); g1();
+      text(540,960,'A written rule, reviewed by the owner',{size:44,op:ease(ap(t,K.yes+.4,.5))}); }
     g1(); }
   else if (spec.stats && t >= T.duration + 0.6) { statsCard(t - T.duration - 0.6); }
   else { const p=ease(ap(t,K.voice,.5));

@@ -40,7 +40,7 @@ def card(p, state):
     elif state == "approved":
         st = f'Approved by {e(p["approved"]["by"])}, {e(p["approved"]["at"])}; not sent yet'
     else:
-        st = "Waiting for Dinis's yes"
+        st = "Not posted yet"
     return f'''<article class="post">
 <div class="frame{' tall' if p['media'][0].endswith('.mp4') else ''}">{media(p)}</div>
 <div class="meta"><span class="state {state}">{st}</span>
@@ -58,8 +58,8 @@ igsha = subprocess.run(["git","-C",ig,"rev-parse","--short","HEAD"],capture_outp
 main = f'''<main id="main" class="wide">
 <div class="mark">Studio · account C · <a href="designs/">Choose a design</a></div>
 <h1>Reels and images for Instagram</h1>
-<p class="lede">Made by studio.c, the studio agent on account C, for the team's Instagram. Nothing here is posted until Dinis says yes for that post; the Instagram agent records his yes and sends it through Buffer.</p>
-{section("Awaiting approval", "Drafts in the Instagram site's post folders with no approval line yet. Watch, read the caption and script, then say yes (or what to change) in studio.c's or instagram.c's session.", awaiting, "awaiting", "Nothing waiting.")}
+<p class="lede">Made by studio.c, the studio agent on account C, for the team's Instagram. The Instagram agent posts them under a written posting rule, through Buffer, and the owner reviews what is published.</p>
+{section("Not posted yet", "Made and in the Instagram site's post folders, not yet sent. Watch, read the caption and script, and say what to change in studio.c's or instagram.c's session.", awaiting, "awaiting", "Nothing waiting.")}
 {section("Approved, not sent yet", "Dinis said yes; the Instagram agent has not sent these yet.", approved, "approved", "Nothing approved and unsent.") if approved else ""}
 {section("Live on Instagram", "Posts the Instagram agent has sent, with the record of when.", live, "live", "Nothing posted yet.")}
 <p class="note">Built {now} from Site__Platform__Instagram at {e(igsha)}. A static page: no tracking, no token, nothing loaded from Instagram itself.</p>

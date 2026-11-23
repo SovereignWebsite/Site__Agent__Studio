@@ -46,13 +46,14 @@ for ci, ch in enumerate(chunks):
     text = "\n\n".join(b["narration"] for b in ch); want = toks(text)
     for attempt in range(3):
         f = f"{work}/c{ci}-{attempt}"; open(f + ".txt", "w").write(text + "\n\nThank you.\n")
-        if not (os.path.exists(f + ".wav") and os.path.exists(f + ".json")):   # reuse a take from an earlier run: no second spend
+        same = os.path.exists(f + ".said") and open(f + ".said").read() == text   # reuse a take only for the same text
+        if not (same and os.path.exists(f + ".wav") and os.path.exists(f + ".json")):   # reuse a take from an earlier run: no second spend
             if voice.startswith("mistral:"):   # "mistral:<model>:<voice slug>", e.g. mistral:voxtral-mini-tts-3:voice_3150 (James)
                 _, mm, vv = voice.split(":")
                 run("python3", "-I", f"{HERE}/mistral_tts.py", mm, vv, f + ".txt", f + ".wav", capture_output=True)
             else:
                 run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
-            words_of(f + ".wav", f + ".json")
+            words_of(f + ".wav", f + ".json"); open(f + ".said", "w").write(text)
         w = json.load(open(f + ".json")); got, gi, ge = [], [], []   # first and last index into w of each token
         for i, x in enumerate(w):
             t = norm(x[0])
@@ -112,7 +113,7 @@ credits = {"kicker": "Credits", "title": "Who made this", "seconds": CREDITS_S, 
     ["Presenter", f"{sb['presenter_name']}, synthetic, from PrompTugal.news"],
     ["Presenter library", "bulletins.b, CC BY 4.0"],
     ["Music and sources", "No music · facts in storyboard.json"],
-    ["Posting", "Only with the owner's yes · riskmandate.ai"]]}
+    ["Posting", "Under a written rule · riskmandate.ai"]]}
 spec["stats"] = {"page": 4.6, "pages": list(sb.get("stats") or []) + [credits]}
 os.makedirs(f"{work}/site", exist_ok=True)
 shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
