@@ -164,10 +164,19 @@ os.makedirs(f"{work}/site/media", exist_ok=True)
 for b in beats:
     v = b["visual"]
     if v.get("kind") == "image":
-        if not v["src"].startswith("https://raw.githubusercontent.com/SovereignWebsite/"): raise SystemExit("image src must be a raw.githubusercontent.com URL in a SovereignWebsite repository: " + v["src"])
-        name = re.sub(r"[^A-Za-z0-9._-]", "_", v["src"].split("/")[-1]); dst = f"{work}/site/media/{b['id']}-{name}"
-        if not os.path.exists(dst): urllib.request.urlretrieve(v["src"], dst)
+        if v["src"].startswith("file:"):   # a capture made for this Reel, in the storyboard's media_dir (checked by studio.c before use)
+            name = re.sub(r"[^A-Za-z0-9._-]", "_", v["src"][5:]); dst = f"{work}/site/media/{b['id']}-{name}"
+            shutil.copy(os.path.join(sb["media_dir"], v["src"][5:]), dst)
+        else:
+            if not v["src"].startswith("https://raw.githubusercontent.com/SovereignWebsite/"): raise SystemExit("image src must be file:<name> or a raw.githubusercontent.com URL in a SovereignWebsite repository: " + v["src"])
+            name = re.sub(r"[^A-Za-z0-9._-]", "_", v["src"].split("/")[-1]); dst = f"{work}/site/media/{b['id']}-{name}"
+            if not os.path.exists(dst): urllib.request.urlretrieve(v["src"], dst)
         v["local"] = f"media/{b['id']}-{name}"
+    if v.get("kind") == "video":   # a screen recording, played frame by frame in step with the render: {"src":"file:<rec>","crop":"w:h:x:y","fps":15}
+        fps = v.get("fps", 15); fdir = f"{work}/site/media/{b['id']}"; os.makedirs(fdir, exist_ok=True)
+        vf = (f"crop={v['crop']}," if v.get("crop") else "") + f"fps={fps},scale=936:-2"
+        run("ffmpeg", "-loglevel", "error", "-y", "-ss", str(v.get("start", 0)), "-i", os.path.join(sb["media_dir"], v["src"][5:]), "-vf", vf, "-q:v", "4", f"{fdir}/f%04d.jpg")
+        v["frames"] = len([x for x in os.listdir(fdir) if x.endswith(".jpg")]); v["dir"] = f"media/{b['id']}"; v["fps"] = fps
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
 lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
 for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):

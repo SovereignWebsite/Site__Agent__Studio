@@ -212,6 +212,9 @@ V.agents=(v,u)=>{ const it=v.items.slice(0,9), mx=Math.max(...it.map(x=>x.count)
 V.image=(v,u)=>{ const q=ease(ap(u,0,.5)), z=1+0.03*clamp(u/8); g0(`translate(540 500) scale(${z*(0.96+0.04*q)}) translate(-540 -500)`,q);
   rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.local)}" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid meet"/>`);
   if(v.credit) text(540,885,v.credit,{size:22,w:500,fill:C.muted}); g1(); };
+V.video=(v,u)=>{ const q=ease(ap(u,0,.5)); const n=Math.min(v.frames, 1+Math.floor(Math.max(0,u)*v.fps)); const f=String(n).padStart(4,'0');
+  g0('',q); rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.dir)}/f${f}.jpg" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid slice"/>`);
+  if(v.credit) text(540,885,v.credit,{size:22,w:500,fill:C.muted}); g1(); };
 S.story = t => { const B=spec.beats, L=spec.beat_lead||0, at=i=>i?K[B[i].id]-L:0; let k=0; for(let i=0;i<B.length;i++) if(t>=at(i)) k=i; const b=B[k], t0=at(k), t1=k<B.length-1?at(k+1):T.duration+spec.tail, u=t-t0;
   if (spec.stats && t >= T.duration + 0.6) { statsCard(t - T.duration - 0.6); return; }
   const p=fade(t,t0,t1+.01,.3); g0('',p); (V[b.visual.kind]||V.title)(b.visual,u); if(b.visual.caption) text(540,965,b.visual.caption,{size:b.visual.caption.length>30?Math.max(30,Math.floor(46*30/b.visual.caption.length)):46,fill:C.gold,op:ease(ap(u,.5,.4))}); g1(); };
