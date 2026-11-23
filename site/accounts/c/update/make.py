@@ -72,6 +72,8 @@ fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS" + (f",apad=pad
              for i, (_, a, b) in enumerate(pieces))
 fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
 args = sum([["-i", p[0]] for p in pieces], [])
+JOINS, _acc = [], 0.0   # where each beat starts in the joined voice (before tempo): the pause is measured here, not at word times
+for _, a, b in pieces[:-1]: _acc += (b - a) + JOIN_PAD; JOINS.append(_acc - JOIN_PAD / 2)
 run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice-raw.wav")
 raw = float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{work}/voice-raw.wav"],capture_output=True,text=True).stdout)
 CREDITS_S = 3.5   # Dinis: every Reel ends on a credits card, readable when paused
@@ -110,8 +112,11 @@ def beat_gaps():
     out, i = [], 0
     for bb in beats[:-1]:
         i += len(bb["narration"].split())
-        if not 0 < i < len(W): continue
-        te = (W[i - 1][2] + W[i][1]) / 2; lo, hi = max(0, int((te - 0.8) / 0.02)), min(n, int((te + 0.8) / 0.02))
+        if not 0 < i < len(W) and len(JOINS) != len(beats) - 1: continue
+        known = len(JOINS) == len(beats) - 1
+        te = JOINS[len(out)] / tempo + SHIFT[len(out)] if known else (W[i - 1][2] + W[i][1]) / 2
+        r = 0.4 if known else 0.8   # a known join needs only a small window, so a comma pause nearby is not taken for it
+        lo, hi = max(0, int((te - r) / 0.02)), min(n, int((te + r) / 0.02))
         best, cur, start, bs = 0, 0, lo, lo
         for k in range(lo, hi):
             if quiet[k]:
@@ -121,12 +126,15 @@ def beat_gaps():
             else: cur = 0
         out.append((bb["id"], bs * 0.02, (bs + best) * 0.02))
     return out
+SHIFT = [0.0] * len(beats)
 gaps = beat_gaps(); cuts = [((x + y) / 2, max(0.0, BEAT_GAP - (y - x))) for _, x, y in gaps]
 if any(add > 0.01 for _, add in cuts):
     sr, pcm, _a = _audio(); out, last = bytearray(), 0
     for at, add in cuts:
         k = int(at * sr) * 2; out += pcm[last:k] + b"\x00\x00" * int(add * sr); last = k
     out += pcm[last:]
+    _c = 0.0
+    for k, (_, add) in enumerate(cuts): SHIFT[k] = _c + add / 2; _c += add
     with _w.open(f"{work}/voice.wav", "wb") as wv: wv.setnchannels(1); wv.setsampwidth(2); wv.setframerate(sr); wv.writeframes(bytes(out))
     words_of(f"{work}/voice.wav", f"{work}/words.json")
     run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
