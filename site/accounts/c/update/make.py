@@ -94,6 +94,31 @@ print(f"master: {inp:.1f} LUFS in, gain {gain:+.1f} dB")
 words_of(f"{work}/voice.wav", f"{work}/words.json")
 json.dump([[b["id"], " ".join(b["narration"].split()[:3])] for b in beats], open(f"{work}/keys.json", "w"))
 run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
+# Beat padding (Dinis, 23 Nov 2026: "the voice starts talking about what happens on the next slide when we're seeing the current
+# slide ... the paragraphs ... don't have enough padding"). Every beat boundary gets at least BEAT_GAP s of silence, cut in at the
+# middle of the existing pause; pauses inside a beat are left alone. Then the words are aligned again on the padded voice.
+BEAT_GAP = 0.7
+def beat_gaps():
+    T0 = json.load(open(f"{work}/timing.json")); W = [w for s_ in T0["subs"] for w in s_["words"]]
+    out, i = [], 0
+    for b in beats[:-1]:
+        i += len(b["narration"].split())
+        if 0 < i < len(W): out.append((b["id"], W[i - 1][2], W[i][1]))
+    return out
+gaps = beat_gaps(); cuts = [((a + b) / 2, max(0.0, BEAT_GAP - (b - a))) for _, a, b in gaps]
+if any(x > 0.01 for _, x in cuts):
+    import wave as _w
+    with _w.open(f"{work}/voice.wav") as wv: sr = wv.getframerate(); pcm = wv.readframes(wv.getnframes())
+    out, last = bytearray(), 0
+    for at, add in cuts:
+        k = int(at * sr) * 2; out += pcm[last:k] + b"\x00\x00" * int(add * sr); last = k
+    out += pcm[last:]
+    with _w.open(f"{work}/voice.wav", "wb") as wv: wv.setnchannels(1); wv.setsampwidth(2); wv.setframerate(sr); wv.writeframes(bytes(out))
+    words_of(f"{work}/voice.wav", f"{work}/words.json")
+    run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
+gaps = beat_gaps(); report = [(i, round(b - a, 2)) for i, a, b in gaps]
+print("beat pauses (s):", report)
+if report and min(g for _, g in report) < BEAT_GAP - 0.15: raise SystemExit(f"a beat boundary is still too tight: {report}")
 # spec for the scene page
 gest = ["present", "point", "nod", "count", "thumbsUp", "lookAt", "present", "point"]
 cues = [{"t": 0.3, "do": "wave"}, {"t": beats[0]["id"], "dt": 1.2, "do": "expression", "name": "smile"}]
@@ -104,7 +129,7 @@ if total > 89.5: raise SystemExit(f"too long for a Reel: {total:.1f} s (voice {d
 print(f"length check: {total:.1f} s")
 cues += [{"t": dur + 0.6, "do": "present"}, {"t": dur + 6, "do": "nod"}, {"t": dur + 12, "do": "wave"}]
 spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 0.6 + STATS_S + CREDITS_S,
-        "stage": sb.get("stage", {"dist": 1.9, "h": 0.8, "lh": 0.8}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme")}
+        "stage": sb.get("stage", {"dist": 1.9, "h": 0.8, "lh": 0.8}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme"), "beat_lead": 0.35}
 vv = sb["voice"]
 voice_credit = (f"Mistral Voxtral TTS, voice James" if vv.startswith("mistral:")
                 else f"{sb.get('voice_model', 'openai/gpt-audio').split('/')[-1]}, voice {vv}, via OpenRouter")
@@ -142,6 +167,6 @@ run("ffmpeg", "-loglevel", "error", "-y", "-ss", "0.2", "-i", f"{post}/video.mp4
 shutil.copy(f"{work}/script.txt", f"{post}/script.txt"); shutil.copy(f"{work}/direction.txt", f"{post}/voice-direction.txt"); shutil.copy(sb_path, f"{post}/storyboard.json")
 calls = [json.loads(l) for l in open(f"{work}/calls.jsonl")] if os.path.exists(f"{work}/calls.jsonl") else []
 cost = sum((c.get("usage") or {}).get("cost", 0) for c in calls)
-json.dump({"render_seconds": round(render_s, 1), "duration": float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{post}/video.mp4"],capture_output=True,text=True).stdout),
+json.dump({"beat_pauses": report, "min_beat_pause": min([g for _, g in report], default=None), "render_seconds": round(render_s, 1), "duration": float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{post}/video.mp4"],capture_output=True,text=True).stdout),
            "voice_calls": len(calls), "voice_cost_usd": round(cost, 4)}, open(f"{work}/made.json", "w"))
 print("made", post, round(render_s), "s render,", round(cost, 4), "USD voice")
