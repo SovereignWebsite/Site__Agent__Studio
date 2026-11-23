@@ -35,12 +35,9 @@ def words_of(wav, out):
 voice, model = sb["voice"], sb.get("voice_model", "openai/gpt-audio")
 open(f"{work}/direction.txt", "w").write("Voice direction: " + sb["voice_direction"])
 beats = sb["beats"]; script = "\n\n".join(b["narration"] for b in beats); open(f"{work}/script.txt", "w").write(script + "\n")
-# chunks of about 45 words, never splitting a beat
-chunks, cur = [], []
-for b in beats:
-    if cur and sum(len(x["narration"].split()) for x in cur) + len(b["narration"].split()) > 45: chunks.append(cur); cur = []
-    cur.append(b)
-if cur: chunks.append(cur)
+# one take per beat (Dinis, 23 Nov 2026: paragraphs glued together felt rushed): a beat's pause is then set exactly at the join
+# instead of being searched for in the audio, where word times can drift by half a second and land on a comma
+chunks = [[b] for b in beats]
 pieces = []
 for ci, ch in enumerate(chunks):
     text = "\n\n".join(b["narration"] for b in ch); want = toks(text)
@@ -70,7 +67,9 @@ for ci, ch in enumerate(chunks):
             pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words, {chars:.2f} of letters)"); break
         print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
     else: raise SystemExit(f"chunk {ci} could not be voiced completely")
-fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[s{i}];" for i, (_, a, b) in enumerate(pieces))
+JOIN_PAD = 0.3   # each take keeps 0.12 s before and 0.35 s after its words; with this the pause between beats is about 0.75 s
+fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS" + (f",apad=pad_dur={JOIN_PAD}" if i < len(pieces) - 1 else "") + f"[s{i}];"
+             for i, (_, a, b) in enumerate(pieces))
 fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
 args = sum([["-i", p[0]] for p in pieces], [])
 run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice-raw.wav")
