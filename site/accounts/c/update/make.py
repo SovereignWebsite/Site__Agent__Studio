@@ -98,25 +98,40 @@ run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
 # slide ... the paragraphs ... don't have enough padding"). Every beat boundary gets at least BEAT_GAP s of silence, cut in at the
 # middle of the existing pause; pauses inside a beat are left alone. Then the words are aligned again on the padded voice.
 BEAT_GAP = 0.7
-def beat_gaps():
-    T0 = json.load(open(f"{work}/timing.json")); W = [w for s_ in T0["subs"] for w in s_["words"]]
-    out, i = [], 0
-    for b in beats[:-1]:
-        i += len(b["narration"].split())
-        if 0 < i < len(W): out.append((b["id"], W[i - 1][2], W[i][1]))
-    return out
-gaps = beat_gaps(); cuts = [((a + b) / 2, max(0.0, BEAT_GAP - (b - a))) for _, a, b in gaps]
-if any(x > 0.01 for _, x in cuts):
-    import wave as _w
+import wave as _w, numpy as _np
+def _audio():
     with _w.open(f"{work}/voice.wav") as wv: sr = wv.getframerate(); pcm = wv.readframes(wv.getnframes())
-    out, last = bytearray(), 0
+    return sr, pcm, _np.frombuffer(pcm, dtype=_np.int16).astype(float) / 32768
+def beat_gaps():
+    # the expected boundary comes from the word timings; the pause itself is measured in the audio: the longest run of
+    # 20 ms frames under -40 dBFS within 0.8 s of the expected point (misheard words get interpolated times, so words alone mislead)
+    T0 = json.load(open(f"{work}/timing.json")); W = [w for s_ in T0["subs"] for w in s_["words"]]
+    sr, pcm, a = _audio(); fr = int(sr * 0.02); n = len(a) // fr
+    quiet = _np.array([20 * _np.log10(_np.sqrt(_np.mean(a[i*fr:(i+1)*fr] ** 2)) + 1e-9) < -40 for i in range(n)])
+    out, i = [], 0
+    for bb in beats[:-1]:
+        i += len(bb["narration"].split())
+        if not 0 < i < len(W): continue
+        te = (W[i - 1][2] + W[i][1]) / 2; lo, hi = max(0, int((te - 0.8) / 0.02)), min(n, int((te + 0.8) / 0.02))
+        best, cur, start, bs = 0, 0, lo, lo
+        for k in range(lo, hi):
+            if quiet[k]:
+                if cur == 0: start = k
+                cur += 1
+                if cur > best: best, bs = cur, start
+            else: cur = 0
+        out.append((bb["id"], bs * 0.02, (bs + best) * 0.02))
+    return out
+gaps = beat_gaps(); cuts = [((x + y) / 2, max(0.0, BEAT_GAP - (y - x))) for _, x, y in gaps]
+if any(add > 0.01 for _, add in cuts):
+    sr, pcm, _a = _audio(); out, last = bytearray(), 0
     for at, add in cuts:
         k = int(at * sr) * 2; out += pcm[last:k] + b"\x00\x00" * int(add * sr); last = k
     out += pcm[last:]
     with _w.open(f"{work}/voice.wav", "wb") as wv: wv.setnchannels(1); wv.setsampwidth(2); wv.setframerate(sr); wv.writeframes(bytes(out))
     words_of(f"{work}/voice.wav", f"{work}/words.json")
     run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
-gaps = beat_gaps(); report = [(i, round(b - a, 2)) for i, a, b in gaps]
+gaps = beat_gaps(); report = [(i, round(y - x, 2)) for i, x, y in gaps]
 print("beat pauses (s):", report)
 if report and min(g for _, g in report) < BEAT_GAP - 0.15: raise SystemExit(f"a beat boundary is still too tight: {report}")
 # spec for the scene page
