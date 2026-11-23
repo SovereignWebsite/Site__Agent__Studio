@@ -31,9 +31,9 @@ def load():
             p["state"], p["sort"] = "live", when
             p["label"] = f"Sent {when[:10]} {when[11:16]} UTC via {pub.get('via', '')}".strip()
         elif ap:
-            p["state"], p["sort"], p["label"] = "approved", ap.get("at", ""), "Approved, not yet sent"
+            p["state"], p["sort"], p["label"] = "approved", ap.get("at", ""), f"Approved by {ap.get('by', '')}, {ap.get('at', '')}; not sent yet"
         else:
-            p["state"], p["sort"], p["label"] = "awaiting", slug, "Waiting for Dinis's yes"
+            p["state"], p["sort"], p["label"] = "awaiting", slug, "Not posted yet"
         # a small cover served from this site, so nothing loads from another host until play is pressed
         img = os.path.join(folder, p["cover"] or p["media"])
         p["thumb"] = f"/accounts/c/designs/media/{slug}.webp"
@@ -53,18 +53,18 @@ def load():
 AW, LV, REV = load()
 BUILT = datetime.datetime.now(datetime.timezone.utc).strftime("%d %B %Y, %H:%M UTC").lstrip("0")
 
-INTRO = ("Made by studio.c, the studio agent on account C, for the team's Instagram. Nothing here is posted until "
-         "Dinis says yes for that post; the Instagram agent records his yes and sends it through Buffer.")
-AW_INTRO = ("Drafts in the Instagram site's post folders with no approval line yet. Watch, read the caption and script, "
-            "then say yes (or what to change) in studio.c's or instagram.c's session.")
+INTRO = ("Made by studio.c, the studio agent on account C, for the team's Instagram. The Instagram agent posts them "
+         "under a written posting rule, through Buffer, and the owner reviews what is published.")
+AW_INTRO = ("Made and in the Instagram site's post folders, not yet sent. Watch, read the caption and script, and say "
+            "what to change in studio.c's or instagram.c's session.")
 LV_INTRO = "Posts the Instagram agent has sent, with the record of when."
 VIDEO_NOTE = f"The video loads from {IGHOST.split('//')[1]} only when you press play."
 
 DESIGNS = [
-    (1, "Screening Room", "A dark screening room: the drafts waiting for a yes on the big screens, the posts already out under Now showing."),
-    (2, "Light Table", "Proofs laid out on a light table, each waiting for its stamp; the sent ones already stamped."),
+    (1, "Screening Room", "A dark screening room: the Reels not posted yet on the big screens, the posts already out under Now showing."),
+    (2, "Light Table", "Proofs laid out on a light table, each with its stamp: not posted yet, or sent."),
     (3, "Call Sheet", "A production call sheet: every post in one table, then each one's caption, script and credits."),
-    (4, "Inbox", "An approvals inbox: the list on the left, each post opened on the right, the unanswered ones first."),
+    (4, "Inbox", "A review inbox: the list on the left, each post opened on the right, the unsent ones first."),
     (5, "Brief", "Everything on one plain page, for reading fast or printing."),
 ]
 FAMILY = [("https://sovereignwebsite.ai/", "Sovereign Website"), ("https://sovereignwebsite.org/", "Principles"),
@@ -97,6 +97,8 @@ main *{min-width:0}
 .chrome li a[aria-current]{font-weight:700;text-decoration:underline}
 .chrome .gap{border-top:1px solid var(--ctl);margin-top:.3rem;padding-top:.3rem}
 .chrome small{display:block;font-size:.85rem;color:var(--muted);font-weight:400}
+.rm{width:2rem;height:2rem;border-radius:.5rem;margin-right:.55rem;flex:none;display:inline-block}
+.brand{display:inline-flex;align-items:center}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pre{white-space:pre-line}
 details.more summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
@@ -149,20 +151,20 @@ def chrome(n):
     d = "".join(f'<li><a href="/accounts/c/designs/{i}/"{" aria-current=\"page\"" if i == n else ""}>{i}. {nm}<small>{idea}</small></a></li>' for i, nm, idea in DESIGNS)
     fam = "".join(f'<li><a href="{u}">{t}</a></li>' for u, t in FAMILY)
     return f"""<nav class="chrome" aria-label="Designs and the Sovereign Website family">
-<p class="by">Studio, account C</p>
+<p class="by"><a href="https://riskmandate.ai/">RiskMandate</a>, part of <a href="https://sovereignwebsite.ai/">Sovereign Website</a> · Studio, account C</p>
 <details><summary>Choose a design</summary><ul>{d}<li class="gap"><a href="/accounts/c/designs/">All five, side by side</a></li><li><a href="/accounts/c/">The page as it is now</a></li></ul></details>
 <details><summary>Sovereign Website</summary><ul><li><a href="/start/">Start here</a></li><li><a href="/agents/">Use with your AI</a></li><li><a href="/admin/">How this site was made</a></li><li class="gap"><a href="/policy/">How this site is governed</a></li>{fam}</ul></details>
 </nav>"""
 
 
 def owner_nav(cls="own"):
-    return (f'<nav class="{cls}" aria-label="This page"><a href="#awaiting">Awaiting approval ({len(AW)})</a>'
+    return (f'<nav class="{cls}" aria-label="This page"><a href="#awaiting">Not posted yet ({len(AW)})</a>'
             f'<a href="#live">Live on Instagram ({len(LV)})</a><a href="/start/">Start here</a><a href="/agents/">Use with your AI</a></nav>')
 
 
 def footer():
     return f"""<footer>
-<p>Built {BUILT} from Site__Platform__Instagram at {REV}. A static page: no tracking, no token, nothing loaded from Instagram itself. Covers are copied here; each video loads from instagram.platform.sovereignweb.site only when you press play.</p>
+<p>Built {BUILT} from Site__Platform__Instagram at {REV}. A static page: no tracking, no token, nothing loaded from Instagram itself. The RiskMandate mark is from riskmandate.ai (CC BY 4.0). Covers are copied here; each video loads from instagram.platform.sovereignweb.site only when you press play.</p>
 <nav aria-label="Seed pages"><a href="/start/">Start here</a> <a href="/agents/">Use with your AI</a> <a href="/admin/">How this site was made</a> <a href="/policy/">How this site is governed</a></nav>
 </footer>
 </body>
@@ -194,8 +196,8 @@ def page(n, css, body):
 
 # ------------------------------------------------------------- 1. Screening Room (dark first)
 CSS1 = """
-:root{--bg:#0e0e10;--fg:#f4f2ee;--muted:#bdb9b1;--link:#ffd27a;--focus:#ffd27a;--ctl:#8a867f;--hover:#1e1e22;--screen:#000;--seat:#18181b;--line:#2c2c31;--wait:#ffd27a;--ok:#7fdcae}
-@media (prefers-color-scheme:light){:root{--bg:#f4f2ee;--fg:#141416;--muted:#4f4c47;--link:#7a4e00;--focus:#7a4e00;--ctl:#77736c;--hover:#e7e4dd;--screen:#141416;--seat:#ffffff;--line:#d9d5cc;--wait:#7a4e00;--ok:#1d6b45}}
+:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--screen:#000;--seat:#1f1f1d;--line:#34332e;--wait:#ffcf6e;--ok:#3fbf8c}
+@media (prefers-color-scheme:light){:root{--bg:#F7F6F2;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#ebe9e2;--screen:#161615;--seat:#ffffff;--line:#dcd9cf;--wait:#7a4e00;--ok:#1A7F5A}}
 .wrap{max-width:80rem;margin:0 auto;padding:0 1rem}
 .mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;padding:.5rem 0}
 .brand{font:800 1.15rem/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
@@ -233,12 +235,12 @@ def screen(p, hl="h3"):
 
 def d1():
     return page(1, CSS1, f"""<div class="wrap">{chrome(1)}
-<header class="mast"><a class="brand" href="/">Studio</a>{owner_nav()}</header></div>
+<header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header></div>
 <main id="main"><div class="wrap">
 <div class="marquee"><p class="k">Studio · account C</p><h1>Reels and images for Instagram</h1><p class="lede">{INTRO}</p></div>
-<section class="hall" id="awaiting" aria-labelledby="h-aw"><div class="hall-h"><h2 id="h-aw">Awaiting approval</h2><span class="count">{len(AW)}</span></div>
+<section class="hall" id="awaiting" aria-labelledby="h-aw"><div class="hall-h"><h2 id="h-aw">Not posted yet</h2><span class="count">{len(AW)}</span></div>
 <p>{AW_INTRO}</p><p class="note">{VIDEO_NOTE}</p>
-<div class="screens">{''.join(screen(p) for p in AW) or '<p>Nothing is waiting for a yes.</p>'}</div></section>
+<div class="screens">{''.join(screen(p) for p in AW) or '<p>Nothing waiting.</p>'}</div></section>
 <section class="hall" id="live" aria-labelledby="h-lv"><div class="hall-h"><h2 id="h-lv">Live on Instagram: now showing</h2><span class="count">{len(LV)}</span></div>
 <p>{LV_INTRO}</p>
 <div class="now">{''.join(screen(p) for p in LV)}</div></section>
@@ -247,8 +249,8 @@ def d1():
 
 # ------------------------------------------------------------- 2. Light Table
 CSS2 = """
-:root{--bg:#eef0f2;--fg:#15171a;--muted:#4b5058;--link:#0b5394;--focus:#0b5394;--ctl:#727985;--hover:#e1e5ea;--table:#ffffff;--glow:#fffdf6;--line:#cfd5dd;--stamp:#b3261e;--ok:#1d6b45}
-@media (prefers-color-scheme:dark){:root{--bg:#111316;--fg:#eceef1;--muted:#b0b6bf;--link:#8cc4ff;--focus:#8cc4ff;--ctl:#7f8792;--hover:#1d2126;--table:#1a1d22;--glow:#22262c;--line:#323843;--stamp:#ff8a80;--ok:#86ddb3}}
+:root{--bg:#F7F6F2;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#ebe9e2;--table:#ffffff;--glow:#fbfaf6;--line:#dcd9cf;--stamp:#a1281b;--ok:#1A7F5A}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--table:#1f1f1d;--glow:#262622;--line:#34332e;--stamp:#ff9b8a;--ok:#3fbf8c}}
 .wrap{max-width:76rem;margin:0 auto;padding:0 1rem}
 .mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;padding:.5rem 0}
 .brand{font-weight:800;font-size:1.2rem;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
@@ -278,19 +280,19 @@ footer{border-top:1px solid var(--line)}
 
 
 def proof(p):
-    st = "Yes?" if p["state"] != "live" else "Sent"
+    st = "Not yet" if p["state"] != "live" else "Sent"
     return (f'<article class="proof {p["state"]}"><span class="stamp" aria-hidden="true">{st}</span>{media(p)}'
             f'<h3>{e(p["title"])}</h3><p class="label">{e(p["label"])}</p><p class="kind">{e(p["kind"])}</p>{texts(p)}</article>')
 
 
 def d2():
     return page(2, CSS2, f"""<div class="wrap">{chrome(2)}
-<header class="mast"><a class="brand" href="/">Studio</a>{owner_nav()}</header>
+<header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main">
 <div class="hero"><div><p class="k">Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p></div>
-<div class="tally"><a href="#awaiting"><b>{len(AW)}</b>awaiting approval</a><a href="#live"><b>{len(LV)}</b>live on Instagram</a></div></div>
-<section class="table" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Awaiting approval</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>
-<div class="proofs">{''.join(proof(p) for p in AW) or '<p>Nothing is waiting for a yes.</p>'}</div></section>
+<div class="tally"><a href="#awaiting"><b>{len(AW)}</b>not posted yet</a><a href="#live"><b>{len(LV)}</b>live on Instagram</a></div></div>
+<section class="table" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>
+<div class="proofs">{''.join(proof(p) for p in AW) or '<p>Nothing waiting.</p>'}</div></section>
 <section class="table" id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram</h2><p>{LV_INTRO}</p>
 <div class="proofs">{''.join(proof(p) for p in LV)}</div></section>
 </main>
@@ -299,8 +301,8 @@ def d2():
 
 # ------------------------------------------------------------- 3. Call Sheet
 CSS3 = """
-:root{--bg:#fbfaf6;--fg:#1b1a17;--muted:#56524a;--link:#7b2d12;--focus:#7b2d12;--ctl:#7f796e;--hover:#efece3;--line:#d7d1c3;--head:#1b1a17;--on-head:#fbfaf6;--wait:#7a4e00;--ok:#1d6b45}
-@media (prefers-color-scheme:dark){:root{--bg:#161512;--fg:#efece4;--muted:#c0baae;--link:#ffab8a;--focus:#ffab8a;--ctl:#8b8578;--hover:#24221d;--line:#3b3831;--head:#efece4;--on-head:#161512;--wait:#ffcf6e;--ok:#86ddb3}}
+:root{--bg:#F7F6F2;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#ebe9e2;--line:#dcd9cf;--head:#161615;--on-head:#F7F6F2;--wait:#7a4e00;--ok:#1A7F5A}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--line:#34332e;--head:#F7F6F2;--on-head:#161615;--wait:#ffcf6e;--ok:#3fbf8c}}
 .wrap{max-width:66rem;margin:0 auto;padding:0 1rem}
 .mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;padding:.5rem 0;border-bottom:3px solid var(--fg)}
 .brand{font:700 1.2rem Georgia,"Times New Roman",serif;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
@@ -337,13 +339,13 @@ def d3():
         return (f'<article class="scene" id="p-{p["slug"]}">{media(p)}<div><h3>{e(p["title"])}</h3>'
                 f'<p class="label st {p["state"]}">{e(p["label"])}</p><p>{e(p["kind"])}</p>{texts(p)}</div></article>')
     return page(3, CSS3, f"""<div class="wrap">{chrome(3)}
-<header class="mast"><a class="brand" href="/">Studio</a>{owner_nav()}</header>
+<header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main">
 <div class="sheet-h"><div><p class="k">Call sheet · Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p></div>
-<dl class="facts"><dt>Awaiting</dt><dd>{len(AW)} for Dinis's yes</dd><dt>Live</dt><dd>{len(LV)} on Instagram</dd><dt>Source</dt><dd>Site__Platform__Instagram at {REV}</dd></dl></div>
+<dl class="facts"><dt>Not posted</dt><dd>{len(AW)} not posted yet</dd><dt>Live</dt><dd>{len(LV)} on Instagram</dd><dt>Source</dt><dd>Site__Platform__Instagram at {REV}</dd></dl></div>
 <h2>The sheet</h2>
 <div class="box" tabindex="0" role="region" aria-label="Every post and its state"><table><thead><tr><th scope="col">Post</th><th scope="col">Kind</th><th scope="col">State</th></tr></thead><tbody>{rows}</tbody></table></div>
-<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Awaiting approval ({len(AW)})</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(scene(p) for p in AW)}</section>
+<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet ({len(AW)})</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(scene(p) for p in AW)}</section>
 <section id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram ({len(LV)})</h2><p>{LV_INTRO}</p>{''.join(scene(p) for p in LV)}</section>
 </main>
 """).replace("</body>", "</div></body>")
@@ -351,8 +353,8 @@ def d3():
 
 # ------------------------------------------------------------- 4. Inbox (way out there)
 CSS4 = """
-:root{--bg:#f3f1fb;--fg:#17142a;--muted:#4e4a66;--link:#4b2bbf;--focus:#4b2bbf;--ctl:#77729a;--hover:#e6e2f6;--pane:#ffffff;--rail:#17142a;--on-rail:#f3f1fb;--rail-muted:#c9c4e6;--line:#d8d3ee;--wait:#8a4b00;--ok:#1d6b45;--unread:#ffcf6e}
-@media (prefers-color-scheme:dark){:root{--bg:#0f0d1c;--fg:#efedf9;--muted:#bdb8d8;--link:#b7a6ff;--focus:#b7a6ff;--ctl:#7f7a9f;--hover:#1f1b36;--pane:#181530;--rail:#08070f;--on-rail:#efedf9;--rail-muted:#bdb8d8;--line:#2e2950;--wait:#ffcf6e;--ok:#86ddb3;--unread:#ffcf6e}}
+:root{--bg:#F7F6F2;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#ebe9e2;--pane:#ffffff;--rail:#161615;--on-rail:#F7F6F2;--rail-muted:#c9c6be;--line:#dcd9cf;--wait:#7a4e00;--ok:#1A7F5A;--unread:#3fbf8c}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--pane:#1f1f1d;--rail:#0c0c0b;--on-rail:#F7F6F2;--rail-muted:#bdbab2;--line:#34332e;--wait:#ffcf6e;--ok:#3fbf8c;--unread:#3fbf8c}}
 .top{max-width:90rem;margin:0 auto;padding:0 1rem}
 .mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;padding:.5rem 0}
 .brand{font-weight:800;font-size:1.15rem;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
@@ -392,18 +394,18 @@ def d4():
                 f'<span><span class="t">{e(p["title"])}</span><span class="s">{e(p["label"])}</span></span></a></li>')
 
     def msg(p):
-        reply = (f'<p class="reply">To answer: say yes, or what to change, in studio.c\'s or instagram.c\'s session.</p>'
+        reply = (f'<p class="reply">To answer: say what to change in studio.c\'s or instagram.c\'s session.</p>'
                  if p["state"] != "live" else "")
         return (f'<article class="msg {p["state"]}" id="p-{p["slug"]}">{media(p)}<div><p class="state">{e(p["label"])}</p>'
                 f'<h3>{e(p["title"])}</h3><p class="from">{e(p["kind"])}</p>{texts(p)}{reply}</div></article>')
     return page(4, CSS4, f"""<div class="top">{chrome(4)}
-<header class="mast"><a class="brand" href="/">Studio</a>{owner_nav()}</header></div>
+<header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header></div>
 <main id="main" class="app">
 <div class="rail"><p class="vh">Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p>
-<h2>Awaiting approval ({len(AW)})</h2><ul>{''.join(item(p) for p in AW)}</ul>
+<h2>Not posted yet ({len(AW)})</h2><ul>{''.join(item(p) for p in AW)}</ul>
 <h2>Live on Instagram ({len(LV)})</h2><ul>{''.join(item(p) for p in LV)}</ul></div>
 <div class="pane">
-<section class="group" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Awaiting approval</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(msg(p) for p in AW)}</section>
+<section class="group" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(msg(p) for p in AW)}</section>
 <section class="group" id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram</h2><p>{LV_INTRO}</p>{''.join(msg(p) for p in LV)}</section>
 </div></main>
 """)
@@ -411,8 +413,8 @@ def d4():
 
 # ------------------------------------------------------------- 5. Brief
 CSS5 = """
-:root{--bg:#ffffff;--fg:#111111;--muted:#4a4a4a;--link:#0b4f8a;--focus:#0b4f8a;--ctl:#767676;--hover:#f0f0f0;--line:#d6d6d6}
-@media (prefers-color-scheme:dark){:root{--bg:#121212;--fg:#f1f1f1;--muted:#bdbdbd;--link:#8cc4ff;--focus:#8cc4ff;--ctl:#8a8a8a;--hover:#222;--line:#333}}
+:root{--bg:#ffffff;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#f2f1ec;--line:#dcd9cf}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--line:#34332e}}
 .wrap{max-width:42rem;margin:0 auto;padding:0 1rem}
 .brand{font:700 1.1rem Georgia,"Times New Roman",serif;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .own{display:flex;flex-wrap:wrap;gap:0 1rem;font-size:.95rem}.own a{min-height:44px;display:inline-flex;align-items:center}
@@ -432,17 +434,17 @@ def d5():
     def it(p):
         return f'<article class="p">{media(p)}<div><h3>{e(p["title"])}</h3><p class="label">{e(p["label"])}, {e(p["kind"])}</p>{texts(p)}</div></article>'
     return page(5, CSS5, f"""<div class="wrap">{chrome(5)}
-<header><a class="brand" href="/">Studio</a>{owner_nav()}</header>
+<header><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main"><h1>Reels and images for Instagram</h1><p>{INTRO}</p>
-<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Awaiting approval ({len(AW)})</h2><p>{AW_INTRO} {VIDEO_NOTE}</p>{''.join(it(p) for p in AW)}</section>
+<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet ({len(AW)})</h2><p>{AW_INTRO} {VIDEO_NOTE}</p>{''.join(it(p) for p in AW)}</section>
 <section id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram ({len(LV)})</h2><p>{LV_INTRO}</p>{''.join(it(p) for p in LV)}</section>
 </main>
 """).replace("</body>", "</div></body>")
 
 
 CSSI = """
-:root{--bg:#f6f5f2;--fg:#151515;--muted:#4f4c47;--link:#7a4e00;--focus:#7a4e00;--ctl:#77736c;--hover:#e9e6df;--card:#fff;--line:#dcd8cf}
-@media (prefers-color-scheme:dark){:root{--bg:#121212;--fg:#efede8;--muted:#bdb9b1;--link:#ffd27a;--focus:#ffd27a;--ctl:#85817a;--hover:#222;--card:#1c1c1c;--line:#333}}
+:root{--bg:#F7F6F2;--fg:#161615;--muted:#55534d;--link:#1A7F5A;--focus:#1A7F5A;--ctl:#7b7972;--hover:#ebe9e2;--card:#fff;--line:#dcd8cf}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#F7F6F2;--muted:#bdbab2;--link:#3fbf8c;--focus:#3fbf8c;--ctl:#85837c;--hover:#24241f;--card:#1f1f1d;--line:#34332e}}
 .wrap{max-width:76rem;margin:0 auto;padding:0 1rem}
 .brand{font-weight:800;color:var(--fg);text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 h1{font:700 clamp(2rem,5.5vw,3rem)/1.1 Georgia,serif;margin:1rem 0 .75rem}
@@ -459,7 +461,7 @@ def index(rec):
     return head(0, "", "", CSSI) + f"""<div class="wrap">{chrome(0)}
 <header><a class="brand" href="/accounts/c/">Studio, account C</a></header>
 <main id="main"><h1>Five designs of the Reels review page</h1>
-<p>The same posts, in five ideas from the studio's own world. Each keeps the two areas: awaiting approval, and live on Instagram. The owner picks one; studio.c makes it the page.</p>
+<p>The same posts, in five ideas from the studio's own world. Each keeps the two areas: not posted yet, and live on Instagram. The owner picks one; studio.c makes it the page.</p>
 <ul class="cards">{cards}</ul></main>
 """ + footer().replace("</body>", "</div></body>")
 
