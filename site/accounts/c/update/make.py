@@ -11,15 +11,21 @@ _TENS = "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()
 def _num(n):
     n = int(n)
     if n < 20: return _ONES[n]
-    if n < 100: return _TENS[n // 10] + ("" if n % 10 == 0 else _ONES[n % 10])
-    if n < 1000: return _ONES[n // 100] + "hundred" + ("" if n % 100 == 0 else _num(n % 100))
+    if n < 100: return _TENS[n // 10] + ("" if n % 10 == 0 else " " + _ONES[n % 10])
+    if n < 1000: return _ONES[n // 100] + " hundred" + ("" if n % 100 == 0 else " " + _num(n % 100))
     return str(n)
 ALIAS = {"dennis": "dinis", "denis": "dinis", "deanie": "dinis"}
 def norm(s):
     w = re.sub(r"[^a-z0-9]", "", s.lower().replace("-", ""))
-    if w.isdigit() and len(w) <= 3: w = _num(w)
+    if w.isdigit() and len(w) <= 3: w = _num(w).replace(" ", "")
     return ALIAS.get(w, w)
-toks = lambda s: [norm(x) for x in re.sub(r"(\w+) dot A I", r"\1 ai", s).split() if norm(x)]
+def join_nums(ts):
+    out = []
+    for t in ts:
+        if out and out[-1] in _TENS[2:] and t in _ONES[1:10]: out[-1] += t
+        else: out.append(t)
+    return out
+toks = lambda s: join_nums([norm(x) for x in re.sub(r"(\w+) dot A I", r"\1 ai", s).split() if norm(x)])
 def run(*a, **k): return subprocess.run(list(a), check=True, **k)
 def words_of(wav, out):
     run("python3", "-I", f"{HERE}/align.py", wav, out, capture_output=True); return json.load(open(out))
@@ -40,12 +46,18 @@ for ci, ch in enumerate(chunks):
         if not (os.path.exists(f + ".wav") and os.path.exists(f + ".json")):   # reuse a take from an earlier run: no second spend
             run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
             words_of(f + ".wav", f + ".json")
-        w = json.load(open(f + ".json")); got = [norm(x[0]) for x in w]
+        w = json.load(open(f + ".json")); got, gi, ge = [], [], []   # first and last index into w of each token
+        for i, x in enumerate(w):
+            t = norm(x[0])
+            if not t: continue
+            if got and got[-1] in _TENS[2:] and t in _ONES[1:10]: got[-1] += t; ge[-1] = i
+            else: got.append(t); gi.append(i); ge.append(i)
         sm = difflib.SequenceMatcher(None, want, got, autojunk=False); blocks = [b for b in sm.get_matching_blocks() if b.size]
         matched = sum(b.size for b in blocks)
         if blocks and matched >= 0.9 * len(want) and blocks[-1].a + blocks[-1].size >= len(want) - 1:
             first, last = blocks[0], blocks[-1]
-            start = w[first.b][1] - 0.12; end = w[last.b + last.size - 1][2] + 0.35
+            start = w[gi[max(0, first.b - first.a - (1 if first.a else 0))]][1] - 0.12   # back up over script words Whisper misheard
+            end = w[ge[last.b + last.size - 1]][2] + 0.35
             pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words)"); break
         print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
     else: raise SystemExit(f"chunk {ci} could not be voiced completely")

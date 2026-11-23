@@ -7,13 +7,13 @@ _TENS = "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()
 def _num(n):
     n = int(n)
     if n < 20: return _ONES[n]
-    if n < 100: return _TENS[n // 10] + ("" if n % 10 == 0 else _ONES[n % 10])
-    if n < 1000: return _ONES[n // 100] + "hundred" + ("" if n % 100 == 0 else _num(n % 100))
+    if n < 100: return _TENS[n // 10] + ("" if n % 10 == 0 else " " + _ONES[n % 10])
+    if n < 1000: return _ONES[n // 100] + " hundred" + ("" if n % 100 == 0 else " " + _num(n % 100))
     return str(n)
 ALIAS = {"dennis": "dinis", "denis": "dinis", "deanie": "dinis"}
 def norm(s):
     w = re.sub(r"[^a-z0-9]", "", s.lower().replace("-", ""))
-    if w.isdigit() and len(w) <= 3: w = _num(w)
+    if w.isdigit() and len(w) <= 3: w = _num(w).replace(" ", "")
     return ALIAS.get(w, w)
 # script words carry the text; Whisper words carry the times (matched with difflib, gaps interpolated)
 import difflib
