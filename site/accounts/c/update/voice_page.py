@@ -59,5 +59,5 @@ s = s.replace('<meta property="og:title" content="Studio">', f'<meta property="o
 s = s.replace('"https://studio.agents.sovereignweb.site/"', '"https://studio.agents.sovereignweb.site/accounts/c/notes/2026-11-23__voice-quality/"')
 s = s.replace("</style>", CSS + "</style>")
 s = re.sub(r'<main id="main">.*?<footer>', body + "<footer>", s, flags=re.S)
-assert "—" not in s and "–" not in s
+assert "\u2014" not in s and "\u2013" not in s
 open(f"{folder}/index.html", "w").write(s); print("built", f"{folder}/index.html")
