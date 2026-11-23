@@ -2,21 +2,21 @@
 <style>
 @font-face{font-family:Inter;src:url(fonts/Inter-Bold.otf);font-weight:700}
 @font-face{font-family:Inter;src:url(fonts/Inter-Medium.otf);font-weight:500}
-html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#0b1424;font-family:Inter,sans-serif}
-#top{position:absolute;left:0;top:0;width:1080px;height:1010px;background:radial-gradient(120% 80% at 30% 20%,#1d3354 0%,#0f1b2d 60%,#0b1424 100%)}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--bg2,#0b1424);font-family:Inter,sans-serif}
+#top{position:absolute;left:0;top:0;width:1080px;height:1010px;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 60%,var(--bg2) 100%)}
 #viz{position:absolute;left:0;top:0;width:1080px;height:1010px}
 #stage{position:absolute;left:0;top:1010px;width:1080px;height:910px}
-#brand{position:absolute;left:72px;top:58px;font:700 40px Inter;color:#fff;letter-spacing:-.01em;display:flex;align-items:center;gap:14px}#brand i{display:inline-block;width:14px;height:40px;background:#f0b84a;border-radius:3px}#brand em{font-style:normal;color:#f0b84a}
-#who{position:absolute;right:72px;top:62px;font:500 26px Inter;color:#0f1b2d;background:#f0b84a;border-radius:30px;padding:8px 22px}
+#brand{position:absolute;left:72px;top:58px;font:700 40px Inter;color:#fff;letter-spacing:-.01em;display:flex;align-items:center;gap:14px}#brand i{display:inline-block;width:14px;height:40px;background:var(--gold);border-radius:3px}#brand em{font-style:normal;color:var(--gold)}#brand img{width:56px;height:56px}
+#who{position:absolute;right:72px;top:62px;font:500 26px Inter;color:var(--navy);background:var(--gold);border-radius:30px;padding:8px 22px}
 #sub{position:absolute;left:60px;right:60px;top:1480px;text-align:center}
 #sub span{display:inline;font:700 50px/1.35 Inter;color:#fff;background:rgba(8,14,26,.78);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:6px 18px;border-radius:14px}
-#sub b{color:#f0b84a;font-weight:700}
-#bar{position:absolute;left:72px;top:1000px;height:8px;width:0;background:#f0b84a;border-radius:4px}
-#cover{position:absolute;left:0;top:0;width:1080px;height:1010px;display:none;background:radial-gradient(120% 80% at 30% 20%,#22406b 0%,#0f1b2d 65%,#0b1424 100%)}
-#cover .date{position:absolute;left:72px;top:300px;font:700 38px Inter;color:#0f1b2d;background:#f0b84a;border-radius:40px;padding:12px 30px;letter-spacing:.04em}
-#cover .kick{position:absolute;left:72px;top:412px;font:700 40px Inter;color:#aabad2;letter-spacing:.1em;text-transform:uppercase}
+#sub b{color:var(--gold);font-weight:700}
+#bar{position:absolute;left:72px;top:1000px;height:8px;width:0;background:var(--gold);border-radius:4px}
+#cover{position:absolute;left:0;top:0;width:1080px;height:1010px;display:none;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 65%,var(--bg2) 100%)}
+#cover .date{position:absolute;left:72px;top:300px;font:700 38px Inter;color:var(--navy);background:var(--gold);border-radius:40px;padding:12px 30px;letter-spacing:.04em}
+#cover .kick{position:absolute;left:72px;top:412px;font:700 40px Inter;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 #cover h1{position:absolute;left:68px;right:60px;top:462px;margin:0;font:700 116px/1.02 Inter;color:#fff;letter-spacing:-.02em}
-#cover h1 em{font-style:normal;color:#f0b84a}
+#cover h1 em{font-style:normal;color:var(--gold)}
 #cover .sub{position:absolute;left:72px;right:72px;top:910px;font:500 40px Inter;color:#dfe7f3}
 </style></head><body>
 <div id="top"></div><svg id="viz" viewBox="0 0 1080 1010" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -28,7 +28,9 @@ import { mount } from './lib/presenters/presenters.js';
 const spec = await (await fetch(new URLSearchParams(location.search).get('spec'))).json();
 const T = await (await fetch(spec.timing)).json(); const K = T.keys; const LEAD = spec.cover ? spec.cover.hold : 0; const DUR = LEAD + T.duration + spec.tail;
 document.getElementById('who').textContent = spec.label;
-const C = { navy:'#0f1b2d', ink:'#16263f', card:'#1c3050', line:'#34507a', gold:'#f0b84a', white:'#ffffff', muted:'#aabad2', green:'#5cc98a', red:'#e86a5a', blue:'#5aa9e8' };
+const C = Object.assign({ navy:'#0f1b2d', ink:'#16263f', card:'#1c3050', line:'#34507a', gold:'#f0b84a', white:'#ffffff', muted:'#aabad2', green:'#5cc98a', red:'#e86a5a', blue:'#5aa9e8', bg0:'#1d3354', bg1:'#0f1b2d', bg2:'#0b1424', stage:'#13213a' }, (spec.theme||{}).colours||{});
+const R = document.documentElement.style; for (const [k,v] of Object.entries(C)) R.setProperty('--'+k, v);
+if ((spec.theme||{}).wordmark) document.getElementById('brand').innerHTML = spec.theme.wordmark;
 const clamp = (x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const ease = x=>1-Math.pow(1-clamp(x),3);
 const back = x=>{x=clamp(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
@@ -212,7 +214,7 @@ S.story = t => { const B=spec.beats; let k=0; for(let i=0;i<B.length;i++) if(t>=
 
 // ---------- stage ----------
 const st = spec.stage;
-const show = await mount(document.getElementById('stage'), { presenters:[spec.presenter], duration:DUR, background:'#13213a', tags:false,
+const show = await mount(document.getElementById('stage'), { presenters:[spec.presenter], duration:DUR, background:C.stage, tags:false,
   auto:{idle:true,blink:true,fidget:true}, tracks:{v:{mouthCues:T.mouth}},
   cues:[{t:0,who:spec.presenter,do:'speak',track:'v',dur:T.duration}, ...spec.cues.map(c=>({...c,t:(typeof c.t==='string'?K[c.t]+(c.dt||0):c.t),who:spec.presenter}))],
   camera:[{t:0,focus:spec.presenter,dist:st.dist,h:st.h,lh:st.lh,fov:st.fov||28}] });

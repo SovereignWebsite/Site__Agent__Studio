@@ -6,8 +6,20 @@ import json, sys, os, re, subprocess, shutil, difflib, datetime, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sb_path, work, post = sys.argv[1:4]
 sb = json.load(open(sb_path)); os.makedirs(work, exist_ok=True); os.makedirs(post, exist_ok=True)
-norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
-toks = lambda s: [norm(x) for x in s.replace("sovereignwebsite dot A I", "sovereignwebsite ai").split() if norm(x)]
+_ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+_TENS = "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()
+def _num(n):
+    n = int(n)
+    if n < 20: return _ONES[n]
+    if n < 100: return _TENS[n // 10] + ("" if n % 10 == 0 else _ONES[n % 10])
+    if n < 1000: return _ONES[n // 100] + "hundred" + ("" if n % 100 == 0 else _num(n % 100))
+    return str(n)
+ALIAS = {"dennis": "dinis", "denis": "dinis", "deanie": "dinis"}
+def norm(s):
+    w = re.sub(r"[^a-z0-9]", "", s.lower().replace("-", ""))
+    if w.isdigit() and len(w) <= 3: w = _num(w)
+    return ALIAS.get(w, w)
+toks = lambda s: [norm(x) for x in re.sub(r"(\w+) dot A I", r"\1 ai", s).split() if norm(x)]
 def run(*a, **k): return subprocess.run(list(a), check=True, **k)
 def words_of(wav, out):
     run("python3", "-I", f"{HERE}/align.py", wav, out, capture_output=True); return json.load(open(out))
@@ -25,8 +37,10 @@ for ci, ch in enumerate(chunks):
     text = "\n\n".join(b["narration"] for b in ch); want = toks(text)
     for attempt in range(3):
         f = f"{work}/c{ci}-{attempt}"; open(f + ".txt", "w").write(text + "\n\nThank you.\n")
-        run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
-        w = words_of(f + ".wav", f + ".json"); got = [norm(x[0]) for x in w]
+        if not (os.path.exists(f + ".wav") and os.path.exists(f + ".json")):   # reuse a take from an earlier run: no second spend
+            run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
+            words_of(f + ".wav", f + ".json")
+        w = json.load(open(f + ".json")); got = [norm(x[0]) for x in w]
         sm = difflib.SequenceMatcher(None, want, got, autojunk=False); blocks = [b for b in sm.get_matching_blocks() if b.size]
         matched = sum(b.size for b in blocks)
         if blocks and matched >= 0.9 * len(want) and blocks[-1].a + blocks[-1].size >= len(want) - 1:
@@ -38,7 +52,13 @@ for ci, ch in enumerate(chunks):
 fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[s{i}];" for i, (_, a, b) in enumerate(pieces))
 fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
 args = sum([["-i", p[0]] for p in pieces], [])
-run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
+run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice-raw.wav")
+raw = float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{work}/voice-raw.wav"],capture_output=True,text=True).stdout)
+room = 89.0 - sb["cover"].get("hold", 1.2) - (15.0 if sb.get("stats") else 1.5)
+tempo = max(1.0, raw / room)
+if tempo > 1.10: raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
+run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-raw.wav", "-af", f"atempo={tempo:.4f}", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
+print(f"voice {raw:.1f} s, tempo {tempo:.3f}")
 words_of(f"{work}/voice.wav", f"{work}/words.json")
 json.dump([[b["id"], " ".join(b["narration"].split()[:3])] for b in beats], open(f"{work}/keys.json", "w"))
 run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
@@ -47,12 +67,15 @@ gest = ["present", "point", "nod", "count", "thumbsUp", "lookAt", "present", "po
 cues = [{"t": 0.3, "do": "wave"}, {"t": beats[0]["id"], "dt": 1.2, "do": "expression", "name": "smile"}]
 for i, b in enumerate(beats[1:]): cues.append({"t": b["id"], "dt": 0.2, "do": b.get("gesture") or gest[i % len(gest)], **({"n": 3} if (b.get("gesture") or gest[i % len(gest)]) == "count" else {})})
 T = json.load(open(f"{work}/timing.json")); dur = T["duration"]
+total = sb["cover"].get("hold", 1.2) + dur + (15.0 if sb.get("stats") else 1.5)
+if total > 89.5: raise SystemExit(f"too long for a Reel: {total:.1f} s (voice {dur:.1f} s); shorten the storyboard and run again")
+print(f"length check: {total:.1f} s")
 cues += [{"t": dur + 0.6, "do": "present"}, {"t": dur + 6, "do": "nod"}, {"t": dur + 12, "do": "wave"}]
 spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 15.0 if sb.get("stats") else 1.5,
-        "stage": sb.get("stage", {"dist": 2.6, "h": 0.72, "lh": 0.68}), "beats": beats, "cover": sb["cover"], "cues": cues}
+        "stage": sb.get("stage", {"dist": 2.6, "h": 0.72, "lh": 0.68}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme")}
 if sb.get("stats"): spec["stats"] = {"page": 4.6, "pages": sb["stats"]}
 os.makedirs(f"{work}/site", exist_ok=True)
-shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
+shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
 lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
 for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):
