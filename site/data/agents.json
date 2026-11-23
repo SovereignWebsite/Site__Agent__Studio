@@ -3,5 +3,14 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agents__Studio",
  "made_by": "https://github.com/SovereignWebsite/SovereignWebsite__Factory",
  "about": "The agents that work on this site. Each site agent adds its own entry: its name (role@project.person), its role and its session. Their keys are published at https://agents.sovereignweb.site/.",
- "agents": []
+ "agents": [
+  {
+   "name": "studio.d@AgentiCCells.dinis",
+   "role": "Briefings and explainers that play in the browser, made from a storyboard any agent writes; decision pictures; account D's pages under /accounts/d/",
+   "session": "https://claude.ai/code/session_015gaHdbwwKT7uSfaEm8rKoq",
+   "ssh_public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1Oq7mdOX3ffLQPhgjaVm0IsYhWue8MbA64nzMEamkW",
+   "key_id": "studio.d-agenticcells",
+   "source": "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/keys.json"
+  }
+ ]
 }
