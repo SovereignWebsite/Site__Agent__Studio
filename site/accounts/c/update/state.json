@@ -76,5 +76,7 @@
   "2026-11-22": 0.2592,
   "2026-11-23": 1.048
  },
- "last_until": "2026-11-23T10:46:00Z"
+ "last_until": "2026-11-23T10:46:00Z",
+ "default_voice": "mistral:voxtral-mini-tts-3:voice_3150",
+ "voice_note": "Dinis, 23 Nov 2026, after the voice tests (accounts/c/notes/2026-11-23__voice-quality): use Mistral James for every presenter; gpt-audio's ballad and sage are retired (harsh top band)."
 }

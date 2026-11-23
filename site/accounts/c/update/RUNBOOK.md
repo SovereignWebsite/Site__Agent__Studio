@@ -12,6 +12,9 @@ Asked by Dinis Cruz in studio.c's session (https://claude.ai/code/session_01Kw9U
 7. **Ship:** commit the post folder (`site/posts/<date>__update-<hhmm>/`, post.json without an approved line) to Site__Platform__Instagram dev under the contributor role, signed; send instagram.c the commit and sha256s; update state.json; wait until the new video answers 200 on instagram.platform.sovereignweb.site (its Pages deploy takes a few minutes), then rebuild the review page here (`python3 update/review_page.py <instagram clone> site/index.html site/accounts/c/index.html`), tell design.c so it regenerates its designs, run this site's checks and test every exit status before pushing; tell conductor.c.
 8. **Spend:** stop before step 6 if today's ledger in state.json plus the run's estimate would pass 2 USD.
 
+## Voice
+Mistral Voxtral Mini TTS, preset voice James (`"voice": "mistral:voxtral-mini-tts-3:voice_3150"`), for every presenter: Dinis's choice on 23 November 2026 after the tests in ../notes/2026-11-23__voice-quality/. gpt-audio's ballad and sage are retired. Sound chain: plain gain to -18 LUFS, soxr to 48 kHz, 4x-oversampled limiter at -2 dBTP, mono AAC 192 kb/s.
+
 ## storyboard.json
 `{ "window", "presenter" (library id), "presenter_name", "voice" (gpt-audio voice), "voice_direction", "cover": {"hold":1.2,"date","kicker","headline" (may use <em>),"sub"}, "beats": [{"id":"b1","narration","visual":{"kind", ...,"caption"?},"gesture"?,"facts":[source urls]}], "caption" (Instagram caption), "stats" (pages of [label,value] rows, filled by studio.c) }`
 

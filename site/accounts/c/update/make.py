@@ -47,7 +47,11 @@ for ci, ch in enumerate(chunks):
     for attempt in range(3):
         f = f"{work}/c{ci}-{attempt}"; open(f + ".txt", "w").write(text + "\n\nThank you.\n")
         if not (os.path.exists(f + ".wav") and os.path.exists(f + ".json")):   # reuse a take from an earlier run: no second spend
-            run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
+            if voice.startswith("mistral:"):   # "mistral:<model>:<voice slug>", e.g. mistral:voxtral-mini-tts-3:voice_3150 (James)
+                _, mm, vv = voice.split(":")
+                run("python3", "-I", f"{HERE}/mistral_tts.py", mm, vv, f + ".txt", f + ".wav", capture_output=True)
+            else:
+                run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
             words_of(f + ".wav", f + ".json")
         w = json.load(open(f + ".json")); got, gi, ge = [], [], []   # first and last index into w of each token
         for i, x in enumerate(w):
@@ -76,11 +80,11 @@ if tempo > (1.20 if wps < 1.8 else 1.10): raise SystemExit(f"too long for a Reel
 run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-raw.wav", "-af", f"atempo={tempo:.4f}", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
 print(f"voice {raw:.1f} s, tempo {tempo:.3f}")
 # audio master (Dinis: "it feels like compressed ... a bit of a distortion"): no dynamic loudnorm. One plain gain to -18 LUFS,
-# one soxr resample to 48 kHz, a lookahead limiter that only catches the few peaks above -2 dBTP (AAC overshoots by about 1 dB), mono. The renderer copies it as is.
+# one soxr resample to 48 kHz, a lookahead limiter run at 4x oversampling (so it sees inter-sample peaks) that only catches the few peaks above -2 dBTP, leaving room for AAC's overshoot, mono. The renderer copies it as is.
 meas = subprocess.run(["ffmpeg","-hide_banner","-i",f"{work}/voice.wav","-af","loudnorm=I=-18:TP=-1.5:LRA=11:print_format=json","-f","null","-"],capture_output=True,text=True).stderr
 inp = float(re.search(r'"input_i"\s*:\s*"(-?[0-9.]+)"', meas).group(1)); gain = -18.0 - inp
 run("ffmpeg","-loglevel","error","-y","-i",f"{work}/voice.wav","-af",
-    f"volume={gain:.2f}dB,aresample=48000:resampler=soxr:precision=28,alimiter=limit=0.7943:attack=5:release=60:level=false",
+    f"volume={gain:.2f}dB,aresample=192000:resampler=soxr:precision=28,alimiter=limit=0.7943:attack=5:release=60:level=false,aresample=48000:resampler=soxr:precision=28",
     "-ar","48000","-ac","1","-c:a","pcm_s16le",f"{work}/voice-master.wav")
 print(f"master: {inp:.1f} LUFS in, gain {gain:+.1f} dB")
 words_of(f"{work}/voice.wav", f"{work}/words.json")
