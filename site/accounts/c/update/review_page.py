@@ -91,6 +91,6 @@ s = s.replace('"https://studio.agents.sovereignweb.site/"', '"https://studio.age
 s = s.replace('<meta property="og:title" content="Studio">', '<meta property="og:title" content="Studio: account C reels">').replace('<meta name="twitter:title" content="Studio">', '<meta name="twitter:title" content="Studio: account C reels">')
 s = s.replace("</style>", CSS + "</style>")
 s = re.sub(r'<main id="main">.*?<footer>', main + "<footer>", s, flags=re.S)
-assert "—" not in s and "–" not in s
+assert "\u2014" not in s and "\u2013" not in s
 os.makedirs(os.path.dirname(out), exist_ok=True); open(out, "w").write(s)
 print("awaiting", len(awaiting), "approved", len(approved), "live", len(live))
