@@ -17,7 +17,7 @@ def _num(n):
 ALIAS = {"dennis": "dinis", "denis": "dinis", "deanie": "dinis"}
 def norm(s):
     w = re.sub(r"[^a-z0-9]", "", s.lower().replace("-", ""))
-    if w.isdigit() and len(w) <= 3: w = _num(w).replace(" ", "")
+    if any(c.isdigit() for c in w): return "#"   # any number: ignored by the word check (see is_num)
     return ALIAS.get(w, w)
 def join_nums(ts):
     out = []
@@ -25,7 +25,10 @@ def join_nums(ts):
         if out and out[-1] in _TENS[2:] and t in _ONES[1:10]: out[-1] += t
         else: out.append(t)
     return out
-toks = lambda s: join_nums([norm(x) for x in re.sub(r"(\w+) dot A I", r"\1 ai", s).split() if norm(x)])
+_NUMW = set(_ONES + _TENS[2:] + ["hundred", "thousand", "and", "oh"])
+def is_num(t): return t == "#" or t in _NUMW or any(t == a + b for a in _TENS[2:] for b in _ONES[1:10])
+# numbers are compared by neither side: Whisper writes digits in many forms; the words around them carry the check
+toks = lambda s: [t for t in join_nums([norm(x) for x in re.sub(r"(\w+) dot A I", r"\1 ai", s).split() if norm(x)]) if not is_num(t)]
 def run(*a, **k): return subprocess.run(list(a), check=True, **k)
 def words_of(wav, out):
     run("python3", "-I", f"{HERE}/align.py", wav, out, capture_output=True); return json.load(open(out))
@@ -49,7 +52,7 @@ for ci, ch in enumerate(chunks):
         w = json.load(open(f + ".json")); got, gi, ge = [], [], []   # first and last index into w of each token
         for i, x in enumerate(w):
             t = norm(x[0])
-            if not t: continue
+            if not t or is_num(t): continue
             if got and got[-1] in _TENS[2:] and t in _ONES[1:10]: got[-1] += t; ge[-1] = i
             else: got.append(t); gi.append(i); ge.append(i)
         sm = difflib.SequenceMatcher(None, want, got, autojunk=False); blocks = [b for b in sm.get_matching_blocks() if b.size]
@@ -68,7 +71,8 @@ run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", 
 raw = float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{work}/voice-raw.wav"],capture_output=True,text=True).stdout)
 room = 89.0 - sb["cover"].get("hold", 1.2) - (15.0 if sb.get("stats") else 1.5)
 tempo = max(1.0, raw / room)
-if tempo > 1.10: raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
+wps = len(toks(script)) / raw   # a slow read (under 1.8 words a second) may be sped up a little more
+if tempo > (1.20 if wps < 1.8 else 1.10): raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
 run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-raw.wav", "-af", f"atempo={tempo:.4f}", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
 print(f"voice {raw:.1f} s, tempo {tempo:.3f}")
 words_of(f"{work}/voice.wav", f"{work}/words.json")

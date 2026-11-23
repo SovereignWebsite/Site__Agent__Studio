@@ -6,7 +6,8 @@
   "conductor",
   "caretaker",
   "anchor",
-  "holo"
+  "holo",
+  "owl"
  ],
  "presenter_voices": {
   "guide": "cedar",
@@ -56,11 +57,24 @@
    "commit": "0daa8f8",
    "cost_usd": 0.1578,
    "note": "04:45 run skipped at conductor.c's request (account usage); three cached takes reused after the word-check fixes"
+  },
+  {
+   "post": "2026-11-23__update-1045",
+   "kind": "4-hourly update (scheduled)",
+   "window": {
+    "since": "2026-11-23T06:46:00Z",
+    "until": "2026-11-23T10:46:00Z"
+   },
+   "presenter": "owl",
+   "voice": "ballad",
+   "commit": "767ebb5",
+   "cost_usd": 0.2623,
+   "note": "edited before spend: no open security issue, no signed-or-not count; voice sped 1.18x, no stats pages"
   }
  ],
  "spend": {
   "2026-11-22": 0.2592,
-  "2026-11-23": 0.7857
+  "2026-11-23": 1.048
  },
- "last_until": "2026-11-23T06:46:00Z"
+ "last_until": "2026-11-23T10:46:00Z"
 }
