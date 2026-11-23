@@ -1,0 +1,8 @@
+{
+ "about": "studio.c's 4-hourly update Reels: which presenters were used, and the OpenRouter spend per day (cap 2 USD a day, Dinis Cruz, 23 Nov 2026).",
+ "cap_usd_per_day": 2.0,
+ "presenters_used": ["guide", "conductor"],
+ "presenter_voices": {"guide": "cedar", "conductor": "ash", "anchor": "echo", "holo": "verse", "owl": "ballad", "teletext": "alloy", "cube": "shimmer", "researcher": "sage", "rowan": "ash", "caretaker": "echo", "agent": "verse", "realist": "cedar"},
+ "runs": [],
+ "spend": {"2026-11-22": 0.2592, "2026-11-23": 0.1935}
+}

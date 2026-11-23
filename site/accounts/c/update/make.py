@@ -1,0 +1,72 @@
+# studio.c update pipeline, step 3: storyboard.json -> voiced, animated Reel in a post folder. Apache-2.0.
+# Usage: python3 make.py <storyboard.json> <workdir> <post-folder-out>
+# Needs: OPENROUTER_API_KEY in the environment (never printed), the presenters library checked out (see RUNBOOK.md),
+# ffmpeg, faster-whisper, Playwright with Chromium.
+import json, sys, os, re, subprocess, shutil, difflib, datetime, time
+HERE = os.path.dirname(os.path.abspath(__file__))
+sb_path, work, post = sys.argv[1:4]
+sb = json.load(open(sb_path)); os.makedirs(work, exist_ok=True); os.makedirs(post, exist_ok=True)
+norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
+toks = lambda s: [norm(x) for x in s.replace("sovereignwebsite dot A I", "sovereignwebsite ai").split() if norm(x)]
+def run(*a, **k): return subprocess.run(list(a), check=True, **k)
+def words_of(wav, out):
+    run("python3", "-I", f"{HERE}/align.py", wav, out, capture_output=True); return json.load(open(out))
+voice, model = sb["voice"], sb.get("voice_model", "openai/gpt-audio")
+open(f"{work}/direction.txt", "w").write("Voice direction: " + sb["voice_direction"])
+beats = sb["beats"]; script = "\n\n".join(b["narration"] for b in beats); open(f"{work}/script.txt", "w").write(script + "\n")
+# chunks of about 45 words, never splitting a beat
+chunks, cur = [], []
+for b in beats:
+    if cur and sum(len(x["narration"].split()) for x in cur) + len(b["narration"].split()) > 45: chunks.append(cur); cur = []
+    cur.append(b)
+if cur: chunks.append(cur)
+pieces = []
+for ci, ch in enumerate(chunks):
+    text = "\n\n".join(b["narration"] for b in ch); want = toks(text)
+    for attempt in range(3):
+        f = f"{work}/c{ci}-{attempt}"; open(f + ".txt", "w").write(text + "\n\nThank you.\n")
+        run("python3", "-I", f"{HERE}/tts.py", model, voice, f + ".txt", f + ".wav", f"{work}/direction.txt", capture_output=True)
+        w = words_of(f + ".wav", f + ".json"); got = [norm(x[0]) for x in w]
+        sm = difflib.SequenceMatcher(None, want, got, autojunk=False); blocks = [b for b in sm.get_matching_blocks() if b.size]
+        matched = sum(b.size for b in blocks)
+        if blocks and matched >= 0.9 * len(want) and blocks[-1].a + blocks[-1].size >= len(want) - 1:
+            first, last = blocks[0], blocks[-1]
+            start = w[first.b][1] - 0.12; end = w[last.b + last.size - 1][2] + 0.35
+            pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words)"); break
+        print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
+    else: raise SystemExit(f"chunk {ci} could not be voiced completely")
+fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[s{i}];" for i, (_, a, b) in enumerate(pieces))
+fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
+args = sum([["-i", p[0]] for p in pieces], [])
+run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
+words_of(f"{work}/voice.wav", f"{work}/words.json")
+json.dump([[b["id"], " ".join(b["narration"].split()[:3])] for b in beats], open(f"{work}/keys.json", "w"))
+run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
+# spec for the scene page
+gest = ["present", "point", "nod", "count", "thumbsUp", "lookAt", "present", "point"]
+cues = [{"t": 0.3, "do": "wave"}, {"t": beats[0]["id"], "dt": 1.2, "do": "expression", "name": "smile"}]
+for i, b in enumerate(beats[1:]): cues.append({"t": b["id"], "dt": 0.2, "do": b.get("gesture") or gest[i % len(gest)], **({"n": 3} if (b.get("gesture") or gest[i % len(gest)]) == "count" else {})})
+T = json.load(open(f"{work}/timing.json")); dur = T["duration"]
+cues += [{"t": dur + 0.6, "do": "present"}, {"t": dur + 6, "do": "nod"}, {"t": dur + 12, "do": "wave"}]
+spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 15.0 if sb.get("stats") else 1.5,
+        "stage": sb.get("stage", {"dist": 2.6, "h": 0.72, "lh": 0.68}), "beats": beats, "cover": sb["cover"], "cues": cues}
+if sb.get("stats"): spec["stats"] = {"page": 4.6, "pages": sb["stats"]}
+os.makedirs(f"{work}/site", exist_ok=True)
+shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
+json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
+lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
+for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):
+    if not os.path.exists(f"{work}/site/{dst}"): shutil.copytree(src, f"{work}/site/{dst}")
+port = "8766"; srv = subprocess.Popen(["python3", "-m", "http.server", port], cwd=f"{work}/site", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL); time.sleep(1)
+try:
+    t0 = time.time()
+    run("node", f"{HERE}/render-reel.js", "spec.json", f"{post}/video.mp4", f"{work}/voice.wav", env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
+    render_s = time.time() - t0
+finally: srv.terminate()
+run("ffmpeg", "-loglevel", "error", "-y", "-ss", "0.2", "-i", f"{post}/video.mp4", "-frames:v", "1", "-q:v", "2", f"{post}/cover.jpg")
+shutil.copy(f"{work}/script.txt", f"{post}/script.txt"); shutil.copy(f"{work}/direction.txt", f"{post}/voice-direction.txt"); shutil.copy(sb_path, f"{post}/storyboard.json")
+calls = [json.loads(l) for l in open(f"{work}/calls.jsonl")] if os.path.exists(f"{work}/calls.jsonl") else []
+cost = sum((c.get("usage") or {}).get("cost", 0) for c in calls)
+json.dump({"render_seconds": round(render_s, 1), "duration": float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{post}/video.mp4"],capture_output=True,text=True).stdout),
+           "voice_calls": len(calls), "voice_cost_usd": round(cost, 4)}, open(f"{work}/made.json", "w"))
+print("made", post, round(render_s), "s render,", round(cost, 4), "USD voice")
