@@ -1,8 +1,52 @@
 {
  "about": "studio.c's 4-hourly update Reels: which presenters were used, and the OpenRouter spend per day (cap 2 USD a day, Dinis Cruz, 23 Nov 2026).",
  "cap_usd_per_day": 2.0,
- "presenters_used": ["guide", "conductor"],
- "presenter_voices": {"guide": "cedar", "conductor": "ash", "anchor": "echo", "holo": "verse", "owl": "ballad", "teletext": "alloy", "cube": "shimmer", "researcher": "sage", "rowan": "ash", "caretaker": "echo", "agent": "verse", "realist": "cedar"},
- "runs": [],
- "spend": {"2026-11-22": 0.2592, "2026-11-23": 0.1935}
+ "presenters_used": [
+  "guide",
+  "conductor",
+  "caretaker",
+  "anchor"
+ ],
+ "presenter_voices": {
+  "guide": "cedar",
+  "conductor": "ash",
+  "anchor": "echo",
+  "holo": "verse",
+  "owl": "ballad",
+  "teletext": "alloy",
+  "cube": "shimmer",
+  "researcher": "sage",
+  "rowan": "ash",
+  "caretaker": "verse",
+  "agent": "verse",
+  "realist": "cedar"
+ },
+ "runs": [
+  {
+   "post": "2026-11-23__behaviour-policies",
+   "kind": "explainer (asked by Dinis via instagram.c)",
+   "presenter": "caretaker",
+   "voice": "verse",
+   "commit": "9c46f45",
+   "cost_usd": 0.3066,
+   "note": "first voicing ran 107 s, too long; re-voiced shorter"
+  },
+  {
+   "post": "2026-11-23__update-0200",
+   "kind": "4-hourly update",
+   "window": {
+    "since": "2026-11-22T22:00:00Z",
+    "until": "2026-11-23T02:00:00Z"
+   },
+   "presenter": "anchor",
+   "voice": "echo",
+   "commit": "af9b78a",
+   "cost_usd": 0.1278
+  }
+ ],
+ "spend": {
+  "2026-11-22": 0.2592,
+  "2026-11-23": 0.6279
+ },
+ "last_until": "2026-11-23T02:00:00Z"
 }
