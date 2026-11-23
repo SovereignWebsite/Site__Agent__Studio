@@ -9,7 +9,7 @@ Asked by Dinis Cruz in studio.c's session (https://claude.ai/code/session_01Kw9U
 4. **Journalist and designer** (sub-agent): facts.json -> storyboard.json (format below): an angle, a cover that makes people tap (date, punchy headline, what is inside), 6 to 9 beats of about 12 to 25 words each, a visual per beat, 45 to 75 seconds in all, and the presenter not used in the last runs (state.json).
 5. **Check:** studio.c reads every beat against facts.json before any spend.
 6. **Make:** `PRESENTERS_LIB=<checkout>/src/lib/presenters/v0.1.0 python3 make.py storyboard.json <workdir> <post-folder>`: voice (checked word for word), timing, render, cover.
-7. **Ship:** commit the post folder (`site/posts/<date>__update-<hhmm>/`, post.json without an approved line) to Site__Platform__Instagram dev under the contributor role, signed; send instagram.c the commit and sha256s; update state.json and the review page here; tell conductor.c.
+7. **Ship:** commit the post folder (`site/posts/<date>__update-<hhmm>/`, post.json without an approved line) to Site__Platform__Instagram dev under the contributor role, signed; send instagram.c the commit and sha256s; update state.json; wait until the new video answers 200 on instagram.platform.sovereignweb.site (its Pages deploy takes a few minutes), then rebuild the review page here, run this site's checks and test every exit status before pushing; tell conductor.c.
 8. **Spend:** stop before step 6 if today's ledger in state.json plus the run's estimate would pass 2 USD.
 
 ## storyboard.json
