@@ -178,8 +178,9 @@ for b in beats:
         v["frames"] = len([x for x in os.listdir(fdir) if x.endswith(".jpg")]); v["dir"] = f"media/{b['id']}"; v["fps"] = fps
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
 lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
+if not lib or not os.path.exists(f"{lib}/presenters.js"): raise SystemExit("set PRESENTERS_LIB to <PrompTugal checkout>/src/lib/presenters/v0.1.0")
 for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):
-    if not os.path.exists(f"{work}/site/{dst}"): shutil.copytree(src, f"{work}/site/{dst}")
+    shutil.copytree(src, f"{work}/site/{dst}", dirs_exist_ok=True)   # also mends a half-copied folder left by a failed run
 port = "8766"; srv = subprocess.Popen(["python3", "-m", "http.server", port], cwd=f"{work}/site", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL); time.sleep(1)
 try:
     t0 = time.time()
