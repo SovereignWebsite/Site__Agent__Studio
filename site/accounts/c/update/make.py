@@ -73,7 +73,9 @@ fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:
 args = sum([["-i", p[0]] for p in pieces], [])
 run("ffmpeg", "-loglevel", "error", "-y", *args, "-filter_complex", fl, "-map", "[o]", "-ar", "24000", "-ac", "1", f"{work}/voice-raw.wav")
 raw = float(subprocess.run(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f"{work}/voice-raw.wav"],capture_output=True,text=True).stdout)
-room = 89.0 - sb["cover"].get("hold", 1.2) - (15.0 if sb.get("stats") else 1.5)
+CREDITS_S = 3.5   # Dinis: every Reel ends on a credits card, readable when paused
+STATS_S = 4.6 * len(sb.get("stats") or [])
+room = 89.0 - sb["cover"].get("hold", 1.2) - 0.6 - STATS_S - CREDITS_S
 tempo = max(1.0, raw / room)
 wps = len(toks(script)) / raw   # a slow read (under 1.8 words a second) may be sped up a little more
 if tempo > (1.20 if wps < 1.8 else 1.10): raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
@@ -95,13 +97,23 @@ gest = ["present", "point", "nod", "count", "thumbsUp", "lookAt", "present", "po
 cues = [{"t": 0.3, "do": "wave"}, {"t": beats[0]["id"], "dt": 1.2, "do": "expression", "name": "smile"}]
 for i, b in enumerate(beats[1:]): cues.append({"t": b["id"], "dt": 0.2, "do": b.get("gesture") or gest[i % len(gest)], **({"n": 3} if (b.get("gesture") or gest[i % len(gest)]) == "count" else {})})
 T = json.load(open(f"{work}/timing.json")); dur = T["duration"]
-total = sb["cover"].get("hold", 1.2) + dur + (15.0 if sb.get("stats") else 1.5)
+total = sb["cover"].get("hold", 1.2) + dur + 0.6 + STATS_S + CREDITS_S
 if total > 89.5: raise SystemExit(f"too long for a Reel: {total:.1f} s (voice {dur:.1f} s); shorten the storyboard and run again")
 print(f"length check: {total:.1f} s")
 cues += [{"t": dur + 0.6, "do": "present"}, {"t": dur + 6, "do": "nod"}, {"t": dur + 12, "do": "wave"}]
-spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 15.0 if sb.get("stats") else 1.5,
+spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 0.6 + STATS_S + CREDITS_S,
         "stage": sb.get("stage", {"dist": 1.9, "h": 0.8, "lh": 0.8}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme")}
-if sb.get("stats"): spec["stats"] = {"page": 4.6, "pages": sb["stats"]}
+vv = sb["voice"]
+voice_credit = (f"Mistral Voxtral TTS, voice James" if vv.startswith("mistral:")
+                else f"{sb.get('voice_model', 'openai/gpt-audio').split('/')[-1]}, voice {vv}, via OpenRouter")
+credits = {"kicker": "Credits", "title": "Who made this", "seconds": CREDITS_S, "rows": [
+    ["Made by", "Claude (Anthropic), as studio.c, with sub-agents"],
+    ["Voice (AI-generated)", voice_credit],
+    ["Presenter", f"{sb['presenter_name']}, synthetic, from PrompTugal.news"],
+    ["Presenter library", "bulletins.b, CC BY 4.0"],
+    ["Music and sources", "No music · facts in storyboard.json"],
+    ["Posting", "Only with the owner's yes · riskmandate.ai"]]}
+spec["stats"] = {"page": 4.6, "pages": list(sb.get("stats") or []) + [credits]}
 os.makedirs(f"{work}/site", exist_ok=True)
 shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
 # image beats: fetch each capture once into site/media (pinned public URLs only), the page reads it locally

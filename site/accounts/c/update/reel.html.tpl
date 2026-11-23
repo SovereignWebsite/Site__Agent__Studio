@@ -129,16 +129,16 @@ S.welcome = t => {
     const q=back(ap(t,K.url,.6)); g0(`translate(540 620) scale(${q})`); text(0,0,'sovereignwebsite.ai',{size:92,fill:C.gold}); g1();
     text(540,760,'Websites you own',{size:50,op:ease(ap(t,K.url+.6,.5))}); const hq=ease(ap(t,K.url+1.4,.5)); rect(200,830,680,86,{fill:C.card,r:43,stroke:C.line,sw:3,op:hq}); text(540,887,'See the sites: hub.sovereignweb.site',{size:34,fill:C.white,op:hq}); g1(); }
 };
-function statsCard(u){ const P=spec.stats.pages, n=Math.min(P.length-1, Math.floor(u/spec.stats.page)), lu=u-n*spec.stats.page, pg=P[n];
+function statsCard(u){ const P=spec.stats.pages, D=P.map(p=>p.seconds||spec.stats.page); let n=0, acc=0; while(n<P.length-1 && u>=acc+D[n]){ acc+=D[n]; n++; } const lu=u-acc, pg=P[n];
   const FR=Math.ceil(DUR*30), fill=v=>v.replace('{FRAMES}',FR.toLocaleString('en-GB')).replace('{DUR}',DUR.toFixed(1));
-  const inP = ease(ap(lu,0,.45)), outP = n<P.length-1 ? 1-ease(ap(lu,spec.stats.page-.35,.35)) : 1;
+  const inP = ease(ap(lu,0,.45)), outP = n<P.length-1 ? 1-ease(ap(lu,D[n]-.35,.35)) : 1;
   g0('', inP*outP);
-  text(72,200,'A moment in time',{anchor:'start',size:30,fill:C.muted,w:500,ls:'.12em'});
+  text(72,200,pg.kicker||'A moment in time',{anchor:'start',size:30,fill:C.muted,w:500,ls:'.12em'});
   text(72,262,pg.title,{anchor:'start',size:60,fill:C.gold});
   for(let k=0;k<P.length;k++) circ(940+k*30,240,9,{fill:k===n?C.gold:C.line});
   pg.rows.forEach(([a,b],i)=>{ const q=ease(ap(lu,.15+i*.12,.4)), y=330+i*112;
     g0(`translate(${40*(1-q)} 0)`,q); line(72,y-8,1008,y-8,{stroke:C.line,sw:2,op:.6});
-    text(72,y+32,a,{anchor:'start',size:28,w:500,fill:C.muted}); text(72,y+80,fill(b),{anchor:'start',size:38}); g1(); });
+    text(72,y+32,a,{anchor:'start',size:28,w:500,fill:C.muted}); text(72,y+80,fill(b),{anchor:'start',size:fill(b).length>46?Math.floor(38*46/fill(b).length):38}); g1(); });
   g1(); }
 // ---------- TEAM ----------
 const ROLES=[['conductor','Conductor','Plans the work'],['factory','Factory','Request to live site'],['sites','Sites','Build and look after'],['design','Design','Design rounds'],['security','Security','Reviews before live'],['hub','Hub','Maps every site'],['obs','Observability','Watches traffic'],['library','Library','Keeps what we learn'],['instagram','Instagram','Prepares posts'],['studio','Studio','Makes the videos']];
