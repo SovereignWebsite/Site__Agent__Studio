@@ -1,0 +1,7 @@
+{
+  "name": "studio-c-render-ci",
+  "private": true,
+  "description": "Pinned tools for .github/workflows/render-reel.yml (account C, studio.c). Installed with npm ci from package-lock.json, so every package is checked against its integrity hash.",
+  "license": "Apache-2.0",
+  "dependencies": { "playwright": "1.49.1" }
+}
