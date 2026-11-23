@@ -16,7 +16,7 @@ alt = f"An animated Reel: {sb['presenter_name']}, a synthetic presenter, tells i
 pj = {"kind": "reel", "media": ["video.mp4"], "cover": "cover.jpg", "thumbnail_offset_ms": 600, "alt": [alt], "caption": sb["caption"], "source": src,
       "audio": {"file": "(voice only, mixed into video.mp4)", "made_by": "studio.c@SovereignWebsite.dinis", "prompt": "script.txt read word for word, with voice-direction.txt",
                 "date": datetime.date.today().isoformat(), "plan": f"OpenRouter pay-as-you-go on Dinis Cruz's key; {sb.get('voice_model','openai/gpt-audio')}, voice {sb['voice']}; no music track"}}
-assert len(pj["caption"]) <= 2200 and "—" not in json.dumps(pj) and "–" not in json.dumps(pj) and "approved" not in pj
+assert len(pj["caption"]) <= 2200 and not any(ch in json.dumps(pj, ensure_ascii=False) for ch in ("\u2014", "\u2013")) and "approved" not in pj
 json.dump(pj, open(f"{post}/post.json", "w"), indent=2, ensure_ascii=False); open(f"{post}/post.json", "a").write("\n")
 rows = "".join(f"| {c['at']} | {c['model']} | {c.get('voice','-')} | {c.get('seconds','-')} | {(c.get('usage') or {}).get('cost',0):.4f} |\n" for c in calls)
 open(f"{post}/notes.md", "w").write(f"""# {pid}
