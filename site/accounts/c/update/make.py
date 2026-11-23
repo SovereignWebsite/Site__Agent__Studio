@@ -62,11 +62,12 @@ for ci, ch in enumerate(chunks):
             else: got.append(t); gi.append(i); ge.append(i)
         sm = difflib.SequenceMatcher(None, want, got, autojunk=False); blocks = [b for b in sm.get_matching_blocks() if b.size]
         matched = sum(b.size for b in blocks)
-        if blocks and matched >= 0.9 * len(want) and blocks[-1].a + blocks[-1].size >= len(want) - 1:
+        chars = difflib.SequenceMatcher(None, "".join(want), "".join(got), autojunk=False).ratio()   # a split or joined word is not a missing word
+        if blocks and (matched >= 0.9 * len(want) or chars >= 0.93) and blocks[-1].a + blocks[-1].size >= len(want) - 1:
             first, last = blocks[0], blocks[-1]
             start = w[gi[max(0, first.b - first.a - (1 if first.a else 0))]][1] - 0.12   # back up over script words Whisper misheard
             end = w[ge[last.b + last.size - 1]][2] + 0.35
-            pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words)"); break
+            pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words, {chars:.2f} of letters)"); break
         print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
     else: raise SystemExit(f"chunk {ci} could not be voiced completely")
 fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[s{i}];" for i, (_, a, b) in enumerate(pieces))

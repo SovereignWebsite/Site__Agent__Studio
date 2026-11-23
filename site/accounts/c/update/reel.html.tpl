@@ -156,6 +156,7 @@ function glyph(k,x,y,s,col){ const o={stroke:col,sw:s*.09};
   if(k==='key'){ circ(x-s*.2,y,s*.18,{fill:'none',stroke:col,sw:s*.08}); line(x-s*.02,y,x+s*.42,y,o); line(x+s*.3,y,x+s*.3,y+s*.15,o); }
 }
 S.team = t => {
+  if (spec.stats && t >= T.duration + 0.6) { statsCard(t - T.duration - 0.6); return; }
   if (t < K.agents) { const p=fade(t,0,K.agents); g0('',p);
     g0(`translate(540 ${430+30*(1-ease(ap(t,0.1,.6)))})`); text(0,0,'Meet the team',{size:118}); g1();
     const q=ease(ap(t,K.intro,.5)); rect(220,620,640,90,{fill:C.gold,r:45,op:q}); text(540,680,'Conductor · synthetic presenter',{size:34,fill:C.navy,op:q}); g1(); }
