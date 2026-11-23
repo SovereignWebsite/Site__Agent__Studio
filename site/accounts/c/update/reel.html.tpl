@@ -207,13 +207,13 @@ V.compare=(v,u)=>{ [v.left,v.right].forEach((s,j)=>{ const X=80+j*470, q=ease(ap
   s.points.slice(0,4).forEach((p,i)=>multi(X+40,390+i*120,p,18,{anchor:'start',size:32,op:ease(ap(u,.6+j*.5+i*.2,.3))})); }); };
 V.agents=(v,u)=>{ const it=v.items.slice(0,9), mx=Math.max(...it.map(x=>x.count)); it.forEach((x,i)=>{ const a=-Math.PI/2+i*2*Math.PI/it.length, r=i?300:0, R=i?300:0;
   const px=540+Math.cos(a)*(i?290:0), py=540+Math.sin(a)*(i?290:0)*.95, rad=(40+60*Math.sqrt(x.count/mx))*back(ap(u,.15+i*.15,.5));
-  if(i) line(540,540,px,py,{stroke:C.gold,sw:3,op:.4*ease(ap(u,.3+i*.15,.4))}); circ(px,py,rad,{fill:i?C.card:C.gold,stroke:C.gold,sw:4}); text(px,py+(i?2:-4),x.name,{size:i?26:36,fill:i?C.white:C.navy}); text(px,py+(i?34:36),String(x.count),{size:i?26:34,fill:i?C.gold:C.navy}); }); };
-V.image=(v,u)=>{ const q=ease(ap(u,0,.5)), z=1+0.04*clamp(u/8); g0(`translate(540 520) scale(${z*(0.96+0.04*q)}) translate(-540 -520)`,q);
-  rect(60,150,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.local)}" x="72" y="162" width="936" height="736" preserveAspectRatio="xMidYMid meet"/>`); g1();
-  if(v.credit) text(540,945,v.credit,{size:24,w:500,fill:C.muted,op:q}); };
+  if(i) line(540,540,px,py,{stroke:C.gold,sw:3,op:.4*ease(ap(u,.3+i*.15,.4))}); circ(px,py,rad,{fill:i?C.card:C.gold,stroke:C.gold,sw:4}); text(px,py+(i?2:-4),x.name,{size:Math.min(i?26:36,Math.floor(2*rad/Math.max(4,x.name.length)*1.6)),fill:i?C.white:C.navy}); text(px,py+(i?34:36),String(x.count),{size:i?26:34,fill:i?C.gold:C.navy}); }); };
+V.image=(v,u)=>{ const q=ease(ap(u,0,.5)), z=1+0.03*clamp(u/8); g0(`translate(540 500) scale(${z*(0.96+0.04*q)}) translate(-540 -500)`,q);
+  rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.local)}" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid meet"/>`);
+  if(v.credit) text(540,885,v.credit,{size:22,w:500,fill:C.muted}); g1(); };
 S.story = t => { const B=spec.beats; let k=0; for(let i=0;i<B.length;i++) if(t>=K[B[i].id]) k=i; const b=B[k], t0=K[b.id], t1=k<B.length-1?K[B[k+1].id]:T.duration+spec.tail, u=t-t0;
   if (spec.stats && t >= T.duration + 0.6) { statsCard(t - T.duration - 0.6); return; }
-  const p=fade(t,t0,t1+.01,.3); g0('',p); (V[b.visual.kind]||V.title)(b.visual,u); if(b.visual.caption) text(540,965,b.visual.caption,{size:46,fill:C.gold,op:ease(ap(u,.5,.4))}); g1(); };
+  const p=fade(t,t0,t1+.01,.3); g0('',p); (V[b.visual.kind]||V.title)(b.visual,u); if(b.visual.caption) text(540,965,b.visual.caption,{size:b.visual.caption.length>30?Math.max(30,Math.floor(46*30/b.visual.caption.length)):46,fill:C.gold,op:ease(ap(u,.5,.4))}); g1(); };
 
 // ---------- stage ----------
 const st = spec.stage;

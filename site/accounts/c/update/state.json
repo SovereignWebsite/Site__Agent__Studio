@@ -5,13 +5,14 @@
   "guide",
   "conductor",
   "caretaker",
-  "anchor"
+  "anchor",
+  "holo"
  ],
  "presenter_voices": {
   "guide": "cedar",
   "conductor": "ash",
   "anchor": "echo",
-  "holo": "verse",
+  "holo": "sage",
   "owl": "ballad",
   "teletext": "alloy",
   "cube": "shimmer",
@@ -42,11 +43,24 @@
    "voice": "echo",
    "commit": "af9b78a",
    "cost_usd": 0.1278
+  },
+  {
+   "post": "2026-11-23__update-0645",
+   "kind": "4-hourly update (scheduled)",
+   "window": {
+    "since": "2026-11-23T02:00:00Z",
+    "until": "2026-11-23T06:46:00Z"
+   },
+   "presenter": "holo",
+   "voice": "sage",
+   "commit": "0daa8f8",
+   "cost_usd": 0.1578,
+   "note": "04:45 run skipped at conductor.c's request (account usage); three cached takes reused after the word-check fixes"
   }
  ],
  "spend": {
   "2026-11-22": 0.2592,
-  "2026-11-23": 0.6279
+  "2026-11-23": 0.7857
  },
- "last_until": "2026-11-23T02:00:00Z"
+ "last_until": "2026-11-23T06:46:00Z"
 }
