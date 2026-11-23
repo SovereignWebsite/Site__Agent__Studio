@@ -3,23 +3,23 @@
 @font-face{font-family:Inter;src:url(fonts/Inter-Bold.otf);font-weight:700}
 @font-face{font-family:Inter;src:url(fonts/Inter-Medium.otf);font-weight:500}
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--bg2,#0b1424);font-family:Inter,sans-serif}
-#top{position:absolute;left:0;top:0;width:1080px;height:1010px;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 60%,var(--bg2) 100%)}
-#viz{position:absolute;left:0;top:0;width:1080px;height:1010px}
-#stage{position:absolute;left:0;top:1010px;width:1080px;height:910px}
+#top{position:absolute;left:0;top:0;width:1080px;height:1300px;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 60%,var(--bg2) 100%)}
+#viz{position:absolute;left:0;top:40px;width:1080px;height:1180px}
+#stage{position:absolute;left:0;top:1300px;width:1080px;height:620px}
 #brand{position:absolute;left:72px;top:58px;font:700 40px Inter;color:#fff;letter-spacing:-.01em;display:flex;align-items:center;gap:14px}#brand i{display:inline-block;width:14px;height:40px;background:var(--gold);border-radius:3px}#brand em{font-style:normal;color:var(--gold)}#brand img{width:56px;height:56px}
 #who{position:absolute;right:72px;top:62px;font:500 26px Inter;color:var(--navy);background:var(--gold);border-radius:30px;padding:8px 22px}
-#sub{position:absolute;left:60px;right:60px;top:1480px;text-align:center}
-#sub span{display:inline;font:700 50px/1.35 Inter;color:#fff;background:rgba(8,14,26,.78);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:6px 18px;border-radius:14px}
+#sub{position:absolute;left:60px;right:60px;top:1196px;height:100px;text-align:center;display:flex;align-items:center;justify-content:center}
+#sub span{display:inline;font:700 44px/1.3 Inter;color:#fff;background:rgba(8,14,26,.78);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:6px 18px;border-radius:14px}
 #sub b{color:var(--gold);font-weight:700}
-#bar{position:absolute;left:72px;top:1000px;height:8px;width:0;background:var(--gold);border-radius:4px}
-#cover{position:absolute;left:0;top:0;width:1080px;height:1010px;display:none;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 65%,var(--bg2) 100%)}
+#bar{position:absolute;left:72px;top:1292px;height:8px;width:0;background:var(--gold);border-radius:4px}
+#cover{position:absolute;left:0;top:0;width:1080px;height:1300px;display:none;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 65%,var(--bg2) 100%)}
 #cover .date{position:absolute;left:72px;top:300px;font:700 38px Inter;color:var(--navy);background:var(--gold);border-radius:40px;padding:12px 30px;letter-spacing:.04em}
 #cover .kick{position:absolute;left:72px;top:412px;font:700 40px Inter;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 #cover h1{position:absolute;left:68px;right:60px;top:462px;margin:0;font:700 116px/1.02 Inter;color:#fff;letter-spacing:-.02em}
 #cover h1 em{font-style:normal;color:var(--gold)}
 #cover .sub{position:absolute;left:72px;right:72px;top:910px;font:500 40px Inter;color:#dfe7f3}
 </style></head><body>
-<div id="top"></div><svg id="viz" viewBox="0 0 1080 1010" xmlns="http://www.w3.org/2000/svg"></svg>
+<div id="top"></div><svg id="viz" viewBox="0 0 1080 1010" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"></svg>
 <div id="brand"><i></i><span>SovereignWebsite<em>.ai</em></span></div><div id="who"></div>
 <div id="cover"><div class="date"></div><div class="kick"></div><h1></h1><div class="sub"></div></div>
 <div id="stage"></div><div id="bar"></div><div id="sub"></div>

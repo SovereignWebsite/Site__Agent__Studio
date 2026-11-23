@@ -75,6 +75,14 @@ wps = len(toks(script)) / raw   # a slow read (under 1.8 words a second) may be 
 if tempo > (1.20 if wps < 1.8 else 1.10): raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
 run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-raw.wav", "-af", f"atempo={tempo:.4f}", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
 print(f"voice {raw:.1f} s, tempo {tempo:.3f}")
+# audio master (Dinis: "it feels like compressed ... a bit of a distortion"): no dynamic loudnorm. One plain gain to -18 LUFS,
+# one soxr resample to 48 kHz, a lookahead limiter that only catches the few peaks above -2 dBTP (AAC overshoots by about 1 dB), mono. The renderer copies it as is.
+meas = subprocess.run(["ffmpeg","-hide_banner","-i",f"{work}/voice.wav","-af","loudnorm=I=-18:TP=-1.5:LRA=11:print_format=json","-f","null","-"],capture_output=True,text=True).stderr
+inp = float(re.search(r'"input_i"\s*:\s*"(-?[0-9.]+)"', meas).group(1)); gain = -18.0 - inp
+run("ffmpeg","-loglevel","error","-y","-i",f"{work}/voice.wav","-af",
+    f"volume={gain:.2f}dB,aresample=48000:resampler=soxr:precision=28,alimiter=limit=0.7943:attack=5:release=60:level=false",
+    "-ar","48000","-ac","1","-c:a","pcm_s16le",f"{work}/voice-master.wav")
+print(f"master: {inp:.1f} LUFS in, gain {gain:+.1f} dB")
 words_of(f"{work}/voice.wav", f"{work}/words.json")
 json.dump([[b["id"], " ".join(b["narration"].split()[:3])] for b in beats], open(f"{work}/keys.json", "w"))
 run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
@@ -88,7 +96,7 @@ if total > 89.5: raise SystemExit(f"too long for a Reel: {total:.1f} s (voice {d
 print(f"length check: {total:.1f} s")
 cues += [{"t": dur + 0.6, "do": "present"}, {"t": dur + 6, "do": "nod"}, {"t": dur + 12, "do": "wave"}]
 spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_name"] + " · synthetic", "timing": "timing.json", "tail": 15.0 if sb.get("stats") else 1.5,
-        "stage": sb.get("stage", {"dist": 2.6, "h": 0.72, "lh": 0.68}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme")}
+        "stage": sb.get("stage", {"dist": 1.9, "h": 0.8, "lh": 0.8}), "beats": beats, "cover": sb["cover"], "cues": cues, "theme": sb.get("theme")}
 if sb.get("stats"): spec["stats"] = {"page": 4.6, "pages": sb["stats"]}
 os.makedirs(f"{work}/site", exist_ok=True)
 shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
@@ -109,7 +117,7 @@ for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):
 port = "8766"; srv = subprocess.Popen(["python3", "-m", "http.server", port], cwd=f"{work}/site", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL); time.sleep(1)
 try:
     t0 = time.time()
-    run("node", f"{HERE}/render-reel.js", "spec.json", f"{post}/video.mp4", f"{work}/voice.wav", env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
+    run("node", f"{HERE}/render-reel.js", "spec.json", f"{post}/video.mp4", f"{work}/voice-master.wav", env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
     render_s = time.time() - t0
 finally: srv.terminate()
 run("ffmpeg", "-loglevel", "error", "-y", "-ss", "0.2", "-i", f"{post}/video.mp4", "-frames:v", "1", "-q:v", "2", f"{post}/cover.jpg")

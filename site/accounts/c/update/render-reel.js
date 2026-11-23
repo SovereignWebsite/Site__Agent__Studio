@@ -6,9 +6,9 @@ const { chromium } = require('playwright'); const { spawn } = require('child_pro
   await p.goto('http://localhost:8766/reel.html?spec=' + spec); await p.waitForFunction(() => window.ready, null, { timeout: 60000 });
   const DUR = await p.evaluate(() => window.DUR); const LEAD = await p.evaluate(() => window.LEAD || 0); const N = Math.ceil(DUR * FPS);
   const ff = spawn('ffmpeg', ['-y','-loglevel','error','-f','image2pipe','-framerate',String(FPS),'-c:v','mjpeg','-i','-','-i',voice,
-    '-filter_complex',`[1:a]adelay=${Math.round(LEAD*1000)}:all=1,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,apad[a]`,'-map','0:v','-map','[a]',
+    '-filter_complex',`[1:a]adelay=${Math.round(LEAD*1000)}:all=1,apad[a]`,'-map','0:v','-map','[a]',
     '-c:v','libx264','-profile:v','high','-pix_fmt','yuv420p','-preset','medium','-crf','19','-r',String(FPS),
-    '-c:a','aac','-b:a','160k','-ac','2','-ar','48000','-t',DUR.toFixed(2),'-movflags','+faststart',out], { stdio: ['pipe','inherit','inherit'] });
+    '-c:a','aac','-b:a','192k','-ac','1','-ar','48000','-t',DUR.toFixed(2),'-movflags','+faststart',out], { stdio: ['pipe','inherit','inherit'] });
   const t0 = Date.now();
   for (let i = 0; i < N; i++) { await p.evaluate(t => window.render(t), i / FPS);
     const buf = await p.screenshot({ type: 'jpeg', quality: 92 }); if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
