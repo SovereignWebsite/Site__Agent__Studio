@@ -64,10 +64,12 @@ for ci, ch in enumerate(chunks):
             first, last = blocks[0], blocks[-1]
             start = w[gi[max(0, first.b - first.a - (1 if first.a else 0))]][1] - 0.12   # back up over script words Whisper misheard
             end = w[ge[last.b + last.size - 1]][2] + 0.35
+            nxt = ge[last.b + last.size - 1] + 1   # never run into the next thing said (the "Thank you." decoy line)
+            if nxt < len(w): end = min(end, max(w[ge[last.b + last.size - 1]][2] + 0.05, w[nxt][1] - 0.08))
             pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words, {chars:.2f} of letters)"); break
         print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
     else: raise SystemExit(f"chunk {ci} could not be voiced completely")
-JOIN_PAD = 0.3   # each take keeps 0.12 s before and 0.35 s after its words; with this the pause between beats is about 0.75 s
+JOIN_PAD = 0.5   # each take keeps 0.12 s before and 0.35 s after its words, partly breath; measured quiet at a join is then about 0.7 s or more
 fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS" + (f",apad=pad_dur={JOIN_PAD}" if i < len(pieces) - 1 else "") + f"[s{i}];"
              for i, (_, a, b) in enumerate(pieces))
 fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
@@ -105,10 +107,11 @@ def _audio():
     return sr, pcm, _np.frombuffer(pcm, dtype=_np.int16).astype(float) / 32768
 def beat_gaps():
     # the expected boundary comes from the word timings; the pause itself is measured in the audio: the longest run of
-    # 20 ms frames under -40 dBFS within 0.8 s of the expected point (misheard words get interpolated times, so words alone mislead)
+    # 20 ms frames under -30 dBFS within 0.8 s of the expected point (misheard words get interpolated times, so words alone mislead)
     T0 = json.load(open(f"{work}/timing.json")); W = [w for s_ in T0["subs"] for w in s_["words"]]
     sr, pcm, a = _audio(); fr = int(sr * 0.02); n = len(a) // fr
-    quiet = _np.array([20 * _np.log10(_np.sqrt(_np.mean(a[i*fr:(i+1)*fr] ** 2)) + 1e-9) < -40 for i in range(n)])
+    quiet = _np.array([20 * _np.log10(_np.sqrt(_np.mean(a[i*fr:(i+1)*fr] ** 2)) + 1e-9) < -30 for i in range(n)])   # breath at -40 to -30 dBFS is heard as part of the pause
+    dbs = _np.array([20 * _np.log10(_np.sqrt(_np.mean(a[i*fr:(i+1)*fr] ** 2)) + 1e-9) for i in range(n)])
     out, i = [], 0
     for bb in beats[:-1]:
         i += len(bb["narration"].split())
@@ -124,11 +127,19 @@ def beat_gaps():
                 cur += 1
                 if cur > best: best, bs = cur, start
             else: cur = 0
+        if known:   # a join is the only place with digital silence: anchor on it, then widen to the whole quiet run around it
+            z = [k for k in range(max(0, int((te - 1.0) / 0.02)), min(n, int((te + 1.0) / 0.02))) if dbs[k] < -80]
+            if z:
+                c = min(z, key=lambda k: abs(k * 0.02 - te)); s0 = e0 = c
+                while s0 > 0 and quiet[s0 - 1]: s0 -= 1
+                while e0 < n - 1 and quiet[e0 + 1]: e0 += 1
+                bs, best = s0, e0 + 1 - s0
         out.append((bb["id"], bs * 0.02, (bs + best) * 0.02))
     return out
 SHIFT = [0.0] * len(beats)
 gaps = beat_gaps(); cuts = [((x + y) / 2, max(0.0, BEAT_GAP - (y - x))) for _, x, y in gaps]
-if any(add > 0.01 for _, add in cuts):
+# with one take per beat the join is set by JOIN_PAD; inserting more here would land on a comma pause, so only older multi-beat takes are padded
+if len(JOINS) != len(beats) - 1 and any(add > 0.01 for _, add in cuts):
     sr, pcm, _a = _audio(); out, last = bytearray(), 0
     for at, add in cuts:
         k = int(at * sr) * 2; out += pcm[last:k] + b"\x00\x00" * int(add * sr); last = k
@@ -139,6 +150,7 @@ if any(add > 0.01 for _, add in cuts):
     words_of(f"{work}/voice.wav", f"{work}/words.json")
     run("python3", "-I", f"{HERE}/timing.py", work, f"{work}/keys.json")
 gaps = beat_gaps(); report = [(i, round(y - x, 2)) for i, x, y in gaps]
+print("joins (s):", [round(j / tempo, 2) for j in JOINS], "found:", [(round(x, 2), round(y, 2)) for _, x, y in gaps])
 print("beat pauses (s):", report)
 if report and min(g for _, g in report) < BEAT_GAP - 0.15: raise SystemExit(f"a beat boundary is still too tight: {report}")
 # spec for the scene page
