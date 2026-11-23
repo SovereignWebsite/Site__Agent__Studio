@@ -7,7 +7,8 @@
   "caretaker",
   "anchor",
   "holo",
-  "owl"
+  "owl",
+  "researcher"
  ],
  "presenter_voices": {
   "guide": "cedar",
@@ -76,7 +77,12 @@
   "2026-11-22": 0.2592,
   "2026-11-23": 1.048
  },
- "last_until": "2026-11-23T10:46:00Z",
+ "last_until": "2026-11-23T22:46:00Z",
  "default_voice": "mistral:voxtral-mini-tts-3:voice_3150",
- "voice_note": "Dinis, 23 Nov 2026, after the voice tests (accounts/c/notes/2026-11-23__voice-quality): use Mistral James for every presenter; gpt-audio's ballad and sage are retired (harsh top band)."
+ "voice_note": "Dinis, 23 Nov 2026, after the voice tests (accounts/c/notes/2026-11-23__voice-quality): use Mistral James for every presenter; gpt-audio's ballad and sage are retired (harsh top band).",
+ "missed": [
+  "2026-11-23T14:45Z",
+  "2026-11-23T18:45Z"
+ ],
+ "missed_note": "The 14:45 and 18:45 runs did not happen; the 22:46 run covered 10:46 to 22:46."
 }
