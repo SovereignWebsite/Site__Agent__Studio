@@ -76,6 +76,16 @@ spec = {"scene": "story", "presenter": sb["presenter"], "label": sb["presenter_n
 if sb.get("stats"): spec["stats"] = {"page": 4.6, "pages": sb["stats"]}
 os.makedirs(f"{work}/site", exist_ok=True)
 shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
+# image beats: fetch each capture once into site/media (pinned public URLs only), the page reads it locally
+import urllib.request
+os.makedirs(f"{work}/site/media", exist_ok=True)
+for b in beats:
+    v = b["visual"]
+    if v.get("kind") == "image":
+        if not v["src"].startswith("https://raw.githubusercontent.com/SovereignWebsite/"): raise SystemExit("image src must be a raw.githubusercontent.com URL in a SovereignWebsite repository: " + v["src"])
+        name = re.sub(r"[^A-Za-z0-9._-]", "_", v["src"].split("/")[-1]); dst = f"{work}/site/media/{b['id']}-{name}"
+        if not os.path.exists(dst): urllib.request.urlretrieve(v["src"], dst)
+        v["local"] = f"media/{b['id']}-{name}"
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
 lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
 for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):
