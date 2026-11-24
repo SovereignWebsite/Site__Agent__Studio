@@ -84,5 +84,7 @@
   "2026-11-23T14:45Z",
   "2026-11-23T18:45Z"
  ],
- "missed_note": "The 14:45 and 18:45 runs did not happen; the 22:46 run covered 10:46 to 22:46."
+ "missed_note": "The 14:45 and 18:45 runs did not happen; the 22:46 run covered 10:46 to 22:46.",
+ "cadence": "twice a day, 08:45 and 18:45 UTC (Dinis Cruz, 24 Nov 2026)",
+ "paused_note": "Schedule paused at 2026-11-24T01:59Z (not by studio.c); re-enabled twice daily at 11:31Z after Dinis chose the cadence."
 }

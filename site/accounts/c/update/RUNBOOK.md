@@ -1,9 +1,11 @@
-# studio.c: the 4-hourly update Reel
+# studio.c: the update Reel (twice a day)
 
 Asked by Dinis Cruz in studio.c's session (https://claude.ai/code/session_01Kw9UwC3pdjxjDeK5WaZYUD), 23 November 2026: every 4 hours, one Reel telling the story of the last 4 hours of the team's work, a different synthetic presenter each time, made with a small team of sub-agents, published on Instagram (YouTube once connected). His answers the same night: spend cap 2 USD a day on OpenRouter; approval by a standing rule that instagram.c records and runs; this pipeline kept here.
 
+Cadence: Dinis Cruz, 24 Nov 2026, chose twice a day, at 08:45 and 18:45 UTC (each Reel covers about 12 hours), so YouTube and LinkedIn, at two posts a day each, stop falling behind Instagram. The schedule had been paused at 01:59 UTC that day; nothing ran from 22:46 on 23 Nov to 18:45 on 24 Nov.
+
 ## One run
-1. **Window:** the 4 hours ending at the run's start hour (UTC), from `date -u`.
+1. **Window:** from the last run's `last_until` in state.json (or 12 hours back) to the run's start, from `date -u`.
 2. **Collect:** `python3 collect.py <since> <until> <workdir>/repos <workdir>/events.json` (read-only clones of every public SovereignWebsite repository).
 3. **Researcher** (sub-agent): events.json -> facts.json: storylines with sources; no private people, prospects, keys or handles; no invented numbers.
 4. **Journalist and designer** (sub-agent): facts.json -> storyboard.json (format below): an angle, a cover that makes people tap (date, punchy headline, what is inside), 6 to 9 beats of about 12 to 25 words each, a visual per beat, 45 to 75 seconds in all, and the presenter not used in the last runs (state.json).
