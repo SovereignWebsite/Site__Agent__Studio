@@ -69,7 +69,8 @@ for ci, ch in enumerate(chunks):
             pieces.append((f + ".wav", max(0, start), end)); print(f"chunk {ci}: ok on take {attempt+1} ({matched}/{len(want)} words, {chars:.2f} of letters)"); break
         print(f"chunk {ci}: take {attempt+1} incomplete ({matched}/{len(want)}), retrying")
     else: raise SystemExit(f"chunk {ci} could not be voiced completely")
-JOIN_PAD = 0.5   # each take keeps 0.12 s before and 0.35 s after its words, partly breath; measured quiet at a join is then about 0.7 s or more
+SPEED = float(sb.get("speed", 1.25))   # Dinis, 24 Nov 2026, after the ffmpeg atempo tests (0 to 25%): "I like 25% that works really well"
+JOIN_PAD = 0.6 * SPEED   # silence at each beat join before the speed-up, so the heard pause stays about 0.7 s or more
 fl = "".join(f"[{i}:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS" + (f",apad=pad_dur={JOIN_PAD}" if i < len(pieces) - 1 else "") + f"[s{i}];"
              for i, (_, a, b) in enumerate(pieces))
 fl += "".join(f"[s{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1[o]"
@@ -81,9 +82,9 @@ raw = float(subprocess.run(["ffprobe","-v","error","-show_entries","format=durat
 CREDITS_S = 3.5   # Dinis: every Reel ends on a credits card, readable when paused
 STATS_S = 4.6 * len(sb.get("stats") or [])
 room = 89.0 - sb["cover"].get("hold", 1.2) - 0.6 - STATS_S - CREDITS_S
-tempo = max(1.0, raw / room)
+tempo = max(SPEED, raw / room)   # the chosen speed, or a little more only if the Reel would not fit
 wps = len(toks(script)) / raw   # a slow read (under 1.8 words a second) may be sped up a little more
-if tempo > (1.20 if wps < 1.8 else 1.10): raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
+if tempo > SPEED * (1.06 if wps < 1.8 else 1.03): raise SystemExit(f"too long for a Reel: voice {raw:.1f} s, room {room:.1f} s; shorten the storyboard and run again")
 run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-raw.wav", "-af", f"atempo={tempo:.4f}", "-ar", "24000", "-ac", "1", f"{work}/voice.wav")
 print(f"voice {raw:.1f} s, tempo {tempo:.3f}")
 # audio master (Dinis: "it feels like compressed ... a bit of a distortion"): no dynamic loudnorm. One plain gain to -18 LUFS,

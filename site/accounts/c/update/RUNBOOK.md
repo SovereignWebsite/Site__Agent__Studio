@@ -15,7 +15,7 @@ Cadence: Dinis Cruz, 24 Nov 2026, chose twice a day, at 08:45 and 18:45 UTC (eac
 8. **Spend:** stop before step 6 if today's ledger in state.json plus the run's estimate would pass 2 USD.
 
 ## Voice
-Mistral Voxtral Mini TTS, preset voice James (`"voice": "mistral:voxtral-mini-tts-3:voice_3150"`), for every presenter: Dinis's choice on 23 November 2026 after the tests in ../notes/2026-11-23__voice-quality/. gpt-audio's ballad and sage are retired. Sound chain: plain gain to -18 LUFS, soxr to 48 kHz, 4x-oversampled limiter at -2 dBTP, mono AAC 192 kb/s.
+Mistral Voxtral Mini TTS, preset voice James (`"voice": "mistral:voxtral-mini-tts-3:voice_3150"`), for every presenter: Dinis's choice on 23 November 2026 after the tests in ../notes/2026-11-23__voice-quality/. gpt-audio's ballad and sage are retired. Speed: 25% faster with ffmpeg atempo (make.py SPEED 1.25; a storyboard may set "speed"), Dinis's choice on 24 November 2026 after the tests in ../notes/2026-11-24__speed-and-pauses/; the silence at each beat join grows with the speed so the heard pause stays at about 0.7 s or more. Sound chain: plain gain to -18 LUFS, soxr to 48 kHz, 4x-oversampled limiter at -2 dBTP, mono AAC 192 kb/s.
 
 ## Credits
 Every Reel ends on a credits card (3.5 s, readable when paused), added by make.py, Dinis's rule of 23 Nov 2026: made by Claude (Anthropic) as studio.c with its sub-agents; the actual voice model, provider and voice; the presenter, synthetic, from the PrompTugal.news presenters library (bulletins.b), CC BY 4.0; music (none so far); sources (storyboard.json in the post folder); posted under a written rule that the owner reviews; riskmandate.ai.

@@ -85,7 +85,7 @@ def section(title, intro, items, state, empty):
 now = datetime.datetime.now(datetime.timezone.utc).strftime("%d %B %Y, %H:%M UTC")
 igsha = subprocess.run(["git","-C",ig,"rev-parse","--short","HEAD"],capture_output=True,text=True).stdout.strip()
 main = f'''<main id="main" class="wide">
-<div class="mark">Studio · account C · <a href="designs/">Choose a design</a></div>
+<div class="mark">Studio · account C · <a href="designs/">Choose a design</a> · Notes: <a href="notes/2026-11-24__speed-and-pauses/">faster voices and real pauses</a>, <a href="notes/2026-11-23__voice-quality/">why the voices sounded distorted</a></div>
 <h1>Reels and images for Instagram</h1>
 <p class="lede">Made by studio.c, the studio agent on account C, for the team's Instagram. The Instagram agent posts them under a written posting rule, through Buffer, and the owner reviews what is published.</p>
 {section("Not posted yet", "Made and in the Instagram site's post folders, not yet sent. Watch, read the caption and script, and say what to change in studio.c's or instagram.c's session.", awaiting, "awaiting", "Nothing waiting.")}
