@@ -15,9 +15,36 @@ for d in sorted(os.listdir(f"{ig}/site/posts"), reverse=True):
     p = json.load(open(f)); p["id"] = d
     p["script"] = open(f"{ig}/site/posts/{d}/script.txt").read().strip() if os.path.isfile(f"{ig}/site/posts/{d}/script.txt") else ""
     posts.append(p)
-awaiting = [p for p in posts if not p.get("approved") and not p.get("published")]
-approved = [p for p in posts if p.get("approved") and not p.get("published")]
-live = [p for p in posts if p.get("published")]
+# Post records keep one entry per channel under published.channels (instagram, youtube, linkedin), each with sent_at or
+# scheduled_for; older records are one flat entry for Instagram. A post counts as live on Instagram only when its Instagram
+# entry was sent, or its scheduled time has passed (said as "time passed"); a future slot stays under Not posted yet
+# (design.c's change list, 24 Nov 2026, guidelines 1.6 and 10: say what is true).
+NOW = datetime.datetime.now(datetime.timezone.utc)
+CH = {"instagram": "Instagram", "youtube": "YouTube", "linkedin": "LinkedIn"}
+def channels(p):
+    pub = p.get("published") or {}
+    return pub.get("channels") or ({"instagram": pub} if pub else {})
+def _t(s): return datetime.datetime.fromisoformat(s.replace("Z", "+00:00"))
+def _f(s): return s[:16].replace("T", " ") + " UTC"
+def on_instagram(p):
+    c = channels(p).get("instagram") or {}
+    if (p.get("published") or {}).get("deleted") or c.get("deleted"): return False
+    return bool(c.get("sent_at") or (c.get("scheduled_for") and _t(c["scheduled_for"]) <= NOW))
+def channel_lines(p):
+    out = []
+    for k, c in channels(p).items():
+        name = CH.get(k, k.capitalize()); via = f" via {c['via']}" if c.get("via") else ""
+        if c.get("sent_at"): out.append(f"{name}: sent {_f(c['sent_at'])}{via}")
+        elif c.get("scheduled_for"):
+            past = _t(c["scheduled_for"]) <= NOW
+            out.append(f"{name}: scheduled for {_f(c['scheduled_for'])}{via}" + (" (time passed)" if past else ""))
+    d = (p.get("published") or {}).get("deleted")
+    if d: out.append(f"Deleted {d.get('at','')}" + (f": {d['why']}" if d.get("why") else ""))
+    return out
+removed = [p for p in posts if (p.get("published") or {}).get("deleted")]
+live = [p for p in posts if on_instagram(p)]
+approved = [p for p in posts if p.get("approved") and p not in live and p not in removed]
+awaiting = [p for p in posts if not p.get("approved") and p not in live and p not in removed]
 MEDIA = os.path.join(os.path.dirname(out), "media"); os.makedirs(MEDIA, exist_ok=True)
 def local_poster(p):
     src = f"{ig}/site/posts/{p['id']}/" + (p.get("cover") or p["media"][0])
@@ -35,8 +62,10 @@ def media(p):
 def card(p, state):
     cap = "".join(f"<p>{e(x)}</p>" for x in p.get("caption","").split("\n\n"))
     script = f'<details><summary>Script</summary><p class="script">{e(p["script"]).replace(chr(10)+chr(10), "<br><br>")}</p></details>' if p["script"] else ""
-    if state == "live":
-        st = f'Sent {e(p["published"].get("sent_at","")[:16].replace("T"," "))} UTC via {e(p["published"].get("via",""))}'
+    lines = channel_lines(p)
+    if state in ("live", "removed") or (state == "approved" and lines):
+        st = "Instagram post deleted" if state == "removed" else ("On Instagram" if state == "live" else "Not on Instagram yet")
+        st = e(st) + "".join(f"<br>{e(x)}" for x in lines)
     elif state == "approved":
         st = f'Approved by {e(p["approved"]["by"])}, {e(p["approved"]["at"])}; not sent yet'
     else:
@@ -60,8 +89,9 @@ main = f'''<main id="main" class="wide">
 <h1>Reels and images for Instagram</h1>
 <p class="lede">Made by studio.c, the studio agent on account C, for the team's Instagram. The Instagram agent posts them under a written posting rule, through Buffer, and the owner reviews what is published.</p>
 {section("Not posted yet", "Made and in the Instagram site's post folders, not yet sent. Watch, read the caption and script, and say what to change in studio.c's or instagram.c's session.", awaiting, "awaiting", "Nothing waiting.")}
-{section("Approved, not sent yet", "Dinis said yes; the Instagram agent has not sent these yet.", approved, "approved", "Nothing approved and unsent.") if approved else ""}
-{section("Live on Instagram", "Posts the Instagram agent has sent, with the record of when.", live, "live", "Nothing posted yet.")}
+{section("Cleared, not on Instagram yet", "Cleared under the written posting rule; the Instagram agent has scheduled them, or has still to send them. Each card lists every channel and its time.", approved, "approved", "Nothing waiting for its slot.") if approved else ""}
+{section("Live on Instagram", "Posts the Instagram agent has sent, or whose Instagram slot has passed, with every channel and its time.", live, "live", "Nothing posted yet.")}
+{section("Deleted from Instagram", "Posts that were live and then taken down, with the reason recorded.", removed, "removed", "") if removed else ""}
 <p class="note">Built {now} from Site__Platform__Instagram at {e(igsha)}. A static page: no tracking, no token, nothing loaded from Instagram itself.</p>
 '''
 CSS = '''
@@ -78,7 +108,7 @@ h2 .count{display:inline-block;min-width:1.6rem;padding:0 .45rem;margin-left:.4r
 .meta{padding:1rem 1.1rem 1.1rem}
 .meta h3{margin:.5rem 0 .4rem;font-size:1.1rem}.meta h3 small{font-weight:400;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-left:.3rem}
 .state{display:inline-block;font-size:.78rem;font-weight:600;padding:.15rem .6rem;border-radius:1rem}
-.state.awaiting{background:#f3e2b8;color:#5b4300}.state.approved{background:#d6e6f5;color:#123c63}.state.live{background:#d3eadc;color:#14452c}
+.state.awaiting{background:#f3e2b8;color:#5b4300}.state.approved{background:#d6e6f5;color:#123c63}.state.live{background:#d3eadc;color:#14452c}.state.removed{background:#eee;color:#444}
 details{border-top:1px solid var(--line);padding:.45rem 0}details summary{cursor:pointer;font-weight:600;font-size:.92rem;min-height:24px}
 details p{font-size:.92rem;margin:.5rem 0}.script{white-space:normal}
 .links{margin:.6rem 0 0;font-size:.9rem}.empty,.note{font-size:.9rem}
@@ -93,4 +123,4 @@ s = s.replace("</style>", CSS + "</style>")
 s = re.sub(r'<main id="main">.*?<footer>', main + "<footer>", s, flags=re.S)
 assert "\u2014" not in s and "\u2013" not in s
 os.makedirs(os.path.dirname(out), exist_ok=True); open(out, "w").write(s)
-print("awaiting", len(awaiting), "approved", len(approved), "live", len(live))
+print("awaiting", len(awaiting), "cleared", len(approved), "live", len(live), "removed", len(removed))
