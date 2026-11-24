@@ -1,0 +1,65 @@
+{
+ "v": 1,
+ "id": "2026-11-24__render-reel",
+ "agent": "studio.c@SovereignWebsite.dinis",
+ "account": "C",
+ "asked_at": "2026-11-24T01:57:15Z",
+ "session": "https://claude.ai/code/session_01Kw9UwC3pdjxjDeK5WaZYUD",
+ "title": "Add one GitHub Actions workflow, render-reel.yml, to Site__Agent__Studio that renders a committed Reel render pack, and edit no other workflow",
+ "change": {
+  "repository": "SovereignWebsite/Site__Agent__Studio",
+  "branch": "dev",
+  "paths": [
+   ".github/workflows/render-reel.yml"
+  ],
+  "commits": [],
+  "patch_ids": [],
+  "note": "Not committed: .github/ waits for this decision. The exact file is under proposed_file (sha256 below). Its input, the render pack for update-1045 and a pinned Playwright lockfile, is already on dev: 2a344ba865fe8dc8b67574d8f0b52fb99bd63c6f (site/accounts/c/update/packs/**, site/accounts/c/update/ci/**)."
+ },
+ "why": "Dinis Cruz asked for the experiment in studio.c's session on 23 Nov 2026 (\"Can you try one experiment which is to render the video on GitHub Actions?\") and gave his permission for this scope: add one workflow, edit none, focused on re-creating the video, checked by the security agent before sign-off. It measures render time off the session container, the first step towards other compute (AWS) for the 4-hourly Reels.",
+ "scope": [
+  "Adds one file; edits and removes nothing in .github/",
+  "Trigger: push to dev on site/accounts/c/update/packs/** only",
+  "permissions: contents: read; no secrets, no tokens, no write, no deploy",
+  "Actions pinned to full commit shas: actions/checkout v4.3.1, actions/upload-artifact v4.6.2",
+  "Third-party code: PrompTugal/PrompTugal__News__Bulletins pinned to 418b723 (public; read-only sparse checkout of src/lib/presenters/v0.1.0); npm ci from a committed lockfile with integrity hashes (playwright 1.49.1); ffmpeg and fonts-inter from Ubuntu",
+  "Output: the video as a build artifact kept 5 days, and timings in the job summary; it publishes nothing and commits nothing",
+  "timeout 60 min; one run at a time"
+ ],
+ "checks": [
+  "YAML parses; every run block passes bash -n",
+  "no em or en dashes",
+  "the pack's own render in the session container: done (update-1045, pushed as video-v2.mp4 in Site__Platform__Instagram de64a36)",
+  "site checks on the request commit: build passes; share-check and quality fail only on account D's pages (d6e273b), none in account C",
+  "signatures: the request commit is signed with studio.c's published key"
+ ],
+ "kind": "push",
+ "flags": {
+  "main": false,
+  "money": false,
+  "legal": false,
+  "one_way_door": false,
+  "private_person": false,
+  "unfixed_vulnerability": false
+ },
+ "options": [
+  "a) Merge render-reel.yml as proposed (security.b checks first); studio.c then pushes one more pack and reports the timings",
+  "b) Keep rendering in the session container only; no workflow"
+ ],
+ "recommendation": "a)",
+ "needed_by": "2026-11-25T18:00:00Z",
+ "reviewers": [
+  "decisions.b (sign-off)",
+  "security.b (check before sign-off)"
+ ],
+ "proposed_file": {
+  "path": ".github/workflows/render-reel.yml",
+  "sha256": "988949981af87a48a1e2b4500c98a6ee59a2648a66060625b1e83f92a043c4dc",
+  "content": "# Render a Reel from a render pack on GitHub Actions: an experiment asked for by Dinis Cruz (23 Nov 2026,\n# studio.c's session): \"Can you try one experiment which is to render the video on GitHub Actions?\"\n# A pack (site/accounts/c/update/packs/<id>/) holds spec.json, timing.json, voice.flac and any media/ it names.\n# The voice is made before, not here: this workflow uses no secrets and only reads.\n# Account C's workflow (studio.c@SovereignWebsite.dinis); it adds nothing to and changes nothing in the other workflows.\n# Scope: rebuild a Reel's video from a committed render pack, nothing else.\nname: Render Reel (experiment)\non:\n  push:\n    branches: [dev]\n    paths: ['site/accounts/c/update/packs/**']\npermissions:\n  contents: read\nconcurrency:\n  group: render-reel\n  cancel-in-progress: false\njobs:\n  render:\n    runs-on: ubuntu-latest\n    timeout-minutes: 60\n    steps:\n      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5   # v4.3.1\n        with:\n          fetch-depth: 2\n      - name: Presenters library (PrompTugal/PrompTugal__News__Bulletins at 418b723, public; Apache-2.0 code, CC BY 4.0 data)\n        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5   # v4.3.1\n        with:\n          repository: PrompTugal/PrompTugal__News__Bulletins\n          ref: 418b723ca64122762df18a7beb8d2a788ee0072b\n          path: _presenters\n          sparse-checkout: src/lib/presenters/v0.1.0\n      - name: Which pack\n        id: pack\n        run: |\n          p=$(git diff --name-only HEAD~1 HEAD -- site/accounts/c/update/packs | cut -d/ -f6 | sort -u | head -1)\n          if [ -z \"$p\" ]; then p=$(ls site/accounts/c/update/packs | sort | tail -1); fi\n          echo \"name=$p\" >> \"$GITHUB_OUTPUT\"; echo \"Pack: $p\" | tee -a \"$GITHUB_STEP_SUMMARY\"\n      - name: Tools (ffmpeg, Inter font, Playwright 1.49.1 from the lockfile, its Chromium)\n        run: |\n          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-inter >/dev/null\n          npm ci --prefix site/accounts/c/update/ci --no-audit --no-fund >/dev/null   # lockfile with integrity hashes\n          site/accounts/c/update/ci/node_modules/.bin/playwright install --with-deps chromium >/dev/null\n          ffmpeg -version | head -1; nproc; free -g | head -2\n      - name: Assemble the page\n        run: |\n          P=site/accounts/c/update/packs/${{ steps.pack.outputs.name }}\n          mkdir -p _site/lib _site/fonts\n          cp site/accounts/c/update/reel.html.tpl _site/reel.html\n          cp site/accounts/c/update/rm-mark.svg _site/\n          cp -r _presenters/src/lib/presenters/v0.1.0 _site/lib/presenters\n          cp /usr/share/fonts/opentype/inter/Inter-Bold.otf /usr/share/fonts/opentype/inter/Inter-Medium.otf _site/fonts/\n          cp $P/spec.json $P/timing.json _site/\n          [ -d $P/media ] && cp -r $P/media _site/ || true\n          ffmpeg -loglevel error -i $P/voice.flac -c:a pcm_s16le voice.wav\n      - name: Render\n        run: |\n          (cd _site && python3 -m http.server 8766 >/dev/null 2>&1 &) ; sleep 1\n          start=$(date +%s)\n          NODE_PATH=$PWD/site/accounts/c/update/ci/node_modules node site/accounts/c/update/render-reel.js spec.json reel.mp4 voice.wav | tee render.log\n          end=$(date +%s)\n          frames=$(ffprobe -v error -count_frames -select_streams v -show_entries stream=nb_read_frames -of csv=p=0 reel.mp4)\n          secs=$((end-start))\n          {\n            echo \"### Render on GitHub Actions\"\n            echo \"- pack: ${{ steps.pack.outputs.name }}\"\n            echo \"- frames: $frames; wall time: ${secs} s; $(python3 -c \"print(round($secs/$frames,3))\") s a frame\"\n            echo \"- runner: $(nproc) CPUs, $(free -g | awk '/Mem:/{print $2}') GB; $(ffmpeg -version | head -1 | cut -d' ' -f1-3)\"\n            echo \"- output: $(ffprobe -v error -show_entries format=duration,size -of csv=p=0 reel.mp4)\"\n            echo \"- sha256: $(sha256sum reel.mp4 | cut -c1-64)\"\n          } | tee -a \"$GITHUB_STEP_SUMMARY\"\n      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # v4.6.2\n        with:\n          name: reel-${{ steps.pack.outputs.name }}\n          path: |\n            reel.mp4\n            render.log\n          retention-days: 5\n"
+ },
+ "links": [
+  "https://github.com/SovereignWebsite/Site__Agent__Studio/tree/2a344ba865fe8dc8b67574d8f0b52fb99bd63c6f/site/accounts/c/update/packs",
+  "https://github.com/SovereignWebsite/Site__Agent__Studio/blob/dev/site/accounts/c/update/RUNBOOK.md",
+  "https://decisions.agents.sovereignweb.site/ask/"
+ ]
+}
