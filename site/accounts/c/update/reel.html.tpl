@@ -190,7 +190,8 @@ function wrapText(str,max){ const w=String(str).split(/\s+/); const L=[]; let c=
 function multi(x,y,str,max,o={}){ const L=wrapText(str,max); L.forEach((l,i)=>text(x,y+i*(o.lh||(o.size||48)*1.18),l,o)); return L.length; }
 const V = {};
 V.title=(v,u)=>{ const q=ease(ap(u,0,.5)); g0(`translate(0 ${30*(1-q)})`,q); const n=multi(540,400,v.text,16,{size:v.size||104}); if(v.sub) multi(540,420+n*122,v.sub,34,{size:44,fill:C.gold,w:700}); g1(); };
-V.stat=(v,u)=>{ const q=ease(ap(u,0,1.2)); const num=parseFloat(String(v.value).replace(/[^0-9.]/g,'')); const shown=isNaN(num)?v.value:String(v.value).replace(/[0-9.]+/, String(Math.round(num*q)));
+V.stat=(v,u)=>{ const q=ease(ap(u,0,1.2)); const s=String(v.value), m=s.match(/^(\D*)([0-9][0-9,]*)(\D*)$/);   // count up only a single whole number ("17:43" or "3.4" stay as written)
+  const n=m?parseInt(m[2].replace(/,/g,''),10):NaN, c=Math.round(n*q); const shown=m?m[1]+(m[2].includes(',')?c.toLocaleString('en-GB'):String(c))+m[3]:s;
   g0('',ease(ap(u,0,.3))); text(540,520,shown,{size:260,fill:C.gold}); multi(540,640,v.label,30,{size:50}); g1(); };
 V.bars=(v,u)=>{ const it=v.items.slice(0,7), mx=Math.max(...it.map(x=>x.value)); it.forEach((x,i)=>{ const y=240+i*104, q=ease(ap(u,.2+i*.18,.8)); text(72,y+44,x.label,{anchor:'start',size:34,op:ease(ap(u,i*.18,.3))});
   rect(72,y+58,760*(x.value/mx)*q,30,{fill:i?C.blue:C.gold,r:15}); text(72+760*(x.value/mx)*q+16,y+84,String(Math.round(x.value*q)),{anchor:'start',size:32,fill:C.white,op:q}); }); };
