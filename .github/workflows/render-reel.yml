@@ -1,0 +1,77 @@
+# Render a Reel from a render pack on GitHub Actions: an experiment asked for by Dinis Cruz (23 Nov 2026,
+# studio.c's session): "Can you try one experiment which is to render the video on GitHub Actions?"
+# A pack (site/accounts/c/update/packs/<id>/) holds spec.json, timing.json, voice.flac and any media/ it names.
+# The voice is made before, not here: this workflow uses no secrets and only reads.
+# Account C's workflow (studio.c@SovereignWebsite.dinis); it adds nothing to and changes nothing in the other workflows.
+# Scope: rebuild a Reel's video from a committed render pack, nothing else.
+name: Render Reel (experiment)
+on:
+  push:
+    branches: [dev]
+    paths: ['site/accounts/c/update/packs/**']
+permissions:
+  contents: read
+concurrency:
+  group: render-reel
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5   # v4.3.1
+        with:
+          fetch-depth: 2
+      - name: Presenters library (PrompTugal/PrompTugal__News__Bulletins at 418b723, public; Apache-2.0 code, CC BY 4.0 data)
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5   # v4.3.1
+        with:
+          repository: PrompTugal/PrompTugal__News__Bulletins
+          ref: 418b723ca64122762df18a7beb8d2a788ee0072b
+          path: _presenters
+          sparse-checkout: src/lib/presenters/v0.1.0
+      - name: Which pack
+        id: pack
+        run: |
+          p=$(git diff --name-only HEAD~1 HEAD -- site/accounts/c/update/packs | cut -d/ -f6 | sort -u | head -1)
+          if [ -z "$p" ]; then p=$(ls site/accounts/c/update/packs | sort | tail -1); fi
+          echo "name=$p" >> "$GITHUB_OUTPUT"; echo "Pack: $p" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Tools (ffmpeg, Inter font, Playwright 1.49.1 from the lockfile, its Chromium)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-inter >/dev/null
+          npm ci --prefix site/accounts/c/update/ci --no-audit --no-fund >/dev/null   # lockfile with integrity hashes
+          site/accounts/c/update/ci/node_modules/.bin/playwright install --with-deps chromium >/dev/null
+          ffmpeg -version | head -1; nproc; free -g | head -2
+      - name: Assemble the page
+        run: |
+          P=site/accounts/c/update/packs/${{ steps.pack.outputs.name }}
+          mkdir -p _site/lib _site/fonts
+          cp site/accounts/c/update/reel.html.tpl _site/reel.html
+          cp site/accounts/c/update/rm-mark.svg _site/
+          cp -r _presenters/src/lib/presenters/v0.1.0 _site/lib/presenters
+          cp /usr/share/fonts/opentype/inter/Inter-Bold.otf /usr/share/fonts/opentype/inter/Inter-Medium.otf _site/fonts/
+          cp $P/spec.json $P/timing.json _site/
+          [ -d $P/media ] && cp -r $P/media _site/ || true
+          ffmpeg -loglevel error -i $P/voice.flac -c:a pcm_s16le voice.wav
+      - name: Render
+        run: |
+          (cd _site && python3 -m http.server 8766 >/dev/null 2>&1 &) ; sleep 1
+          start=$(date +%s)
+          NODE_PATH=$PWD/site/accounts/c/update/ci/node_modules node site/accounts/c/update/render-reel.js spec.json reel.mp4 voice.wav | tee render.log
+          end=$(date +%s)
+          frames=$(ffprobe -v error -count_frames -select_streams v -show_entries stream=nb_read_frames -of csv=p=0 reel.mp4)
+          secs=$((end-start))
+          {
+            echo "### Render on GitHub Actions"
+            echo "- pack: ${{ steps.pack.outputs.name }}"
+            echo "- frames: $frames; wall time: ${secs} s; $(python3 -c "print(round($secs/$frames,3))") s a frame"
+            echo "- runner: $(nproc) CPUs, $(free -g | awk '/Mem:/{print $2}') GB; $(ffmpeg -version | head -1 | cut -d' ' -f1-3)"
+            echo "- output: $(ffprobe -v error -show_entries format=duration,size -of csv=p=0 reel.mp4)"
+            echo "- sha256: $(sha256sum reel.mp4 | cut -c1-64)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # v4.6.2
+        with:
+          name: reel-${{ steps.pack.outputs.name }}
+          path: |
+            reel.mp4
+            render.log
+          retention-days: 5
