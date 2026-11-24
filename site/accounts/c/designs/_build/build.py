@@ -13,6 +13,9 @@ HERE = "https://studio.agents.sovereignweb.site/accounts/c/designs"
 e = html.escape
 
 
+NOW = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def load():
     posts = []
     for f in sorted(glob.glob(os.path.join(IG, "site/posts/*/post.json"))):
@@ -27,9 +30,30 @@ def load():
         p["script"] = open(sp).read().strip() if os.path.exists(sp) else ""
         pub, ap = d.get("published"), d.get("approved")
         if pub:
-            when = pub.get("sent_at") or pub.get("scheduled_for") or ""
-            p["state"], p["sort"] = "live", when
-            p["label"] = f"Sent {when[:10]} {when[11:16]} UTC via {pub.get('via', '')}".strip()
+            chans = pub.get("channels") or {"instagram": pub}
+            parts, ig_live, ig_when = [], False, ""
+            for name in ("instagram", "youtube", "linkedin"):
+                c = chans.get(name)
+                if not c:
+                    continue
+                label = {"instagram": "Instagram", "youtube": "YouTube", "linkedin": "LinkedIn"}[name]
+                if c.get("sent_at"):
+                    t = c["sent_at"]
+                    parts.append(f"{label}: sent {t[:10]} {t[11:16]} UTC")
+                    if name == "instagram":
+                        ig_live, ig_when = True, t
+                elif c.get("scheduled_for"):
+                    t = c["scheduled_for"]
+                    past = t < NOW
+                    parts.append(f"{label}: scheduled for {t[:10]} {t[11:16]} UTC" + (" (time passed)" if past else ""))
+                    if name == "instagram" and past:
+                        ig_live, ig_when = True, t
+            via = next((c.get("via") for c in chans.values() if c.get("via")), "")
+            p["label"] = "; ".join(parts) + (f", via {via}" if via else "")
+            if ig_live:
+                p["state"], p["sort"] = "live", ig_when
+            else:
+                p["state"], p["sort"] = "awaiting", slug
         elif ap:
             p["state"], p["sort"], p["label"] = "approved", ap.get("at", ""), f"Approved by {ap.get('by', '')}, {ap.get('at', '')}; not sent yet"
         else:
