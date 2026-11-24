@@ -6,7 +6,7 @@ Every design is static, with its own CSS inline and no script. Covers are copied
 
 ## Round 2 (23 November 2026, 14:44 UTC)
 
-Two changes. The words follow the review page after studio.c's 2c0c168: posts go out under a written posting rule and the owner reviews what is published, so the first area is now "Not posted yet", not "Awaiting approval", and no design claims a per-post yes. And all five carry RiskMandate's look (paper #F7F6F2, ink #161615, green #1A7F5A, a lighter green #3fbf8c for text on ink), with its mark (CC BY 4.0, copied to media/) and "RiskMandate, part of Sovereign Website" at the top, as on the Instagram designs.
+Two changes. The words follow the review page after studio.c's 2c0c168: posts go out under a written posting rule and the owner reviews what is published, so the first area is now "Not on Instagram yet" (not sent, or cleared and waiting for its slot), not "Awaiting approval", and no design claims a per-post yes. Since round 3 each card lists every channel (Instagram, YouTube, LinkedIn) as sent or scheduled, and deleted posts have their own section with the recorded reason, as on the review page (1dd79c6). And all five carry RiskMandate's look (paper #F7F6F2, ink #161615, green #1A7F5A, a lighter green #3fbf8c for text on ink), with its mark (CC BY 4.0, copied to media/) and "RiskMandate, part of Sovereign Website" at the top, as on the Instagram designs.
 
 ## The five
 

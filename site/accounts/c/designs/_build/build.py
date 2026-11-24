@@ -16,6 +16,9 @@ e = html.escape
 NOW = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+RM = []
+
+
 def load():
     posts = []
     for f in sorted(glob.glob(os.path.join(IG, "site/posts/*/post.json"))):
@@ -29,7 +32,12 @@ def load():
         sp = os.path.join(folder, "script.txt")
         p["script"] = open(sp).read().strip() if os.path.exists(sp) else ""
         pub, ap = d.get("published"), d.get("approved")
-        if pub:
+        if pub and pub.get("deleted"):
+            dl = pub["deleted"]
+            t = pub.get("sent_at", "")
+            p["state"], p["sort"] = "removed", dl.get("at", "")
+            p["label"] = (f"Sent {t[:10]} {t[11:16]} UTC; " if t else "") + f"deleted from Instagram {dl.get('at', '')}" + (f": {dl['why']}" if dl.get("why") else "")
+        elif pub:
             chans = pub.get("channels") or {"instagram": pub}
             parts, ig_live, ig_when = [], False, ""
             for name in ("instagram", "youtube", "linkedin"):
@@ -53,7 +61,7 @@ def load():
             if ig_live:
                 p["state"], p["sort"] = "live", ig_when
             else:
-                p["state"], p["sort"] = "awaiting", slug
+                p["state"], p["sort"] = "approved", slug
         elif ap:
             p["state"], p["sort"], p["label"] = "approved", ap.get("at", ""), f"Approved by {ap.get('by', '')}, {ap.get('at', '')}; not sent yet"
         else:
@@ -70,6 +78,8 @@ def load():
         posts.append(p)
     aw = sorted([p for p in posts if p["state"] in ("awaiting", "approved")], key=lambda p: p["sort"], reverse=True)
     lv = sorted([p for p in posts if p["state"] == "live"], key=lambda p: p["sort"], reverse=True)
+    global RM
+    RM = [p for p in posts if p["state"] == "removed"]
     rev = subprocess.run(["git", "-C", IG, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
     return aw, lv, rev
 
@@ -79,9 +89,10 @@ BUILT = datetime.datetime.now(datetime.timezone.utc).strftime("%d %B %Y, %H:%M U
 
 INTRO = ("Made by studio.c, the studio agent on account C, for the team's Instagram. The Instagram agent posts them "
          "under a written posting rule, through Buffer, and the owner reviews what is published.")
-AW_INTRO = ("Made and in the Instagram site's post folders, not yet sent. Watch, read the caption and script, and say "
-            "what to change in studio.c's or instagram.c's session.")
-LV_INTRO = "Posts the Instagram agent has sent, with the record of when."
+AW_INTRO = ("Made and in the Instagram site's post folders, not yet sent, or cleared under the written posting rule and "
+            "waiting for their slot; each card says which, with every channel and its time. Say what to change in studio.c's "
+            "or instagram.c's session.")
+LV_INTRO = "Posts the Instagram agent has sent, or whose Instagram slot has passed, with every channel and its time."
 VIDEO_NOTE = f"The video loads from {IGHOST.split('//')[1]} only when you press play."
 
 DESIGNS = [
@@ -123,6 +134,8 @@ main *{min-width:0}
 .chrome small{display:block;font-size:.85rem;color:var(--muted);font-weight:400}
 .rm{width:2rem;height:2rem;border-radius:.5rem;margin-right:.55rem;flex:none;display:inline-block}
 .brand{display:inline-flex;align-items:center}
+.deleted{margin:2rem 0;padding-top:1rem;border-top:1px solid var(--line,#888)}
+.deleted h2{font-size:1.3rem}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pre{white-space:pre-line}
 details.more summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
@@ -182,7 +195,7 @@ def chrome(n):
 
 
 def owner_nav(cls="own"):
-    return (f'<nav class="{cls}" aria-label="This page"><a href="#awaiting">Not posted yet ({len(AW)})</a>'
+    return (f'<nav class="{cls}" aria-label="This page"><a href="#awaiting">Not on Instagram yet ({len(AW)})</a>'
             f'<a href="#live">Live on Instagram ({len(LV)})</a><a href="/start/">Start here</a><a href="/agents/">Use with your AI</a></nav>')
 
 
@@ -213,9 +226,16 @@ def texts(p, open_caption=True, hl="h4"):
     return "".join(out)
 
 
+def deleted():
+    if not RM:
+        return ""
+    items = "".join(f'<li><strong>{e(p["title"])}</strong> ({e(p["kind"])}): {e(p["label"])}. <a href="{IGREPO}/tree/dev/site/posts/{p["slug"]}">Post folder<span class="vh">: {e(p["title"])}</span></a></li>' for p in RM)
+    return f'<section class="deleted" id="deleted" aria-labelledby="h-del"><h2 id="h-del">Deleted from Instagram ({len(RM)})</h2><p>Posts that were live and then taken down, with the reason recorded.</p><ul>{items}</ul></section>'
+
+
 def page(n, css, body):
     name, idea = DESIGNS[n - 1][1], DESIGNS[n - 1][2]
-    return head(n, name, idea, css) + body + footer()
+    return head(n, name, idea, css) + body.replace("</main>", deleted() + "</main>", 1) + footer()
 
 
 # ------------------------------------------------------------- 1. Screening Room (dark first)
@@ -262,7 +282,7 @@ def d1():
 <header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header></div>
 <main id="main"><div class="wrap">
 <div class="marquee"><p class="k">Studio · account C</p><h1>Reels and images for Instagram</h1><p class="lede">{INTRO}</p></div>
-<section class="hall" id="awaiting" aria-labelledby="h-aw"><div class="hall-h"><h2 id="h-aw">Not posted yet</h2><span class="count">{len(AW)}</span></div>
+<section class="hall" id="awaiting" aria-labelledby="h-aw"><div class="hall-h"><h2 id="h-aw">Not on Instagram yet</h2><span class="count">{len(AW)}</span></div>
 <p>{AW_INTRO}</p><p class="note">{VIDEO_NOTE}</p>
 <div class="screens">{''.join(screen(p) for p in AW) or '<p>Nothing waiting.</p>'}</div></section>
 <section class="hall" id="live" aria-labelledby="h-lv"><div class="hall-h"><h2 id="h-lv">Live on Instagram: now showing</h2><span class="count">{len(LV)}</span></div>
@@ -314,8 +334,8 @@ def d2():
 <header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main">
 <div class="hero"><div><p class="k">Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p></div>
-<div class="tally"><a href="#awaiting"><b>{len(AW)}</b>not posted yet</a><a href="#live"><b>{len(LV)}</b>live on Instagram</a></div></div>
-<section class="table" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>
+<div class="tally"><a href="#awaiting"><b>{len(AW)}</b>not on Instagram yet</a><a href="#live"><b>{len(LV)}</b>live on Instagram</a></div></div>
+<section class="table" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not on Instagram yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>
 <div class="proofs">{''.join(proof(p) for p in AW) or '<p>Nothing waiting.</p>'}</div></section>
 <section class="table" id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram</h2><p>{LV_INTRO}</p>
 <div class="proofs">{''.join(proof(p) for p in LV)}</div></section>
@@ -366,10 +386,10 @@ def d3():
 <header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main">
 <div class="sheet-h"><div><p class="k">Call sheet · Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p></div>
-<dl class="facts"><dt>Not posted</dt><dd>{len(AW)} not posted yet</dd><dt>Live</dt><dd>{len(LV)} on Instagram</dd><dt>Source</dt><dd>Site__Platform__Instagram at {REV}</dd></dl></div>
+<dl class="facts"><dt>Not yet</dt><dd>{len(AW)} not on Instagram yet</dd><dt>Live</dt><dd>{len(LV)} on Instagram</dd><dt>Source</dt><dd>Site__Platform__Instagram at {REV}</dd></dl></div>
 <h2>The sheet</h2>
 <div class="box" tabindex="0" role="region" aria-label="Every post and its state"><table><thead><tr><th scope="col">Post</th><th scope="col">Kind</th><th scope="col">State</th></tr></thead><tbody>{rows}</tbody></table></div>
-<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet ({len(AW)})</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(scene(p) for p in AW)}</section>
+<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not on Instagram yet ({len(AW)})</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(scene(p) for p in AW)}</section>
 <section id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram ({len(LV)})</h2><p>{LV_INTRO}</p>{''.join(scene(p) for p in LV)}</section>
 </main>
 """).replace("</body>", "</div></body>")
@@ -426,10 +446,10 @@ def d4():
 <header class="mast"><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header></div>
 <main id="main" class="app">
 <div class="rail"><p class="vh">Studio · account C</p><h1>Reels and images for Instagram</h1><p>{INTRO}</p>
-<h2>Not posted yet ({len(AW)})</h2><ul>{''.join(item(p) for p in AW)}</ul>
+<h2>Not on Instagram yet ({len(AW)})</h2><ul>{''.join(item(p) for p in AW)}</ul>
 <h2>Live on Instagram ({len(LV)})</h2><ul>{''.join(item(p) for p in LV)}</ul></div>
 <div class="pane">
-<section class="group" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(msg(p) for p in AW)}</section>
+<section class="group" id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not on Instagram yet</h2><p>{AW_INTRO}</p><p>{VIDEO_NOTE}</p>{''.join(msg(p) for p in AW)}</section>
 <section class="group" id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram</h2><p>{LV_INTRO}</p>{''.join(msg(p) for p in LV)}</section>
 </div></main>
 """)
@@ -460,7 +480,7 @@ def d5():
     return page(5, CSS5, f"""<div class="wrap">{chrome(5)}
 <header><a class="brand" href="/"><img class="rm" src="/accounts/c/designs/media/riskmandate-mark.svg" alt="" width="64" height="64">Studio</a>{owner_nav()}</header>
 <main id="main"><h1>Reels and images for Instagram</h1><p>{INTRO}</p>
-<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not posted yet ({len(AW)})</h2><p>{AW_INTRO} {VIDEO_NOTE}</p>{''.join(it(p) for p in AW)}</section>
+<section id="awaiting" aria-labelledby="h-aw"><h2 id="h-aw">Not on Instagram yet ({len(AW)})</h2><p>{AW_INTRO} {VIDEO_NOTE}</p>{''.join(it(p) for p in AW)}</section>
 <section id="live" aria-labelledby="h-lv"><h2 id="h-lv">Live on Instagram ({len(LV)})</h2><p>{LV_INTRO}</p>{''.join(it(p) for p in LV)}</section>
 </main>
 """).replace("</body>", "</div></body>")
@@ -485,7 +505,7 @@ def index(rec):
     return head(0, "", "", CSSI) + f"""<div class="wrap">{chrome(0)}
 <header><a class="brand" href="/accounts/c/">Studio, account C</a></header>
 <main id="main"><h1>Five designs of the Reels review page</h1>
-<p>The same posts, in five ideas from the studio's own world. Each keeps the two areas: not posted yet, and live on Instagram. The owner picks one; studio.c makes it the page.</p>
+<p>The same posts, in five ideas from the studio's own world. Each keeps the areas of the review page: not on Instagram yet, live on Instagram, and deleted. The owner picks one; studio.c makes it the page.</p>
 <ul class="cards">{cards}</ul></main>
 """ + footer().replace("</body>", "</div></body>")
 
