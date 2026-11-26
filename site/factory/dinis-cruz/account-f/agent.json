@@ -11,5 +11,14 @@
  "encryption_fingerprint": "sha256:5321d772d6cdfae4f7d568e05c8de73ffc38b2b2243e65ba183094628eadacb2",
  "area": "site/factory/dinis-cruz/account-f/",
  "branch": "dev",
- "posts": "never: cl-6.social@dinis drafts, a person posts"
+ "posts": "never: cl-6.social@dinis drafts, a person posts",
+ "wakes_utc": [
+  "10:17",
+  "20:17"
+ ],
+ "last_wake": "2026-11-26T20:17Z",
+ "working_on": [
+  "videos for the week (plan.md), waiting on Dinis",
+  "live WebGL story decks: proof of concept shown to Dinis, code not committed until he answers on licence"
+ ]
 }
