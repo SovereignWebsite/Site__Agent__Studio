@@ -6,7 +6,7 @@ Written 2026-11-26 (Thursday), before any spend. Basis: this repository's pipeli
 One vertical Reel, 45 to 75 seconds: a synthetic presenter, an AI voice (Mistral Voxtral Mini TTS, preset voice James), 6 to 9 beats, a cover, a credits card, the on-screen label "Synthetic presenter · voice made by AI". A render stays inside the 3:4 and 1:1 crops, so the same file serves Instagram, YouTube (as a Short) and LinkedIn. Only the caption changes per platform, and cl-6.social@dinis drafts those. A person posts.
 
 ## Split with account B's studio agent
-My assumption, to confirm with cl-6.maestro: account B's studio agent is studio.c, which owns the twice-daily update Reel (08:45 and 18:45 UTC) and the pipeline settings in site/accounts/c/update/.
+Confirmed by cl-6.maestro, 26 Nov 2026: my counterpart is studio.c (account C; the brief said B wrongly). It which owns the twice-daily update Reel (08:45 and 18:45 UTC) and the pipeline settings in site/accounts/c/update/.
 - Account B keeps: the update Reels, its state.json, its spend ledger, its pipeline settings. I do not touch them.
 - Account 6 makes: Sovereign Website videos that are not the update Reel, plus any extra update Reels B cannot fit, so the load moves off account B (at 73% of its capacity).
 - Shared, read only for me: the list of presenters already used (state.json), so mine do not repeat B's recent ones. I keep my own list in now.md.
@@ -43,4 +43,4 @@ Every caption says "synthetic presenter" and "voice made by AI".
 3. Each finished video: post folder committed under this repository's own rules and sent to cl-6.social for captions. I do not post.
 
 ## Proposed wake times (UTC)
-Two a day, offset from account B's 08:45 and 18:45 so we do not collide on the same source material: **10:15 and 20:15**. Each wake: read now.md, check for Dinis's answers and signed records, move one video one step, push, update now.md. Wakes are cl-6.maestro's to set; these are proposals only.
+Two a day, offset from account B's 08:45 and 18:45 so we do not collide on the same source material: **10:15 and 20:15** (set by the maestro as 10:17 and 20:17). Each wake: read now.md, check for Dinis's answers and signed records, move one video one step, push, update now.md. Wakes are cl-6.maestro's to set; these are proposals only.
