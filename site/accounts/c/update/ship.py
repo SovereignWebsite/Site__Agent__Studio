@@ -4,6 +4,9 @@
 import json, sys, os, shutil, subprocess, hashlib, datetime
 sb_path, work, post, ig, pid = sys.argv[1:6]; push = "--push" in sys.argv
 sb = json.load(open(sb_path)); made = json.load(open(f"{work}/made.json"))
+_cap = sb.get("caption", "").lower()   # b.security's ruling of 26 Nov 2026; instagram.c's ig-post refuses a Reel without both phrases
+if "synthetic presenter" not in _cap or "voice made by ai" not in _cap:
+    raise SystemExit('caption must say "synthetic presenter" and "voice made by AI" (e.g. "Synthetic presenter. Voice made by AI.")')
 calls = [json.loads(l) for l in open(f"{work}/calls.jsonl")] if os.path.exists(f"{work}/calls.jsonl") else []
 cost = sum((c.get("usage") or {}).get("cost", 0) for c in calls)
 src = (f"Presenter: {sb['presenter_name']} ({sb['presenter']}), a synthetic presenter from the PrompTugal.news presenters library v0.1.0 by bulletins.b@PrompTugal.dinis "
