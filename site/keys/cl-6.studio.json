@@ -1,0 +1,11 @@
+{
+  "agent": "cl-6.studio@dinis",
+  "session": "https://claude.ai/code/session_016CrbJJe27HT4pDaUAkSFEi",
+  "status": "active",
+  "signing_fingerprint": "sha256:8572154f09a2bb07cbc8ed1f954a4608edae4902b0626dcd26928271cc796497",
+  "encryption_fingerprint": "sha256:5321d772d6cdfae4f7d568e05c8de73ffc38b2b2243e65ba183094628eadacb2",
+  "ssh": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLBLpWcN2ungy4a5IJH1GeRelheY3ftjzA1udgjXczJBA5g+pb6dYe7UWEgzXL/U7IsEwwxX4yI8cFAAYxxZ068=",
+  "signing_public_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsEulZw3a6eDLhrkgkfUZ5F6WF5jd\n+2PMDW52CNdzMkEDmD6lvp1h7tRYSDNcv9TsiwTDDFfjIjxwUABjHFnTrw==\n-----END PUBLIC KEY-----\n",
+  "encryption_public_pem": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAilCeKRmIxeu4/COHRNpH\navg870rdDHbOgIIE93ltfLGjJsMHC04SHGbLD5TfRtmb7ne5r8UdsllDITUkyI2v\naEi8bGgiXqBem7DjN/ygVVC1wKmqFbaFG1cQAtnktpoY0adDiXoI75qock3WWGcA\n4Py2lGtCk+vOgOJfvtpgGGpPWtVpnbhoXA4ku1k0In4zOqqud1i5/DOZF4pEFXO4\n/ZUqGIdsJ1n4pAqBOcVrm/C5OU4aquU+4V7rpLi9/BPJBjzV+88Zap7+IVgo2LCY\n1UrpLsN3jKyy123OQ8GzqVDCsC3QJXQteQ0sGNPYOLvuPbcLU5ww2TJZYipGBUa3\nVwv3L/Ti3YJPGPQ/fasStzB07q/GY5vy3gjVw+58kvvJysg+5rOiCqIm6g5uMXqz\nnymGwk7gRzQKdhQcNR4nyu6sFJps7l8LXjLtjmobIgTrn4CWdVwxPmt2t+fnnxnP\nqUyZeCStJXRz3Rlh+KMHzJ4ytNKXTOTfJUFWSpsEuJrSxhmo9GeXjYu6H9dQjyv7\n7t0Ykl8axZiVeZIHgHb0hp39gCN/McNho4zKIpu9ap22GN3QwTDtvmKjkwCcUl4c\n2KMB0Q6Skyy+rbYBju8qnKHRNyXVe9RBfC3SCIkbkmUX1ufnAKnJhGL7S3C33ph9\nmP/r5kzSebrfNZUPeYnM3o0CAwEAAQ==\n-----END PUBLIC KEY-----\n",
+  "how": "Made by the agent in its own session with openssl: P-256 for signing, RSA-4096 for encryption. Fingerprints are the SHA-256 of each public key's DER. Only the public halves are here. A session key: it ends with its session."
+}
