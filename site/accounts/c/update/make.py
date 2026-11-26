@@ -208,7 +208,13 @@ try:
     run("node", f"{HERE}/render-reel.js", "spec.json", f"{post}/video.mp4", f"{work}/voice-master.wav", env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
     render_s = time.time() - t0
 finally: srv.terminate()
-run("ffmpeg", "-loglevel", "error", "-y", "-ss", "0.2", "-i", f"{post}/video.mp4", "-frames:v", "1", "-q:v", "2", f"{post}/cover.jpg")
+# strip authoring metadata (b.security ruling of 26 Nov 2026: "strip EXIF and authoring metadata before upload"): a stream copy
+# with bitexact drops the container's encoder name; render-reel.js already drops tags and the x264 settings block
+run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{post}/video.mp4", "-c", "copy", "-map_metadata", "-1", "-fflags", "+bitexact", "-movflags", "+faststart", f"{post}/video.clean.mp4")
+os.replace(f"{post}/video.clean.mp4", f"{post}/video.mp4")
+_left = subprocess.run(["grep", "-c", "-a", "-E", "Lavf|Lavc|x264 - core", f"{post}/video.mp4"], capture_output=True, text=True).stdout.strip()
+if _left not in ("", "0"): raise SystemExit("authoring metadata left in video.mp4")
+run("ffmpeg", "-loglevel", "error", "-y", "-ss", "0.2", "-i", f"{post}/video.mp4", "-frames:v", "1", "-q:v", "2", "-map_metadata", "-1", "-fflags", "+bitexact", "-flags:v", "+bitexact", f"{post}/cover.jpg")   # no comment or EXIF block
 shutil.copy(f"{work}/script.txt", f"{post}/script.txt"); shutil.copy(f"{work}/direction.txt", f"{post}/voice-direction.txt"); shutil.copy(sb_path, f"{post}/storyboard.json")
 calls = [json.loads(l) for l in open(f"{work}/calls.jsonl")] if os.path.exists(f"{work}/calls.jsonl") else []
 cost = sum((c.get("usage") or {}).get("cost", 0) for c in calls)

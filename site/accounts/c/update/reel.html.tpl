@@ -12,6 +12,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--b
 #sub span{display:inline;font:700 44px/1.3 Inter;color:#fff;background:rgba(8,14,26,.78);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:6px 18px;border-radius:14px}
 #sub b{color:var(--gold);font-weight:700}
 #bar{position:absolute;left:72px;top:1292px;height:8px;width:0;background:var(--gold);border-radius:4px}
+#ai{position:absolute;left:72px;top:1318px;z-index:5;font:700 28px Inter;color:#fff;background:rgba(8,14,26,.82);border:2px solid var(--gold);border-radius:24px;padding:6px 18px;letter-spacing:.01em}
 #cover{position:absolute;left:0;top:0;width:1080px;height:1300px;display:none;background:radial-gradient(120% 80% at 30% 20%,var(--bg0) 0%,var(--bg1) 65%,var(--bg2) 100%)}
 #cover .date{position:absolute;left:72px;top:300px;font:700 38px Inter;color:var(--navy);background:var(--gold);border-radius:40px;padding:12px 30px;letter-spacing:.04em}
 #cover .kick{position:absolute;left:72px;top:412px;font:700 40px Inter;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
@@ -22,7 +23,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--b
 <div id="top"></div><svg id="viz" viewBox="0 0 1080 1010" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"></svg>
 <div id="brand"><i></i><span>SovereignWebsite<em>.ai</em></span></div><div id="who"></div>
 <div id="cover"><div class="date"></div><div class="kick"></div><h1></h1><div class="sub"></div></div>
-<div id="stage"></div><div id="bar"></div><div id="sub"></div>
+<div id="stage"></div><div id="bar"></div><div id="sub"></div><div id="ai">Synthetic presenter · voice made by AI</div>
 <script type="module">
 import { mount } from './lib/presenters/presenters.js';
 const spec = await (await fetch(new URLSearchParams(location.search).get('spec'))).json();

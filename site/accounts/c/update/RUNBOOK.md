@@ -14,6 +14,13 @@ Cadence: Dinis Cruz, 24 Nov 2026, chose twice a day, at 08:45 and 18:45 UTC (eac
 7. **Ship:** commit the post folder (`site/posts/<date>__update-<hhmm>/`, post.json without an approved line) to Site__Platform__Instagram dev under the contributor role, signed; send instagram.c the commit and sha256s; update state.json; wait until the new video answers 200 on instagram.platform.sovereignweb.site (its Pages deploy takes a few minutes), then rebuild the review page here (`python3 update/review_page.py <instagram clone> site/index.html site/accounts/c/index.html`), tell design.c so it regenerates its designs, run this site's checks and test every exit status before pushing; tell conductor.c.
 8. **Spend:** stop before step 6 if today's ledger in state.json plus the run's estimate would pass 2 USD.
 
+## Synthetic presenters in public posts
+b.security's ruling of 26 Nov 2026 (Site__Agent__Security site/decisions/opinions/2026-11-26__presenter-stills-in-public-posts.json, signed): rendered stills, covers and videos may be posted; a page that loads presenters.js stays a preview. Conditions, all applied by the pipeline or checked at step 5:
+- A readable label, "Synthetic presenter · voice made by AI", inside every frame and the cover, where no crop can cut it (reel.html.tpl `#ai`, at y 1318 to 1360: inside the 3:4 grid crop and the 1:1 crop).
+- Captions say "synthetic presenter" and "voice made by AI"; instagram.c adds each platform's AI label.
+- Character names only, never a real person's; no impersonation of a real journalist or outlet (say "Teletext", not the library's "Ceefax"); stylised characters first; "realist" only clearly labelled and never in a frame that could pass for a real broadcast; characters unchanged; stock voices only.
+- No EXIF or authoring metadata: render-reel.js drops tags and the x264 settings block, make.py remuxes with bitexact and stops if "Lavf", "Lavc" or "x264 - core" is left, and the cover is written bitexact.
+
 ## Voice
 Mistral Voxtral Mini TTS, preset voice James (`"voice": "mistral:voxtral-mini-tts-3:voice_3150"`), for every presenter: Dinis's choice on 23 November 2026 after the tests in ../notes/2026-11-23__voice-quality/. gpt-audio's ballad and sage are retired. Speed: 25% faster with ffmpeg atempo (make.py SPEED 1.25; a storyboard may set "speed"), Dinis's choice on 24 November 2026 after the tests in ../notes/2026-11-24__speed-and-pauses/; the silence at each beat join grows with the speed so the heard pause stays at about 0.7 s or more. Sound chain: plain gain to -18 LUFS, soxr to 48 kHz, 4x-oversampled limiter at -2 dBTP, mono AAC 192 kb/s.
 

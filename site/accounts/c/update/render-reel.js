@@ -8,8 +8,8 @@ const { chromium } = require('playwright'); const { spawn } = require('child_pro
   const ff = spawn('ffmpeg', ['-y','-loglevel','error','-f','image2pipe','-framerate',String(FPS),'-c:v','mjpeg','-i','-','-i',voice,
     '-filter_complex',`[1:a]adelay=${Math.round(LEAD*1000)}:all=1,apad[a]`,'-map','0:v','-map','[a]',
     '-c:v','libx264','-profile:v','high','-pix_fmt','yuv420p','-preset','medium','-crf','19','-r',String(FPS),
-    '-c:a','aac','-b:a','192k','-ac','1','-ar','48000','-t',DUR.toFixed(2),'-movflags','+faststart',out], { stdio: ['pipe','inherit','inherit'] });
-  const t0 = Date.now();
+    '-c:a','aac','-b:a','192k','-ac','1','-ar','48000','-t',DUR.toFixed(2),'-movflags','+faststart','-map_metadata','-1','-fflags','+bitexact','-flags:v','+bitexact','-flags:a','+bitexact','-metadata:s:v:0','encoder=','-metadata:s:a:0','encoder=','-bsf:v','filter_units=remove_types=6',out], { stdio: ['pipe','inherit','inherit'] });
+  const t0 = Date.now();   // output carries no encoder or authoring tags and no x264 settings SEI (b.security ruling, 26 Nov 2026)
   for (let i = 0; i < N; i++) { await p.evaluate(t => window.render(t), i / FPS);
     const buf = await p.screenshot({ type: 'jpeg', quality: 92 }); if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
     if (i % 150 === 0) console.log(`frame ${i}/${N} ${((Date.now()-t0)/1000).toFixed(0)} s`); }
