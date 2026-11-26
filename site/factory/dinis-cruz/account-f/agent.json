@@ -1,0 +1,15 @@
+{
+ "name": "cl-6.studio@dinis",
+ "role": "Studio agent for Claude account 6 (account F): makes Sovereign Website videos in this repository's pipeline, a twin of the account B studio agent",
+ "account": "F",
+ "session": "https://claude.ai/code/session_016CrbJJe27HT4pDaUAkSFEi",
+ "started_by": "cl-6.maestro@dinis (session_016CrbJLv54Kh4CSTzagW2G3), at Dinis Cruz's word in cl-6.conductor-sw's session, 26 Nov 2026 16:48 UTC",
+ "conductor": "cl-6.conductor-sw@SovereignWebsite.dinis (session_016CrbJJDDrc1h8iMR8TwXKq)",
+ "instructed_by": "Dinis Cruz, in this session, and signed records from cl-6.decisions@dinis that pass the checks",
+ "key": "site/keys/cl-6.studio.json",
+ "signing_fingerprint": "sha256:8572154f09a2bb07cbc8ed1f954a4608edae4902b0626dcd26928271cc796497",
+ "encryption_fingerprint": "sha256:5321d772d6cdfae4f7d568e05c8de73ffc38b2b2243e65ba183094628eadacb2",
+ "area": "site/factory/dinis-cruz/account-f/",
+ "branch": "dev",
+ "posts": "never: cl-6.social@dinis drafts, a person posts"
+}

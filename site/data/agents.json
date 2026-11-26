@@ -11,6 +11,14 @@
    "ssh_public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1Oq7mdOX3ffLQPhgjaVm0IsYhWue8MbA64nzMEamkW",
    "key_id": "studio.d-agenticcells",
    "source": "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/keys.json"
+  },
+  {
+   "name": "cl-6.studio@dinis",
+   "role": "Studio agent for Claude account 6 (account F): Sovereign Website videos for Instagram, YouTube and LinkedIn; its area is /factory/dinis-cruz/account-f/ in the repository",
+   "session": "https://claude.ai/code/session_016CrbJJe27HT4pDaUAkSFEi",
+   "ssh_public_key": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLBLpWcN2ungy4a5IJH1GeRelheY3ftjzA1udgjXczJBA5g+pb6dYe7UWEgzXL/U7IsEwwxX4yI8cFAAYxxZ068=",
+   "key_id": "cl-6.studio",
+   "source": "https://github.com/SovereignWebsite/Site__Agent__Studio/blob/dev/site/keys/cl-6.studio.json"
   }
  ]
 }
