@@ -47,7 +47,13 @@ function wire(root, manifest, checked, state) {
       outp.value = JSON.stringify({ payload, alg: 'ECDSA-P256-SHA256', signature, key: `/keys/people/${slug}.json` }, null, 1);
       pub.value = JSON.stringify({ person: name, status: 'proposed', fingerprint: `sha256:${fp}`, raw_p256: b64(raw), how: 'Made in the reviewer’s own browser by the review page (WebCrypto, P-256). The private half cannot be exported from that browser. Only the public half is here.' }, null, 1);
       msg.textContent = `Signed in this browser with your key ${fp}. Nothing was sent. Hand both texts to your agent: it commits the review record, and (once only, at the owner’s word) your public key.`;
+      if (lane && lane.token()) { sendBtn.hidden = false; sendNote.textContent = 'This browser holds the lane link: one press sends this record, sealed, to the agent.'; }
     } catch (err) { msg.textContent = `Could not sign: ${err.message}`; }
+  });
+  const sendBtn = $('[data-act=sendreview]'), sendNote = $('[data-role=sendnote]'); let lane = null; import('./lane.js').then((m) => { lane = m; lane.token(); }).catch(() => {});
+  sendBtn.addEventListener('click', async () => {
+    try { const rec = JSON.parse(outp.value), p = JSON.parse(rec.payload); sendNote.textContent = 'Sealing and sending.'; await lane.send({ kind: 'review', name: p.reviewer, about: `${p.production} ${p.version}`, text: `${p.decision}: ${(p.comments || []).map((c) => (c.scene ? c.scene + ': ' : '') + c.text).join(' | ')}`, record: rec, public_key: JSON.parse(pub.value) }); sendNote.textContent = 'Sent to c.productions, sealed. It records the review when it next reads its lane.'; }
+    catch (e) { sendNote.textContent = `Not sent: ${e.message}.`; }
   });
   // dictation: the browser's own speech recognition, where it has one
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $('[data-act=dictate]'), box = $('#rv-com'), dn = $('[data-role=dictnote]');

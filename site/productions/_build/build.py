@@ -52,7 +52,7 @@ def page(path, title, desc, body, scripts=()):
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a></nav></header>
+<header><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/lab/">Scene lab</a><a href="/productions/send/">Talk to the agent</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a></nav></header>
 <main id="main">
 {body}
 </main>
@@ -167,6 +167,7 @@ def version_page(prod, ver, P, m, recs, approved):
 <p><button type="button" data-act="dictate" aria-pressed="false">Speak your comments</button> <span class="meta" data-role="dictnote">Uses your browser\u2019s own speech recognition (in Safari, Apple\u2019s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
 <button type="submit" class="primary">Sign in this browser</button>
 <p data-role="signmsg" role="status" class="meta">Signing makes a key in this browser (the private half cannot leave it) and signs your words together with the digest above. Nothing is sent.</p>
+<p><button type="button" data-act="sendreview" hidden>Send it to c.productions</button> <span class="meta" data-role="sendnote"></span></p>
 <label for="rv-rec"><span>Your signed review record</span><textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
 <label for="rv-key"><span>Your public key (published once, at the owner\u2019s word)</span><textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
 </form>
@@ -260,6 +261,34 @@ def lab_page():
     body = body.replace('</section>\n<h2>Scenes in the lab</h2>\n', '<h2>Scenes in the lab</h2>\n').replace('<p class="note">Nothing in the lab', '</section>\n<p class="note">Nothing in the lab')
     write("lab/index.html", page("lab/", "The scene lab", "Single WebGL scenes, built and judged one at a time before they join a production.", body, ["/productions/lab/harness.js"]))
 
+def send_page():
+    body = """<p class="meta"><a href="../">Productions</a> / talk to the agent</p>
+<h1>Talk to the productions agent</h1>
+<p class="lede">Write or speak a message to c.productions, the AI agent that makes these productions, and read its answer here.</p>
+<p data-role="state" role="status">Checking this browser.</p>
+<form class="review" hidden>
+<label for="m-name"><span>Your name</span><input id="m-name" type="text" name="name" required autocomplete="name"></label>
+<label for="m-about"><span>About (a production, a scene, anything)</span><input id="m-about" type="text" name="about"></label>
+<label for="m-text"><span>Your message</span><textarea id="m-text" name="text" rows="6" required></textarea></label>
+<p><button type="button" data-act="dictate" aria-pressed="false">Speak your message</button> <span class="meta" data-role="dictnote">Uses your browser\u2019s own speech recognition (in Safari, Apple\u2019s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
+<button type="submit" class="primary">Seal and send</button>
+</form>
+<p data-role="status" role="status" class="meta"></p>
+<h2>Answers to you</h2>
+<div data-role="replies"></div>
+<p><button type="button" data-act="refresh">Check for answers</button> <button type="button" data-act="forget" hidden>Remove the lane link from this browser</button></p>
+<h2>How this works</h2>
+<ul>
+<li>Your message is sealed in your browser to the agent\u2019s public key, signed with a key that never leaves this browser, and added to the agent\u2019s lane on SG/Send. Nobody else can read it, this site included.</li>
+<li>The lane accepts messages only with a link the site\u2019s owner hands out. The link can add messages; it cannot read or delete any.</li>
+<li>The agent reads its lane when it is nudged, or when it next checks. It is not instant.</li>
+<li>Answers are sealed to your browser\u2019s key and published as a file only this browser can open.</li>
+<li>Nothing is tracked. The link and your keys are kept in this browser; the button above removes the link.</li>
+</ul>
+<p class="meta">The lane\u2019s public details: <a href="inbox.json">inbox.json</a>. A first trial, made on 27 November 2026.</p>
+"""
+    write("send/index.html", page("send/", "Talk to the productions agent", "Write or speak a sealed message to the AI agent that makes these productions, and read its answer.", body, ["/productions/assets/send.js"]))
+
 def main():
     idx = load("productions.json"); prods = []
     for pid in idx["productions"]:
@@ -275,6 +304,6 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
-    lab_page()
+    lab_page(); send_page()
 
 if __name__ == "__main__": main()

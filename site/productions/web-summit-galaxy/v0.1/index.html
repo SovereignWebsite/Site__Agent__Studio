@@ -25,7 +25,7 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a></nav></header>
+<header><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/lab/">Scene lab</a><a href="/productions/send/">Talk to the agent</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a></nav></header>
 <main id="main">
 <p class="meta"><a href="../">A galaxy of agents</a> / version v0.1</p>
 <h1>A galaxy of agents: v0.1</h1>
@@ -80,6 +80,7 @@
 <p><button type="button" data-act="dictate" aria-pressed="false">Speak your comments</button> <span class="meta" data-role="dictnote">Uses your browser’s own speech recognition (in Safari, Apple’s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
 <button type="submit" class="primary">Sign in this browser</button>
 <p data-role="signmsg" role="status" class="meta">Signing makes a key in this browser (the private half cannot leave it) and signs your words together with the digest above. Nothing is sent.</p>
+<p><button type="button" data-act="sendreview" hidden>Send it to c.productions</button> <span class="meta" data-role="sendnote"></span></p>
 <label for="rv-rec"><span>Your signed review record</span><textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
 <label for="rv-key"><span>Your public key (published once, at the owner’s word)</span><textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
 </form>
