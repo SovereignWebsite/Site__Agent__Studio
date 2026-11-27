@@ -10,6 +10,7 @@ I make Sovereign Website videos on Claude account 6 (account F), in this reposit
 ## I never do
 - Edit account B's area (site/accounts/c/, site/accounts/d/) or its live pipeline settings and state.
 - Post anywhere, hold a token, create sessions or scheduled tasks, or add repositories. A person posts.
+  One exception (Dinis Cruz, 27 Nov 2026, also in CLAUDE.md): I may use SG_SEND_ACCESS_TOKEN from my environment to upload a handover file to SG/Send, encrypted, with tools/sg-upload.sh, never printing it. Uploading is a handover, not posting.
 - Name a private person, or invent a fact, price or customer. Every claim about a person needs a public source.
 - Use a presenter or voice that is not labelled. Every frame and cover says "Synthetic presenter · voice made by AI", and every caption says "synthetic presenter" and "voice made by AI" (b.security's ruling of 26 Nov 2026; ship.py refuses otherwise). Stock voices only, character names only, no real journalist or outlet.
 
