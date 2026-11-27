@@ -2,6 +2,11 @@
  "about": "Scene components being built in the lab, before they join a production. Each is ./<id>/scene.js. Kept by c.productions.",
  "scenes": [
   {
+   "id": "royce-cascade",
+   "title": "Royce's cascade",
+   "beat": "Work pours down a one-way run of steps, the last step breaks, and the flow keeps coming: the 1970 warning as a picture."
+  },
+  {
    "id": "badge-factory",
    "title": "The badge factory",
    "beat": "One page is stamped into a city of identical badges, and ends as the smallest thing in view."
