@@ -5,7 +5,7 @@
 const ROOT = 73.416, H = (n) => ROOT * n;
 
 export function createAudio() {
-  let ac = null, comp, master, verb, bedBus, fxBus, noiseBuf, muted = false, bed = null, timer = null;
+  let ac = null, comp, master, verb, bedBus, fxBus, noiseBuf, muted = false, bed = null, timer = null, recDest = null;
   const params = { mix: 0.5 };
   const now = () => ac.currentTime;
 
@@ -13,6 +13,7 @@ export function createAudio() {
     ac = a;
     comp = a.createDynamicsCompressor(); comp.threshold.value = -18; comp.knee.value = 12; comp.ratio.value = 4; comp.attack.value = 0.01; comp.release.value = 0.25;
     master = a.createGain(); master.gain.value = muted ? 0 : 0.85; comp.connect(master).connect(a.destination);
+    if (a.createMediaStreamDestination) { recDest = a.createMediaStreamDestination(); master.connect(recDest); }   // for the recorder
     const len = Math.floor(a.sampleRate * 3.4), ir = a.createBuffer(2, len, a.sampleRate);
     for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = i < a.sampleRate * 0.015 ? 0 : (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); }
     verb = a.createConvolver(); verb.buffer = ir; const wet = a.createGain(); wet.gain.value = 0.32; verb.connect(wet).connect(comp);
@@ -129,6 +130,6 @@ export function createAudio() {
     get ready() { return !!ac; }, get muted() { return muted; },
     unlock(ctxOverride) { if (ac) { ac.resume && ac.resume(); return; } graph(ctxOverride || new (window.AudioContext || window.webkitAudioContext)()); },
     mute(v = !muted) { muted = v; if (master) master.gain.setTargetAtTime(muted ? 0 : 0.85, now(), 0.05); },
-    scene, beat, transition, param(k, v) { params[k] = v; },
+    scene, beat, transition, param(k, v) { params[k] = v; }, stream() { return recDest ? recDest.stream : null; },
   };
 }

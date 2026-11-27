@@ -3,10 +3,18 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
+    "build": "node build.mjs --site .",
     "shoot": "node shoot.cjs",
     "audiotest": "node audiotest.cjs"
   },
-  "dependencies": { "three": "0.170.0" },
-  "devDependencies": { "esbuild": "0.24.2" }
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2",
+    "@fontsource/inter": "5.1.0",
+    "@fontsource/space-grotesk": "5.1.0",
+    "@fontsource/jetbrains-mono": "5.1.0",
+    "@fontsource/newsreader": "5.1.0"
+  }
 }

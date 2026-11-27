@@ -18,7 +18,7 @@ export function attachPresenter(deck) {
     deck.scenes.forEach((s, i) => { const b = document.createElement("button"); b.textContent = `${i + 1}. ${s.title}`; b.onclick = () => { toggleOver(); deck.jump(s.id); }; over.append(b); });
     ui.append(over);
   };
-  const toggleHelp = () => { if (help) { help.remove(); help = null; return; } help = el("help", [["Next", "→ space click"], ["Back", "← right-click"], ["Fullscreen", "F"], ["Auto-play", "A"], ["Notes", "N"], ["Overview", "O"], ["Black", "B or ."]].map(([a, b]) => `<b>${a}</b><span>${b}</span>`).join("")); ui.append(help); };
+  const toggleHelp = () => { if (help) { help.remove(); help = null; return; } help = el("help", [["Next", "→ space click"], ["Back", "← right-click"], ["Fullscreen", "F"], ["Record", "R"], ["Sound", "M"], ["Auto-play", "A"], ["Notes", "N"], ["Overview", "O"], ["Black", "B or ."]].map(([a, b]) => `<b>${a}</b><span>${b}</span>`).join("")); ui.append(help); };
   addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key;

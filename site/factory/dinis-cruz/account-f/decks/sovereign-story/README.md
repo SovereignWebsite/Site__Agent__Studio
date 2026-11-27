@@ -20,7 +20,9 @@ Shots are `scene:beat:seconds`, or `trans:scene:progress` for the transition int
 - `src/scenes/` plain, own, split, field, recap, move, credits. `src/transitions/` fade, iris, tear, burn, daybreak.
 - `src/audio.js` beds per scene, sounds per transition, typing and chimes; one harmonic series on D.
 
-## Before this goes on a public page of this site
-It loads Google Fonts, which suits a private preview but not this site's rule of no third-party requests: the fonts (all SIL Open Font License) would be self-hosted first. The page also needs its Open Graph tags and a text version for screen readers.
+## The page
+Published at https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/decks/sovereign-story/ (index.html here, built by `npm run build`). It makes no third-party requests: the fonts (Inter, Space Grotesk, JetBrains Mono, Newsreader, all SIL Open Font License 1.1, from @fontsource) are served from fonts/ beside it. A text version of the story is in the page for screen readers.
+
+Press F for full screen and R to record: the recording holds the canvas and the sound, none of the page's controls, and is saved to your downloads as a WebM file (VP9 and Opus) when you press R again. Click once first to switch the sound on.
 
 Code written here: Apache-2.0. three.js: MIT.

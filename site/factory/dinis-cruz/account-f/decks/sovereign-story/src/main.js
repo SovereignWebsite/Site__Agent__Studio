@@ -38,17 +38,38 @@ const transitions = { fade, iris, burn, tear, daybreak };
     attachPresenter(deck);
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const chip = document.getElementById("auto");
-    const show = () => { chip.textContent = deck.auto ? "Auto-play: on · A" : "Auto-play: off · A"; chip.setAttribute("aria-pressed", deck.auto); };
+    const show = () => { chip.textContent = deck.auto ? "Auto-play: on · A" : "Auto-play: off · A"; };
     deck.setAuto(!calm); show();
     // ---- sound: starts on the first click or key; M toggles it ----
     const audio = createAudio(), snd = document.getElementById("snd");
-    const label = () => { snd.textContent = !audio.ready ? "Sound: off · click" : audio.muted ? "Sound: off · M" : "Sound: on · M"; snd.setAttribute("aria-pressed", audio.ready && !audio.muted); };
+    const label = () => { snd.textContent = !audio.ready ? "Sound: off · click" : audio.muted ? "Sound: off · M" : "Sound: on · M"; };
     let last = { id: null, beat: -1 };
     const start = () => { if (audio.ready) return; audio.unlock(); const i = deck.info(); audio.scene(i.id); last = { id: i.id, beat: i.beat }; label(); };
     addEventListener("pointerdown", start, { capture: true }); addEventListener("keydown", (e) => { if (e.key === "m" || e.key === "M") { if (!audio.ready) start(); else audio.mute(); label(); } else start(); }, { capture: true });
     deck.on("trans", (t) => { if (!audio.ready) return; audio.transition(t.name, t.dur, t.reverse); audio.scene(t.to); audio.beat(t.to, t.beat); last = { id: t.to, beat: t.beat }; });
     deck.on("move", () => { if (!audio.ready) return; const i = deck.info(); if (i.id === last.id && i.beat > last.beat) audio.beat(i.id, i.beat); last = { id: i.id, beat: i.beat }; });
     setInterval(() => audio.param("mix", deck.ctx.params.mix ?? 0.5), 60);
+    // ---- recorder: R starts and stops; the file holds the canvas and the sound, no page chrome ----
+    const recChip = document.getElementById("rec"); let rec = null, chunks = [], t0 = 0, tick = null;
+    const toggleRec = () => {
+      if (rec) { rec.stop(); return; }
+      if (!window.MediaRecorder) { recChip.hidden = false; recChip.textContent = "Recording is not supported in this browser"; return; }
+      const tracks = [...document.getElementById("stage").captureStream(60).getVideoTracks()], as = audio.stream();
+      if (as) tracks.push(...as.getAudioTracks());
+      const type = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"].find((t) => MediaRecorder.isTypeSupported(t)) || "";
+      rec = new MediaRecorder(new MediaStream(tracks), { mimeType: type, videoBitsPerSecond: 16e6, audioBitsPerSecond: 192e3 }); chunks = [];
+      rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+      rec.onstop = () => {
+        const blob = new Blob(chunks, { type: rec.mimeType }), a = document.createElement("a");
+        a.href = URL.createObjectURL(blob); a.download = "sovereign-story-" + new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-") + (rec.mimeType.includes("mp4") ? ".mp4" : ".webm");
+        document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+        rec = null; clearInterval(tick); recChip.textContent = "Saved to your downloads"; setTimeout(() => { if (!rec) recChip.hidden = true; }, 4000);
+      };
+      rec.start(1000); t0 = performance.now(); recChip.hidden = false;
+      const upd = () => { const s = Math.floor((performance.now() - t0) / 1000); recChip.textContent = `Recording ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} · R to stop`; };
+      upd(); tick = setInterval(upd, 500);
+    };
+    addEventListener("keydown", (e) => { if ((e.key === "r" || e.key === "R") && !e.metaKey && !e.ctrlKey) { start(); toggleRec(); } });
     label();
     addEventListener("keydown", (e) => { if (e.key === "a" || e.key === "A") setTimeout(show, 0); });
     setTimeout(() => document.getElementById("hint")?.classList.add("gone"), 9000);
