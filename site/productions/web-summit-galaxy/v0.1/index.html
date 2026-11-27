@@ -74,13 +74,14 @@
 <p class="meta">Version digest <code>4e8b629e2f1dcc805f79123e0b263f5ca4932f87be2ffc1aa887d74eee0c0949</code> over 8 files (<a href="manifest.json">manifest.json</a>, <a href="reviews.json">reviews.json</a>).</p>
 <h3>Add your review</h3>
 <form class="review">
-<label for="rv-who">Your name<input id="rv-who" type="text" name="reviewer" required autocomplete="name"></label>
-<label for="rv-dec">Your decision<select id="rv-dec" name="decision"><option value="comment">Comments only</option><option value="changes">Changes wanted</option><option value="approve">I approve this exact version</option></select></label>
-<label for="rv-com">Comments, one a line (start a line with a scene id and a colon to pin it, for example <code>royce: slower</code>)<textarea id="rv-com" name="comments" rows="4"></textarea></label>
+<label for="rv-who"><span>Your name</span><input id="rv-who" type="text" name="reviewer" required autocomplete="name"></label>
+<label for="rv-dec"><span>Your decision</span><select id="rv-dec" name="decision"><option value="comment">Comments only</option><option value="changes">Changes wanted</option><option value="approve">I approve this exact version</option></select></label>
+<label for="rv-com"><span>Comments, one a line. Start a line with a scene id and a colon to pin it, for example <code>royce: slower</code></span><textarea id="rv-com" name="comments" rows="4"></textarea></label>
+<p><button type="button" data-act="dictate" aria-pressed="false">Speak your comments</button> <span class="meta" data-role="dictnote">Uses your browser’s own speech recognition (in Safari, Apple’s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
 <button type="submit" class="primary">Sign in this browser</button>
 <p data-role="signmsg" role="status" class="meta">Signing makes a key in this browser (the private half cannot leave it) and signs your words together with the digest above. Nothing is sent.</p>
-<label for="rv-rec">Your signed review record<textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
-<label for="rv-key">Your public key (published once, at the owner’s word)<textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
+<label for="rv-rec"><span>Your signed review record</span><textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
+<label for="rv-key"><span>Your public key (published once, at the owner’s word)</span><textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
 </form>
 </div>
 

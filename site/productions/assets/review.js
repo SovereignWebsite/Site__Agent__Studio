@@ -7,31 +7,76 @@ const hexOf = async (buf) => [...new Uint8Array(await crypto.subtle.digest('SHA-
 const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
 const ALG = { name: 'ECDSA', namedCurve: 'P-256' }, SIG = { name: 'ECDSA', hash: 'SHA-256' };
 
+// Hash every file of the version as served now. Each file is tried twice; the result names any file that differs.
 export async function digestOf(manifest, root) {
-  const lines = []; for (const f of manifest.files) { const r = await fetch(new URL(f.path, root), { cache: 'no-store' }); if (!r.ok) throw new Error(`${f.path} answers ${r.status}`); lines.push(`${await hexOf(await r.arrayBuffer())}  ${f.path}\n`); }
-  return hexOf(enc.encode(lines.join('')));
+  const lines = [], differ = [];
+  for (const f of manifest.files) {
+    let h = null, err = '';
+    for (let n = 0; n < 2 && !h; n++) { try { const r = await fetch(new URL(f.path, root), { cache: 'no-store' }); if (!r.ok) throw new Error(`answers ${r.status}`); h = await hexOf(await r.arrayBuffer()); } catch (e) { err = e.message; } }
+    if (!h) throw new Error(`${f.path} could not be read (${err})`);
+    if (h !== f.sha256) differ.push(f.path);
+    lines.push(`${h}  ${f.path}\n`);
+  }
+  return { digest: await hexOf(enc.encode(lines.join(''))), differ };
 }
 async function publicKey(rec) {
-  let raw, who, path = rec.key;
-  const j = await (await fetch(path)).json(); who = j.agent || j.person || path;
-  if (j.raw_p256) raw = unb64(j.raw_p256); else if (j.ssh) raw = unb64(j.ssh.split(' ')[1]).slice(-65); else throw new Error('no P-256 key in ' + path);
+  const j = await (await fetch(rec.key)).json(), who = j.agent || j.person || rec.key; let raw;
+  if (j.raw_p256) raw = unb64(j.raw_p256); else if (j.ssh) raw = unb64(j.ssh.split(' ')[1]).slice(-65); else throw new Error('no P-256 key in ' + rec.key);
   return { who, key: await crypto.subtle.importKey('raw', raw, ALG, false, ['verify']) };
 }
 const idb = () => new Promise((ok, no) => { const r = indexedDB.open('productions-review', 1); r.onupgradeneeded = () => r.result.createObjectStore('keys'); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); });
-async function myKey(make) {
-  const db = await idb(), get = () => new Promise((ok, no) => { const r = db.transaction('keys').objectStore('keys').get('me'); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); });
-  let pair = await get(); if (pair || !make) return pair;
-  pair = await crypto.subtle.generateKey(ALG, false, ['sign', 'verify']); // the private half cannot be exported from this browser
+async function myKey() {
+  const db = await idb(), got = await new Promise((ok, no) => { const r = db.transaction('keys').objectStore('keys').get('me'); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); });
+  if (got) return got;
+  const pair = await crypto.subtle.generateKey(ALG, false, ['sign', 'verify']); // the private half cannot be exported from this browser
   await new Promise((ok, no) => { const t = db.transaction('keys', 'readwrite'); t.objectStore('keys').put(pair, 'me'); t.oncomplete = ok; t.onerror = () => no(t.error); }); return pair;
+}
+
+// The form is wired before the slow checks, so an early press never reloads the page.
+function wire(root, manifest, checked, state) {
+  const $ = (q) => root.querySelector(q), form = $('form.review'), outp = $('[data-role=record]'), pub = $('[data-role=pubkey]'), msg = $('[data-role=signmsg]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); msg.textContent = 'Checking the files.'; await checked; const st = state();
+    if (!st.same) { msg.textContent = `Not signed. ${st.note}`; return; }
+    try {
+      const pair = await myKey(), raw = new Uint8Array(await crypto.subtle.exportKey('raw', pair.publicKey)), fp = (await hexOf(raw)).slice(0, 16), d = new FormData(form);
+      const comments = String(d.get('comments') || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => { const m = l.match(/^([a-z0-9-]{2,24}):\s*(.+)$/); return m ? { scene: m[1], text: m[2] } : { text: l }; });
+      const name = String(d.get('reviewer')).trim(), slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'reviewer';
+      const payload = JSON.stringify({ type: 'review', production: manifest.production, version: manifest.version, digest: manifest.digest, decision: d.get('decision'), comments, reviewer: name, role: 'person', signed_at: new Date().toISOString() });
+      const signature = b64(new Uint8Array(await crypto.subtle.sign(SIG, pair.privateKey, enc.encode(payload))));
+      outp.value = JSON.stringify({ payload, alg: 'ECDSA-P256-SHA256', signature, key: `/keys/people/${slug}.json` }, null, 1);
+      pub.value = JSON.stringify({ person: name, status: 'proposed', fingerprint: `sha256:${fp}`, raw_p256: b64(raw), how: 'Made in the reviewer’s own browser by the review page (WebCrypto, P-256). The private half cannot be exported from that browser. Only the public half is here.' }, null, 1);
+      msg.textContent = `Signed in this browser with your key ${fp}. Nothing was sent. Hand both texts to your agent: it commits the review record, and (once only, at the owner’s word) your public key.`;
+    } catch (err) { msg.textContent = `Could not sign: ${err.message}`; }
+  });
+  // dictation: the browser's own speech recognition, where it has one
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $('[data-act=dictate]'), box = $('#rv-com'), dn = $('[data-role=dictnote]');
+  if (!SR) { mic.hidden = true; dn.textContent = 'This browser has no speech recognition for web pages. The microphone key on your keyboard (dictation on a Mac, iPhone or iPad) works in the comments box.'; return; }
+  let rec = null;
+  mic.addEventListener('click', () => {
+    if (rec) { rec.stop(); return; }
+    rec = new SR(); rec.lang = 'en-GB'; rec.continuous = true; rec.interimResults = false; try { rec.processLocally = true; } catch { /* not offered by this browser */ }
+    rec.onresult = (e) => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) box.value += (box.value && !box.value.endsWith('\n') ? '\n' : '') + e.results[i][0].transcript.trim(); };
+    rec.onend = () => { rec = null; mic.textContent = 'Speak your comments'; mic.setAttribute('aria-pressed', 'false'); };
+    rec.onerror = (e) => { dn.textContent = `Dictation stopped (${e.error}).`; };
+    rec.start(); mic.textContent = 'Stop listening'; mic.setAttribute('aria-pressed', 'true');
+  });
 }
 
 async function mount(root) {
   const $ = (s) => root.querySelector(s), here = new URL('.', location.href), prodRoot = new URL(root.dataset.root, location.href);
   const manifest = await (await fetch(new URL('manifest.json', here), { cache: 'no-store' })).json(), approvers = JSON.parse(root.dataset.approvers || '[]');
-  const files = $('[data-role=files]'), table = $('[data-role=reviews]'), verdict = $('[data-role=verdict]');
-  let digest = null, same = false;
-  try { digest = await digestOf(manifest, prodRoot); same = digest === manifest.digest; files.replaceChildren(el('span', same ? 'The files served now are exactly this version.' : 'The files served now are NOT the files of this version: no signature below covers what you see.', same ? 'ok' : 'bad'), el('span', ` Digest ${manifest.digest.slice(0, 16)}… over ${manifest.files.length} files.`)); }
-  catch (e) { files.replaceChildren(el('span', `Could not check the files (${e.message}).`, 'bad')); }
+  const files = $('[data-role=files]'), table = $('[data-role=reviews]'), verdict = $('[data-role=verdict]'), short = `Digest ${manifest.digest.slice(0, 16)}… over ${manifest.files.length} files.`;
+  let same = false, note = 'The check of the files has not finished.';
+  const checked = (async () => {
+    try {
+      const r = await digestOf(manifest, prodRoot); same = r.digest === manifest.digest;
+      note = same ? '' : `These files differ from this version: ${r.differ.join(', ') || 'the list itself'}. Reload the page; if it stays, tell c.productions.`;
+      files.replaceChildren(el('span', same ? 'The files served now are exactly this version.' : `The files served now are NOT the files of this version (${r.differ.join(', ')}): no signature below covers what you see.`, same ? 'ok' : 'bad'), el('span', ' ' + short));
+    } catch (e) { note = `The files could not be checked: ${e.message}. Reload the page and try again.`; files.replaceChildren(el('span', `Could not check the files: ${e.message}.`, 'bad')); }
+  })();
+  wire(root, manifest, checked, () => ({ same, note }));
+  await checked;
   let records = []; try { records = await (await fetch(new URL('reviews.json', here), { cache: 'no-store' })).json(); } catch { /* none yet */ }
   let approved = false; const body = table.querySelector('tbody'); body.replaceChildren();
   for (const rec of records) {
@@ -44,21 +89,5 @@ async function mount(root) {
   }
   if (!records.length) { const tr = el('tr'), td = el('td', 'No review has been recorded for this version yet.'); td.colSpan = 7; tr.append(td); body.append(tr); }
   verdict.replaceChildren(el('strong', approved ? 'Signed for publishing: yes.' : 'Signed for publishing: no.', approved ? 'ok' : 'wait'), el('span', approved ? ' An approver’s valid signature covers exactly these files.' : approvers.length ? ' It needs a valid approval of exactly these files from a key on the approvers list.' : ' No approver key is published yet, so nothing here can be published.'));
-
-  // make a signed review in this browser
-  const form = $('form.review'), outp = $('[data-role=record]'), pub = $('[data-role=pubkey]'), msg = $('[data-role=signmsg]');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault(); if (!same) { msg.textContent = 'Not signed: the files served do not match this version.'; return; }
-    try {
-      const pair = await myKey(true), raw = new Uint8Array(await crypto.subtle.exportKey('raw', pair.publicKey)), fp = (await hexOf(raw)).slice(0, 16), d = new FormData(form);
-      const comments = String(d.get('comments') || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => { const m = l.match(/^([a-z0-9-]{2,24}):\s*(.+)$/); return m ? { scene: m[1], text: m[2] } : { text: l }; });
-      const slug = String(d.get('reviewer')).trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'reviewer';
-      const payload = JSON.stringify({ type: 'review', production: manifest.production, version: manifest.version, digest: manifest.digest, decision: d.get('decision'), comments, reviewer: String(d.get('reviewer')).trim(), role: 'person', signed_at: new Date().toISOString() });
-      const signature = b64(new Uint8Array(await crypto.subtle.sign(SIG, pair.privateKey, enc.encode(payload))));
-      outp.value = JSON.stringify({ payload, alg: 'ECDSA-P256-SHA256', signature, key: `/keys/people/${slug}.json` }, null, 1);
-      pub.value = JSON.stringify({ person: String(d.get('reviewer')).trim(), status: 'proposed', fingerprint: `sha256:${fp}`, raw_p256: b64(raw), how: 'Made in the reviewer’s own browser by the review page (WebCrypto, P-256). The private half cannot be exported from that browser. Only the public half is here.' }, null, 1);
-      msg.textContent = `Signed in this browser with your key ${fp}. Nothing was sent. Hand both texts to your agent: it commits the review record, and (once only, at the owner’s word) your public key.`;
-    } catch (err) { msg.textContent = `Could not sign: ${err.message}`; }
-  });
 }
 for (const r of document.querySelectorAll('[data-review]')) mount(r).catch((e) => { const v = r.querySelector('[data-role=verdict]'); if (v) v.textContent = `The review check could not run (${e.message}).`; });

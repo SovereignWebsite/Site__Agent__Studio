@@ -161,13 +161,14 @@ def version_page(prod, ver, P, m, recs, approved):
 <p class="meta">Version digest <code>{m["digest"]}</code> over {len(m["files"])} files (<a href="manifest.json">manifest.json</a>, <a href="reviews.json">reviews.json</a>).</p>
 <h3>Add your review</h3>
 <form class="review">
-<label for="rv-who">Your name<input id="rv-who" type="text" name="reviewer" required autocomplete="name"></label>
-<label for="rv-dec">Your decision<select id="rv-dec" name="decision"><option value="comment">Comments only</option><option value="changes">Changes wanted</option><option value="approve">I approve this exact version</option></select></label>
-<label for="rv-com">Comments, one a line (start a line with a scene id and a colon to pin it, for example <code>royce: slower</code>)<textarea id="rv-com" name="comments" rows="4"></textarea></label>
+<label for="rv-who"><span>Your name</span><input id="rv-who" type="text" name="reviewer" required autocomplete="name"></label>
+<label for="rv-dec"><span>Your decision</span><select id="rv-dec" name="decision"><option value="comment">Comments only</option><option value="changes">Changes wanted</option><option value="approve">I approve this exact version</option></select></label>
+<label for="rv-com"><span>Comments, one a line. Start a line with a scene id and a colon to pin it, for example <code>royce: slower</code></span><textarea id="rv-com" name="comments" rows="4"></textarea></label>
+<p><button type="button" data-act="dictate" aria-pressed="false">Speak your comments</button> <span class="meta" data-role="dictnote">Uses your browser\u2019s own speech recognition (in Safari, Apple\u2019s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
 <button type="submit" class="primary">Sign in this browser</button>
 <p data-role="signmsg" role="status" class="meta">Signing makes a key in this browser (the private half cannot leave it) and signs your words together with the digest above. Nothing is sent.</p>
-<label for="rv-rec">Your signed review record<textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
-<label for="rv-key">Your public key (published once, at the owner’s word)<textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
+<label for="rv-rec"><span>Your signed review record</span><textarea id="rv-rec" class="out" data-role="record" readonly></textarea></label>
+<label for="rv-key"><span>Your public key (published once, at the owner\u2019s word)</span><textarea id="rv-key" class="out" data-role="pubkey" readonly></textarea></label>
 </form>
 </div>
 """
@@ -217,6 +218,8 @@ def index_page(idx, prods):
 <h2>Candidates</h2>
 <p class="note">{e(idx["candidates_note"])}</p>
 <ul class="cards">{cands}</ul>
+<h2>The scene lab</h2>
+<p>Single scenes are built and judged one at a time in <a href="lab/">the scene lab</a>, against <a href="lab/critic.md">the critic\u2019s rubric</a>, before they join a production.</p>
 <h2 id="how">How review and sign-off work</h2>
 <ol>
 <li><strong>A version is a set of files.</strong> The scenes, the voice and the player. Their SHA-256 hashes make one digest (manifest.json in the version’s folder).</li>
@@ -227,6 +230,35 @@ def index_page(idx, prods):
 <p class="note">Proposed, not built yet: a review vault, so a reviewer’s signed record travels by SG/Send instead of being handed to an agent, and captured files are delivered the same way.</p>
 """
     return page("", "Productions", "Videos being made in the open: drawn in your browser with WebGL, with scripts, sources, versions and signed reviews.", body)
+
+def lab_page():
+    L = load("lab", "scenes.json")
+    for sc in L["scenes"]: assert os.path.exists(os.path.join(ROOT, "lab", sc["id"], "scene.js")), sc["id"]
+    body = """<p class="meta"><a href="../">Productions</a> / the scene lab</p>
+<h1>The scene lab</h1>
+<p class="lede">Where single scenes are built, scrubbed and judged before they join a production. Each one is a small WebGL component that must say something with its words removed.</p>
+<section class="player" data-lab aria-label="Scene lab">
+<h2 data-role="title">Loading a scene</h2>
+<p data-role="beat"></p>
+<div class="stage"><canvas width="1280" height="720" role="img" aria-label="One animated scene. What it shows is described in the line above."></canvas></div>
+<div class="bar" role="group" aria-label="Scene controls">
+<button type="button" class="primary" data-act="play">Play</button>
+<label class="vh" for="lab-seek">Position in the scene</label><input id="lab-seek" type="range" min="0" max="10" step="0.05" value="0" data-role="seek">
+<output data-role="time" for="lab-seek">0.0 s</output>
+<a href="?portrait=1">Portrait</a> <a href="?">Landscape</a>
+</div>
+<p data-role="status" role="status"></p>
+<h3>Sources of this scene</h3>
+<ul data-role="sources"></ul>
+</section>
+<h2>Scenes in the lab</h2>
+<ul data-role="list" id="lab-list"></ul>
+<p class="note">Nothing in the lab is published or signed: these are parts. The critic\u2019s rubric is <a href="critic.md">critic.md</a>; the contract a scene follows is at the top of <a href="harness.js">harness.js</a>. three.js 0.187.0 (MIT) is served from this site, not from a CDN.</p>
+"""
+    body = body.replace('<ul data-role="list" id="lab-list"></ul>', '<ul data-role="list" id="lab-list"></ul>' if L["scenes"] else '<ul data-role="list" id="lab-list"><li>No scene yet.</li></ul>')
+    # the list sits inside the lab section for the harness
+    body = body.replace('</section>\n<h2>Scenes in the lab</h2>\n', '<h2>Scenes in the lab</h2>\n').replace('<p class="note">Nothing in the lab', '</section>\n<p class="note">Nothing in the lab')
+    write("lab/index.html", page("lab/", "The scene lab", "Single WebGL scenes, built and judged one at a time before they join a production.", body, ["/productions/lab/harness.js"]))
 
 def main():
     idx = load("productions.json"); prods = []
@@ -243,5 +275,6 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
+    lab_page()
 
 if __name__ == "__main__": main()
