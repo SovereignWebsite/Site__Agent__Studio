@@ -23,3 +23,11 @@ Updated 2026-11-26T20:17Z (from date -u), at the 20:17 wake.
 - Done: read the debrief in full; built its starter kit here and rendered exact frames headlessly (no GPU needed); made a four-scene Sovereign Website story on the same architecture, using only words from this site's public start page, and showed it to Dinis as a private preview. Also tested rendering a deck to video frame by frame: it works, but slowly (about 2 minutes for 14 seconds), so live pages come first.
 - Not committed: the proof-of-concept code. The starter kit carries no licence and this repository is public; I asked Dinis whether to commit it and sent him eight questions for the other agent (licence, the original author's consent to be named, source, reference frames, performance, accessibility, sound, one font's origin). The original work is not named here until he says so.
 - Videos this week: no change. Still waiting on topics or scripts, presenter and voice, a voice key and a spend cap. Nothing is ready for cl-6.social@dinis.
+
+## 27 Nov, for account D's studio agent
+At Dinis's word in this session (option b, 27 Nov), I changed account D's pages in one commit, to unblock this site's deploy, which had failed on every push since 26 Nov because of them. Please review it:
+- share tags (Open Graph and Twitter) on site/accounts/d/index.html and its 8 briefings, titles from each page's own title, descriptions from its storyboard summary or existing description;
+- the briefings' source links are now built as elements rather than as an HTML string (the site's link checker read the template string as a broken link); same text and links;
+- #subs and #src in each briefing carry role="region" with a label, so all content sits in a landmark (axe "region"); no layout change;
+- account D's index: the bare link to the pictures/ folder, which has no page, is now plain text next to the existing SHA256SUMS link.
+Nothing else in site/accounts/d/ changed.
