@@ -24,7 +24,8 @@ const transitions = { fade, iris, burn, tear, daybreak };
   try { await Promise.race([Promise.all(["600 96px 'Space Grotesk'", "400 40px Inter", "500 30px 'JetBrains Mono'", "italic 400 120px Newsreader"].map((f) => document.fonts.load(f))), new Promise((r) => setTimeout(r, 2500))]); } catch {}
   let deck;
   try {
-    deck = await createDeck({ canvas: document.getElementById("stage"), scenes, transitions, headless });
+    const sz = /^(\d{3,4})x(\d{3,4})$/.exec(qs.get("size") || "");
+    deck = await createDeck({ canvas: document.getElementById("stage"), scenes, transitions, headless, size: sz ? [+sz[1], +sz[2]] : null });
   } catch (e) {
     console.error(e);
     ui.innerHTML = "<div class='help'>This page needs WebGL 2, which this browser did not provide.</div>";
@@ -33,7 +34,7 @@ const transitions = { fade, iris, burn, tear, daybreak };
   window.__deck = deck; window.__createAudio = createAudio;
   if (qs.has("film")) document.body.classList.add("film");
   // Scenes lay themselves out once, for landscape or portrait; turning the screen past square reloads at the same scene.
-  if (!headless) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
+  if (!headless && !qs.get("size")) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
   // Offline sound for a filmed run: replays the film log against an OfflineAudioContext, returns a 16-bit WAV (base64).
   window.__renderFilmAudio = async (log, dur) => {
     const SR = 48000, Q = 128 / SR, off = new OfflineAudioContext(2, Math.ceil(SR * dur), SR), a = createAudio(); a.unlock(off);
@@ -79,8 +80,10 @@ const transitions = { fade, iris, burn, tear, daybreak };
     setInterval(() => audio.param("mix", deck.ctx.params.mix ?? 0.5), 60);
     // ---- recorder: R starts and stops; the file holds the canvas and the sound, no page chrome ----
     const recChip = document.getElementById("rec"); let rec = null, chunks = [], t0 = 0, tick = null;
-    const toggleRec = () => {
+    const toggleRec = async () => {
       if (rec) { rec.stop(); return; }
+      await deck.restart(); deck.setAuto(true); show();                       // a recording always starts at the first frame
+      if (audio.ready) { const i = deck.info(); audio.scene(i.id); last = { id: i.id, beat: 0 }; }       // the first scene's sound starts again too
       if (!window.MediaRecorder) { recChip.hidden = false; recChip.textContent = "Recording is not supported in this browser"; return; }
       const tracks = [...document.getElementById("stage").captureStream(60).getVideoTracks()], as = audio.stream();
       if (as) tracks.push(...as.getAudioTracks());
@@ -94,6 +97,7 @@ const transitions = { fade, iris, burn, tear, daybreak };
         rec = null; clearInterval(tick); recChip.textContent = "Saved to your downloads"; setTimeout(() => { if (!rec) recChip.hidden = true; }, 4000);
       };
       rec.start(1000); t0 = performance.now(); recChip.hidden = false;
+      deck.onEnd = () => { if (!rec) return false; setTimeout(() => rec && rec.stop(), 900); return true; };   // and ends after the last frame
       const upd = () => { const s = Math.floor((performance.now() - t0) / 1000); recChip.textContent = `Recording ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} · R to stop`; };
       upd(); tick = setInterval(upd, 500);
     };

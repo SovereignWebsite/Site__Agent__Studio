@@ -39,7 +39,7 @@ class SceneRunner {
   render(target) { this.inst.render(target, this.s); }
 }
 
-export async function createDeck({ canvas, scenes, transitions, headless = false, audio = null }) {
+export async function createDeck({ canvas, scenes, transitions, headless = false, audio = null, size = null }) {
   const gfx = createGfx(canvas, { headless });
   const view = createView();
   const mouse = { x: 0, y: 0, tx: 0, ty: 0, px: 960, py: 540 };
@@ -75,7 +75,7 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
       if (r.s.beat < r.s.n - 1) { r.s.beat++; r.s.dir = 1; sound("beat", { id: r.def.id, beat: r.s.beat }); emit("move"); }
       else if (cur < runners.length - 1) deck.go(cur + 1, { with: scenes[cur + 1].enterWith });
       else if (film) { film.done = true; blackT = 1; }   // filming: end on black instead of looping
-      else if (auto) deck.jump(0); // auto-play loops
+      else if (auto) { if (deck.onEnd && deck.onEnd() === true) return; deck.jump(0); } // auto-play loops, unless a recording ends here
     },
     back() {
       if (trans) { trans.speed = 3.5; return; }
@@ -103,10 +103,17 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
       deck.go(i, { with: "fade", beat });
     },
     setAuto(v) { auto = v; }, get auto() { return auto; },
+    // back to the very first frame, with no transition (the start of a recording)
+    async restart() { trans = null; cur = -1; black = blackT = 0; for (const r of runners) { await r.init(); r.reset(0); } await deck.go(0); },
     toggleBlack() { blackT = blackT ? 0 : 1; },
   };
 
   function resize() {
+    if (size) {                               // a fixed drawing size (e.g. 1080x1920 for vertical video), fitted to the window
+      const [w, h] = size, k = Math.min(innerWidth / w, innerHeight / h);
+      Object.assign(canvas.style, { width: w * k + "px", height: h * k + "px", left: (innerWidth - w * k) / 2 + "px", top: (innerHeight - h * k) / 2 + "px", right: "auto", bottom: "auto" });
+      view.resize(w, h); gfx.resize(w, h); for (const r of runners) r.inst && r.inst.resize && r.inst.resize(); return;
+    }
     const dpr = Math.min(devicePixelRatio || 1, 2);
     let w = (canvas.clientWidth || innerWidth) * dpr, h = (canvas.clientHeight || innerHeight) * dpr;
     const cap = Math.min(1, Math.sqrt((3840 * 2400) / (w * h))); w = Math.round(w * cap); h = Math.round(h * cap);

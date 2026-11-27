@@ -7,6 +7,7 @@ import burn from "./transitions/burn.js";
 import tear from "./transitions/tear.js";
 import daybreak from "./transitions/daybreak.js";
 import credits from "./scenes/credits.js";
+import cover from "./scenes/cover.js";
 import folder from "./scenes/folder.js";
 import history from "./scenes/history.js";
 import policy from "./scenes/policy.js";
@@ -14,7 +15,7 @@ import end from "./scenes/end.js";
 import line from "./transitions/line.js";
 import slam from "./transitions/slam.js";
 
-const scenes = [folder, history, policy, end, credits];
+const scenes = [cover, folder, history, policy, end, credits];
 const transitions = { fade, iris, burn, tear, daybreak, line, slam };
 
 (async () => {
@@ -25,7 +26,8 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
   const audio = createAudio();
   let deck;
   try {
-    deck = await createDeck({ canvas: document.getElementById("stage"), scenes, transitions, headless, audio });
+    const sz = /^(\d{3,4})x(\d{3,4})$/.exec(qs.get("size") || "");
+    deck = await createDeck({ canvas: document.getElementById("stage"), scenes, transitions, headless, audio, size: sz ? [+sz[1], +sz[2]] : null });
   } catch (e) {
     console.error(e);
     ui.innerHTML = "<div class='help'>This page needs WebGL 2, which this browser did not provide.</div>";
@@ -34,7 +36,7 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
   window.__deck = deck; window.__createAudio = createAudio;
   if (qs.has("film")) document.body.classList.add("film");
   // Scenes lay themselves out once, for landscape or portrait; turning the screen past square reloads at the same scene.
-  if (!headless) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
+  if (!headless && !qs.get("size")) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
   // Offline sound for a filmed run: replays the film log against an OfflineAudioContext, returns a 16-bit WAV (base64).
   window.__renderFilmAudio = async (_log, dur) => renderOffline(deck.test.soundLog(), dur);   // same synthesis as live, from the logged events
   const m = /^#([a-z0-9]+)(?:-(\d+))?$/.exec(location.hash || "");
@@ -55,8 +57,9 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
     addEventListener("keydown", (e) => { if (e.key === "m" || e.key === "M") { if (!audio.ready) start(); else audio.mute(); label(); } else start(); }, { capture: true });
     // ---- recorder: R starts and stops; the file holds the canvas and the sound, no page chrome ----
     const recChip = document.getElementById("rec"); let rec = null, chunks = [], t0 = 0, tick = null;
-    const toggleRec = () => {
+    const toggleRec = async () => {
       if (rec) { rec.stop(); return; }
+      await deck.restart(); deck.setAuto(true); show();                       // a recording always starts at the first frame
       if (!window.MediaRecorder) { recChip.hidden = false; recChip.textContent = "Recording is not supported in this browser"; return; }
       const tracks = [...document.getElementById("stage").captureStream(60).getVideoTracks()], as = audio.stream();
       if (as) tracks.push(...as.getAudioTracks());
@@ -65,11 +68,12 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
       rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
       rec.onstop = () => {
         const blob = new Blob(chunks, { type: rec.mimeType }), a = document.createElement("a");
-        a.href = URL.createObjectURL(blob); a.download = "sovereign-story-" + new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-") + (rec.mimeType.includes("mp4") ? ".mp4" : ".webm");
+        a.href = URL.createObjectURL(blob); a.download = (document.title || "deck").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-") + (rec.mimeType.includes("mp4") ? ".mp4" : ".webm");
         document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
         rec = null; clearInterval(tick); recChip.textContent = "Saved to your downloads"; setTimeout(() => { if (!rec) recChip.hidden = true; }, 4000);
       };
       rec.start(1000); t0 = performance.now(); recChip.hidden = false;
+      deck.onEnd = () => { if (!rec) return false; setTimeout(() => rec && rec.stop(), 900); return true; };   // and ends after the last frame
       const upd = () => { const s = Math.floor((performance.now() - t0) / 1000); recChip.textContent = `Recording ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} · R to stop`; };
       upd(); tick = setInterval(upd, 500);
     };

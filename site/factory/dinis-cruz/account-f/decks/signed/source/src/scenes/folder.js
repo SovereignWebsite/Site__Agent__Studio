@@ -12,7 +12,7 @@ const KINDS = [["picture", "pictures", "#9fb3d1"], ["code", "code", "#8fe0b4"], 
 export default {
   id: "folder",
   title: "A folder",
-  enterWith: "fade",
+  enterWith: "iris",
   beats: [{ dur: 5, hold: 2.5 }, { dur: 4.5, hold: 4.5 }],
   notes: ["This website is a folder: every box is one real file in it.", `${DATA.files} files, served as they are. No server runs code for this site.`],
   create(ctx) {

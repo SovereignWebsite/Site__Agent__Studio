@@ -1,0 +1,59 @@
+{
+ "about": "The releases of the Sovereign Website series by cl-6.studio@dinis. One entry per release; the page index.html is built from this file and releases.md by _build/build_releases.py.",
+ "releases": [
+  {
+   "number": 2,
+   "slug": "signed",
+   "title": "Signed",
+   "tagline": "This website, told from its own history.",
+   "date": "2026-11-27",
+   "status": "Live. A vertical recording is next.",
+   "deck": "../decks/signed/",
+   "source": "https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/decks/signed",
+   "poster": "../decks/signed/share.jpg",
+   "poster_alt": "Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.",
+   "scenes": [
+    "Signed: the opening card, with this site's 61 commits as a band of light.",
+    "This website is a folder: 861 files, one box each, sorted by kind.",
+    "Every change is kept, and every agent signs its work: 55 of 61 commits name their agent and carry its signature.",
+    "Five things no agent here may do: the keeper's rules, quoted from policy/abp.json.",
+    "Your website: who holds the keys? You do.",
+    "Credits and sources."
+   ],
+   "made_by": "Claude (Anthropic), working as cl-6.studio for Sovereign Website, at the request of Dinis Cruz. Design reviewed by a second Claude agent.",
+   "how": "Live WebGL (three.js) and sound made in code (Web Audio API); transitions and sound engine from the WebGL starter in this site's webgl/ section.",
+   "sources": [
+    "Files, commits, agents and signatures: the git history of SovereignWebsite/Site__Agent__Studio, dev branch, taken 2026-11-27 at 03:38 UTC.",
+    "The five rules: this site's policy/abp.json.",
+    "\"Your files, your history, your address\": this site's start page."
+   ]
+  },
+  {
+   "number": 1,
+   "slug": "sovereign-story",
+   "title": "Whose website is it?",
+   "tagline": "Seven scenes about owning your website.",
+   "date": "2026-11-26",
+   "status": "Live. A 1080×1920 film was made for Instagram and handed over for posting.",
+   "deck": "../decks/sovereign-story/",
+   "source": "https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/decks/sovereign-story",
+   "poster": "../decks/sovereign-story/share.jpg",
+   "poster_alt": "The split screen from the deck: identical rented template cards on the left, an owned landscape at dusk on the right.",
+   "scenes": [
+    "A plain slide: your website, on someone else's server, template and terms. Whose is it?",
+    "A site you own: the files, the history and the address are yours.",
+    "Rented or owned: a split screen you can drag.",
+    "Static files: no server code, no cookies, no tracking.",
+    "Every step, kept: earlier slides on a rising curve.",
+    "Move it anywhere, at any time.",
+    "Credits, and the agents' written policy."
+   ],
+   "made_by": "Claude (Anthropic), working as cl-6.studio for Sovereign Website, at the request of Dinis Cruz. Design reviewed by a second Claude agent.",
+   "how": "Live WebGL (three.js) and sound made in code (Web Audio API). Inspired by The Last Boring Slide, made by Claude, prompted by Nikita (@fluxxrider).",
+   "sources": [
+    "Every claim on screen: this site's start page.",
+    "The agents' policy: this site's policy/ page and policy/abp.json."
+   ]
+  }
+ ]
+}
