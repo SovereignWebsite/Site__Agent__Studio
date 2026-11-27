@@ -1,6 +1,6 @@
 # cl-6.studio@dinis: now
 
-Updated 2026-11-27T10:17Z (from date -u), at the 10:17 wake.
+Updated 2026-11-27T20:18Z (from date -u), at the 20:17 wake.
 
 - Started 2026-11-26 16:49 UTC. Key made and published (site/keys/cl-6.studio.json, first commit, signed).
 - Area made: agent.json, role.md, restart.md, now.md, plan.md.
@@ -45,4 +45,18 @@ Nothing else in site/accounts/d/ changed.
   - account D: share-tag and check fixes, so the deploy is green again.
 - For cl-6.social@dinis (via the maestro, as I hold no route to it): the video's facts and a suggested disclosure are in the note given to Dinis. There is no synthetic presenter and no AI voice, so the presenter-ruling phrases would be untrue. Suggested disclosure: "Made by Claude: every frame and sound is generated in code."
 - The drafts in site/accounts/c/drafts/ are studio.c's, not mine (checked the trailers); I told the maestro.
+- Blocked: the plan.md videos still wait on Dinis (topics, presenter and voice, a voice key and spend cap). Nothing in this wake needs a key or spend.
+
+## 27 Nov, 20:17 wake
+- Done since the 10:17 wake, all at Dinis's word in this session:
+  - Releases page (releases/, from releases.md and releases.json) with players for both decks.
+  - A music brief for Signed (briefs/signed-music/). The track came back from ElevenLabs (98.0 s, -20.0 LUFS, peak -5.1 dBFS) and is now Signed's score, in step with the deck; credits, text version and releases name it.
+  - Both decks: at the end the sound fades out and the deck stops (no loop).
+  - Both decks: "Record a video" in four steps (shape, record, check, send). It records only the canvas and its sound, and sends with SG/Send, encrypted in the browser, using the sender's own access token.
+  - Dinis recorded Signed twice and sent both to me with SG/Send. He chose the version with music for publishing: signed-music-vertical.mp4, 1080x1920, 30 fps, 99.1 s, sha256 d6a15aae...e272. Its facts, alt text and disclosure ("Made by Claude: every frame is drawn in code; music made with ElevenLabs.") went to cl-6.social@dinis, whose captions are drafted in its repository.
+  - Dinis granted one exception to the token rule (CLAUDE.md and role.md, 5d2671f): I may use SG_SEND_ACCESS_TOKEN from my environment to upload handover files to SG/Send, never printing it. tools/sg-upload.sh does it and checks the upload by downloading it again. The approved video is on SG/Send, checked; its token was given to Dinis and cl-6.social@dinis.
+  - Dinis: sovereignwebsite.ai for Signed; "Whose website is it?" stays .org. He may be named as the requester in captions.
+- For cl-6.maestro@dinis: my wake prompt still says "never hold a token"; the exception above, granted by Dinis, now sits beside it in CLAUDE.md.
+- Who posts: not me and not cl-6.social@dinis. Dinis has a Buffer agent; I wrote him its hand-over prompt (drafts in Buffer, his yes before anything goes out).
+- Waiting: studio.c's answer on adding the cast to Signed (asked through the maestro, no reply yet).
 - Blocked: the plan.md videos still wait on Dinis (topics, presenter and voice, a voice key and spend cap). Nothing in this wake needs a key or spend.

@@ -16,9 +16,11 @@
   "10:17",
   "20:17"
  ],
- "last_wake": "2026-11-27T10:17Z",
+ "last_wake": "2026-11-27T20:18Z",
  "working_on": [
-  "live WebGL decks: Sovereign story and Signed (decks/), the webgl/ knowledge section",
+  "live WebGL decks: Sovereign story and Signed (decks/), with a four-step recorder and SG/Send hand-over",
+  "releases/ and the webgl/ knowledge section",
   "videos for the week (plan.md), waiting on Dinis"
- ]
+ ],
+ "token_exception": "SG_SEND_ACCESS_TOKEN, for SG/Send hand-over uploads only, granted by Dinis Cruz on 27 Nov 2026 (CLAUDE.md)"
 }
