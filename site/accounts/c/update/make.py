@@ -207,6 +207,10 @@ if CAST:
     fd = sb["deck_frames"]; os.makedirs(f"{work}/site/media", exist_ok=True)   # a deck film's frames, as film.cjs writes them
     if not os.path.exists(f"{work}/site/media/film"): os.symlink(os.path.abspath(fd), f"{work}/site/media/film")
     spec["deck"] = {"dir": "media/film", "fps": sb.get("deck_fps", 30), "frames": len([x for x in os.listdir(fd) if x.endswith(".jpg")])}
+    for b in beats:   # images used as props (screenshots): copied next to the page
+        for pr in b.get("props", []):
+            if pr.get("icon") == "img" and str(pr.get("src", "")).startswith("file:"):
+                n = os.path.basename(pr["src"][5:]); shutil.copy(os.path.join(sb["media_dir"], pr["src"][5:]), f"{work}/site/media/{n}"); pr["src"] = f"media/{n}"
     if str(sb["cover"].get("image", "")).startswith("file:"):
         shutil.copy(os.path.join(sb["media_dir"], sb["cover"]["image"][5:]), f"{work}/site/cover.jpg"); spec["cover"] = {**sb["cover"], "image": "cover.jpg"}
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)

@@ -4,6 +4,7 @@
 @font-face{font-family:Inter;src:url(fonts/Inter-Medium.otf);font-weight:500}
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:Inter,sans-serif}
 #deck{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#dim{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#000;opacity:0}
 #st{position:absolute;left:0;top:836px;width:1080px;height:700px;visibility:hidden}
 #ov{position:absolute;left:0;top:836px;width:1080px;height:700px}
 #viz{position:absolute;left:0;top:0;width:1080px;height:1920px}
@@ -17,7 +18,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;fo
 #bar{position:absolute;left:64px;top:1524px;height:8px;width:0;background:var(--gold);border-radius:4px;z-index:6}
 #cover{position:absolute;left:0;top:0;width:1080px;height:1920px;display:none;z-index:9}
 </style></head><body>
-<img id="deck" alt=""><div id="st"></div><canvas id="ov" width="1080" height="700"></canvas>
+<img id="deck" alt=""><div id="dim"></div><div id="st"></div><canvas id="ov" width="1080" height="700"></canvas>
 <svg id="viz" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
 <div id="title"><b></b><div id="who"></div></div><div id="ai">Synthetic presenter · voice made by AI</div>
 <div id="bar"></div><div id="sub"></div><img id="cover" alt="">
@@ -31,8 +32,6 @@ const T = await (await fetch(spec.timing)).json(); const K = T.keys; const LEAD 
 document.getElementById('who').textContent = spec.label; document.querySelector('#title b').textContent = spec.title || '';
 const C = Object.assign({ navy:'#0f0f0e', ink:'#1d1d1b', card:'#262623', line:'#3d3d37', gold:'#4fc48f', white:'#f7f6f2', muted:'#b9b6ab', green:'#3fb57f', red:'#e86a5a', blue:'#1a7f5a', stage:'#1f1f1d' }, (spec.theme||{}).colours||{});
 const R = document.documentElement.style; for (const [k,v] of Object.entries(C)) R.setProperty('--'+k, v);
-let svg=''; const add=s=>svg+=s;
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const clamp = (x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const ease = x=>1-Math.pow(1-clamp(x),3);
 const back = x=>{x=clamp(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
@@ -69,6 +68,8 @@ const ICON = {
   tile:(s)=>{ rect(-s,-s*.5,s*2,s,{fill:'#4fc48f',r:6,op:.55}); },
   spark:(s)=>{ for(let k=0;k<6;k++){ const a=k*Math.PI/3; line(Math.cos(a)*s*.3,Math.sin(a)*s*.3,Math.cos(a)*s,Math.sin(a)*s,{stroke:'#f0d36a',sw:4}); } },
   zz:(s)=>{ text(0,0,'z',{size:s,fill:'#cfd8e6',w:700}); text(s*.6,-s*.6,'z',{size:s*.75,fill:'#cfd8e6',w:700}); },
+  img:(s,p)=>{ const w=p.w||420, h=p.h||560; rect(-w/2-8,-h/2-8,w+16,h+16,{fill:'#0d0d0c',r:16,stroke:'#4fc48f',sw:3}); add(`<image ${HREF}="${esc(p.src)}" x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" preserveAspectRatio="xMidYMin slice"/>`); if(p.caption) text(0,h/2+48,p.caption,{size:30,fill:'#f7f6f2'}); },
+  card:(s,p)=>{ text(0,0,p.text||'',{size:s,fill:p.fill||'#4fc48f'}); if(p.sub) text(0,s*.9,p.sub,{size:s*.42,fill:'#f7f6f2',w:500}); },
   bubble:(s,p)=>{ const w=Math.max(160,(p.text||'').length*s*.55); rect(-w/2,-s*1.1,w,s*1.6,{fill:'#f7f6f2',r:s*.8}); path(`M-10 ${s*.5} L 0 ${s*1.1} L 14 ${s*.5}`,{fill:'#f7f6f2',stroke:'none',sw:0}); text(0,s*.05,p.text||'',{size:s*.62,fill:'#111'}); }
 };
 function drawProps(b, u){ for(const p of (b.props||[])){ const a=p.t0??0, z=p.t1??(a+1.2); if(u<a-0.001 || u>z+(p.hold??0.6)) continue;
@@ -115,8 +116,9 @@ window.render = async T0 => { const t=T0-LEAD;
   if (spec.cover){ const o = T0 < LEAD ? 1 : 1-clamp((T0-LEAD)/0.4); cov.style.display = o>0?'block':'none'; cov.style.opacity=o; }
   const f=deckFrame(Math.max(0,t)); if(f && f!==lastSrc){ deckImg.src=f; lastSrc=f; try{ await deckImg.decode(); }catch(e){} } deckImg.style.visibility=f?'visible':'hidden';
   svg=''; const B=spec.beats, L=spec.beat_lead||0, at=i=>i?K[B[i].id]-L:0; let k=0; for(let i=0;i<B.length;i++) if(t>=at(i)) k=i;
-  if (spec.stats && t >= T.duration + 0.6){ rect(0,0,1080,1920,{fill:C.navy,r:0}); g0('translate(0 380)'); statsCard(t-T.duration-0.6); g1(); }
-  else if (t>=0) drawProps(B[k], t-at(k));
+  if (spec.stats && t >= T.duration + 0.6){ rect(0,0,1080,1920,{fill:C.navy,r:0}); g0('translate(0 140)'); statsCard(t-T.duration-0.6); g1(); }
+  else if (t>=0){ const b=B[k], u=t-at(k); drawProps(b, u); }
+  { const b=B[k], u=t-at(k), pb=k?B[k-1]:null; const target=(t>=0&&b.dim)?b.dim*ease(u/0.5):(pb&&pb.dim?pb.dim*(1-ease(u/0.5)):0); document.getElementById('dim').style.opacity=t>=T.duration+0.6?0:target; }   // behind the presenters
   viz.innerHTML=svg; keyed(t);
   const s=T.subs.find(s=>t>=s.t0-0.05&&t<=s.t1+0.5);
   subEl.innerHTML = s ? '<span>'+s.words.map(w=>t>=w[1]-0.02?`<b>${esc(w[0])}</b>`:esc(w[0])).join(' ')+'</span>' : '';
