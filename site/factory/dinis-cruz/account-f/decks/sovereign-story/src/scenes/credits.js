@@ -14,18 +14,18 @@ export default {
     const bg = gfx.pass(NOISE + `void main(){
         vec2 p=(vUv-.5)*vec2(uRes.x/uRes.y,1.); float t=uTime*.03;
         float n=fbm(p*1.4+vec2(t,-t*.7));
-        vec3 c=mix(vec3(.010,.014,.013),vec3(.016,.034,.030),vUv.y)+vec3(.10,.30,.20)*pow(n,3.)*.9;
+        vec3 c=mix(vec3(.010,.014,.013),vec3(.016,.034,.030),vUv.y)+vec3(.06,.10,.14)*pow(n,3.)*.9;
         c+=vec3(1.,.75,.45)*exp(-length(p-vec2(.62,-.28))*3.2)*.10;
         o=vec4(c,1.); }`);
     const SERIF = "italic 400 {px}px 'Newsreader', Georgia, 'Times New Roman', serif";
-    const layer = ctx.overlay(), X = 160;
+    const layer = ctx.overlay(), X = 140;
     const lbl = layer.add(ctx.text("CREDITS", { x: X + 4, y: 250, size: 26, font: "mono", color: "#8fe0b4" }));
-    const a = layer.add(ctx.text("Inspired by", { x: X, y: 320, size: 44, font: "text", color: "#b9cbc2" }));
-    const title = layer.add(ctx.text("The Last Boring Slide", { x: X - 6, y: 375, size: 132, font: SERIF, color: "#ffffff" }));
-    const b = layer.add(ctx.text("made by Claude, prompted by Nikita (@fluxxrider).", { x: X, y: 545, size: 44, font: "text", color: "#e6efe9" }));
+    const a = layer.add(ctx.text("Inspired by", { x: X + 4, y: 320, size: 44, font: "text", color: "#c9d3ce" }));
+    const title = layer.add(ctx.text("The Last Boring Slide", { x: X - 4, y: 375, size: 132, font: SERIF, color: "#ffffff" }));
+    const b = layer.add(ctx.text("made by Claude, prompted by Nikita (@fluxxrider).", { x: X + 4, y: 545, size: 44, font: "text", color: "#f4f7f5" }));
     const c = layer.add(ctx.text("This deck was made by Claude as cl-6.studio for Sovereign Website:\nlive WebGL in one HTML file, with no images and no video.",
-      { x: X, y: 760, size: 30, font: "text", color: "#93a89d", leading: 1.5 }));
-    const url = layer.add(ctx.text("sovereignwebsite.org", { x: X, y: 880, size: 30, font: "mono", color: "#8fe0b4" }));
+      { x: X + 4, y: 760, size: 30, font: "text", color: "#9aa8a1", leading: 1.5 }));
+    const url = layer.add(ctx.text("sovereignwebsite.org", { x: X + 4, y: 880, size: 30, font: "mono", color: "#8fe0b4" }));
     return {
       update(s) {
         bg.u.uTime.value = s.t;

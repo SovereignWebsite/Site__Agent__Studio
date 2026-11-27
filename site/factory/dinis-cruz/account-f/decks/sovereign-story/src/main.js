@@ -38,11 +38,11 @@ const transitions = { fade, iris, burn, tear, daybreak };
     attachPresenter(deck);
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const chip = document.getElementById("auto");
-    const show = () => { chip.textContent = deck.auto ? "Auto-play on · A to stop" : "Auto-play off · A to start"; };
+    const show = () => { chip.textContent = deck.auto ? "Auto-play: on · A" : "Auto-play: off · A"; chip.setAttribute("aria-pressed", deck.auto); };
     deck.setAuto(!calm); show();
     // ---- sound: starts on the first click or key; M toggles it ----
     const audio = createAudio(), snd = document.getElementById("snd");
-    const label = () => { snd.textContent = !audio.ready ? "Click anywhere for sound" : audio.muted ? "Sound off · M" : "Sound on · M"; };
+    const label = () => { snd.textContent = !audio.ready ? "Sound: off · click" : audio.muted ? "Sound: off · M" : "Sound: on · M"; snd.setAttribute("aria-pressed", audio.ready && !audio.muted); };
     let last = { id: null, beat: -1 };
     const start = () => { if (audio.ready) return; audio.unlock(); const i = deck.info(); audio.scene(i.id); last = { id: i.id, beat: i.beat }; label(); };
     addEventListener("pointerdown", start, { capture: true }); addEventListener("keydown", (e) => { if (e.key === "m" || e.key === "M") { if (!audio.ready) start(); else audio.mute(); label(); } else start(); }, { capture: true });

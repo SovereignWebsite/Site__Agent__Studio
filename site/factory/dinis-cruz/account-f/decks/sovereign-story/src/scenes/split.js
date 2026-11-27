@@ -29,7 +29,7 @@ export default {
         float fill=step(f.x,-.32+.64*fract(uTime*.35));
         k=mix(k,mix(vec3(.6,.62,.66),vec3(.17,.33,.78),fill),bar);
         c=mix(c,k*.92,card);
-        return c*mix(1.,.1,smoothstep(.46,.8,sp.y));                                   // dim the top so the caption reads
+        return c*mix(1.,.06,smoothstep(.40,.68,sp.y));                                   // dim the top so the caption reads
       }
       vec3 owned(vec2 sp){
         vec2 asp=vec2(uRes.x/uRes.y,1.); float pan=uTime*.012;
@@ -56,7 +56,7 @@ export default {
           lay+=vec3(1.,.66,.32)*lamp*(2.2+1.5*sin(uTime*2.+hash12(cell)*40.));
           c=mix(c,lay,m);
         }
-        return c;
+        return c*mix(1.,.28,smoothstep(.48,.72,sp.y));
       }
       void main(){
         vec2 px=vUv*uRes; float k=uRes.y/1080.;
@@ -70,10 +70,10 @@ export default {
         o=vec4(c,1.);
       }`, { uD: 0.5, uHot: 0 });
     const layer = ctx.overlay();
-    const lt = layer.add(ctx.text("Rented.", { x: 0, y: 130, size: 104, font: "display", color: "#e9ecf2" }));
-    const ls = layer.add(ctx.text("Their server, their template.", { x: 0, y: 270, size: 38, font: "text", color: "#aab1bf" }));
-    const rt = layer.add(ctx.text("Owned.", { x: 0, y: 130, size: 104, font: "display", color: "#fff7ea" }));
-    const rs = layer.add(ctx.text("Your files, your history, your address.", { x: 0, y: 270, size: 38, font: "text", color: "#ffe2c2" }));
+    const lt = layer.add(ctx.text("Rented.", { x: 0, y: 140, size: 112, font: "display", color: "#f4f7f5" }));
+    const ls = layer.add(ctx.text("Their server, their template.", { x: 0, y: 290, size: 40, font: "text", color: "#d4d9e2" }));
+    const rt = layer.add(ctx.text("Owned.", { x: 0, y: 140, size: 112, font: "display", color: "#ffffff" }));
+    const rs = layer.add(ctx.text("Your files, your history, your address.", { x: 0, y: 290, size: 40, font: "text", color: "#ffffff" }));
     let d = 0.5, drag = false, dragD = 0.5, hot = 0;
     const divX = () => view.x0 + d * view.w;
     return {
@@ -89,11 +89,11 @@ export default {
         hot += ((drag || Math.abs(s.mouse.px - divX()) < 70 ? 1 : 0) - hot) * damp(10, s.dt);
         bg.u.uTime.value = s.t; bg.u.uD.value = d; bg.u.uHot.value = hot; ctx.params.mix = d;
         const x = divX(), inL = s.k(0, 0.4, 2.2, ease.lin), inR = s.k(0, 1.2, 3.0, ease.lin);
-        lt.x = ls.x = view.x0 + 90; rt.x = rs.x = x + 90;
+        lt.x = ls.x = view.x0 + 140; rt.x = rs.x = x + 140;
         lt.show(inL, { stagger: 0.3 }); ls.show(inL, { style: "fade" });
         rt.show(inR, { stagger: 0.3 }); rs.show(inR, { style: "fade" });
-        const roomL = clamp((x - view.x0 - 90 - lt.width()) / 120), roomLs = clamp((x - view.x0 - 90 - ls.width()) / 120);
-        const roomR = clamp((view.x1 - x - 90 - rt.width()) / 120), roomRs = clamp((view.x1 - x - 90 - rs.width()) / 120);
+        const roomL = clamp((x - view.x0 - 140 - lt.width()) / 120), roomLs = clamp((x - view.x0 - 140 - ls.width()) / 120);
+        const roomR = clamp((view.x1 - x - 140 - rt.width()) / 120), roomRs = clamp((view.x1 - x - 140 - rs.width()) / 120);
         lt.mat.uniforms.uAlpha.value = roomL; ls.mat.uniforms.uAlpha.value = roomLs;
         rt.mat.uniforms.uAlpha.value = roomR; rs.mat.uniforms.uAlpha.value = roomRs;
       },

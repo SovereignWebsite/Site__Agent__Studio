@@ -18,7 +18,7 @@ export default {
         vec2 off=vec2(sg*f*.95,f*.18)*asp;
         q=(rot(P*asp-off-piv,-ang)/sc+piv)/asp;
         float top=1.-q.y, torn=smoothstep(run()*1.08,run()*1.08-.06,top);  // 1 where the rip has reached
-        float gap=.0035*torn*(1.-f), tx=tearX(q.y);
+        float gap=.0015*torn*(1.-f), tx=tearX(q.y);
         float d=side<.5?tx-gap-q.x:q.x-tx-gap;                             // distance inside the half from the rip
         edge=torn>.01?d:1.;
         float inBox=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.);
@@ -33,13 +33,13 @@ export default {
         c*=1.-.5*sh*smoothstep(0.,.3,fly());
         for(int i=0;i<2;i++){
           float side=float(i), m=half_(vUv,side,q,e);
-          float fib=.0035+.006*vnoise(vec2(q.y*120.,side*7.+1.));
+          float fib=.005+.008*vnoise(vec2(q.y*120.,side*7.+1.));
           // fibres just beyond the edge
-          float strands=step(.62,vnoise(vec2(q.y*900.,side*3.)))*step(-fib*.8,e)*step(e,0.)*step(.0,1.-q.y)*(1.-step(1.,e));
+          float strands=step(.72,vnoise(vec2(q.y*900.,side*3.)))*step(-fib*.8,e)*step(e,0.)*step(.0,1.-q.y)*(1.-step(1.,e));
           if(m>0.||strands>0.){
             vec3 a=toLin(texture(tA,q).rgb);
             float core=1.-smoothstep(fib*.6,fib,e);                            // white paper core at the rip
-            a=mix(a,vec3(.92,.9,.86),max(core*step(e,.5),strands));
+            a=mix(a,vec3(.97,.96,.93),max(core*step(e,.5),strands));
             a*=1.-.18*fly()*(side<.5?1.:.6);                                    // the lifted sheet turns from the light
             c=a;
           }

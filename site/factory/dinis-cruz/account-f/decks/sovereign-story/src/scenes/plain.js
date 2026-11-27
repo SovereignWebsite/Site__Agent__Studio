@@ -21,11 +21,11 @@ export default {
     const head = layer.add(ctx.text("Your website", { x: 140, y: 96, size: 80, font: ARIAL("700"), color: "#111111" }));
     const list = layer.add(ctx.text("•  On someone else's server\n•  On someone else's template\n•  On someone else's terms",
       { x: 146, y: 290, size: 44, font: ARIAL("400"), color: "#3a3d44", leading: 1.65 }));
-    const QX = 1000, QY = 600, QS = 112;
+    const QX = 1100, QY = 600, QS = 112;
     const typed = layer.add(ctx.text(" ", { x: QX, y: QY, size: QS, font: ARIAL("400"), color: "#111111" }));
     const styled = layer.add(ctx.text(Q, { x: QX, y: QY, size: QS, font: "display", color: "#2b5cff" }));
     const box = layer.add(new SelectBox(view));
-    const page = layer.add(ctx.text("1", { x: 1660, y: 0, size: 26, font: ARIAL("400"), color: "#ffffff", align: "right" }));
+    const page = layer.add(ctx.text("1", { x: 1780, y: 0, size: 26, font: ARIAL("400"), color: "#ffffff", align: "right" }));
     let shown = -1;
     return {
       update(s) {

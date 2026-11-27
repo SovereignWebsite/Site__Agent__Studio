@@ -43,15 +43,21 @@ export default {
       { uTime: 0, uAmp: 0.3, uCam: new THREE.Vector3(), uHue: 0 },
     );
     const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
+    const floorGeo = new THREE.PlaneGeometry(140, 140).rotateX(-Math.PI / 2); floorGeo.translate(0, 0.001, -40);
+    const floor = new THREE.Mesh(floorGeo, material(
+      `precision highp float; in vec3 position; uniform mat4 projectionMatrix,viewMatrix; out vec3 vW; void main(){ vW=position; gl_Position=projectionMatrix*viewMatrix*vec4(position,1.); }`,
+      `precision highp float; in vec3 vW; out vec4 o; uniform vec3 uCam; void main(){ float f=1.-exp(-length(vW-uCam)*.045); o=vec4(mix(vec3(.035,.04,.06),vec3(.02,.025,.05),f),1.); }`,
+      { uCam: mat.uniforms.uCam }));
+    floor.frustumCulled = false; scene.add(floor);
 
-    const scrim = gfx.pass("void main(){ float a=.62*smoothstep(.45,1.,vUv.y)*(1.-smoothstep(.15,.75,vUv.x)); o=vec4(0.,0.,0.,a); }", {},
+    const scrim = gfx.pass("void main(){ float a=.72*smoothstep(.35,.62,vUv.y)*(1.-smoothstep(.30,.62,vUv.x)); o=vec4(0.,0.,0.,a); }", {},
       { transparent: true, blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
     const layer = ctx.overlay();
-    const head = layer.add(ctx.text("Static files.", { x: 140, y: 150, size: 110, font: "display" }));
-    const tag = layer.add(ctx.text("plain HTML in site/, served from the dev branch", { x: 144, y: 300, size: 34, font: "mono", color: "#ffb38a" }));
+    const head = layer.add(ctx.text("Static files.", { x: 140, y: 140, size: 112, font: "display" }));
+    const tag = layer.add(ctx.text("plain HTML in site/, served from the dev branch", { x: 144, y: 290, size: 30, font: "mono", color: "#ffb38a" }));
     const rows = ["server code.", "cookies.", "tracking."].map((w, i) => ({
-      no: layer.add(ctx.text("No", { x: 140, y: 140 + i * 112, size: 100, font: "display", color: "#8fe0b4" })),
-      rest: layer.add(ctx.text(w, { x: 140, y: 140 + i * 112, size: 100, font: "display", color: "#f4f7f5" })),
+      no: layer.add(ctx.text("No", { x: 140, y: 140 + i * 128, size: 112, font: "display", color: "#8fe0b4" })),
+      rest: layer.add(ctx.text(w, { x: 140, y: 140 + i * 128, size: 112, font: "display", color: "#dfe6e2" })),
     }));
     return {
       resize() { cam.aspect = gfx.aspect; cam.updateProjectionMatrix(); },

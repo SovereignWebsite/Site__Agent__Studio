@@ -27,8 +27,8 @@ export default {
        void main(){
          float r=pow(abs(iA.x)*.5+.5,1.6)*26.+2., th=iA.y*3.14159+uTime*.06*(1.+iA.w), ph=iA.z*.9;
          vec3 cloud=vec3(cos(th)*r+6., sin(ph)*r*.35, sin(th)*r-12.);
-         float k=iA.w*6.2832; vec3 ring=vec3(cos(k)*6.+9., sin(k)*6.-1.5, -12.)+vec3(iA.xyz)*vec3(.22,.22,.6)*pow(abs(iA.x),2.);     // a gathered ring
-         vec3 p=mix(cloud,ring,uG); p.x+=uM*(40.+iA.w*20.)*pow(iA.w,.3);                        // then it travels
+         float k=iA.w*6.2832; vec3 ring=vec3(cos(k)*6.*(1.-.55*uM)+9., sin(k)*6.*(1.-.55*uM)-1.5, -12.)+vec3(iA.xyz)*vec3(.22,.22,.6)*pow(abs(iA.x),2.);     // a gathered ring
+         vec3 p=mix(cloud,ring,uG); p.x+=uM*5.;                        // then it travels
          vec4 v=viewMatrix*vec4(p,1.); v.xy+=position.xy*(.045+.06*iA.w);
          vQ=position.xy; vH=iA.w; gl_Position=projectionMatrix*v; }`,
       `precision highp float; in vec2 vQ; in float vH; out vec4 o;
@@ -39,8 +39,8 @@ export default {
     );
     const pts = new THREE.Mesh(geo, mat); pts.frustumCulled = false; scene.add(pts);
     const layer = ctx.overlay();
-    const line = layer.add(ctx.text("Move it anywhere,\nat any time.", { x: 140, y: 140, size: 120, font: "display" }));
-    const url = layer.add(ctx.text("sovereignwebsite.org", { x: 146, y: 860, size: 40, font: "mono", color: "#8fe0b4" }));
+    const line = layer.add(ctx.text("Move it anywhere,\nat any time.", { x: 140, y: 140, size: 112, font: "display" }));
+    const url = layer.add(ctx.text("sovereignwebsite.org", { x: 144, y: 430, size: 30, font: "mono", color: "#8fe0b4" }));
     return {
       resize() { cam.aspect = gfx.aspect; cam.updateProjectionMatrix(); },
       update(s) {

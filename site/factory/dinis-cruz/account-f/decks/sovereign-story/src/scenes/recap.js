@@ -7,7 +7,7 @@ import { SelectBox } from "../view.js";
 import { ease, lerp } from "../util.js";
 
 const SLIDES = ["plain", "own", "split", "field"], BEFORE = 3, AFTER = 9;
-const W = 16, H = 9, GAP = 1.6, A = 4, S = 18;
+const W = 16, H = 9, GAP = 1.6, A = 4, S = 24;
 
 export default {
   id: "recap",
@@ -31,7 +31,7 @@ export default {
     };
     const sOf = (x) => { let i = 0; while (i < N - 1 && xs[i] < x) i++; return ls[i]; };
     const STEP = W + GAP, s0 = sOf(-16) - (SLIDES.length - 1) * STEP;  // the latest slide sits just before the bend
-    const slotS = (i) => s0 + i * STEP;
+    const slotS = (i) => s0 + i * STEP + (i > SLIDES.length - 1 ? (i - SLIDES.length + 1) * 2.9 : 0);   // more room where the curve bends
 
     const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 0.1, 600);
     const ms = gfx.target({ samples: 4, depth: true });
@@ -63,9 +63,9 @@ export default {
     scene.add(line);
 
     const layer = ctx.overlay(), box = layer.add(new SelectBox(view, "#8fe0b4"));
-    const here = layer.add(ctx.text("You are here", { x: 0, y: 0, size: 34, font: "mono", color: "#8fe0b4" }));
-    const t1 = layer.add(ctx.text("Every step, kept.", { x: 140, y: 110, size: 96, font: "display" }));
-    const t2 = layer.add(ctx.text("The history is yours.", { x: 140, y: 110, size: 96, font: "display" }));
+    const here = layer.add(ctx.text("You are here", { x: 0, y: 0, size: 30, font: "mono", color: "#8fe0b4" }));
+    const t1 = layer.add(ctx.text("Every step, kept.", { x: 140, y: 140, size: 112, font: "display" }));
+    const t2 = layer.add(ctx.text("The history is yours.", { x: 140, y: 140, size: 112, font: "display" }));
     const last = SLIDES.length - 1, v3 = new THREE.Vector3();
     const project = (x, y) => { v3.set(x, y, 0).project(cam); return [view.x0 + (v3.x * 0.5 + 0.5) * view.w, view.y0 + (0.5 - v3.y * 0.5) * view.h]; };
     return {
@@ -88,7 +88,7 @@ export default {
         const bw = Math.hypot(corners[1][0] - corners[0][0], corners[1][1] - corners[0][1]) + 20, bh = Math.hypot(corners[2][0] - corners[1][0], corners[2][1] - corners[1][1]) + 20;
         const rot = Math.atan2(corners[1][1] - corners[0][1], corners[1][0] - corners[0][0]);
         if (sel > 0) box.set(cx - bw / 2, cy - bh / 2, bw, bh, sel, rot); else box.alpha(0);
-        here.x = corners[3][0] - 6; here.y = corners[3][1] - 78; here.show(sel, { style: "fade" });
+        here.x = corners[3][0] - 6; here.y = corners[3][1] - 64; here.show(sel, { style: "fade" }); here.mesh.rotation.z = rot;
         t1.show(s.k(0, 3.6, 5.2, ease.lin), { stagger: 0.35, q: s.k(1, 0, 0.9, ease.lin) });
         t2.show(s.k(1, 1.0, 2.8, ease.lin), { stagger: 0.35 });
       },

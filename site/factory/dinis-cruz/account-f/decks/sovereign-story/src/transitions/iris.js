@@ -12,12 +12,12 @@ export default {
         float R=io(p)*1.25;                                   // aperture radius
         vec2 za=(vUv-.5)/(1.+.12*io(p))+.5;                   // outgoing frame recedes
         vec3 a=toLin(texture(tA,za).rgb)*(1.-.6*io(p));
-        vec2 zb=(vUv-.5)*(1.08-.08*io(p))+.5;                 // incoming frame settles in
-        vec3 b; float sp=.012*(1.-p);                         // chromatic split near the ring
+        vec2 zb=(vUv-.5)*(.92+.08*io(p))+.5;                 // incoming frame settles in
+        vec3 b; float sp=.004*(1.-p);                         // chromatic split near the ring
         b.r=toLin(texture(tB,zb+d*sp).rgb).r; b.g=toLin(texture(tB,zb).rgb).g; b.b=toLin(texture(tB,zb-d*sp).rgb).b;
         float m=smoothstep(R,R-.025,r);
-        float ring=exp(-pow((r-R)/.012,2.))*(1.-smoothstep(.85,1.,p));
-        vec3 c=mix(a,b,m)+vec3(1.,.82,.6)*ring*1.6;
+        float ring=exp(-pow((r-R)/.006,2.))*(1.-smoothstep(.85,1.,p));
+        vec3 c=mix(a,b,m)+vec3(1.,.82,.6)*ring*.7;
         o=vec4(toSrgb(c),1.);
       }`, { tA: null, tB: null, p: 0 });
     return {

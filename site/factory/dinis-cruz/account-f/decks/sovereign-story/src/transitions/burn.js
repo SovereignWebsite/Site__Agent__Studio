@@ -24,8 +24,8 @@ export default {
         float burnt=smoothstep(.004,-.004,d);
         vec3 c=mix(a,b*(1.-.5*exp(d/.05)),burnt);                     // smoke-dark near the hole edge
         // the glowing front
-        float edge=exp(-pow(d/.006,2.)), glow=exp(-abs(d)/.025);
-        c+=heat(.95)*edge*5.+heat(.5)*glow*.9;
+        float edge=exp(-pow(d/.004,2.)), glow=exp(-abs(d)/.025);
+        c+=heat(.8)*edge*2.+heat(.5)*glow*.5;
         // flame tongues: fire just below this point rises through it
         float fl=0.;
         for(int i=1;i<7;i++){ float fi=float(i); vec2 s=uv-vec2(0.,.022*fi);
