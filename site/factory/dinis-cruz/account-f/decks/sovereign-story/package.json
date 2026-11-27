@@ -1,0 +1,12 @@
+{
+  "name": "sovereign-story-deck",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "shoot": "node shoot.cjs",
+    "audiotest": "node audiotest.cjs"
+  },
+  "dependencies": { "three": "0.170.0" },
+  "devDependencies": { "esbuild": "0.24.2" }
+}
