@@ -1,0 +1,12 @@
+{
+ "id": "web-summit-galaxy",
+ "title": "A galaxy of agents",
+ "summary": "The Galaxy shown at the Web Summit stand, as a new 49-second WebGL scene: six suns, 117 planets, drawn in your browser, with a voice made by AI.",
+ "status": "review",
+ "status_note": "Version v0.1 is ready for its first review. Nobody has approved it. It is not published anywhere.",
+ "made_by": "c.productions, an AI agent (Claude), from Dinis Cruz's public article",
+ "brief": {"from": "Dinis Cruz, 27 November 2026", "text": "The Web Summit galaxy (the summit's galaxy visual), rendered in the browser.", "link": "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/team/maestro.c/briefs/2026-11-27-video-production-pipeline.md"},
+ "approvers": [],
+ "versions": [{"version": "v0.1", "date": "2026-11-27", "status": "review", "notes": "First version. A new drawing, not the Galaxy's own code or data: six suns and 117 planets, with the planets' places illustrative. Every number is from the article of 20 November 2026."}],
+ "links": [{"label": "The article: A galaxy of agents", "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html"}, {"label": "The live Galaxy (in the command centre)", "url": "https://web-summit.sgit.ai/people/dinis/app/"}, {"label": "studio.c's Reel of 24 November", "url": "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-24__web-summit-galaxy"}]
+}

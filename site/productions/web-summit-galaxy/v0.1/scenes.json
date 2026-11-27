@@ -1,0 +1,174 @@
+{
+ "id": "web-summit-galaxy",
+ "version": "v0.1",
+ "title": "A galaxy of agents",
+ "theme": "space",
+ "format": {
+  "w": 1280,
+  "h": 720
+ },
+ "label": "Voice made by AI · no presenter · an illustration, not the live Galaxy",
+ "voice": {
+  "made_by_ai": true,
+  "provider": "Mistral",
+  "model": "voxtral-mini-tts-3",
+  "voice": "voice_3150 (James, a stock preset)",
+  "speed": 1.25
+ },
+ "from": {
+  "what": "The Galaxy shown at the RiskMandate stand at Web Summit, redrawn as a new WebGL scene",
+  "page": "https://web-summit.sgit.ai/people/dinis/app/",
+  "article": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html"
+ },
+ "scenes": [
+  {
+   "id": "stand",
+   "kind": "title",
+   "shape": "galaxy",
+   "grow": true,
+   "seconds": 6.88,
+   "title": "A galaxy of agents",
+   "caption": "Web Summit, November 2026",
+   "narration": "At Web Summit, the stand showed a galaxy: the team, drawn as a solar system in the browser.",
+   "source_line": "newsroom.sgit.ai · web-summit.sgit.ai",
+   "sources": [
+    {
+     "claim": "The Galaxy is the Universe of the RiskMandate team, drawn as a solar system in the browser, shown at the Web Summit stand.",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    },
+    {
+     "claim": "The command centre that holds the Galaxy view.",
+     "title": "Dinis Cruz's command centre",
+     "url": "https://web-summit.sgit.ai/people/dinis/app/",
+     "publisher": "web-summit.sgit.ai"
+    }
+   ],
+   "audio": "audio/01-stand.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "suns",
+   "kind": "stat",
+   "shape": "galaxy",
+   "planets": 0,
+   "seconds": 4.29,
+   "value": "6",
+   "label": "people, each one a sun",
+   "narration": "Each person is a sun. There were six.",
+   "source_line": "newsroom.sgit.ai",
+   "sources": [
+    {
+     "claim": "Each person is a sun; the reading of 20 November showed agents around six people.",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    }
+   ],
+   "audio": "audio/02-suns.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "planets",
+   "kind": "stat",
+   "shape": "galaxy",
+   "grow": true,
+   "seconds": 9.13,
+   "value": "117",
+   "label": "AI agents, each one a planet",
+   "small": "One reading, early on 20 November 2026. The counts change as the repositories do.",
+   "narration": "Around each person, their agents are planets. Early on the twentieth of November, the Galaxy showed one hundred and seventeen agents around six people.",
+   "source_line": "newsroom.sgit.ai",
+   "sources": [
+    {
+     "claim": "Early on 20 November it showed 117 agents around six people; the counts are one reading and change as the repositories do.",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    }
+   ],
+   "audio": "audio/03-planets.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "messages",
+   "kind": "stat",
+   "shape": "galaxy",
+   "seconds": 9.88,
+   "value": "222",
+   "label": "messages between agents",
+   "small": "And 50 pairs of agents in conversation, in the same reading.",
+   "narration": "Between the agents, the messages they send travel as arcs of light. That reading counted two hundred and twenty-two messages, and fifty pairs of agents in conversation.",
+   "source_line": "newsroom.sgit.ai",
+   "sources": [
+    {
+     "claim": "Messages between agents travel as arcs of light; the reading showed 222 messages and 50 pairs of agents in conversation.",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    }
+   ],
+   "audio": "audio/04-messages.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "live",
+   "kind": "list",
+   "shape": "galaxy",
+   "seconds": 8.6,
+   "title": "Live, not a mock-up",
+   "items": [
+    "Read from the team's repositories",
+    "Refreshed every few minutes",
+    "Each agent's behaviour policy, one click away",
+    "Agents without a policy are counted"
+   ],
+   "narration": "It is not a mock-up. It reads the team's repositories live. Click an agent and you see its behaviour policy, and the agents without one are counted.",
+   "source_line": "newsroom.sgit.ai",
+   "sources": [
+    {
+     "claim": "It is not a mock-up: it reads the team's repositories live every few minutes; each agent's behaviour policy is one click away and agents without one are counted.",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    }
+   ],
+   "audio": "audio/05-live.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "credits",
+   "kind": "credits",
+   "shape": "galaxy",
+   "seconds": 10.01,
+   "title": "What you are looking at",
+   "lines": [
+    "A new drawing by c.productions, an AI agent (Claude), on your own GPU. It is not the Galaxy itself.",
+    "Where each planet sits is illustrative: the split of agents per person is not in the article.",
+    "Facts: \"A galaxy of agents\" by Dinis Cruz, newsroom.sgit.ai, CC BY 4.0. The live Galaxy: web-summit.sgit.ai.",
+    "Voice made by AI: Mistral Voxtral, preset voice James.",
+    "Not published: it waits for a signed review of this exact version."
+   ],
+   "narration": "This is a new drawing, not the Galaxy itself, and where each planet sits is illustrative. The facts are from Dinis Cruz's article. The voice is made by AI.",
+   "say": "This is a new drawing, not the Galaxy itself, and where each planet sits is illustrative. The facts are from Dinis Cruz's article. The voice is made by A.I.",
+   "source_line": "newsroom.sgit.ai · web-summit.sgit.ai",
+   "sources": [
+    {
+     "claim": "The article and its licence (CC BY 4.0).",
+     "title": "A galaxy of agents (Dinis Cruz, 20 Nov 2026)",
+     "url": "https://newsroom.sgit.ai/articles/a-galaxy-of-agents.html",
+     "publisher": "SGit Newsroom"
+    }
+   ],
+   "audio": "audio/06-credits.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  }
+ ]
+}

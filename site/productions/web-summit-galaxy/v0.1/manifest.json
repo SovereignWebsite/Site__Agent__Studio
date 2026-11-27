@@ -1,0 +1,40 @@
+{
+ "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
+ "production": "web-summit-galaxy",
+ "version": "v0.1",
+ "digest": "4e8b629e2f1dcc805f79123e0b263f5ca4932f87be2ffc1aa887d74eee0c0949",
+ "files": [
+  {
+   "path": "assets/player.js",
+   "sha256": "44852afd8d521d7c30feb9dc063a6fdfc9e7fc86da10a3944f940bed740ab14d"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/scenes.json",
+   "sha256": "d23f4df1e3e31f34ef3f8e1e910de4c9e9257f98d81ea5bfd894375260965a22"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/01-stand.mp3",
+   "sha256": "27a499a59cd6d7e119402c05a421d0f156004cae7c54e5d96dbbe48b6233ab44"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/02-suns.mp3",
+   "sha256": "83a2bab53f2f3adc849025200d7e5e13e16dcad55754531a5670569692dd156c"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/03-planets.mp3",
+   "sha256": "f25e3d7d915a8487e0e40cafdc8e11308b60afde04eb4267ac46bb4f0418be47"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/04-messages.mp3",
+   "sha256": "9b90663127d7fa9034ad7eaa1036cb695c1a329b0946d1cba60092b0ec0716ff"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/05-live.mp3",
+   "sha256": "946bd5a3a6a80ff4a4a663ea5299bf2956195efc40be89bd1b4e691169f6ea41"
+  },
+  {
+   "path": "web-summit-galaxy/v0.1/audio/06-credits.mp3",
+   "sha256": "34a3a2501250a8a0f57ef1a6d347488158a6d23ff7d99c1bb9bb37b7f7616525"
+  }
+ ]
+}
