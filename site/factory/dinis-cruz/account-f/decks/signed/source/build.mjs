@@ -20,6 +20,8 @@ if (i > 0) {
   const FONTS = [["Inter", "inter", "400", "normal"], ["Inter", "inter", "500", "normal"], ["Space Grotesk", "space-grotesk", "600", "normal"],
     ["JetBrains Mono", "jetbrains-mono", "500", "normal"], ["Newsreader", "newsreader", "400", "italic"]];
   mkdirSync(`${dir}/fonts`, { recursive: true });
+  // the score, if this deck has one (served beside the page, like the fonts)
+  if (existsSync("music")) { mkdirSync(`${dir}/music`, { recursive: true }); for (const f of ["signed-score.m4a"]) if (existsSync(`music/${f}`)) copyFileSync(`music/${f}`, `${dir}/music/${f}`); }
   const faces = FONTS.map(([fam, pkg, w, st]) => {
     const f = `${pkg}-latin-${w}-${st}.woff2`; copyFileSync(`node_modules/@fontsource/${pkg}/files/${f}`, `${dir}/fonts/${f}`);
     return `@font-face{font-family:'${fam}';font-style:${st};font-weight:${w};font-display:swap;src:url("fonts/${f}") format("woff2")}`;

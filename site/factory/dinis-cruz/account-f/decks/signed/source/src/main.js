@@ -24,7 +24,8 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
   const ui = document.getElementById("ui");
   // Canvas text is laid out once, so the web fonts must be ready first (with a time limit, then system fonts).
   try { await Promise.race([Promise.all(["600 96px 'Space Grotesk'", "400 40px Inter", "500 30px 'JetBrains Mono'", "italic 400 120px Newsreader"].map((f) => document.fonts.load(f))), new Promise((r) => setTimeout(r, 2500))]); } catch {}
-  const audio = createAudio();
+  // The score: music made with ElevenLabs from this deck's music brief (take A, 98 s). ?music=code plays the sound made in code instead.
+  const audio = createAudio({ scoreUrl: qs.get("music") === "code" ? null : "music/signed-score.m4a" });
   let deck;
   try {
     const sz = /^(\d{3,4})x(\d{3,4})$/.exec(qs.get("size") || "");
@@ -34,7 +35,7 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
     ui.innerHTML = "<div class='help'>This page needs WebGL 2, which this browser did not provide.</div>";
     return;
   }
-  window.__deck = deck; window.__createAudio = createAudio;
+  window.__deck = deck; window.__audio = audio; window.__createAudio = createAudio;
   if (qs.has("film")) document.body.classList.add("film");
   // Scenes lay themselves out once, for landscape or portrait; turning the screen past square reloads at the same scene.
   if (!headless && !qs.get("size")) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
@@ -46,7 +47,8 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
   if (!headless) {
     attachPresenter(deck);
     const startSound = () => { if (audio.ready) return; audio.unlock(); const i = deck.info(); audio.event("scene", { id: i.id, beat: i.beat, fade: 1.5 }, 0); };
-    attachPlayer({ deck, audio, startSound, name: (document.title || "deck").toLowerCase().replace(/[^a-z0-9]+/g, "-") });
+    const extras = audio.hasScore ? [[() => (audio.scoreOn ? "Music: score" : "Music: made in code"), () => audio.setScore(!audio.scoreOn, deck.info().id)]] : [];
+    attachPlayer({ deck, audio, startSound, extras, name: (document.title || "deck").toLowerCase().replace(/[^a-z0-9]+/g, "-") });
     addEventListener("pointerdown", startSound, { capture: true });
     document.getElementById("stage").focus();
   }

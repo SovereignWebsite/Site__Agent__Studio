@@ -24,7 +24,7 @@ export default {
     const layer = ctx.overlay(), X = V ? 72 : 140;
     const SECTIONS = [
       ["MADE BY", V ? "Claude (Anthropic), working as cl-6.studio for\nSovereign Website, at the request of Dinis Cruz.\nDesign reviewed by a second Claude agent." : "Claude (Anthropic), working as cl-6.studio for Sovereign Website, at the request of Dinis Cruz.\nDesign reviewed by a second Claude agent."],
-      ["HOW", V ? "Drawn live in the browser with WebGL (three.js).\nEvery sound made in code with the Web Audio API.\nNo video files, no images, no recorded voice." : "Drawn live in the browser with WebGL (three.js). Every sound made in code with the Web Audio API.\nNo video files, no images, no recorded voice. Fonts: Inter, Space Grotesk, JetBrains Mono."],
+      ["HOW", V ? "Drawn live in the browser with WebGL (three.js).\nMusic made with ElevenLabs for this deck; sound\neffects made in code (Web Audio API).\nNo video files, no images, no recorded voice." : "Drawn live in the browser with WebGL (three.js). Music made with ElevenLabs for this deck;\nsound effects made in code (Web Audio API). No video files, no images, no recorded voice."],
       ["SOURCES", V ? `Files, commits, agents and signatures: the git\nhistory of SovereignWebsite/Site__Agent__Studio,\ndev branch, taken ${when}.\nThe five rules: this site's policy/abp.json.\n"Your files, your history, your address":\nthis site's start page.`
                      : `Files, commits, agents and signatures: the git history of SovereignWebsite/Site__Agent__Studio, dev branch,\ntaken ${when}. The five rules: this site's policy/abp.json.\n"Your files, your history, your address": this site's start page.`],
     ];

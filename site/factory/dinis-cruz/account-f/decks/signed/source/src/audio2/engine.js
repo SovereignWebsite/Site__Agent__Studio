@@ -52,6 +52,20 @@ export function makeEngine(ctx) {
       kill(at = ctx.currentTime, tc = 0.5) { A.gain.cancelScheduledValues(at); A.gain.setTargetAtTime(0, at, tc / 3); src.stop(at + tc * 2 + 0.1); } };
   };
   E.bedBus = group(0.45, 0.1); E.hitBus = group(0.3, 0.15);
+  // ---------- the score: a finished music track, timed to the deck. With it, the beds go quiet and the cues sit lower. ----------
+  // It goes straight to the master (it is already mixed and mastered), not through the compressor.
+  const scoreOut = gain(1); scoreOut.connect(master);
+  let score = null;   // { src, at: context time of the track's 0 s }
+  E.useScore = (buf, on, t = ctx.currentTime) => { E.scoreBuf = buf; E.scoreOn = on; E.bedBus.gain.setTargetAtTime(on ? 0 : 1, t, 0.3); sum.gain.setTargetAtTime(on ? 0.6 : 1, t, 0.3); if (!on) E.scoreStop(t); };
+  E.scoreStop = (t = ctx.currentTime, tc = 0.4) => { if (!score) return; const s = score; score = null; s.g.gain.setTargetAtTime(0, t, tc / 3); s.src.stop(t + tc * 2); };
+  E.scorePlay = (offset, t = ctx.currentTime) => {
+    if (!E.scoreBuf || !E.scoreOn || offset >= E.scoreBuf.duration) return;
+    E.scoreStop(t, offset > 0 ? 0.3 : 0.05);
+    const src = ctx.createBufferSource(), g = gain(0); src.buffer = E.scoreBuf; src.connect(g); g.connect(scoreOut);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + (offset > 0 ? 0.25 : 0.01));
+    src.start(t, Math.max(0, offset)); score = { src, g, at: t - offset };
+  };
+  E.scorePos = () => (score ? ctx.currentTime - score.at : null);
 
   // ---------- beds: one small score per scene (chord voices with gains per beat) ----------
   const BEDS = { // [pad, frequency, gain per beat, lowpass Hz (0 = none), pan] — keep beds well below the cues
@@ -134,11 +148,24 @@ export function makeEngine(ctx) {
 }
 
 // ---------- live front end + event log (used to re-render the exact same sound offline for video) ----------
-export function createAudio() {
-  let E = null, muted = false; const log = [];
+// Where each scene starts on the score's clock (the deck's own auto-play timeline), so the music can follow the deck
+// when someone skips ahead or back, and a stalled tab cannot leave it out of step for more than a second.
+export const SCORE_AT = { cover: 0, folder: 5.9, history: 22.6, policy: 40.8, end: 58.5, credits: 75.4 };
+let scoreBytes = null;   // the encoded track, fetched once; decoded per context (live and offline)
+const decode = (ctx) => (scoreBytes ? ctx.decodeAudioData(scoreBytes.slice(0)) : Promise.resolve(null));
+export function createAudio({ scoreUrl = null } = {}) {
+  let E = null, muted = false, scoreOn = !!scoreUrl; const log = [];
+  const fetched = scoreUrl ? fetch(scoreUrl).then((r) => (r.ok ? r.arrayBuffer() : null)).then((b) => { scoreBytes = b; }).catch(() => {}) : Promise.resolve();
   const api = {
     recording: false, log,
-    unlock() { if (E) { E.ctx.state !== "running" && E.ctx.resume(); return; } const C = window.AudioContext || window.webkitAudioContext; if (!C) return; E = makeEngine(new C({ latencyHint: "interactive" })); if (muted) E.master.gain.value = 0; },
+    unlock() { if (E) { E.ctx.state !== "running" && E.ctx.resume(); return; } const C = window.AudioContext || window.webkitAudioContext; if (!C) return; E = makeEngine(new C({ latencyHint: "interactive" })); if (muted) E.master.gain.value = 0;
+      api.scoreReady = fetched.then(() => decode(E.ctx)).then((buf) => { if (buf) E.useScore(buf, scoreOn); return !!buf; }).catch(() => false); },
+    scoreReady: Promise.resolve(false), get hasScore() { return !!scoreUrl; }, get scoreOn() { return scoreOn; },
+    // switch between the music track and the sound made in code (both stay in step with the deck)
+    setScore(v, sceneId) { scoreOn = v; if (!E || !E.scoreBuf) return; E.useScore(E.scoreBuf, v); if (v && SCORE_AT[sceneId] !== undefined) E.scorePlay(SCORE_AT[sceneId]); },
+    // fade everything out over a few seconds (the end of a run), then hold silence until the next start
+    fadeOut(sec = 2.5) { if (!E) return; E.master.gain.cancelScheduledValues(E.now); E.master.gain.setTargetAtTime(0, E.now, sec / 4); E.scoreStop(E.now + sec, 0.2); },
+    fadeIn() { if (!E) return; E.master.gain.cancelScheduledValues(E.now); E.master.gain.setTargetAtTime(muted ? 0 : 1, E.now, 0.05); },
     stream() { return E && E.stream ? E.stream.stream : null; }, get ready() { return !!E; }, get muted() { return muted; },
     pause(v) { if (E) v ? E.ctx.suspend() : E.ctx.resume(); }, get running() { return !!E && E.ctx.state === "running"; },
     mute(v = !muted) { muted = v; if (E) E.master.gain.setTargetAtTime(muted ? 0 : 1, E.now, 0.05); return muted; },
@@ -152,10 +179,18 @@ function play(E, ev, t) {
   else if (ev.type === "beat") E.beat(ev.id, ev.beat, t);
   else if (ev.type === "transition") E.transition(ev.name, ev.dur, ev.reverse, t);
   else if (ev.type === "hit") E.hit(ev.name, t, ev);
+  else if (ev.type === "score") E.scorePlay(ev.at, t);
+  else if (ev.type === "stop") E.scoreStop(t, ev.tc ?? 0.4);
+  // follow the deck: when a scene starts, the music should be at that scene's place on its own clock
+  if (ev.type === "scene" && E.scoreOn && E.scoreBuf && SCORE_AT[ev.id] !== undefined && !ev.noscore) {
+    const want = SCORE_AT[ev.id], pos = E.offline ? want : E.scorePos();   // offline, the logged timeline is exact
+    if (E.offline ? ev.id === "cover" : pos === null || Math.abs(pos - want) > 1) E.scorePlay(want, t);
+  }
 }
 // Render a logged session to a stereo WAV (base64) with an OfflineAudioContext — identical synthesis to live.
-export async function renderOffline(log, seconds, sr = 48000) {
+export async function renderOffline(log, seconds, sr = 48000, withScore = true) {
   const ctx = new OfflineAudioContext(2, Math.ceil(seconds * sr), sr), E = makeEngine(ctx);
+  const sb = withScore ? await decode(ctx).catch(() => null) : null; E.offline = true; if (sb) E.useScore(sb, true, 0);
   for (const ev of log) play(E, ev, Math.max(0, ev.t));
   const buf = await ctx.startRendering();
   return wavBase64(buf);

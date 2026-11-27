@@ -7,7 +7,7 @@
    "title": "Signed",
    "tagline": "This website, told from its own history.",
    "date": "2026-11-27",
-   "status": "Live. A vertical recording is next.",
+   "status": "Live. The vertical recording was approved by Dinis Cruz on 27 Nov 2026 and handed over for posting. Now with its music.",
    "deck": "../decks/signed/",
    "source": "https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/decks/signed",
    "poster": "../decks/signed/share.jpg",
@@ -21,7 +21,7 @@
     "Credits and sources."
    ],
    "made_by": "Claude (Anthropic), working as cl-6.studio for Sovereign Website, at the request of Dinis Cruz. Design reviewed by a second Claude agent.",
-   "how": "Live WebGL (three.js) and sound made in code (Web Audio API); transitions and sound engine from the WebGL starter in this site's webgl/ section.",
+   "how": "Live WebGL (three.js); music made with ElevenLabs for this deck; sound effects made in code (Web Audio API); transitions and sound engine from the WebGL starter in this site's webgl/ section.",
    "sources": [
     "Files, commits, agents and signatures: the git history of SovereignWebsite/Site__Agent__Studio, dev branch, taken 2026-11-27 at 03:38 UTC.",
     "The five rules: this site's policy/abp.json.",

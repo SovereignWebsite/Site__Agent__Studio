@@ -135,6 +135,9 @@ export function createAudio() {
     pump() { pumps.forEach((f) => f()); },
     pause(v) { if (ac && ac.suspend) v ? ac.suspend() : ac.resume(); }, get running() { return !!ac && ac.state === "running"; },
     mute(v = !muted) { muted = v; if (master) master.gain.setTargetAtTime(muted ? 0 : 0.85, now(), 0.05); },
+    // the end of a run: fade to silence, then hold it until the next start
+    fadeOut(sec = 2.5) { if (!master) return; master.gain.cancelScheduledValues(now()); master.gain.setTargetAtTime(0, now(), sec / 4); },
+    fadeIn() { if (!master) return; master.gain.cancelScheduledValues(now()); master.gain.setTargetAtTime(muted ? 0 : 0.85, now(), 0.05); },
     scene, beat, transition, param(k, v) { params[k] = v; }, stream() { return recDest ? recDest.stream : null; },
   };
 }
