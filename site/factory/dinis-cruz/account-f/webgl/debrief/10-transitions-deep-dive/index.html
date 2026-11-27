@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10, Transitions deep dive (with working code) (debrief)</title>
+<meta name="description" content="Chapter 10 of the debrief of The Last Boring Slide: 10, Transitions deep dive (with working code).">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/10-transitions-deep-dive/">
+<meta property="og:title" content="10, Transitions deep dive (with working code) (debrief)">
+<meta property="og:description" content="Chapter 10 of the debrief of The Last Boring Slide: 10, Transitions deep dive (with working code).">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="10, Transitions deep dive (with working code) (debrief)">
+<meta name="twitter:description" content="Chapter 10 of the debrief of The Last Boring Slide: 10, Transitions deep dive (with working code).">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/10-transitions-deep-dive/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/10-transitions-deep-dive.md">Original Markdown</a>.</p><h1 id="10-transitions-deep-dive-with-working-code">10: Transitions deep dive (with working code)</h1>
+<p>The four signature transitions of the original deck are rebuilt in <code>starter/src/transitions/</code>
+(<code>line.js</code>, <code>daybreak.js</code>, <code>slam.js</code>, <code>tear.js</code>). They are re-implementations written for this
+debrief, not copies of the original's code: the same techniques, timing structure and phase layout, verified
+by rendering. Reference renders are in <code>starter/shots/sheet_*.png</code> (8 frames along each timeline)
+and <code>starter/videos/*.mp4</code> (with synthesised sound).</p>
+<pre tabindex="0"><code>python3 tools/transsheet.py line slam          # contact sheets
+python3 tools/video.py line daybreak slam tear # MP4 clips with sound
+python3 tools/video.py reel                    # whole starter deck as a showreel
+</code></pre>
+<h2 id="how-every-transition-is-built">How every transition is built</h2>
+<pre tabindex="0"><code class="language-js">export default {
+  dur: 2.8,                                  // seconds; going back plays it reversed at 0.55× duration
+  create({ gfx }) {                          // once: build passes, meshes, targets
+    return { render({ A, B, p, out, time }) { … } };
+  },
+};
+</code></pre>
+<ul>
+<li><code>A</code>, <code>B</code> hold <strong>this frame</strong> of the outgoing and incoming scenes (both keep animating during the cut).</li>
+<li>Always early-out: <code>if (p &lt;= 0) return gfx.copy(A, out); if (p &gt;= 1) return gfx.copy(B, out);</code></li>
+<li>Inputs are sRGB-encoded (the post stack's output). Convert with <code>toLin()</code> before any blending/blur,
+  <code>toSrgb()</code> on the way out. Blending in sRGB is the most common reason home-made transitions look muddy.</li>
+<li>Most effects need a blurred or averaged version of a frame. Don't write separable blurs:
+  <code>mipCopy(gfx)</code> (in <code>transitions/lib.js</code>) makes a linear, mip-mapped copy; <code>textureLod(tex, uv, lod)</code> gives
+  any blur radius, local averages (<code>lod 6-9</code>), and soft shadows from an alpha mask.</li>
+<li><strong>Design the timeline first, as a phase table</strong> (below), then write the shader. Every number in the shaders
+  maps to a row of the table. Give each phase its own <code>smoothstep(p0, p1, p)</code> window, and overlap the windows.</li>
+<li><strong>Shape progress by hand.</strong> <code>tear</code> uses <code>S = mix(S, smootherstep(S), .55) + small sine wobbles</code>, so it feels torn
+  by a hand rather than tweened. <code>slam</code> uses a non-linear "seconds after impact" clock (<code>tau</code>) with decaying springs.</li>
+<li><strong>Every visual event has a sound event at the same fraction of <code>p</code>.</strong> (See <code>11-sound-design-guide.md</code>.)</li>
+</ul>
+<hr />
+<h2 id="line-the-picture-collapses-into-a-vibrating-string">LINE, the picture collapses into a vibrating string</h2>
+<p><img alt="line" src="../../debrief/img/sheet_line.webp" /></p>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>What happens</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.00-0.45</td>
+<td>A's columns squeeze toward a centre line, <strong>edges first</strong></td>
+<td>per-column height <code>hA(x,p) = mix(1, .002, io5((p − .015 − .13·dist − .012·sin(40x))/.31))</code></td>
+</tr>
+<tr>
+<td>0.10-0.86</td>
+<td>the line vibrates</td>
+<td><code>y = .5 + amp(p)·sin(πx)·Σ three standing waves (modes 1, 2, 5)</code>, frequency ×1, ×1.9, ×3.1</td>
+</tr>
+<tr>
+<td>0.16-0.95</td>
+<td>the thread glows</td>
+<td>colour = <strong>this column's average colour</strong> (32 taps down a blurred mip), hue kept, brightness compressed; hot core + 3 exponential glow falloffs + a slow sweep</td>
+</tr>
+<tr>
+<td>0.44-0.60</td>
+<td>the thread's colour crossfades A→B</td>
+<td><code>mix(colA, colB, smoothstep(.44,.60, p + .05·sin(9x)))</code></td>
+</tr>
+<tr>
+<td>0.52-1.00</td>
+<td>B unfolds from the thread, <strong>centre first</strong></td>
+<td><code>hB</code> mirrored, with a little noise per column</td>
+</tr>
+</tbody>
+</table></div>
+<p>Key details that make it look right:
+* <strong>Coverage AA</strong>: <code>cov = clamp(min(y,1−y)·h·screenHeight + .5, 0, 1)</code>, the squashed sheet keeps perfectly sharp
+  edges even when it is one pixel tall.
+* <strong>Energy conservation</strong>: as a column flattens, multiply it by <code>1 + 1.6(1−h)^6</code>; the light "concentrates" into the line.
+* <strong>Detail fades with height</strong>: sharp texture → blurred mip → column average as <code>h</code> drops (<code>smoothstep(.25,.04,h)</code>),
+  so a 3-pixel-tall image doesn't shimmer.
+* <strong>Temporal motion blur</strong>: average 10 evaluations at <code>p − .016·k</code>, jittered per pixel. Without it the fast
+  collapse strobes.
+* Phosphor afterglow: a faint, blurred copy of A lingers for the first third.</p>
+<p>Tune: <code>.13</code> (edge-first stagger), the three wave amplitudes <code>.060/.034/.016</code>, the wave speed <code>t = p·15</code>,
+glow widths <code>80/15/4.2</code>. For a vertical version, swap x/y.</p>
+<hr />
+<h2 id="daybreak-defocus-into-bokeh-light-floods-rack-focus">DAYBREAK, defocus into bokeh, light floods, rack focus</h2>
+<p><img alt="daybreak" src="../../debrief/img/sheet_daybreak.webp" /></p>
+<div class="table" tabindex="0" role="region" aria-label="Table 2, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>What happens</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.03-0.50</td>
+<td>A defocuses</td>
+<td>40-tap <strong>golden-angle disc blur</strong> from a mip pyramid (LOD from radius), highlight weighting <code>1 + 16·l³</code>, slight exposure lift, <strong>cat-eye</strong> (discs flatten toward the corners)</td>
+</tr>
+<tr>
+<td>0.04-0.70</td>
+<td>glow blooms from A's bright areas, peak ~0.34</td>
+<td>wide horizontal + diagonal samples at LOD 4.5-5.5 weighted by <code>l²-l³</code>, warm tint, slow fbm flicker</td>
+</tr>
+<tr>
+<td>0.10-0.92</td>
+<td><strong>bokeh discs</strong></td>
+<td>680 instanced quads on a jittered 34×20 grid; each reads A's colour at LOD 4.2 and is kept only where it's brighter than its surroundings (<code>l − .62·l_far</code>); they swell (radius ×~3), drift outward, then shrink to warm/cool star points</td>
+</tr>
+<tr>
+<td>0.24-0.64</td>
+<td>A's weight fades, its exposure drops to 0.55</td>
+<td></td>
+</tr>
+<tr>
+<td>0.40-0.985</td>
+<td>B arrives defocused (radius .07, stronger highlights) and racks into focus</td>
+<td>same blur at decreasing radius</td>
+</tr>
+<tr>
+<td>0.00-0.985</td>
+<td>soft-clip</td>
+<td><code>c / (1 + max(maxRGB − .82, 0))</code>, keeps the flood of light from clipping to flat white</td>
+</tr>
+</tbody>
+</table></div>
+<p>Key details: the disc fragment shader adds a <strong>brighter rim</strong> and faint onion rings (real lens bokeh);
+disc alpha scales with <code>1/area^0.7</code> so small discs stay bright; discs are drawn additively into a half-res target.</p>
+<p>Tune: max radius <code>.085</code>, highlight weights <code>16/22</code>, disc keep threshold <code>.03-.42</code>, glow peak <code>.95</code>.</p>
+<hr />
+<h2 id="slam-a-print-block-presses-the-next-slide-onto-the-screen">SLAM, a print block presses the next slide onto the screen</h2>
+<p><img alt="slam" src="../../debrief/img/sheet_slam.webp" /></p>
+<div class="table" tabindex="0" role="region" aria-label="Table 3, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>What happens</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.00-0.285</td>
+<td>approach: A is pushed (zoom <code>1 + .16k² + .62k⁴</code>, 10-tap radial blur), <strong>air is squeezed out</strong> (rim darkens toward the centre), a blank sheet sweeps in with slight keystone and a shadow that tightens (<code>exp(−dist·(14 − 6k))</code>)</td>
+<td><code>k = p/.285</code></td>
+</tr>
+<tr>
+<td><strong>0.285</strong></td>
+<td><strong>IMPACT</strong>, the frame is all paper</td>
+<td>sound: slam + boom on this exact frame</td>
+</tr>
+<tr>
+<td>0.285-0.86</td>
+<td>camera <strong>shake / roll / zoom spring</strong> decaying <code>exp(−6.5τ)</code>; a <strong>ripple ring</strong> expanding <code>.06 + 1.75(1 − e^−2.3τ)</code> whose analytic derivative refracts B; the <strong>ink front</strong> spreads from the impact point, and paper tooth (fbm + two value noises) decides which pixels take ink first; <strong>wet ink</strong> is darker with a touch of relief (from B's luminance gradient) and dries; a <strong>dust ring</strong> blows outward</td>
+<td><code>τ = (p − .285)/.715 · 1.5</code></td>
+</tr>
+<tr>
+<td>0.86-1.00</td>
+<td>settle into exactly B</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>Key details: the paper colour is tinted toward A's average hue before contact (so the sheet looks lit by the
+scene) and neutral after. The shake uses incommensurate frequencies (<code>h</code>, <code>1.27h</code>, <code>.9h</code>) so it never looks periodic.</p>
+<p>Tune: contact point <code>.285</code> (move the sound with it!), shake amplitudes <code>.0085/.016</code>, ring speed <code>2.3</code>,
+front speed <code>2.6</code>, <code>τ</code> scale <code>1.5</code> (bigger = faster print). Works best when B has strong ink (dark text on light),
+like the deliberately plain slide it lands on in the original.</p>
+<hr />
+<h2 id="tear-the-slide-rips-down-the-middle-and-both-halves-curl-away">TEAR, the slide rips down the middle and both halves curl away</h2>
+<p><img alt="tear" src="../../debrief/img/sheet_tear.webp" /></p>
+<div class="table" tabindex="0" role="region" aria-label="Table 4, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>What happens</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.02-0.56</td>
+<td>the rip travels <strong>top → bottom</strong></td>
+<td><code>uYf = 1.08 − 2.4·S(p)</code>; everything above <code>uYf</code> is "open" (<code>h = y − uYf</code>)</td>
+</tr>
+<tr>
+<td>0.02-0.56</td>
+<td>opened paper starts to roll</td>
+<td>width rolled <code>w = .36·h^1.5</code>; points with <code>s = w − d &gt; 0</code> wrap round a cylinder of radius <code>R ≈ .21-.34</code>: <code>x = xc − sg·R·sin(s/R)</code>, <code>z = R(1 − cos(s/R))</code>; past half a turn they lie flat on the back</td>
+</tr>
+<tr>
+<td>0.37-0.995</td>
+<td>both halves roll out of frame</td>
+<td><code>w += uW2</code>, <code>uW2 = (aspect + .98)·M^2.1·(1.35 − .35M)</code></td>
+</tr>
+<tr>
+<td>throughout</td>
+<td>the torn edge</td>
+<td>position = slow wander <code>slow(y)</code> (3 sines) + fine fbm <code>tearFine(y)</code>; <strong>white layered core</strong> along the lip, its width shared unevenly between the two halves (<code>share = fbm(y)</code>), what one half keeps, the other lacks; <strong>fibres</strong> sticking out (3 layers of hashed strands); the thin lip lets some of B's light through</td>
+</tr>
+<tr>
+<td>throughout</td>
+<td>back side &amp; light</td>
+<td>back is dark printed paper; front shaded by the roll normal <code>(sg·sin φ, 0, cos φ)</code>; specular glint on the curl; self-shadow under the roll</td>
+</tr>
+<tr>
+<td>0.02-1.00</td>
+<td>40 <strong>paper shards</strong></td>
+<td>instanced irregular polygons, born when the rip passes their height, tumbling on two axes, falling with gravity and drag</td>
+</tr>
+<tr>
+<td>throughout</td>
+<td>cast shadow on B</td>
+<td>sheets rendered to a target; alpha copied into a mip chain; B darkened by two blurred, offset samples (near + far)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Geometry: two grids of 120×96 quads, one per half (z attribute = side). <strong>All motion is in the vertex shader</strong>
+(<code>curl()</code>); the fragment shader cuts the jagged edge per pixel (<code>discard</code> outside), so the edge detail is
+independent of mesh resolution. Perspective is a cheap divide: <code>gl_Position = vec4(x/aspect, y, 0, (3 − z)/3)</code>.</p>
+<p>Tune: rip speed curve (S), roll radius, the <code>.085</code> overlap margin (stops a seam showing before the rip arrives),
+fibre lengths <code>.030/.016/.009</code>, shard count.</p>
+<hr />
+<h2 id="the-other-six-in-the-original">The other six (in the original)</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 5, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Idea</th>
+<th>How to build it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fade</code></td>
+<td>crossfade</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td><code>portal-in</code> / <code>portal-out</code></td>
+<td>the slide becomes a quad inside the next 3D scene (or leaves one)</td>
+<td>the scene exposes <code>portal.in(s)/out(s)</code> returning 4 NDC corners; draw the frame through a <strong>homography</strong> (4-point projective map, inverted 3×3) with analytic edge AA and mip blending. Used for the recap scene, where every slide becomes a sheet on an exponential curve</td>
+</tr>
+<tr>
+<td><code>fold</code></td>
+<td>the slide folds like paper, creases, plops into water</td>
+<td>homography per fold panel + crease shading; crease/paper/plop sounds on each fold</td>
+</tr>
+<tr>
+<td><code>wash</code></td>
+<td>liquid wash across the frame</td>
+<td>noise-displaced reveal mask + drips</td>
+</tr>
+<tr>
+<td><code>flaps</code></td>
+<td>split-flap board</td>
+<td>many small instanced flaps flipping in a sweep; 100+ flap clicks in the sound</td>
+</tr>
+<tr>
+<td><code>iris</code> (starter only)</td>
+<td>aperture opening with a glowing chromatic ring</td>
+<td><code>transitions/iris.js</code>, a good template for new ones</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="making-your-own-a-checklist">Making your own: a checklist</h2>
+<ol>
+<li>Pick a <strong>physical metaphor</strong> (paper, light, print, liquid, string, glass). Abstract wipes look cheap.</li>
+<li>Write the phase table with exact <code>p</code> windows; mark <strong>one hero moment</strong> (impact, snap, focus peak).</li>
+<li>Prototype in one full-screen pass with <code>A</code>, <code>B</code>, <code>p</code>; add geometry (instanced meshes) only if the metaphor
+   needs depth (tear, fold, flaps).</li>
+<li>Render a contact sheet at 8 values of <code>p</code>, then a 30 fps clip. Look at both after every change.</li>
+<li>Add the sound cue on the same timeline; put the hero hit on the hero frame.</li>
+<li>Check both directions: reversed playback must look good at 0.55× speed too.</li>
+<li>Check extremes: dark → light, light → dark, text-only frames, very busy frames.</li>
+</ol>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

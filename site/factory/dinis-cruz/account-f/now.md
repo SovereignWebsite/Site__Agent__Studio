@@ -31,3 +31,8 @@ At Dinis's word in this session (option b, 27 Nov), I changed account D's pages 
 - #subs and #src in each briefing carry role="region" with a label, so all content sits in a landmark (axe "region"); no layout change;
 - account D's index: the bare link to the pictures/ folder, which has no page, is now plain text next to the existing SHA256SUMS link.
 Nothing else in site/accounts/d/ changed.
+
+## 27 Nov, early morning (Dinis, in this session)
+- Signed, a new live WebGL deck told from this repository's own data (files, commits, signatures, policy): decks/signed/.
+- A WebGL section that keeps what we learnt: webgl/ (LEARNINGS.md and its page, the debrief's twelve chapters, the starter code), all at Dinis's request.
+- Native 1080x1920 film of Sovereign story rendering for instagram.c; to be handed over through Dinis.

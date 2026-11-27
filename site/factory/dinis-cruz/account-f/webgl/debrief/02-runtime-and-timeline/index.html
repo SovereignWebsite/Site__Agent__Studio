@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02, Runtime, scenes and the timeline (debrief)</title>
+<meta name="description" content="Chapter 02 of the debrief of The Last Boring Slide: 02, Runtime, scenes and the timeline.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/02-runtime-and-timeline/">
+<meta property="og:title" content="02, Runtime, scenes and the timeline (debrief)">
+<meta property="og:description" content="Chapter 02 of the debrief of The Last Boring Slide: 02, Runtime, scenes and the timeline.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="02, Runtime, scenes and the timeline (debrief)">
+<meta name="twitter:description" content="Chapter 02 of the debrief of The Last Boring Slide: 02, Runtime, scenes and the timeline.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/02-runtime-and-timeline/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/02-runtime-and-timeline.md">Original Markdown</a>.</p><h1 id="02-runtime-scenes-and-the-timeline">02: Runtime, scenes and the timeline</h1>
+<h2 id="the-scene-contract">The scene contract</h2>
+<p>A scene is a plain object. Definition (data) is separate from instance (closure returned by <code>create</code>):</p>
+<pre tabindex="0"><code class="language-js">export default {
+  id: &quot;futures&quot;,                 // used in URL hash, audio bed lookup, snapshots
+  title: &quot;Two aims&quot;,             // overview grid label
+  enterWith: &quot;tear&quot;,             // transition used when ENTERING this scene (and reversed when leaving backwards)
+  hud: { color: &quot;#fff&quot; | (s)=&gt;…, font: &quot;monoMed&quot;, alpha: .75 },   // page-number style
+  beats: [                       // presenter clicks inside the scene
+    { dur: 5, hold: 6, delay: 1.2, page: &quot;∞&quot; },
+    { dur: 4, hold: 5, page: &quot;∞&quot; },
+  ],
+  notes: [&quot;speaker note for beat 0&quot;, &quot;…beat 1&quot;],
+  create(ctx) {                  // called once (lazily, or during warmAll)
+    // allocate targets, build geometry/materials, text objects…
+    return {
+      async init() {},           // heavy one-off work (bake textures etc.), awaited
+      enter(s) {},               // each time the scene becomes active (s.beat already set)
+      exit(s) {},
+      resize() {},               // canvas size / quality changed
+      pointer(type, x, y, s) {}, // &quot;down&quot;|&quot;move&quot;|&quot;up&quot; in 1920×1080 coords; return true to capture
+      update(s) {},              // per frame, before render
+      render(outTarget, s) {},   // draw the frame into outTarget (or null = screen)
+      portal: { in(s){…}, out(s){…} },  // optional: hand geometry to portal transitions
+      page(s) { return &quot;3&quot;; },   // optional dynamic page label
+    };
+  },
+};
+</code></pre>
+<h2 id="the-per-frame-state-s-one-per-scene">The per-frame state <code>s</code> (one per scene)</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>t</code>, <code>dt</code></td>
+<td>scene-local time and frame delta (clamped to ≤ 50 ms)</td>
+</tr>
+<tr>
+<td><code>beat</code></td>
+<td>current beat index</td>
+</tr>
+<tr>
+<td><code>p[i]</code></td>
+<td>progress 0→1 of beat <em>i</em>'s animation (<code>dur</code> seconds)</td>
+</tr>
+<tr>
+<td><code>_since[i]</code></td>
+<td>seconds since beat <em>i</em> became active (drives <code>delay</code> and auto-advance <code>hold</code>)</td>
+</tr>
+<tr>
+<td><code>enter</code>, <code>exit</code></td>
+<td>transition progress into / out of the scene (0→1), 1/0 when idle</td>
+</tr>
+<tr>
+<td><code>dir</code></td>
+<td>+1 forward, −1 backward (so sound effects only fire going forward)</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>current quality scale (see adaptive resolution)</td>
+</tr>
+<tr>
+<td><code>mouse</code></td>
+<td>smoothed pointer <code>{x,y}</code> in −1..1 plus <code>px,py</code> in design units, <code>down</code></td>
+</tr>
+<tr>
+<td><code>at(i)</code></td>
+<td><code>p[i]·dur[i]</code>, seconds into beat <em>i</em></td>
+</tr>
+<tr>
+<td><code>k(i, t0, t1, ease=io3)</code></td>
+<td><strong>the workhorse</strong>: eased 0→1 ramp between seconds t0 and t1 of beat <em>i</em></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>s.k</code> is how every animation is keyframed: <code>text.show(s.k(0, 0.7, 2.5), …)</code>, camera moves with
+<code>s.k(2, 0, 5, bt.io3)</code>, etc. There is no timeline editor, choreography lives in code as these ramps.</p>
+<h3 id="beat-stepping-rules-scenerunnerstep">Beat stepping rules (<code>SceneRunner.step</code>)</h3>
+<ul>
+<li>For beats <code>≤ current</code>: after <code>delay</code>, <code>p[i]</code> advances at <code>dt/dur</code>; <strong>earlier beats advance 3× faster</strong>
+  so a skipped beat catches up instead of popping.</li>
+<li>For beats <code>&gt; current</code> (after going back): <code>p[i]</code> rewinds at 2.4× speed, going back un-plays.</li>
+<li><code>reset(beat, filled)</code>: jump directly to a beat with all previous beats at p=1.</li>
+</ul>
+<h2 id="deck-navigation-deck-api">Deck navigation (<code>deck</code> API)</h2>
+<ul>
+<li><code>advance()</code>, next beat; at last beat → <code>go(next, {with: next.enterWith})</code>. During a transition it
+  speeds it up ×3.5 and queues the advance.</li>
+<li><code>back()</code>, previous beat; at beat 0 → previous scene with the <em>current</em> scene's <code>enterWith</code>,
+  <code>reverse:true</code>, played at 0.55× duration, landing on its last beat.</li>
+<li><code>go(i, {with, reverse, beat})</code>, init target scene (if needed), un-park it, reset, <code>enter()</code>, take a
+  640×360 <strong>snapshot</strong> of the outgoing scene into <code>ctx.snapshots[id]</code> (used by the recap scene), start
+  the transition, emit an audio <code>transition</code> event.</li>
+<li><code>jump(id|index, beat)</code>, fade-jump (overview grid, hash change, Home/End).</li>
+<li><code>setAuto</code>, <code>toggleBlack</code> (fades to black via <code>present</code>), <code>mute</code>, <code>info()</code> (scene, beat, title, notes).</li>
+<li>Events: <code>deck.on("move"|"auto"|"mute", fn)</code>.</li>
+</ul>
+<h2 id="the-frame-loop">The frame loop</h2>
+<pre tabindex="0"><code>raf → adaptiveQuality(frameMs) → step(dt) → draw()
+step: smooth mouse; if transition: advance its p, step BOTH scenes with enter/exit set; else step current;
+      auto-advance when _since &gt; delay+dur+hold; audio.update(dt, {scene, beat})
+draw: if transition: from.render(A); to.render(B); T.render({A,B,p,out,…}) else cur.render(A);
+      HUD page number overlay; gfx.present(out, time, black)
+</code></pre>
+<p>Both scenes render every frame during a transition, so transitions composite <em>live</em> frames, not stills.</p>
+<h2 id="memory-and-warm-up">Memory and warm-up</h2>
+<ul>
+<li><strong>Parking:</strong> each render target remembers its owner (<code>gfx.owner</code> is set while a scene's <code>create</code>
+  runs). Scenes further than ±1 from the current are <em>parked</em>: their non-fixed targets shrink to 2×2.
+  Transitions not needed for the neighbours are parked too. Un-parking restores size and calls <code>resize</code>.</li>
+<li><strong>Warm-up:</strong> <code>warmAll</code> (at load) and <code>warm</code> of the next two scenes (300 ms/600 ms after each move)
+  render every beat and the entry transition once with audio muted, so shader compiles and allocations
+  never happen live.</li>
+</ul>
+<h2 id="adaptive-resolution">Adaptive resolution</h2>
+<p>Quality levels <code>[1, .84, .70, .58]</code> of the backing resolution (which is itself capped at ~2560×1600
+pixels and DPR ≤ 2; <code>?px=</code> overrides DPR). Smoothed frame time &gt; 21 ms for &gt; 1.2 s → step down;
+sustained &lt; 18.5 ms for 5 s → step up (max 3 recoveries per level, never during a transition).
+Scenes read <code>s.q</code> to scale their own expensive work (e.g. grass instance count, cloud march steps).</p>
+<h2 id="input">Input</h2>
+<ul>
+<li>Click/tap = next; right-click = back; horizontal swipe &gt; 50 px = next/back.</li>
+<li><code>pointer()</code> lets a scene capture a drag (the "Two aims" divider); captured gestures don't navigate.</li>
+</ul>
+<h2 id="presenter-ui-presenterjs">Presenter UI (<code>presenter.js</code>)</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 2, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>→ ↓ Space PgDn Enter</td>
+<td>next</td>
+</tr>
+<tr>
+<td>← ↑ PgUp Backspace</td>
+<td>back</td>
+</tr>
+<tr>
+<td>Home / End</td>
+<td>first / last scene</td>
+</tr>
+<tr>
+<td>F</td>
+<td>fullscreen</td>
+</tr>
+<tr>
+<td>A</td>
+<td>auto-play (uses <code>hold</code>)</td>
+</tr>
+<tr>
+<td>M</td>
+<td>sound on/off</td>
+</tr>
+<tr>
+<td>N</td>
+<td>notes panel (bottom bar: note text, elapsed time, scene x/n · beat y/m)</td>
+</tr>
+<tr>
+<td>P</td>
+<td>notes in a second window (pop-up, mirrors keys)</td>
+</tr>
+<tr>
+<td>O</td>
+<td>overview grid of all scenes (thumbnails, click to jump)</td>
+</tr>
+<tr>
+<td>. or B</td>
+<td>black screen</td>
+</tr>
+<tr>
+<td>? or H</td>
+<td>help card</td>
+</tr>
+</tbody>
+</table></div>
+<p>Location hash is kept in sync (<code>#scene-beat</code>) and is navigable. Cursor hides after 2.2 s idle.</p>
+<h2 id="test-hooks-for-automated-verification">Test hooks (for automated verification)</h2>
+<p><code>deck.test.seek(sceneId, beat, seconds, {mx,my})</code>, deterministically simulate at 60 Hz to that
+point and draw one frame. <code>deck.test.trans(sceneId, p)</code>, render the entry transition of a scene at
+progress p. <code>deck.test.perf(sceneId, n)</code>, GPU-timed average frame cost (<code>gl.readPixels</code> fence).
+<code>?headless</code> creates the renderer with <code>preserveDrawingBuffer</code> so screenshots work; <code>window.ready</code>
+signals boot completion.</p>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

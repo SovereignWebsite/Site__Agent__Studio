@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09, Playbook: building decks like this with agents (debrief)</title>
+<meta name="description" content="Chapter 09 of the debrief of The Last Boring Slide: 09, Playbook: building decks like this with agents.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/09-playbook-for-agents/">
+<meta property="og:title" content="09, Playbook: building decks like this with agents (debrief)">
+<meta property="og:description" content="Chapter 09 of the debrief of The Last Boring Slide: 09, Playbook: building decks like this with agents.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="09, Playbook: building decks like this with agents (debrief)">
+<meta name="twitter:description" content="Chapter 09 of the debrief of The Last Boring Slide: 09, Playbook: building decks like this with agents.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/09-playbook-for-agents/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/09-playbook-for-agents.md">Original Markdown</a>.</p><h1 id="09-playbook-building-decks-like-this-with-agents">09: Playbook: building decks like this with agents</h1>
+<h2 id="1-be-realistic-about-where-the-difficulty-is">1. Be realistic about where the difficulty is</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Difficulty for an agent</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime (scenes, beats, transitions, presenter keys, build to one file)</td>
+<td><strong>Low</strong></td>
+<td>Well-specified plumbing. The <code>starter/</code> already does it.</td>
+</tr>
+<tr>
+<td>Post stack, text system, SelectBox-style widgets</td>
+<td><strong>Low-medium</strong></td>
+<td>Known techniques; needs a few visual checks.</td>
+</tr>
+<tr>
+<td>Transitions (tear, slam, daybreak…)</td>
+<td><strong>Medium-high</strong></td>
+<td>Each is 50-150 lines of dense GLSL whose quality lives in hand-shaped curves. Several look→fix loops each.</td>
+</tr>
+<tr>
+<td>Hero 3D scenes (the "Two aims" valley)</td>
+<td><strong>High</strong></td>
+<td>Thousands of tuned constants: terrain shape, colours, densities, camera, light. Correctness is easy; <em>beauty</em> takes many iterations of looking at frames.</td>
+</tr>
+<tr>
+<td>Procedural audio engine and per-scene scores</td>
+<td><strong>High</strong></td>
+<td>Agents can write the DSP; judging the result needs ears. Budget for a human listening pass, or ship without sound.</td>
+</tr>
+<tr>
+<td>Narrative, pacing, the visual metaphor</td>
+<td><strong>Human</strong></td>
+<td>The deck works because of the idea (boring template ↔ spectacle, the selection marquee, two aims). Give the agent the script and the metaphor; don't ask it to invent the talk.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rough effort with agents, assuming a human director reviewing frames:
+the engine plus 2-3 polished scenes is a few focused sessions; a 12-13 scene deck at this level is
+weeks of iteration, dominated by look-development, not code.</p>
+<h2 id="2-the-non-negotiable-a-visual-feedback-loop">2. The non-negotiable: a visual feedback loop</h2>
+<p>An agent can't tune what it can't see. Give every session:</p>
+<ol>
+<li><code>npm run build</code> → one HTML file.</li>
+<li><code>tools/shoot.py scene:beat:seconds …</code> → PNG frames, deterministic (seeded randomness, fixed
+   60 Hz stepping via <code>deck.test.seek</code>), working without a GPU (Chrome + SwiftShader).</li>
+<li>The agent <strong>reads the PNGs</strong> (as images) after every change, and compares against the brief.</li>
+<li>Contact sheets (several frames tiled into one image) to judge motion and composition cheaply.</li>
+<li>A perf probe (<code>deck.test.perf</code>) run on a real GPU machine before the talk; SwiftShader is ~50× slower
+   and is only for correctness.</li>
+</ol>
+<p>Rules for the loop: change one thing at a time; always shoot the same frame list before/after; keep
+the shot list in the repo; never claim a scene is done without having looked at its frames.</p>
+<h2 id="3-repo-layout-to-give-agents">3. Repo layout to give agents</h2>
+<pre tabindex="0"><code>deck/
+  src/engine/        (from starter: util, glsl, gfx, view, text, deck, presenter)
+  src/scenes/NN-id.js     one file per scene, self-contained
+  src/transitions/name.js
+  src/audio/         optional
+  brief/
+    script.md        the talk: per scene → beats → on-screen words → speaker notes → intent
+    style.md         palette, fonts, grade (post settings), motion rules (see §5)
+    shots.txt        frame list for review, e.g. &quot;futures:0:3.0&quot;
+  build.mjs  tools/shoot.py  dist/deck.html
+</code></pre>
+<h2 id="4-how-to-split-work-across-agents">4. How to split work across agents</h2>
+<ul>
+<li><strong>One agent = one scene</strong> (or one transition). Scenes are isolated by contract, so they parallelise
+  well. Each gets: the engine docs (<code>02</code>, <code>03</code>, <code>04</code>), <code>style.md</code>, its section of <code>script.md</code>, its shot
+  list, and a frame budget (e.g. ≤ 8 ms on the target laptop GPU).</li>
+<li><strong>A director agent</strong> (or you) owns <code>script.md</code>, <code>style.md</code>, integration, and reviews contact sheets.</li>
+<li><strong>An integration pass</strong> at the end: transitions between neighbours, consistent type sizes and
+  positions, notes, total timing, perf on the real machine.</li>
+<li>For high-stakes reviews, use a separate reviewer agent that only sees the brief and the frames.</li>
+</ul>
+<h3 id="scene-brief-template-hand-this-to-a-scene-agent">Scene brief template (hand this to a scene agent)</h3>
+<pre tabindex="0"><code class="language-md"># Scene: futures, &quot;Two aims&quot;
+Intent: same power, different aim. Left: a world optimised into white tiles. Right: a living valley.
+Beats:
+  0 (5 s): split screen, divider drifts; captions &quot;Same power.&quot; (left) / &quot;Different aim.&quot; (right)
+  1 (4 s): divider slides right; &quot;The forecasters are asking for a pause.&quot; + source line
+  2 (5 s): living world full screen; light opens; &quot;It is not decided yet.&quot;
+Interaction: divider draggable (pointer API), eases back to choreography on release.
+Look: golden-hour, ACES, exposure .86-.94, bloom .2 / threshold 1.3, vignette .16, grain .016.
+Type: display font 76 px captions, rise by word.
+Budget: ≤ 10 ms/frame at 1440p on M1-class GPU; must scale with s.q.
+Done when: shots futures:0:3, futures:1:3.5, futures:2:4.5 match the intent and pass review.
+</code></pre>
+<h2 id="5-the-quality-bar-what-makes-it-look-like-this-and-not-like-a-demo">5. The quality bar (what makes it look like this and not like a demo)</h2>
+<ul>
+<li><strong>HDR everywhere + filmic tonemap + bloom with threshold &gt; 1 + grain + dither.</strong> Non-negotiable.</li>
+<li><strong>One light, one wind, one palette per scene.</strong> A shared gust field drives grass, trees, water and
+  sound; a single sun direction drives every material and the baked shadows.</li>
+<li><strong>Everything eases; nothing pops.</strong> Use <code>s.k(...)</code> with io3/io4/out4/expo; overlap ramps; stagger
+  words. Skipped beats catch up quickly instead of jumping.</li>
+<li><strong>Type is choreography.</strong> Real fonts, large sizes, per-word reveals, captions positioned in clear
+  sky/negative space, text on top of the post (never tonemapped).</li>
+<li><strong>Physical metaphors for transitions</strong> (paper, print, light, string), each with matching sound.</li>
+<li><strong>Density with restraint:</strong> thousands of instances, but legible composition, one focal point.</li>
+<li><strong>Seeded randomness</strong> so every run is identical (rehearsal + screenshot tests).</li>
+<li><strong>Warm-up before the talk</strong> so no shader compiles mid-presentation; adaptive resolution as a safety net.</li>
+<li><strong>A deliberately plain frame</strong> somewhere (the Arial slide) makes the spectacle land.</li>
+</ul>
+<h2 id="6-pitfalls-seen-while-reproducing">6. Pitfalls seen while reproducing</h2>
+<ul>
+<li>Use <code>RawShaderMaterial</code> with <code>glslVersion: GLSL3</code> and declare your own <code>in</code>/<code>out</code>/uniforms; mixing
+  with <code>ShaderMaterial</code>'s auto-prefix causes redeclaration errors.</li>
+<li>Instanced geometries with 2D <code>position</code> need a manual <code>boundingSphere</code> (three computes NaN).</li>
+<li>Render text <em>after</em> post, into the same output target, or it will be tonemapped and bloomed.</li>
+<li>Keep HalfFloat targets for anything before tonemapping; 8-bit only for snapshots/thumbnails.</li>
+<li>Overlays use a y-down orthographic camera (0…1920 × 0…1080); set <code>side: DoubleSide</code>.</li>
+<li>Canvas2D glyph rasters must be redone when device pixel ratio / window size changes.</li>
+<li>Bundle size: three.js minified ≈ 650 KB; inlined fonts add ~100-300 KB each. Fine for an artifact.</li>
+<li>Audio needs a user gesture before <code>AudioContext</code> will run; unlock on the first key/click.</li>
+<li>Don't trust SwiftShader timing; test perf on the presenting machine, at its resolution, on battery.</li>
+</ul>
+<h2 id="7-step-by-step-for-a-new-deck">7. Step-by-step for a new deck</h2>
+<ol>
+<li>Write <code>brief/script.md</code> (scenes, beats, words, notes) and <code>brief/style.md</code>. Human-owned.</li>
+<li>Copy <code>starter/</code> → run build + shoot → confirm the loop works in the agent's environment.</li>
+<li>Block out every scene as a placeholder (background colour + the real text with real timings).
+   Rehearse the talk on the placeholders. Fix pacing <em>now</em>.</li>
+<li>Assign scenes to agents with the brief template; each iterates with shots until review passes.</li>
+<li>Add transitions per scene boundary (start with fade/iris; upgrade the important ones).</li>
+<li>Optional: audio (start with a few synthesised hits and one pad per scene; see <code>07-audio.md</code>).</li>
+<li>Integration + perf pass on the real machine; tune <code>s.q</code> scaling; rehearse with the notes window.</li>
+<li>Publish the single HTML file (artifact, static host, or USB stick, it runs offline).</li>
+</ol>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

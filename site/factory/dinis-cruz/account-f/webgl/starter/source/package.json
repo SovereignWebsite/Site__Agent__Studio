@@ -1,0 +1,11 @@
+{
+  "name": "cinematic-deck-starter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "shoot": "python3 tools/shoot.py"
+  },
+  "dependencies": { "three": "^0.170.0" },
+  "devDependencies": { "esbuild": "^0.24.0" }
+}

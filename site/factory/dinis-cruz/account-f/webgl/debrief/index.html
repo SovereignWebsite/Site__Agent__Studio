@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Last Boring Slide: the debrief</title>
+<meta name="description" content="How a cinematic WebGL deck is wired: architecture, runtime, rendering, type, scenes, transitions, sound and video, in twelve chapters.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/">
+<meta property="og:title" content="The Last Boring Slide: the debrief">
+<meta property="og:description" content="How a cinematic WebGL deck is wired: architecture, runtime, rendering, type, scenes, transitions, sound and video, in twelve chapters.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Last Boring Slide: the debrief">
+<meta name="twitter:description" content="How a cinematic WebGL deck is wired: architecture, runtime, rendering, type, scenes, transitions, sound and video, in twelve chapters.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../">WebGL decks</a><a href="../learnings/">What we learnt</a><a href="../debrief/">The debrief</a><a href="../starter/">Starter code</a><a href="../../decks/signed/">Signed</a><a href="../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../debrief/source/README.md">Original Markdown</a>.</p><h1 id="debrief-the-last-boring-slide-how-a-cinematic-webgl-deck-is-wired">Debrief: "The Last Boring Slide", how a cinematic WebGL deck is wired</h1>
+<p>This folder is a reverse-engineering debrief of the artifact <em>The Last Boring Slide (Copy)</em>:
+a 13-scene talk rendered entirely in real time with WebGL 2 / three.js, with procedural
+audio, speaker notes and a presenter UI, shipped as <strong>one self-contained HTML file</strong>
+(~7,000 physical lines, several MB).</p>
+<p>It is written for an agent (or engineer) who has to build decks of the same kind. Read in order:</p>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../debrief/01-architecture/">01-architecture.md</a></td>
+<td>File layout, boot sequence, module map, how the single file was produced</td>
+</tr>
+<tr>
+<td><a href="../debrief/02-runtime-and-timeline/">02-runtime-and-timeline.md</a></td>
+<td>The scene contract, beats, the per-frame state object, deck navigation, warm-up, parking, adaptive resolution, test hooks, presenter UI</td>
+</tr>
+<tr>
+<td><a href="../debrief/03-rendering/">03-rendering.md</a></td>
+<td>The <code>gfx</code> wrapper, render targets, full-screen passes, post stack (bloom / AgX / ACES / grain / dither), shared GLSL libraries, the 1920×1080 view</td>
+</tr>
+<tr>
+<td><a href="../debrief/04-text-and-ui/">04-text-and-ui.md</a></td>
+<td>The glyph-instanced text system, fonts, reveal styles, SDF words, the SelectBox motif, rect primitives</td>
+</tr>
+<tr>
+<td><a href="../debrief/05-scenes/">05-scenes.md</a></td>
+<td>Scene-by-scene catalogue, with a deep dive on the "Two aims" landscape, the recap curve and the closing slide</td>
+</tr>
+<tr>
+<td><a href="../debrief/06-transitions/">06-transitions.md</a></td>
+<td>The transition contract and the ten transitions (tear, slam, daybreak, line, …)</td>
+</tr>
+<tr>
+<td><a href="../debrief/07-audio/">07-audio.md</a></td>
+<td>The fully procedural audio engine: offline synthesis bank, WebAudio graph, per-scene "beds", transition sound design</td>
+</tr>
+<tr>
+<td><a href="../debrief/08-techniques-cookbook/">08-techniques-cookbook.md</a></td>
+<td>Reusable recipes, extracted and generalised</td>
+</tr>
+<tr>
+<td><a href="../debrief/09-playbook-for-agents/">09-playbook-for-agents.md</a></td>
+<td><strong>How to build a deck like this with agents</strong>: repo layout, build, verification loop, task split, quality bar, pitfalls, effort</td>
+</tr>
+<tr>
+<td><a href="../debrief/10-transitions-deep-dive/">10-transitions-deep-dive.md</a></td>
+<td>Phase-by-phase breakdowns of LINE, DAYBREAK, SLAM, TEAR with working code and reference renders</td>
+</tr>
+<tr>
+<td><a href="../debrief/11-sound-design-guide/">11-sound-design-guide.md</a></td>
+<td>The procedural sound approach: rules, primitives, cue timelines, beds, measuring sound without ears</td>
+</tr>
+<tr>
+<td><a href="../debrief/12-replicating-for-video/">12-replicating-for-video.md</a></td>
+<td>Rendering MP4s with sound, getting references from the original, what to copy first</td>
+</tr>
+<tr>
+<td><a href="../starter/">starter/</a></td>
+<td>A buildable implementation of the same architecture: engine, 4 scenes, 6 transitions (incl. line/daybreak/slam/tear), procedural audio, screenshot + video tools</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tldr">TL;DR</h2>
+<ul>
+<li><strong>Stack:</strong> three.js r187 (used mostly as a WebGL2 state manager, nearly every material is a raw
+  GLSL3 <code>ShaderMaterial</code>), hand-written GLSL, Canvas2D for glyph rasterisation, WebAudio for sound.
+  No other runtime libraries. No images, video or audio files: everything is generated at load time.</li>
+<li><strong>Engine:</strong> a small custom presentation runtime (<code>createDeck</code>) that owns the render loop,
+  a <em>scene</em> contract (<code>create → {init, enter, exit, update, render, pointer, resize}</code>), timed
+  <em>beats</em> inside each scene, and <em>transitions</em> that composite two scene render targets.</li>
+<li><strong>Look:</strong> each scene renders HDR into its own targets, then a shared post pass (6-level bloom,
+  AgX or ACES tonemap, contrast/saturation, vignette, grain) and a final dithered present.</li>
+<li><strong>Authoring style:</strong> procedural everything, terrain from noise functions, trees from recursive
+  tube geometry, clouds raymarched through a 3D noise texture, sounds synthesised sample-by-sample.</li>
+<li><strong>Packaging:</strong> source was clearly a multi-module ES project, bundled + minified (esbuild-style IIFE),
+  with three.js and base64 fonts inlined so the result is a single file publishable as an artifact.</li>
+</ul>
+<h2 id="provenance-licensing-notes-not-legal-advice">Provenance / licensing notes (not legal advice)</h2>
+<ul>
+<li>three.js is MIT-licensed (its notice is preserved at the top of the script).</li>
+<li>Fonts embedded: Geist, Geist Mono, Newsreader, Unbounded ("Unb"), Anton, JetBrains Mono, all
+  published under the SIL Open Font License. A font named "Pixel" is also loaded; its origin is not
+  identifiable from the file, so check before reusing it.</li>
+<li>Everything else, engine, shaders, scenes, audio, is original code by the deck's author. There is
+  no proprietary dependency, but there is also no licence attached to that code. The <em>techniques</em>
+  are standard and free to reuse; copying the code verbatim is a question for its author.</li>
+</ul>
+<h2 id="what-was-read">What was read</h2>
+<p>The debrief is based on reading the application code directly: the boot/engine section
+(utilities, GLSL libraries, <code>gfx</code>, post stack, fonts, text system, view, overlays, SelectBox,
+<code>createDeck</code>, presenter UI, boot), the complete audio engine, the "office" opener, the
+"futures" landscape, the "pile" recap, the "questions" closer, and the slam / daybreak / line / tear
+transitions. The bundled three.js (~5,200 lines) was skipped. The middle scenes (tower, boat, loop,
+swarm, dominoes, calendar, lamp, selectall, aim) were only sampled, so the catalogue for those is
+inferred from names, audio beds and fragments and is marked as such.</p>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

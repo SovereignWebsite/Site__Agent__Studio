@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05, Scenes (debrief)</title>
+<meta name="description" content="Chapter 05 of the debrief of The Last Boring Slide: 05, Scenes.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/05-scenes/">
+<meta property="og:title" content="05, Scenes (debrief)">
+<meta property="og:description" content="Chapter 05 of the debrief of The Last Boring Slide: 05, Scenes.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="05, Scenes (debrief)">
+<meta name="twitter:description" content="Chapter 05 of the debrief of The Last Boring Slide: 05, Scenes.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/05-scenes/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/05-scenes.md">Original Markdown</a>.</p><h1 id="05-scenes">05: Scenes</h1>
+<p>Order (from the recap scene's list and the <code>scenes:[…]</code> array):</p>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>id</th>
+<th>Entry transition</th>
+<th>What it is (confidence)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>office</code></td>
+<td>,</td>
+<td>Opener. A dull "AI Progress (Projected)" chart drawn in Canvas2D in Arial with a default blue series, whose line bends into an exponential; "I can fix it." then a carousel of <strong>"Better."</strong> rendered eight ways (grid-lined white, red disc, serif italic, stretched Anton, pixel font, tunnel of repeated mono text, spiral of 700 words, raymarched 3D extruded word, liquid chrome, particles). Typing / selecting sounds. <em>(read)</em></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>tower</code></td>
+<td>?</td>
+<td>Architectural, windowed towers (window-grid shader fragment found); audio bed = Shepard-tone strings rising, wind. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>boat</code></td>
+<td>?</td>
+<td>A ship at sea: brown/pink-noise sea, iron groans and creaks, a big chord "release" with a boom. <em>(inferred from audio)</em></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>loop</code></td>
+<td>?</td>
+<td>A marimba/pluck pattern that phases between voices, a feedback/loop metaphor. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>swarm</code></td>
+<td>?</td>
+<td>Crowd murmur (granular vowel grains) + choir, many agents. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>dominoes</code></td>
+<td>?</td>
+<td>Domino runs (click synthesis in bursts) and rising dread drones. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>calendar</code></td>
+<td>?</td>
+<td>A clock whose ticks stretch exponentially ("dilation"), pages flipping, time compression. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>lamp</code></td>
+<td><code>daybreak</code>?</td>
+<td>Glass tones, then a 16-voice sunrise chord, shimmer + boom + bell. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>selectall</code></td>
+<td>?</td>
+<td>Organ chord pulsing faster and faster until it is a drone, "select all". <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>aim</code></td>
+<td>?</td>
+<td>A solo voice that detunes against itself, misalignment. <em>(inferred)</em></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>futures</code></td>
+<td><code>tear</code></td>
+<td><strong>"Two aims"</strong> split-screen landscape (deep dive below). <em>(read)</em></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>pile</code></td>
+<td><code>portal-in</code></td>
+<td><strong>"You are here"</strong>: every slide laid on an exponential curve (below). <em>(read)</em></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>questions</code></td>
+<td><code>portal-out</code></td>
+<td><strong>"Any questions?"</strong>, the deliberately boring closer (below). <em>(read)</em></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="narrative-device-worth-copying">Narrative device worth copying</h2>
+<p>The deck <em>starts and ends</em> on a deliberately ugly default-template slide (Arial, grey page number,
+blue default chart series, a blue footer bar via <code>Wf</code>). Everything in between is spectacle. The
+contrast is the point, and the recurring <strong>SelectBox</strong> marquee ties them together.</p>
+<h2 id="deep-dive-futures-two-aims">Deep dive, <code>futures</code> ("Two aims")</h2>
+<p><strong>Beats:</strong> (1) "Same power. / Different aim." captions on each side; the divider drifts on its own
+(sinusoid around the centre) and is draggable. (2) The divider slides right, the "living" world takes
+over, "The forecasters are asking for a pause. / AI Futures Project, 10 November 2026". (3) Divider
+goes to 0 (living world full screen), light opens up, "It is not decided yet."</p>
+<p><strong>Two complete worlds, one terrain.</strong> <code>uWorld</code> uniform = 1 (living) / 0 (optimised). Both share:</p>
+<ul>
+<li><strong>Noise textures</strong> generated at init: a 256² RGBA (fbm, finer fbm, Worley, hash) rendered on GPU, and
+  a 64³ two-channel <code>Data3DTexture</code> built on CPU (tiled 3D Worley + value noise) for clouds.</li>
+<li><strong>Height function</strong> <code>Sh(x,z)</code> (CPU, also sampled for placing objects): domain-warped fbm; ridges as
+  Gaussian "capsules" along hand-placed polylines (<code>[x,z,height,width]</code> control points); smooth-max
+  blending; a mountain range only beyond z &lt; −60; a carved riverbank; a raised plateau for the hero tree.
+  <code>En(x,z)</code> adds <strong>terraces</strong> (quantise height to 0.42 steps with a smooth riser) in garden masks.</li>
+<li><strong>Camera-fitted terrain mesh</strong>: 480 rows × 570 columns where row distance grows exponentially from
+  the camera (<code>d = 4·(235/4)^(v/480)</code>) and width grows with distance, triangles are roughly constant in
+  screen space. Normals by central differences. A 200×240 low-res copy is used for the reflection pass.
+  Per-vertex <code>aM</code>: distance to footpath, garden mask, forest density, terrace mask.</li>
+<li><strong>Baked lighting</strong>: orthographic top-down height render (1536²) → pass that marches 110 steps toward
+  the sun (horizon shadow) and 40 golden-angle AO samples → texture <code>tBF</code> (far, 224×216 units) and
+  <code>tBN</code> (near, 26×18 units) sampled through <code>baked(xz)</code> and <code>shadow(w, bias)</code>.</li>
+</ul>
+<p><strong>Living world contents (all instanced):</strong> procedural recursive trees (branching tubes with jitter,
+leaf cards) in 2 species; ~4,300 placed trees; 84,000 grass blades that bend with a gust field and carry
+flowers; hundreds of houses (a jittered 62×36 candidate grid filtered by terrace mask, slope and noise, plus clusters around villages) on terraced slopes (3 roof types, window grid shader, chimneys); three bridges
+(arched and suspension, generated from a parametric deck curve); four waterfalls (noise-scrolled
+ribbons + spray sprites); a hero tree on a plateau with per-leaf sway; boats with sails orbiting
+ellipses and heeling in gusts; two kites with strings; seven gulls; three bird flocks (74 birds with
+flapping); 170 drifting petals; 64 people walking a Catmull-Rom path or milling about, bobbing.</p>
+<p><strong>Optimised world contents:</strong> the same terrain covered by <strong>white slabs</strong> placed with an adaptive
+quadtree (subdivide where slope, noise or screen size demand), heliostat-like tilting tops with travelling
+"lift" waves, stone conveyors moving in lanes, a sea filled by tiles rising row by row, collectors
+on stalks tracking the sun, crate trains, square-lattice "swarm" in the sky occulting the sun, a
+glass-box pavilion around the hero tree, the hero tree bleached grey with one white leaf, glass-flat water.</p>
+<p><strong>Water</strong> (<code>l2</code>): grid in camera space; normals from three scrolling noise octaves with gust-scaled
+amplitude and depth-scaled damping; Fresnel mix of baked-shadowed water colour (shallow→deep by baked
+depth) and the mirror-camera reflection; sharp + broad sun specular; shoreline foam bands
+<code>sin(depth·3.4 − t)</code> + whitecaps in gusts.</p>
+<p><strong>Sky + clouds</strong> (<code>Fb</code>, <code>r2</code>): sky gradient + sun disc; volumetric clouds raymarched at 0.42 res in a
+15-54 unit slab, coverage = 13 drifting hand-placed blobs × noise, density = 3D texture eroded by two finer
+octaves, 5-step light march, two-lobe extinction, ambient by height, distance haze; <strong>temporal
+reprojection</strong> (jittered start, golden-ratio frame offset, previous VP matrix, blend 0.13, 16 warm-up
+frames on reset). The optimised sky instead draws three layers of moving rectangles ("perfect lattices
+overhead, all moving at exactly one speed").</p>
+<p><strong>The split:</strong> divider <code>T</code> ∈ [0,1]. Each frame: clouds only for the right part; <code>J(world, …, x0, x1)</code>
+renders reflection then main pass for each world scissored to its side into a shared 4× MSAA HDR target;
+one <code>gfx.post</code>; captions rendered scissored per side; divider drawn by its own shader (line + three
+discs, hot state on hover). <code>pointer()</code> grabs within 60 units of the line; on release the divider eases
+back to the choreographed path. Audio params <code>wind</code> and <code>hum</code> follow <code>T</code>.</p>
+<h2 id="deep-dive-pile-you-are-here">Deep dive, <code>pile</code> ("You are here")</h2>
+<ul>
+<li>The curve <code>y = e^(x/6)</code> from x=−170 to 37, arc-length parameterised with a 6000-sample cumulative
+  table and binary search (<code>V0(s) → {x,y,tx,ty}</code>).</li>
+<li>A ribbon of "paper" along the whole curve; each slide is a 16×9 strip at arc position
+  <code>Hr(i) = s0 + i·(9+1.15)</code>, textured with <code>ctx.snapshots[id]</code> (live captures taken as the presenter
+  left each scene) or <code>thumb-&lt;id&gt;.jpg</code>; empty dashed frames before and after.</li>
+<li>Camera starts framing the last slide (portal geometry matches the previous scene's frame), rides
+  <strong>down</strong> the curve with <code>ioExpo</code> and a sinusoidal pull-back, lands beside "today", then beat 2 tilts up
+  at the wall of slides with a wider FOV: "This is the flat part."</li>
+<li>260 instanced sheets drift down; the date is <code>new Date()</code>; the SelectBox frames today's slide via
+  <code>rectOf</code>. Audio param <code>speed</code> follows camera speed.</li>
+</ul>
+<h2 id="deep-dive-questions-any-questions">Deep dive, <code>questions</code> ("Any questions?")</h2>
+<p>Beat 1: white slide, Arial "Any questions?", footer bar, grey page number. Beat 2: a blinking caret,
+"I have one." types in (with typing sounds) and a SelectBox pops around it. Beat 3: the text deletes,
+"What do you want?" types, the SelectBox grows to the whole screen, then the entire slide is rendered
+to a target and redrawn through a pass that <strong>rotates it by ~1°</strong> (with drop shadow on a dark
+background) and the marquee rotates with it, with a creak sound.</p>
+<h2 id="deep-dive-office-opener-building-blocks">Deep dive, <code>office</code> (opener) building blocks</h2>
+<ul>
+<li>Canvas2D chart (<code>X3</code>) redrawn into a <code>CanvasTexture</code> only when its parameters change (cache key).</li>
+<li>A list of "panels", each <code>{color, update(t), render(out), rect()}</code>, background rect + overlay + optional
+  extra pass; <code>rect()</code> returns where the word sits so the SelectBox can track it across styles.</li>
+<li>Raymarched SDF word: <code>map(p)</code> extrudes the 2D SDF texture with an animated height, soft shadows,
+  cheap AO, orbiting camera.</li>
+</ul>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

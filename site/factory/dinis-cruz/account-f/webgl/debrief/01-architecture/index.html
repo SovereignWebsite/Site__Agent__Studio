@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01, Architecture (debrief)</title>
+<meta name="description" content="Chapter 01 of the debrief of The Last Boring Slide: 01, Architecture.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/01-architecture/">
+<meta property="og:title" content="01, Architecture (debrief)">
+<meta property="og:description" content="Chapter 01 of the debrief of The Last Boring Slide: 01, Architecture.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="01, Architecture (debrief)">
+<meta name="twitter:description" content="Chapter 01 of the debrief of The Last Boring Slide: 01, Architecture.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/01-architecture/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/01-architecture.md">Original Markdown</a>.</p><h1 id="01-architecture">01: Architecture</h1>
+<h2 id="the-file">The file</h2>
+<pre tabindex="0"><code>&lt;!doctype html&gt;
+&lt;head&gt;  host boilerplate (viewport, safe-area padding, base font)
+&lt;body&gt;
+  &lt;title&gt;The Last Boring Slide&lt;/title&gt;
+  &lt;style&gt;   ~25 lines: #stage canvas full-window, #ui overlay, .notes, .over (grid), .help, .toast, .load
+  &lt;canvas id=&quot;stage&quot; tabindex=&quot;0&quot;&gt;
+  &lt;div id=&quot;ui&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+     /* three.js MIT header */
+     window.__FONTS = { &quot;GeistMono-latin.woff2&quot;: &quot;data:font/woff2;base64,…&quot;, … }   // all fonts inlined
+     (()=&gt;{                                    // one IIFE = bundler output
+        …three.js r187 (minified, ~5,200 lines)…
+        …app: utils → GLSL libs → gfx → fonts → text → view → overlay → SelectBox
+              → createDeck → presenter UI → boot(C3) → transitions → audio → scenes …
+        C3({ createDeck, scenes:[13], transitions:{10}, makeAudio, headless })
+     })();
+  &lt;/script&gt;
+</code></pre>
+<p>Everything is inside the one <code>&lt;script&gt;</code>. Optional external hooks exist but are unused in the
+published file: <code>window.__ASSETS[name]</code> (falls back to <code>assets/&lt;name&gt;</code>), <code>fonts/&lt;file&gt;</code> fallback when
+<code>__FONTS</code> lacks an entry, and <code>thumb-&lt;sceneId&gt;.jpg</code> for the overview grid.</p>
+<h2 id="module-map-de-minified-names-role">Module map (de-minified names → role)</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Minified</th>
+<th>Suggested source name</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ct, K, Te, kt, Fn, bt.*, ze, Ys, Si, Mr, Do</code></td>
+<td><code>util/math.js</code></td>
+<td>clamp, lerp, remap, smoothstep, smootherstep, easings, seeded PRNG (mulberry-style), 1D hash/noise, frame-rate-independent damping <code>1-exp(-k·dt)</code>, hex→rgb</td>
+</tr>
+<tr>
+<td><code>Bn, Fe, y3, Sn</code></td>
+<td><code>gl/lib.glsl.js</code></td>
+<td>GLSL string chunks: hashes; value noise + fbm (2D/3D); SDF primitives + <code>smin</code> + <code>rot2</code>; colour (<code>toLin</code>, <code>toSrgb</code>, <code>luma</code>, <code>blackbody</code>)</td>
+</tr>
+<tr>
+<td><code>b3</code></td>
+<td><code>gfx.js</code></td>
+<td>WebGLRenderer wrapper: <code>target</code>, <code>pass</code>, <code>draw</code>, <code>copy</code>, <code>post</code>, <code>present</code>, <code>resize</code>, <code>park</code>, <code>time</code></td>
+</tr>
+<tr>
+<td><code>WT, Ln, M3</code></td>
+<td><code>type/fonts.js</code></td>
+<td>font role table (<code>display</code>, <code>text</code>, <code>mono</code>, <code>serifIt</code>, <code>anton</code>, <code>pixel</code>, <code>arial</code>…), CSS font strings, <code>FontFace</code> loader</td>
+</tr>
+<tr>
+<td><code>S3</code> (class <code>TextBlock</code>)</td>
+<td><code>type/text.js</code></td>
+<td>glyph-instanced text with per-glyph animation</td>
+</tr>
+<tr>
+<td><code>E3</code></td>
+<td><code>view.js</code></td>
+<td>1920×1080 design space, letterboxed orthographic camera</td>
+</tr>
+<tr>
+<td><code>Gf</code></td>
+<td><code>overlay.js</code></td>
+<td>a <code>Scene</code> drawn with the view camera (2D layer)</td>
+</tr>
+<tr>
+<td><code>t0</code> (<code>SelectBox</code>), <code>Qn</code> (<code>Rect</code>), <code>_3</code> (<code>rectOf</code>)</td>
+<td><code>ui/*.js</code></td>
+<td>selection-marquee shader widget, flat/texture rect, project 3D points to a 2D rect</td>
+</tr>
+<tr>
+<td><code>A3</code></td>
+<td><code>deck.js</code></td>
+<td><strong>the runtime</strong>: scenes, beats, transitions, loop, input, warm-up, test API</td>
+</tr>
+<tr>
+<td><code>R3</code></td>
+<td><code>presenter.js</code></td>
+<td>keyboard, notes panel, notes window, overview grid, help, toasts, idle cursor, URL hash</td>
+</tr>
+<tr>
+<td><code>C3</code></td>
+<td><code>main.js</code></td>
+<td>boot: create deck, loading bar + <code>warmAll</code>, start at hash, attach presenter</td>
+</tr>
+<tr>
+<td><code>P3, Xb, Yb, $b, Zb, tw, iw, sw, aw, lw</code></td>
+<td><code>transitions/*.js</code></td>
+<td>fade, portal-in, portal-out, fold, wash, flaps, slam, daybreak, line, tear</td>
+</tr>
+<tr>
+<td><code>Sr, cc, k3, D3, U3, qi + subclasses, O3, V3, G3</code></td>
+<td><code>audio/*.js</code></td>
+<td>sound recipes, pad recipes, bank, engine, scene beds, transition sounds, public audio API</td>
+</tr>
+<tr>
+<td><code>$3 … qb</code></td>
+<td><code>scenes/*.js</code></td>
+<td>the 13 scenes</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="boot-sequence">Boot sequence</h2>
+<ol>
+<li><code>C3(...)</code> → <code>createDeck({canvas, scenes, transitions, headless, qs, makeAudio})</code>.</li>
+<li><code>createDeck</code> awaits <code>loadFonts()</code> (FontFace from <code>__FONTS</code> data URIs), creates <code>gfx</code>, <code>view</code>,
+   the text system, audio, the shared context object <code>ctx</code>, three scratch targets, and wraps each
+   scene definition in a <code>SceneRunner</code>.</li>
+<li>If WebGL 2 fails → a help box: "This presentation needs WebGL 2…".</li>
+<li>Unless <code>?quick</code> or headless: show "Opening presentation" + progress bar and run
+   <code>deck.warmAll(progress)</code>, every scene is <code>init</code>-ed, every beat rendered once at p=0.5 and 1, and
+   its entry transition rendered at p = .2/.5/.8 into scratch targets. This compiles all shaders and
+   allocates all targets <em>before</em> the talk starts, so there are no hitches mid-presentation.</li>
+<li>Start at the scene/beat from <code>location.hash</code> (<code>#futures-2</code>), else the first scene.</li>
+<li>Attach presenter UI; set <code>window.ready = true</code> (a hook for headless capture tools).</li>
+</ol>
+<h2 id="how-the-single-file-was-most-likely-produced">How the single file was most likely produced</h2>
+<p>The code shape says: ES modules + three.js imported from npm → bundled and minified (mangled
+two-letter names, <code>var X=class{…}</code>, one IIFE, <code>__FONTS</code>/<code>__ASSETS</code> globals for inlined resources) →
+a post-build step that base64-inlines fonts (and would inline assets) and writes one HTML file.
+<code>?headless</code>, <code>window.__fdiv</code>, <code>window.ready</code> and <code>deck.test.{seek,trans,perf}</code> exist so an
+automated browser can render any scene/beat/transition frame deterministically, which is how the
+author verified the visuals and generated thumbnails. See <code>09-playbook-for-agents.md</code> for a
+reproduction of that pipeline.</p>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

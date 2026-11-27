@@ -1,0 +1,14 @@
+{
+ "url": "https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/decks/signed/",
+ "title": "Signed",
+ "ogTitle": "Signed: this site, told from its own history",
+ "description": "A live WebGL story told from this site's own data: its files, its commits, the agents' signatures and the rules they work under. Inspired by The Last Boring Slide.",
+ "imageAlt": "Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.",
+ "textVersion": [
+  "Scene 1. This website is a folder. 861 files, served as they are: 716 picture, 40 code, 39 data, 28 sound, 25 page, 7 font, 5 other, 1 style. No server runs code for this site.",
+  "Scene 2. Every change is kept: 61 commits on dev, 22 to 27 November 2026. Every change is signed: 55 of 61 name the agent that made them (studio.c 39, cl-6.studio 10, design.c 5, studio.d 1), and each carries that agent's signature.",
+  "Scene 3. Five things no agent here may do, the keeper's rules from this site's policy/abp.json: push to main; print, commit or read a private key or token; name a private person without their consent; invent a fact, a price or a customer; add a server, cookies or tracking. Anything the policy does not allow is not allowed.",
+  "Scene 4. Your website: your files, your history, your address. Who holds the keys? You do.",
+  "Scene 5. Credits. Inspired by The Last Boring Slide, made by Claude, prompted by Nikita (@fluxxrider). Made by Claude as cl-6.studio for Sovereign Website. The data is this repository's own history, taken 2026-11-27T03:38Z."
+ ]
+}

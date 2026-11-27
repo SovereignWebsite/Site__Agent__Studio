@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04, Text and UI primitives (debrief)</title>
+<meta name="description" content="Chapter 04 of the debrief of The Last Boring Slide: 04, Text and UI primitives.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/04-text-and-ui/">
+<meta property="og:title" content="04, Text and UI primitives (debrief)">
+<meta property="og:description" content="Chapter 04 of the debrief of The Last Boring Slide: 04, Text and UI primitives.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="04, Text and UI primitives (debrief)">
+<meta name="twitter:description" content="Chapter 04 of the debrief of The Last Boring Slide: 04, Text and UI primitives.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/04-text-and-ui/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/04-text-and-ui.md">Original Markdown</a>.</p><h1 id="04-text-and-ui-primitives">04: Text and UI primitives</h1>
+<h2 id="fonts">Fonts</h2>
+<p>Role table (<code>WT</code>), resolved to CSS font strings by <code>Ln(role, px)</code>:</p>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Family</th>
+<th>Weight/style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>display</code> / <code>displayBold</code></td>
+<td>Unbounded ("Unb")</td>
+<td>300 / 800</td>
+</tr>
+<tr>
+<td><code>text</code> / <code>textMed</code> / <code>textBold</code></td>
+<td>Geist</td>
+<td>400 / 500 / 650</td>
+</tr>
+<tr>
+<td><code>mono</code> / <code>monoMed</code></td>
+<td>Geist Mono</td>
+<td>400 / 500</td>
+</tr>
+<tr>
+<td><code>serif</code> / <code>serifIt</code></td>
+<td>Newsreader</td>
+<td>400 / italic</td>
+</tr>
+<tr>
+<td><code>anton</code></td>
+<td>Anton</td>
+<td>400</td>
+</tr>
+<tr>
+<td><code>jb</code></td>
+<td>JetBrains Mono</td>
+<td>700</td>
+</tr>
+<tr>
+<td><code>pixel</code></td>
+<td>"Pixel"</td>
+<td>400</td>
+</tr>
+<tr>
+<td><code>arial</code> / <code>arialBold</code></td>
+<td>system Arial stack (raw)</td>
+<td>400 / 700, used deliberately for the "boring template" look</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>loadFonts()</code> registers each with <code>new FontFace(name, url(dataURI), descriptors)</code>, awaited before
+anything is laid out.</p>
+<h2 id="textblock-glyph-instanced-text"><code>TextBlock</code>, glyph-instanced text</h2>
+<p><code>ctx.text(str | [{t, size, font, color}…], opts)</code> with opts
+<code>{x, y, size=48, font="display", color, align, valign:"top|middle|bottom|base", leading=1.12,
+tracking=0, maxWidth=0, raster=1}</code>.</p>
+<p>How it works:</p>
+<ol>
+<li><strong>Layout on the CPU</strong> with <code>CanvasRenderingContext2D.measureText</code>: rich runs, <code>\n</code>, word wrap at
+   <code>maxWidth</code>, tracking, alignment. Produces <code>glyphs[]</code> with per-glyph <code>n</code> (index), <code>word</code>, <code>line</code>,
+   <code>x, y, w, size, color, cx, cy, top, bot</code>, plus <code>box</code>, <code>lines</code>, <code>width</code>, <code>height</code>.</li>
+<li><strong>Rasterise</strong> each glyph into a private Canvas2D atlas at the <em>current pixels-per-unit</em>
+   (<code>view.scale × raster</code>, ≤ 6), with padding for blur. Re-rasterised on resize → always pixel-sharp,
+   no SDF artefacts.</li>
+<li><strong>Draw</strong> as one instanced quad mesh. Each instance has 24 floats: rect, uv, transform
+   (dx, dy, scale, rot), alpha, blur radius, clip flag, skew, rgb, sx, sy, line top/bottom.
+   The fragment shader does an optional 28-tap golden-angle blur (for blur reveals) and <strong>line clipping</strong>
+   (glyphs outside their line box are discarded, that is how "rise" reveals slide up from behind a mask).</li>
+<li><strong>Animate</strong> with a callback run per glyph: <code>text.animate((g, out, block) =&gt; { out.dy = …; out.alpha = …; })</code>.</li>
+</ol>
+<p><code>text.show(progress, {style, q, stagger=.5, by:"glyph|word|line", seed})</code> is the standard reveal, where
+<code>progress</code> is the in-ramp and <code>q</code> the out-ramp (both usually from <code>s.k</code>). Built-in styles:</p>
+<div class="table" tabindex="0" role="region" aria-label="Table 2, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>style</th>
+<th>effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rise</code></td>
+<td>glyphs slide up from below their own line mask (clipped), exit upward</td>
+</tr>
+<tr>
+<td><code>blur</code></td>
+<td>fade + defocus + slight drift and scale</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>typewriter on/off</td>
+</tr>
+<tr>
+<td><code>fade</code></td>
+<td>plain alpha</td>
+</tr>
+<tr>
+<td><code>scatter</code></td>
+<td>fly in from random directions with spin</td>
+</tr>
+<tr>
+<td><code>track</code></td>
+<td>letter-spacing collapse with blur</td>
+</tr>
+<tr>
+<td><code>drop</code></td>
+<td>fall in with overshoot (<code>outBack</code>) and wobble</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>text.in3D(scale, {gain, depthTest})</code> re-parents the mesh into a 3D group (linear colour, flipped Y)
+so the same text can live inside a 3D scene.</p>
+<p><strong>Why this matters:</strong> typography is a large part of why the deck feels designed. Every headline is
+animated per word or per glyph, with real fonts, at native resolution, and can be distorted
+procedurally (the "office" opener stretches the letters of BETTER with a sine wave, spirals 700 copies of
+"better", bounces pixel-font letters on a quantised clock).</p>
+<h2 id="sdf-words-for-3dshader-use">SDF words (for 3D/shader use)</h2>
+<p><code>W3(word, fontFn, {W=768, H=192, size=150})</code> draws a word into a canvas, then computes an exact
+<strong>signed distance field</strong> with the Felzenszwalb-Huttenlocher 1D/2D Euclidean distance transform
+(inside and outside separately, sub-pixel edge from coverage) into a <code>Float32</code> red texture. Used to
+raymarch an extruded 3D word ("Better." in thick orange plastic with soft shadows and AO), to make a
+liquid-chrome version with environment reflections, and to scatter 7,000 particles inside the glyph
+mask.</p>
+<h2 id="selectbox-the-recurring-motif"><code>SelectBox</code>, the recurring motif</h2>
+<p>A single-quad shader widget that draws a design-tool <strong>selection marquee</strong>: rounded box outline,
+eight handle discs (white centre), an optional rotation knob with stem, optional fill, glow, marching
+ants (<code>dash</code>), rotation. API: <code>.set(x,y,w,h,rot)</code>, <code>.alpha()</code>, <code>.size()</code>, <code>.appear(t)</code> (pop with
+overshoot), <code>.around(textBlock, pad)</code>, <code>.color()</code>, <code>.glow()</code>, <code>.fill()</code>, <code>.knob()</code>, <code>.dash()</code>.
+Colour default <code>#2b5cff</code>. The talk's visual metaphor ("select all", "the last boring slide", "what do
+you want?") is built on this one widget appearing around words, slides and finally the whole screen.</p>
+<p><code>rectOf(points3D, camera, view)</code> projects 3D points to a design-space rect, so the marquee can frame a
+3D object (e.g. "You are here" frames the current slide on the recap curve).</p>
+<h2 id="rect-qn"><code>Rect</code> (<code>Qn</code>)</h2>
+<p>Flat colour or textured rectangle in design space (<code>set(x,y,w,h)</code>, <code>alpha</code>, <code>color</code>), used for
+backgrounds, the "template" bars of the dull slide, rule lines, the typing caret.</p>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

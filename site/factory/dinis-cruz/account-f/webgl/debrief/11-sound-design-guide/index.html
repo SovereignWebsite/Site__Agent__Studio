@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11, Sound design guide (with a working engine) (debrief)</title>
+<meta name="description" content="Chapter 11 of the debrief of The Last Boring Slide: 11, Sound design guide (with a working engine).">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/11-sound-design-guide/">
+<meta property="og:title" content="11, Sound design guide (with a working engine) (debrief)">
+<meta property="og:description" content="Chapter 11 of the debrief of The Last Boring Slide: 11, Sound design guide (with a working engine).">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="11, Sound design guide (with a working engine) (debrief)">
+<meta name="twitter:description" content="Chapter 11 of the debrief of The Last Boring Slide: 11, Sound design guide (with a working engine).">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/debrief/11-sound-design-guide/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../../">WebGL decks</a><a href="../../learnings/">What we learnt</a><a href="../../debrief/">The debrief</a><a href="../../starter/">Starter code</a><a href="../../../decks/signed/">Signed</a><a href="../../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">From the debrief of <em>The Last Boring Slide</em> (made by Claude, prompted by Nikita, @fluxxrider), written by another Claude session for Dinis Cruz and published here at his request. Punctuation follows this site's house style (no dashes as separators); nothing else is changed. <a href="../../debrief/source/11-sound-design-guide.md">Original Markdown</a>.</p><h1 id="11-sound-design-guide-with-a-working-engine">11: Sound design guide (with a working engine)</h1>
+<p>The original's sound is a big part of why it feels cinematic, and it is <strong>100% synthesised</strong>, no samples.
+<code>starter/src/audio/</code> rebuilds that approach in ~450 lines:</p>
+<pre tabindex="0"><code>audio/dsp.js      primitives: modal resonator, swept oscillator, SVF-filtered noise, crackle, PADsynth (FFT), reverb IR
+audio/sounds.js   recipes: tick, select, slam, boom, snap, paper, shimmer, bell, sub, whoosh, rip; pads; coloured noise
+audio/engine.js   WebAudio graph, beds per scene, transition cues, live front end + offline renderer (for video)
+</code></pre>
+<p>Listen to <code>starter/videos/*.mp4</code> (or the <code>.wav</code> next to them) to hear the results.</p>
+<h2 id="1-the-rules-that-make-it-sound-expensive">1. The rules that make it sound expensive</h2>
+<ol>
+<li><strong>One tuning for the whole talk.</strong> Every pitch is a multiple of <code>H(1) = 36.708 Hz</code> (D1): <code>H(n) = 36.708·n</code>.
+   Pads, chimes, shimmer partials and chords are all harmonics of the same root, so any sound can overlap any
+   other without clashing. This is the single most important trick.</li>
+<li><strong>Three layers, never more:</strong> a quiet <strong>bed</strong> per scene (drones/pads), <strong>cues</strong> for transitions (the loud,
+   designed moments), and small <strong>hits</strong> for UI-like events (select, type, tick).</li>
+<li><strong>The bed sits 15-20 dB below the cue peaks.</strong> In the first starter render the bed was too loud and the slam
+   only rose 9 dB; after lowering the beds it rises ~20 dB and actually hits. Measure it (see §6).</li>
+<li><strong>Sound follows the picture's own curves.</strong> Cues are written on the transition's 0..1 timeline; the hero hit
+   lands on the hero frame (slam at p = 0.285, snap at p = 0.56). Continuous visuals drive continuous sound
+   (in the original, the "Two aims" divider crossfades two different soundscapes).</li>
+<li><strong>Every sound goes through the same master</strong>: bus → compressor (−15 dB, 5:1, fast) → makeup → gentle
+   <code>tanh</code>-style soft clipper. It glues everything and stops peaks from distorting.</li>
+<li><strong>Reverb is shared, sends are per group.</strong> One long hall (4.6 s) and one small room (0.55 s), synthesised
+   impulses in <code>ConvolverNode</code>s; each bed/cue has its own wet/dry balance.</li>
+<li><strong>Seeded randomness.</strong> Cue variation (paper debris timing, pans) comes from a seeded RNG, so a rehearsal,
+   the live talk and the video render all sound the same.</li>
+</ol>
+<h2 id="2-the-primitives-what-each-is-for">2. The primitives (what each is for)</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 1, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Use it for</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modal resonator</strong>, decaying sine via phasor rotation</td>
+<td>anything struck: ticks, plates, bells, the body of a slam</td>
+<td><code>mode(buf, freq, amp, decay, {at, atk})</code></td>
+</tr>
+<tr>
+<td><strong>Swept oscillator</strong>, any f(u), a(u)</td>
+<td>sub drops, booms, risers, laser-ish sweeps</td>
+<td><code>sweep(buf, at, dur, f, a)</code></td>
+</tr>
+<tr>
+<td><strong>SVF-filtered noise</strong>, cutoff follows a curve</td>
+<td>air, wind, whooshes, water, paper friction, the crack of an impact</td>
+<td><code>noise(buf, rng, at, dur, "lp"/"bp"/"hp", cutoff(u), Q, amp(u))</code></td>
+</tr>
+<tr>
+<td><strong>Crackle</strong>, sparse impulses through 3 band-passes</td>
+<td>paper, dust, debris, fire</td>
+<td><code>crackle(buf, rng, at, dur, count, distribution, amp)</code></td>
+</tr>
+<tr>
+<td><strong>PADsynth</strong>, Gaussian-widened harmonics + random phase → inverse FFT</td>
+<td>lush loopable pads: strings, warm, low, organ, choir, glass, air</td>
+<td><code>padsynth({f, parts:[[mult, amp, bwCents]], bw})</code></td>
+</tr>
+<tr>
+<td><strong>Coloured noise tables</strong></td>
+<td>pink/brown beds, rumbles, wind (loops seamlessly)</td>
+<td><code>NOISES.pink/brown</code></td>
+</tr>
+<tr>
+<td><strong>Synthetic IR</strong>, decaying, darkening noise + early reflections</td>
+<td>the reverbs</td>
+<td><code>impulse(seconds, {pre, damp, bright, early})</code></td>
+</tr>
+<tr>
+<td><strong>finish / saturate</strong></td>
+<td>DC-block, fade tail, normalise; tanh drive for weight</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>Recipe pattern for a hit: 2-6 modes for the body + a 5-20 ms noise burst for the attack + optional sweep for
+weight + optional filtered-noise tail. Example (the slam): falling sub sweep 108→38 Hz, plate modes at
+98/161/247/392 Hz, a 160 ms low-passed noise crack, a 2.3 s dark rumble, 130 crackles of debris, tanh drive 1.3.</p>
+<h2 id="3-transition-cues-timelines">3. Transition cues (timelines)</h2>
+<p>All times are fractions of the transition duration <code>d</code>. <code>swell</code> = a pitched pad voice with gain, low-pass and
+glide curves; <code>band</code> = a filtered noise voice with gain/frequency curves.</p>
+<p><strong>SLAM (2.6 s)</strong>
+| u | Event |
+|---|---|
+| 0 → .285 | pink noise band-pass rising 250 → 2100 Hz, gain 0 → .5; two strings a semitone-ish apart (<code>H(3)</code> and <code>H(3)·1.06</code>) swelling with low-pass 300 → 2200 Hz, pressure building |
+| <strong>.285</strong> | <code>slam</code> (1.35) + <code>boom</code> (0.9) + a pitched-down second slam (rate .62) 20 ms later, impact |
+| .285 → 1.3 | brown-noise rumble, low-pass 900 → 90 Hz |
+| .35 → .9 | 12 paper hits, decreasing, random pans, debris settling |</p>
+<p><strong>TEAR (2.8 s)</strong>
+| u | Event |
+|---|---|
+| .03 → .56 | the <code>rip</code> table (bursty crackle through 900/2100/4300 Hz bands) through a band-pass rising 1400 → 2900 Hz; its gain is a <strong>stuttering breakpoint envelope</strong> (12 random steps, growing) and its playback rate wanders .7 → 1.2, the rip accelerates; a low-passed copy underneath for body |
+| .06 → .5 | 6 paper rustles |
+| <strong>.56</strong> | <code>snap</code>, the halves separate |
+| .36 → 1 | pink noise whoosh panning left → right as the halves fly off |
+| .6 → 1 | 9 paper hits alternating left/right |</p>
+<p><strong>DAYBREAK (3.4 s)</strong>
+| u | Event |
+|---|---|
+| 0 → 1.6 | pink noise low-pass 200 → 4200 → 600 Hz |
+| staggered | 9 chord voices (<code>low H2, warm H4/H6/H9, strings H8/H10/H12/H16, air H24</code>) fade in one by one, their low-pass opening 250 → 7500 Hz at u = .6, "the light comes up" |
+| .3 | <code>sub</code> swell |
+| .46, .66 | <code>shimmer</code> (46 random high harmonics) ×2 |
+| .5 | <code>boom</code> (soft) |</p>
+<p><strong>LINE (2.4 s)</strong>
+| u | Event |
+|---|---|
+| 0 → .8 | organ + strings chord at <code>H4/H6/H9/H8</code>, low-pass closing 5200 → 120 Hz while the pitch sags to ×.92, the picture collapsing |
+| .05 | <code>sub</code> |
+| .25 → 1.5 | a pure sine at <code>H12</code> rising in, the singing thread |
+| .82 | <code>tick</code>, the string snaps into the next picture |</p>
+<p><strong>Reverse</strong> (going back, any transition): a pink-noise band falling 1800 → 320 Hz with a gliding air pad.</p>
+<h2 id="4-beds-per-scene-scores">4. Beds (per-scene scores)</h2>
+<p>Each scene gets 3-4 pad voices with a gain per beat (<code>BEDS</code> in <code>engine.js</code>). On a scene change, the old bed
+fades out over ~90% of the transition while the new one fades in. The original goes further, each scene is a
+small generative score with a look-ahead scheduler (≈280 ms): Shepard-tone strings that keep rising (tower), a
+clock whose tick period lengthens exponentially (calendar), a marimba pattern phasing between voices (loop),
+crowd murmur from formant vowel grains (swarm), birdsong + wind vs clean sine dots crossfaded by the divider
+(futures). Start with static beds; upgrade one hero scene to a generative score.</p>
+<h2 id="5-live-vs-video">5. Live vs video</h2>
+<ul>
+<li><strong>Live:</strong> browsers start audio only after a user gesture, <code>audio.unlock()</code> on the first key/click. Synthesise
+  everything at load (<code>preloadAll()</code>), never mid-talk. The original time-slices synthesis in 3 ms chunks with
+  generator functions to keep the loading bar smooth; do that if load time grows past ~1 s.</li>
+<li><strong>Video:</strong> the deck logs every sound event with its own clock (<code>audio.recording = true</code> in headless mode).
+  <code>tools/video.py</code> steps the deck frame by frame, then calls <code>renderOffline(log, seconds)</code>, the same engine on an
+  <code>OfflineAudioContext</code>, and muxes the WAV with the frames, loudness-normalised to −16 LUFS, −1.5 dBTP.
+  Picture and sound are sample-accurate and identical on every render.</li>
+</ul>
+<h2 id="6-checking-sound-without-ears-for-agents">6. Checking sound without ears (for agents)</h2>
+<p>Agents can't listen, but they can measure:</p>
+<pre tabindex="0"><code>ffmpeg -i clip.wav -lavfi &quot;showspectrumpic=s=1200x400:legend=1:scale=log:fscale=log&quot; spec.png   # look at it
+python3: RMS per 100 ms in dB  → impacts should jump 15-20 dB over the bed; nothing should sit above −1 dBFS
+</code></pre>
+<p>In a spectrogram: a hit is a bright vertical line; a sweep is a diagonal; a bed is horizontal bands; mud is a
+solid yellow block below 200 Hz (lower the low pads). Then a human listens once on headphones and once on
+speakers, and adjusts levels by ear.</p>
+<h2 id="7-recipe-ideas-for-your-own-cues">7. Recipe ideas for your own cues</h2>
+<div class="table" tabindex="0" role="region" aria-label="Table 2, scrolls sideways">
+<table>
+<thead>
+<tr>
+<th>Visual</th>
+<th>Sound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>something lands / closes</td>
+<td>sub sweep + 3 low modes + short low-passed noise crack + rumble tail</td>
+</tr>
+<tr>
+<td>something opens / reveals</td>
+<td>chord whose low-pass opens; shimmer of high harmonics at the peak</td>
+</tr>
+<tr>
+<td>fast movement</td>
+<td>band-passed noise rising then falling (whoosh), stereo-offset by 15 ms</td>
+</tr>
+<tr>
+<td>paper / material</td>
+<td>crackle + band-passed noise; vary band per "material" (paper 2-4 kHz, cloth 600 Hz-1.5 kHz)</td>
+</tr>
+<tr>
+<td>digital / UI</td>
+<td>2-3 bright modes (tick), chime on two harmonics (select), detuned slightly between ears</td>
+</tr>
+<tr>
+<td>tension</td>
+<td>two pads a near-semitone apart, slowly swelling; a riser (sweep up the harmonics)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>resolve to a consonant chord of the series + long hall reverb</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>

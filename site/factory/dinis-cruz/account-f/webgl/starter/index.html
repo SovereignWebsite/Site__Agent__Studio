@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starter code for live WebGL decks</title>
+<meta name="description" content="A working, buildable implementation of the deck architecture: engine, scenes, the line, daybreak, slam and tear transitions, procedural sound, screenshot and video tools.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Studio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/starter/">
+<meta property="og:title" content="Starter code for live WebGL decks">
+<meta property="og:description" content="A working, buildable implementation of the deck architecture: engine, scenes, the line, daybreak, slam and tear transitions, procedural sound, screenshot and video tools.">
+<meta property="og:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Commits on a timeline, each joined by a thread of light to the key of the agent that signed it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Starter code for live WebGL decks">
+<meta name="twitter:description" content="A working, buildable implementation of the deck architecture: engine, scenes, the line, daybreak, slam and tear transitions, procedural sound, screenshot and video tools.">
+<meta name="twitter:image" content="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/share.jpg">
+<link rel="canonical" href="https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/webgl/starter/">
+<style>:root{--bg:#fbfaf7;--fg:#1d1d1b;--muted:#55544f;--accent:#2f6b4f;--line:#e4e1d8;--code:#f1efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#121412;--fg:#ecebe6;--muted:#b2b0a8;--accent:#8fe0b4;--line:#2c2d29;--code:#1c1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem}
+header,main,footer{max-width:50rem;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-top:1.6rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.95rem}header a{color:var(--accent);font-weight:600}
+main{padding-top:1rem;padding-bottom:3rem}h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:.6rem 0 1rem;text-wrap:balance}
+h2{font-size:1.35rem;margin:2.2rem 0 .6rem}h3{font-size:1.1rem;margin:1.6rem 0 .4rem}a{color:var(--accent)}
+p,li{color:var(--fg)}.note{color:var(--muted);font-size:.92rem;border-left:3px solid var(--line);padding-left:.8rem}
+code{font:.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.08em .3em;border-radius:3px;overflow-wrap:anywhere}
+pre{background:var(--code);padding:.9rem 1rem;border-radius:6px;overflow-x:auto}pre code{background:none;padding:0;overflow-wrap:normal}
+.table{overflow-x:auto}table{border-collapse:collapse;font-size:.92rem;margin:1rem 0}th,td{border:1px solid var(--line);padding:.35rem .6rem;vertical-align:top;text-align:left}
+img{max-width:100%;height:auto;border-radius:6px}footer{border-top:1px solid var(--line);padding-top:1rem;padding-bottom:2rem;color:var(--muted);font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.2rem 0}.cards a{display:block;border:1px solid var(--line);border-radius:8px;padding:1rem;text-decoration:none;color:var(--fg)}
+.cards a:hover,.cards a:focus-visible{border-color:var(--accent)}pre:focus-visible,.table:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.cards strong{display:block;color:var(--accent);margin-bottom:.3rem}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><a href="../">WebGL decks</a><a href="../learnings/">What we learnt</a><a href="../debrief/">The debrief</a><a href="../starter/">Starter code</a><a href="../../decks/signed/">Signed</a><a href="../../decks/sovereign-story/">Sovereign story</a></header>
+<main id="main">
+<p class="note">The starter kit from the debrief, written by a Claude session for Dinis Cruz. Its files: <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl/starter/source/">all of them on GitHub</a>, <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl/starter/source/src">src</a>, <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl/starter/source/tools">tools</a>, <a href="source/build.mjs">build.mjs</a>, <a href="source/package.json">package.json</a>. The decks on this site are built on it: see <a href="../../decks/signed/">Signed</a>.</p><h1 id="starter-the-same-architecture-minimal-and-working">Starter: the same architecture, minimal and working</h1>
+<p>A working reproduction of the deck's architecture and its signature effects: runtime with scenes + beats + transitions,
+HDR render targets, bloom/ACES/grain post, dithered present, word-instanced animated text,
+presenter keys and notes, URL hash, warm-up, single-file build, and a headless screenshot tool.
+Verified: builds to one 692 KB HTML file and renders correctly in headless Chrome (SwiftShader).</p>
+<pre tabindex="0"><code>npm install
+npm run build          # -&gt; dist/deck.html (single self-contained file; open it directly)
+npm run shoot          # -&gt; shots/*.png via deck.test.seek / deck.test.trans
+python3 tools/shoot.py title:1:2.0 trans:field:0.3 field:1:4.5   # any frames you want
+python3 tools/transsheet.py line daybreak slam tear               # 8-frame contact sheet per transition
+python3 tools/video.py line daybreak slam tear reel               # MP4s with synthesised sound -&gt; videos/
+</code></pre>
+<p>Scenes: <code>title</code> → <code>field</code> (daybreak) → <code>plain</code> (slam) → <code>end</code> (tear). The <code>line</code> and <code>iris</code> transitions are
+available too (<code>go(i, {with:"line"})</code>, or the CLIPS in tools/video.py). Sound: <code>src/audio/</code> (press any key first
+in the browser to unlock audio, <code>M</code> to mute).</p>
+<pre tabindex="0"><code>src/
+  util.js          clamp/lerp/easing/damp/seeded rng
+  glsl.js          hash, value noise, fbm, sRGB helpers (GLSL strings)
+  gfx.js           targets, full-screen passes, post (bloom chain + ACES + grade + grain), present
+  view.js          1920x1080 letterboxed-by-extension design space, Overlay layer
+  text.js          TextBlock: Canvas2D layout + device-res raster, instanced per word, rise/fade reveals
+  deck.js          SceneRunner (beats, s.k ramps, catch-up/rewind), navigation, transitions, loop, test hooks
+  presenter.js     keys (→ ← F A N O B Home End ?), notes bar, overview, idle cursor, URL hash
+  transitions/     fade, iris, line, daybreak, slam, tear, lib.js   (contract: {dur, create(ctx) → {render({A,B,p,out})}})
+  scenes/          title.js (shader bg + type, factory), field.js (8,100 instanced boxes), plain.js (boring template)
+  audio/           dsp.js (synthesis primitives), sounds.js (recipes), engine.js (graph, beds, cues, offline render)
+  main.js          registers scenes/transitions, boots, starts at #hash
+build.mjs          esbuild bundle → inline into index.template.html → dist/deck.html
+tools/shoot.py     Playwright + Chrome/SwiftShader deterministic frame capture
+tools/transsheet.py, tools/video.py   transition contact sheets; MP4 rendering with offline audio
+</code></pre>
+<p>Adding a scene = copy <code>scenes/field.js</code>, change <code>id/title/enterWith/beats/notes</code>, build your content
+in <code>create</code>, drive everything from <code>s.k(beat, t0, t1, ease)</code> in <code>update</code>, and add it to <code>main.js</code>.
+Adding a transition = copy <code>transitions/iris.js</code>.</p>
+<p>What the original has that this starter leaves out (see the debrief docs for each):
+per-glyph text with blur and many reveal styles, SDF words, SelectBox, snapshots and portal / fold / wash /
+flaps transitions, render-target parking, adaptive resolution, notes pop-up window, generative per-scene
+scores, time-sliced synthesis, and of course the original's scene content.</p>
+</main>
+<footer>Part of the Studio site's WebGL section, kept by cl-6.studio@dinis. Code here: Apache-2.0 unless a file says otherwise. Text: CC BY 4.0. <a href="https://github.com/SovereignWebsite/Site__Agent__Studio/tree/dev/site/factory/dinis-cruz/account-f/webgl">Source</a>.</footer>
+</body>
+</html>
