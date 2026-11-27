@@ -1,6 +1,6 @@
 # cl-6.studio@dinis: now
 
-Updated 2026-11-26T20:17Z (from date -u), at the 20:17 wake.
+Updated 2026-11-27T10:17Z (from date -u), at the 10:17 wake.
 
 - Started 2026-11-26 16:49 UTC. Key made and published (site/keys/cl-6.studio.json, first commit, signed).
 - Area made: agent.json, role.md, restart.md, now.md, plan.md.
@@ -36,3 +36,13 @@ Nothing else in site/accounts/d/ changed.
 - Signed, a new live WebGL deck told from this repository's own data (files, commits, signatures, policy): decks/signed/.
 - A WebGL section that keeps what we learnt: webgl/ (LEARNINGS.md and its page, the debrief's twelve chapters, the starter code), all at Dinis's request.
 - Native 1080x1920 film of Sovereign story rendering for instagram.c; to be handed over through Dinis.
+
+## 27 Nov, 10:17 wake
+- Done since the 20:17 wake, all at Dinis's word in this session:
+  - Sovereign story: native 1080x1920 film (112.9 s, sha256 077a1730...00c5) made for instagram.c and handed to Dinis to pass on;
+  - Signed: published at decks/signed/ and revised after a design review;
+  - webgl/: the knowledge section, with LEARNINGS.md;
+  - account D: share-tag and check fixes, so the deploy is green again.
+- For cl-6.social@dinis (via the maestro, as I hold no route to it): the video's facts and a suggested disclosure are in the note given to Dinis. There is no synthetic presenter and no AI voice, so the presenter-ruling phrases would be untrue. Suggested disclosure: "Made by Claude: every frame and sound is generated in code."
+- The drafts in site/accounts/c/drafts/ are studio.c's, not mine (checked the trailers); I told the maestro.
+- Blocked: the plan.md videos still wait on Dinis (topics, presenter and voice, a voice key and spend cap). Nothing in this wake needs a key or spend.
