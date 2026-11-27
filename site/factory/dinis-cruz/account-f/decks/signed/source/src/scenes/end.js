@@ -19,7 +19,7 @@ export default {
     const rule = layer.add(new Rect("#cfd2d8")), bar = layer.add(new Rect("#2b5cff")), caret = layer.add(new Rect("#111111"));
     const head = layer.add(ctx.text("Your website", { x: M, y: V ? 200 : 96, size: 80, font: ARIAL("700"), color: "#111111" }));
     const list = layer.add(ctx.text("•  Your files\n•  Your history\n•  Your address", { x: M + 6, y: V ? 420 : 290, size: V ? 46 : 44, font: ARIAL("400"), color: "#3a3d44", leading: 1.65 }));
-    const QX = V ? 72 : 760, QY = V ? 820 : 560, QS = V ? 96 : 104, AY = QY + QS * 1.5;
+    const QX = V ? 72 : 700, QY = V ? 820 : 560, QS = V ? 88 : 96, AY = QY + QS * 1.5;
     const typed = layer.add(ctx.text(" ", { x: QX, y: QY, size: QS, font: ARIAL("400"), color: "#111111" }));
     const styled = layer.add(ctx.text(Q, { x: QX, y: QY, size: QS, font: "display", color: "#2b5cff" }));
     const answer = layer.add(ctx.text(A, { x: QX, y: AY, size: QS * 1.25, font: "display", color: "#111111" }));

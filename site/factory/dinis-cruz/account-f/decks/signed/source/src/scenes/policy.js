@@ -6,7 +6,7 @@ import { ease, rng, clamp } from "../util.js";
 
 const RULES = ["push to main", "print, commit or read a private key or token", "name a private person without their consent",
   "invent a fact, a price or a customer", "add a server, cookies or tracking"];
-const WRAP = ["push to\nmain", "print, commit\nor read a\nprivate key\nor token", "name a private\nperson without\ntheir consent", "invent a fact,\na price or\na customer", "add a server,\ncookies or\ntracking"];
+const WRAP = ["push to\nmain", "print, commit or\nread a private\nkey or token", "name a private\nperson without\ntheir consent", "invent a fact,\na price or\na customer", "add a server,\ncookies or\ntracking"];
 
 export default {
   id: "policy",
@@ -16,9 +16,9 @@ export default {
   notes: ["The agent that looks after this site (its keeper) works under five rules written in its Agent Behaviour Policy.", "Anything the policy does not allow is not allowed. Today the agents follow these rules and their history is reviewed; the pipeline checks what it can, not yet every rule."],
   create(ctx) {
     const { gfx, view } = ctx, V = view.portrait, M = V ? 72 : 140;
-    const Z = V ? [[300, 700, 140], [790, 820, 140], [320, 1080, 150], [770, 1210, 150], [400, 1390, 125]]
+    const Z = V ? [[300, 700, 140], [790, 820, 140], [320, 1080, 150], [770, 1210, 150], [400, 1360, 125]]
                 : [[380, 640, 150], [760, 860, 140], [1070, 590, 160], [1430, 830, 150], [1650, 520, 135]];
-    const hdr = gfx.target(), R = rng(9), N = V ? 650 : 800;
+    const hdr = gfx.target(), R = rng(9), N = V ? 1100 : 1400;
     // background and zones in one pass, in design units
     const bg = gfx.pass(`uniform vec4 uView; uniform vec3 uZ[5]; uniform float uOn[5]; uniform float uPulse;
       void main(){
@@ -41,19 +41,19 @@ export default {
     geo.index = quad.index; geo.setAttribute("position", quad.getAttribute("position"));
     const iA = new THREE.InstancedBufferAttribute(new Float32Array(N * 4), 4); iA.setUsage(THREE.DynamicDrawUsage); geo.setAttribute("iA", iA); geo.instanceCount = N;
     geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e6);
-    const pm = material(`precision highp float; in vec3 position; in vec4 iA; uniform mat4 projectionMatrix,modelViewMatrix; out vec2 vQ; out float vS;
-        void main(){ vQ=position.xy; vS=iA.z; float a=atan(iA.w,iA.z+1e-4); vec2 q=position.xy*vec2(7.+min(iA.z,1.)*0.,3.); q=mat2(cos(a),sin(a),-sin(a),cos(a))*q;
+    const pm = material(`precision highp float; in vec3 position; in vec4 iA; uniform mat4 projectionMatrix,modelViewMatrix; out vec2 vQ; out float vS; out float vY;
+        void main(){ vQ=position.xy; vS=iA.z; vY=iA.y; float a=atan(iA.w,iA.z+1e-4); vec2 q=position.xy*vec2(26.,2.2); q=mat2(cos(a),sin(a),-sin(a),cos(a))*q;
           gl_Position=projectionMatrix*modelViewMatrix*vec4(iA.xy+q*1.6,0.,1.); }`,
-      `precision highp float; in vec2 vQ; in float vS; out vec4 o; void main(){ float d=length(vQ*2.); float a=exp(-d*d*3.); o=vec4(vec3(.45,1.,.7)*a*1.6,a); }`,
-      {}, { transparent: true, depthTest: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
+      `precision highp float; in vec2 vQ; in float vS; in float vY; out vec4 o; uniform vec2 uBand; void main(){ float d=length(vQ*2.); float a=exp(-d*d*3.)*smoothstep(uBand.x,uBand.y,vY); o=vec4(vec3(.78,.86,1.)*a*1.1,a); }`,
+      { uBand: new THREE.Vector2(V ? 470 : 300, V ? 560 : 420) }, { transparent: true, depthTest: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
     const parts = new THREE.Mesh(geo, pm); parts.frustumCulled = false;
     const pscene = new THREE.Scene(); pscene.add(parts);
     let seeded = false;
     const layer = ctx.overlay();
-    const h1 = layer.add(ctx.text(V ? "Five things no agent\nhere may do." : "Five things no agent here may do.", { x: M, y: V ? 200 : 110, size: V ? 92 : 104, font: "display", leading: 1.05 }));
-    const h2 = layer.add(ctx.text(V ? "Anything the policy\ndoes not allow\nis not allowed." : "Anything the policy does not allow\nis not allowed.", { x: M, y: V ? 200 : 110, size: V ? 92 : 104, font: "display", leading: 1.05 }));
+    const h1 = layer.add(ctx.text(V ? "Five things no agent\nhere may do." : "Five things no agent here may do.", { x: M, y: V ? 200 : 110, size: V ? 92 : 96, font: "display", leading: 1.05 }));
+    const h2 = layer.add(ctx.text(V ? "Anything the policy\ndoes not allow\nis not allowed." : "Anything the policy does not\nallow is not allowed.", { x: M, y: V ? 200 : 110, size: V ? 92 : 96, font: "display", leading: 1.05 }));
     const src = layer.add(ctx.text("the keeper's rules, from this site's policy/abp.json", { x: M + 4, y: V ? 420 : 245, size: V ? 30 : 28, font: "mono", color: "#9aa8a1" }));
-    const labels = Z.map(([x, y], i) => layer.add(ctx.text(WRAP[i], { x, y: y - WRAP[i].split("\n").length * (V ? 16 : 15), size: V ? 26 : 24, font: "mono", color: "#ffd9c4", leading: 1.25, align: "center" })));
+    const labels = Z.map(([x, y], i) => layer.add(ctx.text(WRAP[i], { x, y: y - WRAP[i].split("\n").length * (V ? 19 : 18), size: V ? 32 : 30, font: "text", color: "#ffd9c4", leading: 1.2, align: "center" })));
     let lastOn = -1;
     return {
       update(s) {

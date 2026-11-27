@@ -21,7 +21,7 @@ export default {
         vec3 s=vec3(0.); float w=0.;
         for(int i=0;i<40;i++){ float f=(float(i)+.5)/40.; float a=float(i)*2.399963+j; vec2 d=vec2(cos(a),sin(a))*sqrt(f);
           d-=cd*dot(d,cd)*cat*.45;                                            // cat-eye: discs flatten toward the corners
-          vec3 c=textureLod(tM,vUv+d*uR*asp,lod).rgb; float l=luma(c); float k=1.+uHi*l*l*l; c*=1.+uExp*l*l; s+=c*k; w+=k; }
+          vec3 c=textureLod(tM,vUv+d*uR*asp,lod).rgb; float l=luma(c); float sat=max(c.r,max(c.g,c.b))-min(c.r,min(c.g,c.b)); float k=1.+uHi*l*l*l*(.25+2.*sat); c*=1.+uExp*l*l; s+=c*k; w+=k; }
         o=vec4(s/w,1.); }`, { tM: null, uR: 0, uHi: 0, uExp: 0 });
     const soften = gfx.pass("uniform sampler2D tM; uniform float uR; void main(){ vec3 s=texture(tM,vUv).rgb; for(int i=0;i<12;i++){ float f=(float(i)+.5)/12.; float a=float(i)*2.399963; s+=texture(tM,vUv+vec2(cos(a),sin(a))*sqrt(f)*uR*vec2(uRes.y/uRes.x,1.)).rgb; } o=vec4(s/13.,1.); }", { tM: null, uR: 0 });
     const defocus = (mip, r, hi, exp, dst) => { blur.u.uR.value = r; blur.u.tM.value = mip; blur.u.uHi.value = hi; blur.u.uExp.value = exp; blur.render(tmp); soften.u.tM.value = tmp.texture; soften.u.uR.value = r * 0.24; soften.render(dst); };

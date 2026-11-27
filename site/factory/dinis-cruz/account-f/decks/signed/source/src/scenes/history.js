@@ -21,22 +21,22 @@ export default {
     const cam = new THREE.PerspectiveCamera(V ? 58 : 34, 1, 0.1, 400);
     const C = DATA.commits, t0 = Date.parse(C[0].t), t1 = Date.parse(C[C.length - 1].t), L = V ? 34 : 60;
     const agents = Object.keys(DATA.agents).sort((a, b) => DATA.agents[b] - DATA.agents[a]);
-    const colourOf = (a) => new THREE.Color(a ? AGENT_COLOURS[agents.indexOf(a) % AGENT_COLOURS.length] : "#59616b");
+    const colourOf = (a) => new THREE.Color(a ? AGENT_COLOURS[agents.indexOf(a) % AGENT_COLOURS.length] : "#a3acb6");
     // bead positions: x = time; a slow helix around the axis keeps close commits apart
-    const pos = C.map((c, i) => { const x = ((Date.parse(c.t) - t0) / (t1 - t0) - 0.5) * L, a = i * 2.399963, r = 1.2 + 0.25 * Math.sqrt(c.files);
+    const pos = C.map((c, i) => { const x = ((Date.parse(c.t) - t0) / (t1 - t0) - 0.5) * L, a = i * 2.399963, r = 1.2 + 0.25 * Math.sqrt(Math.min(c.files, 40));
       return new THREE.Vector3(x, Math.sin(a) * r * 0.55 + 2, Math.cos(a) * r * 0.55); });
     // beads: instanced icospheres
     const sph = new THREE.IcosahedronGeometry(1, 3), geo = new THREE.InstancedBufferGeometry(); geo.index = sph.index;
     geo.setAttribute("position", sph.getAttribute("position")); geo.setAttribute("normal", sph.getAttribute("normal"));
     const iP = new Float32Array(C.length * 4), iC = new Float32Array(C.length * 4);
-    C.forEach((c, i) => { iP.set([pos[i].x, pos[i].y, pos[i].z, 0.16 + 0.07 * Math.sqrt(c.files)], i * 4); const col = colourOf(c.agent); iC.set([col.r, col.g, col.b, c.signed ? 1 : 0], i * 4); });
+    C.forEach((c, i) => { iP.set([pos[i].x, pos[i].y, pos[i].z, Math.min(0.55, 0.16 + 0.07 * Math.sqrt(c.files))], i * 4); const col = colourOf(c.agent); iC.set([col.r, col.g, col.b, c.signed ? 1 : 0], i * 4); });
     geo.setAttribute("iP", new THREE.InstancedBufferAttribute(iP, 4)); geo.setAttribute("iC", new THREE.InstancedBufferAttribute(iC, 4));
     geo.setAttribute("iT", new THREE.InstancedBufferAttribute(new Float32Array(C.map((c) => (Date.parse(c.t) - t0) / (t1 - t0))), 1)); geo.instanceCount = C.length;
     const beads = material(
       `precision highp float; in vec3 position,normal; in vec4 iP,iC; in float iT; uniform mat4 projectionMatrix,viewMatrix; uniform float uHead,uSig;
        out vec3 vN,vC; out float vG;
        void main(){ float born=smoothstep(iT-.002,iT+.03,uHead); vec3 p=iP.xyz+position*iP.w*born*(1.+.6*exp(-pow((uHead-iT)*40.,2.)));
-         vN=normal; vC=mix(iC.rgb,vec3(.35,.38,.42),uSig*(1.-iC.a)); vG=born*(1.+2.5*exp(-pow((uHead-iT)*30.,2.)))*(1.+uSig*iC.a*.8);
+         vN=normal; vC=mix(iC.rgb,vec3(.62,.66,.70),uSig*(1.-iC.a)); vG=born*(1.+2.5*exp(-pow((uHead-iT)*30.,2.)))*(1.+uSig*iC.a*.8);
          gl_Position=projectionMatrix*viewMatrix*vec4(p,1.); }`,
       `precision highp float; in vec3 vN,vC; in float vG; out vec4 o;
        void main(){ float df=max(dot(vN,normalize(vec3(-.4,.8,.5))),0.); vec3 c=pow(vC,vec3(2.2)); o=vec4(c*(.25+.75*df)*vG*1.6+c*.35*vG,1.); }`,
@@ -49,7 +49,9 @@ export default {
     scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(axisPts), lineMat([0.35, 0.45, 0.42], 0.6)));
     const days = []; for (let d = new Date(Date.UTC(2026, 10, 23)); d.getTime() <= t1; d = new Date(d.getTime() + 864e5)) days.push(d);
     // the keys: one ring per agent, below the axis
-    const keyPos = agents.map((a, i) => new THREE.Vector3((i - (agents.length - 1) / 2) * (V ? 8 : 13), V ? -11 : -8, 2));
+    const meanX = (a) => { const xs = C.map((c, i) => (c.agent === a ? pos[i].x : null)).filter((x) => x !== null); return xs.reduce((s, x) => s + x, 0) / xs.length; };
+    const order = [...agents].sort((a, b) => meanX(a) - meanX(b));                    // keys sit roughly under where each agent worked
+    const keyPos = agents.map((a) => new THREE.Vector3((order.indexOf(a) - (agents.length - 1) / 2) * (V ? 8 : 13), V ? -11 : -8, 2));
     agents.forEach((a, i) => {
       const g = new THREE.Group(), col = colourOf(a), m = lineMat([col.r, col.g, col.b], 1.4);
       const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 48 }, (_, k) => new THREE.Vector3(Math.cos(k / 48 * Math.PI * 2) * 1.1, Math.sin(k / 48 * Math.PI * 2) * 1.1, 0))), m);
@@ -74,10 +76,10 @@ export default {
     const n = C.length, dayFmt = (d) => d.getUTCDate() + " Nov";
     const h1 = layer.add(ctx.text("Every change is kept.", { x: M, y: V ? 200 : 110, size: V ? 96 : 112, font: "display" }));
     const s1 = layer.add(ctx.text(`${n} commits on dev, ${dayFmt(new Date(t0))} to ${dayFmt(new Date(t1))} 2026.`, { x: M + 4, y: V ? 330 : 255, size: V ? 40 : 38, font: "text", color: "#c9d3ce" }));
-    const h2 = layer.add(ctx.text(V ? "Every change\nis signed." : "Every change is signed.", { x: M, y: V ? 200 : 110, size: V ? 96 : 112, font: "display", leading: 1.05 }));
+    const h2 = layer.add(ctx.text(V ? "Every agent\nsigns its work." : "Every agent signs its work.", { x: M, y: V ? 200 : 110, size: V ? 96 : 112, font: "display", leading: 1.05 }));
     const s2 = layer.add(ctx.text(V ? `${DATA.signed} of ${n} name the agent that made them,\nand each carries that agent's signature.` : `${DATA.signed} of ${n} name the agent that made them, and each carries that agent's signature.`, { x: M + 4, y: V ? 440 : 255, size: V ? 36 : 36, font: "text", color: "#c9d3ce", leading: 1.35 }));
     const dayL = days.map((d) => layer.add(ctx.text(dayFmt(d), { x: 0, y: 0, size: V ? 26 : 24, font: "mono", color: "#8a949e", align: "center" })));
-    const keyL = agents.map((a) => layer.add(ctx.text(`${short(a)}\n${DATA.agents[a]} commits`, { x: 0, y: 0, size: V ? 28 : 26, font: "mono", color: "#e6ece9", leading: 1.3, align: "center" })));
+    const keyL = agents.map((a) => layer.add(ctx.text(`${short(a)}\n${DATA.agents[a]} commit${DATA.agents[a] === 1 ? "" : "s"}`, { x: 0, y: 0, size: V ? 28 : 26, font: "mono", color: "#e6ece9", leading: 1.3, align: "center" })));
     const v3 = new THREE.Vector3(), place = (t, p, dy = 0) => { v3.copy(p).project(cam); t.x = view.x0 + (v3.x * 0.5 + 0.5) * view.w; t.y = view.y0 + (0.5 - v3.y * 0.5) * view.h + dy; };
     let lastBorn = -1;
     return {
@@ -89,7 +91,7 @@ export default {
         const born = C.findLastIndex((c, i) => (Date.parse(c.t) - t0) / (t1 - t0) <= head - 0.01);
         if (born > lastBorn && s.beat === 0 && s.dir > 0) { for (let i = lastBorn + 1; i <= born; i++) ctx.sound("tick", { g: 0.12 + 0.03 * Math.sqrt(C[i].files), rate: 1.6 + 0.3 * (i % 5) / 5, pan: (pos[i].x / L) * 1.2 }); }
         lastBorn = Math.max(lastBorn, born); if (s.beat === 0 && head < 0.02) lastBorn = -1;
-        const cx = lerp(-L * 0.5 + head * L * 0.9, 0, clamp(s.k(0, 3.6, 5.4, ease.io3) + up)), dist = lerp(V ? 26 : 22, V ? 62 : 48, clamp(s.k(0, 3.6, 5.4, ease.io3) * 0.7 + up * 0.5));
+        const cx = lerp(-L * 0.5 + head * L * 0.9, 0, clamp(s.k(0, 3.6, 5.4, ease.io3) + up)), dist = lerp(V ? 26 : 22, V ? 70 : 60, clamp(s.k(0, 3.6, 5.4, ease.io3) * 0.7 + up * 0.5));
         cam.aspect = gfx.aspect; cam.position.set(cx + s.mouse.x * 2, lerp(4, V ? 2 : 1, up) + s.mouse.y * 1.5, dist); cam.lookAt(cx, lerp(2, V ? -4 : -2.5, up), 0); cam.updateProjectionMatrix();
         keyPos.forEach((k) => { k.g.userData.m.uniforms.uA.value = 1.4 * s.k(1, 0.3, 1.5, ease.lin); });
         h1.show(s.k(0, 0.6, 2.4, ease.lin), { stagger: 0.35, q: s.k(1, 0, 0.8, ease.lin) }); s1.show(s.k(0, 1.6, 2.8, ease.lin), { style: "fade", q: s.k(1, 0, 0.8, ease.lin) });

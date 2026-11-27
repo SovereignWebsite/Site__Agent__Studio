@@ -16,7 +16,7 @@ export default {
   create({ gfx }) {
     const mA = mipCopy(gfx);
     const pass = gfx.pass(TLIB + `uniform sampler2D tA,tB,mA; uniform float uK,uTau,uFace,uRing,uFront,uEnd,uRot,uZoom; uniform vec2 uC,uShake;
-      vec3 paper(vec2 q){ float f=fbm(q*vec2(70.,64.))-.5, g=vnoise(q*430.)-.5, m=fbm(q*3.)-.5; return vec3(.848,.838,.812)*(1.+f*.045+g*.03+m*.03); }
+      vec3 paper(vec2 q){ float f=fbm(q*vec2(70.,64.))-.5, g=vnoise(q*430.)-.5, m=fbm(q*3.)-.5; return vec3(.96,.955,.94)*(1.+f*.045+g*.03+m*.03); }
       void main(){ vec2 asp=vec2(uRes.x/uRes.y,1.);
         if(uTau<0.){                                    // ---------- approach ----------
           vec2 d=vUv-uC; float z=1.+.16*uK*uK+.62*uK*uK*uK*uK; float bl=.16*uK*uK*uK; float j=hash12(gl_FragCoord.xy); vec3 c=vec3(0.);
@@ -45,9 +45,9 @@ export default {
         float ly=luma(texture(tB,clamp(bu+vec2(0.,px.y),0.,1.)).rgb)-luma(texture(tB,clamp(bu-vec2(0.,px.y),0.,1.)).rgb);
         c*=1.+fresh*.30*(lx*.6-ly); c*=1.-.10*fresh*(1.-n);
         c*=1.+dot(dir,normalize(vec2(-.5,.85)))*g*.16+wob*.03; c*=1.-.10*exp(-uTau*5.)*ss(.2,1.2,r);
-        float dr=.16+1.5*(1.-exp(-uTau*2.4)); float a=atan(q.y,q.x); vec2 pol=vec2(cos(a),sin(a))*2.2;   // dust ring
-        float dx=(r-dr)/(.10+.34*uTau); float re=exp(-dx*dx*(dx>0.?3.2:1.1))*exp(-uTau*2.7)*(1.-uEnd);
-        if(re>.006){ float dn=fbm(pol*1.6+r*5.-uTau*3.5)*.65+fbm(pol*5.+r*13.-uTau*5.)*.35; c=mix(c,vec3(.30,.28,.25)*(.7+.7*dn),clamp(re*ss(.38,.75,dn)*.5,0.,.45)); }
+        float dr=.30+1.5*(1.-exp(-uTau*2.4)); float a=atan(q.y,q.x); vec2 pol=vec2(cos(a),sin(a))*2.2;   // dust ring
+        float dx=(r-dr)/(.10+.34*uTau); float re=exp(-dx*dx*(dx>0.?3.2:1.1))*exp(-uTau*2.7)*(1.-uEnd)*ss(0.,.12,uTau);
+        if(re>.006){ float dn=fbm(pol*1.6+r*5.-uTau*3.5)*.65+fbm(pol*5.+r*13.-uTau*5.)*.35; c=mix(c,vec3(.30,.28,.25)*(.7+.7*dn),clamp(re*ss(.38,.75,dn)*.5,0.,.22)); }
         if(uEnd>=1.){ o=vec4(texture(tB,vUv).rgb,1.); return; }
         o=vec4(toSrgb(c),1.); }`,
       { tA: null, tB: null, mA: mA.texture, uK: 0, uTau: -1, uFace: 0, uRing: 0, uFront: 0, uEnd: 0, uRot: 0, uZoom: 1, uC: new gfx.THREE.Vector2(0.5, 0.46), uShake: new gfx.THREE.Vector2() });

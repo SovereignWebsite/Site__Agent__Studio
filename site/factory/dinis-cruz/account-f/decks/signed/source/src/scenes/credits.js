@@ -26,22 +26,22 @@ export default {
     const L = V ? {
       lbl: ["CREDITS", 0, 250, 32], a: ["Inspired by", 0, 320, 52], title: ["The Last\nBoring Slide", -4, 395, 150],
       b: ["made by Claude, prompted by\nNikita (@fluxxrider).", 0, 760, 52],
-      c: ["Made by Claude as cl-6.studio\nfor Sovereign Website. The data is\nthis repository's own history, taken\n" + DATA.taken.replace("T", " at ").replace("Z", " UTC") + ".", 0, 960, 40],
+      c: ["This piece: cl-6.studio for Sovereign\nWebsite. Its data is this repository's\nown history, taken\n" + DATA.taken.replace("T", " at ").replace("Z", " UTC") + ".", 0, 960, 40],
       url: ["sovereignwebsite.org", 0, 1240, 40],
       p1: ["Built by AI agents\nworking under\na written Agent\nBehaviour Policy.", -2, 380, 96], p2: ["What they may and may not do\nis published on every site.", 0, 860, 46],
       u1: ["sovereignwebsite.org", 0, 1060, 44], u2: ["riskmandate.ai", 0, 1130, 44],
     } : {
       lbl: ["CREDITS", 4, 250, 26], a: ["Inspired by", 4, 320, 44], title: ["The Last Boring Slide", -4, 375, 132],
       b: ["made by Claude, prompted by Nikita (@fluxxrider).", 4, 545, 44],
-      c: ["Made by Claude as cl-6.studio for Sovereign Website. The data is this repository's own history,\ntaken " + DATA.taken.replace("T", " at ").replace("Z", " UTC") + ". Live WebGL in one HTML file, with no images and no video.", 4, 760, 30],
+      c: ["This piece: cl-6.studio for Sovereign Website. Its data is this repository's own history, taken\n" + DATA.taken.replace("T", " at ").replace("Z", " UTC") + ". Live WebGL in one HTML file, with no images and no video.", 4, 760, 30],
       url: ["sovereignwebsite.org", 4, 880, 30],
       p1: ["Built by AI agents working under\na written Agent Behaviour Policy.", -2, 300, 96], p2: ["What they may and may not do is published on every site.", 4, 560, 40],
       u1: ["sovereignwebsite.org", 4, 760, 34], u2: ["riskmandate.ai", 520, 760, 34],
     };
     const T = (k, font, color, leading = 1.12) => { const [s, dx, y, size] = L[k]; return layer.add(ctx.text(s, { x: X + dx, y, size, font, color, leading })); };
-    const lbl = T("lbl", "mono", "#8fe0b4"), a = T("a", "text", "#c9d3ce"), title = T("title", SERIF, "#ffffff", 1.0);
-    const b = T("b", "text", "#f4f7f5", 1.3), c = T("c", "text", "#9aa8a1", 1.45), url = T("url", "mono", "#8fe0b4");
-    const p1 = T("p1", "display", "#f4f7f5", 1.08), p2 = T("p2", "text", "#c9d3ce", 1.35), u1 = T("u1", "mono", "#8fe0b4"), u2 = T("u2", "mono", "#8fe0b4");
+    const lbl = T("lbl", "mono", "#ffd9c4"), a = T("a", "text", "#c9d3ce"), title = T("title", SERIF, "#ffffff", 1.0);
+    const b = T("b", "text", "#f4f7f5", 1.3), c = T("c", "text", "#b4c1ba", 1.45), url = T("url", "mono", "#ffd9c4");
+    const p1 = T("p1", "display", "#f4f7f5", 1.08), p2 = T("p2", "text", "#c9d3ce", 1.35), u1 = T("u1", "mono", "#ffd9c4"), u2 = T("u2", "mono", "#ffd9c4");
     return {
       update(s) {
         bg.u.uTime.value = s.t;

@@ -6,7 +6,7 @@ import { ease, lerp, rng, clamp } from "../util.js";
 import DATA from "../data.json";
 
 const KINDS = [["picture", "pictures", "#9fb3d1"], ["code", "code", "#8fe0b4"], ["data", "data", "#c7b8ff"],
-  ["sound", "sounds", "#ffb38a"], ["page", "pages", "#ffffff"], ["font", "fonts", "#ffd27a"], ["style", "styles", "#7fc3ff"], ["other", "other", "#8a949e"]]
+  ["sound", "sounds", "#ffb38a"], ["page", "pages", "#ffffff"], ["font", "fonts", "#ffd27a"], ["style", "styles", "#7fc3ff"], ["other", "other", "#b8c0c8"]]
   .filter(([k]) => DATA.byKind[k]);
 
 export default {
@@ -61,26 +61,26 @@ export default {
     const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
 
     const layer = ctx.overlay();
-    const t1 = layer.add(ctx.text(V ? "This website\nis a folder." : "This website is a folder.", { x: M, y: V ? 200 : 120, size: V ? 100 : 112, font: "display", leading: 1.05 }));
-    const t2 = layer.add(ctx.text(V ? `${DATA.files} files,\nserved as\nthey are.` : `${DATA.files} files, served as they are.`, { x: M, y: V ? 200 : 120, size: V ? 100 : 112, font: "display", leading: 1.05 }));
-    const sub = layer.add(ctx.text(V ? "No server runs code for this site:\nwhat you see is what is in the folder." : "No server runs code for this site: what you see is what is in the folder.", { x: M + 4, y: V ? 560 : 270, size: V ? 40 : 38, font: "text", color: "#c9d3ce", leading: 1.35 }));
-    const labels = KINDS.map(([k, name]) => layer.add(ctx.text(`${DATA.byKind[k]}\n${name}`, { x: 0, y: 0, size: V ? 30 : 26, font: "mono", color: "#c9d3ce", leading: 1.3, align: "center" })));
+    const t1 = layer.add(ctx.text(V ? "This website\nis a folder." : "This website is a folder.", { x: M, y: V ? 200 : 110, size: V ? 100 : 112, font: "display", leading: 1.05 }));
+    const t2 = layer.add(ctx.text(V ? `${DATA.files} files,\nserved as\nthey are.` : `${DATA.files} files, served as they are.`, { x: M, y: V ? 200 : 110, size: V ? 100 : 112, font: "display", leading: 1.05 }));
+    const sub = layer.add(ctx.text(V ? "No server runs code for this site:\nwhat you see is what is in the folder." : "No server runs code for this site: what you see is what is in the folder.", { x: M + 4, y: V ? 560 : 255, size: V ? 40 : 38, font: "text", color: "#c9d3ce", leading: 1.35 }));
+    const labels = KINDS.map(([k, name]) => layer.add(ctx.text(`${DATA.byKind[k]}\n${DATA.byKind[k] === 1 ? name.replace(/s$/, "") : name}`, { x: 0, y: 0, size: V ? 30 : 26, font: "mono", color: "#c9d3ce", leading: 1.3, align: "center" })));
     const v3 = new THREE.Vector3();
     return {
       resize() { cam.aspect = gfx.aspect; cam.updateProjectionMatrix(); },
       update(s) {
         const inP = s.k(0, 0.2, 4.4, ease.lin), sort = s.k(1, 0.2, 3.6, ease.lin);
         mat.uniforms.uIn.value = inP; mat.uniforms.uSort.value = sort; mat.uniforms.uTime.value = s.t;
-        const orbit = s.t * 0.05 - 0.35 + s.mouse.x * 0.25, dist = lerp(V ? 56 : 36, V ? 128 : 57, ease.io3(sort));
+        const orbit = s.t * 0.05 - 0.35 + s.mouse.x * 0.25, dist = lerp(V ? 46 : 36, V ? 108 : 66, ease.io3(sort));
         cam.aspect = gfx.aspect; cam.position.set(Math.sin(orbit) * dist, lerp(14, 12, sort) + s.mouse.y * 2, Math.cos(orbit) * dist);
-        cam.lookAt(V ? 0 : 1.5 * sort, lerp(V ? 5 : 1.4, V ? 2 : 1.5, ease.io3(sort)), 0); cam.updateProjectionMatrix(); mat.uniforms.uCam.value.copy(cam.position);
+        cam.lookAt(0, lerp(V ? 1.5 : 1.4, V ? 2 : 1.5, ease.io3(sort)), 0); cam.updateProjectionMatrix(); mat.uniforms.uCam.value.copy(cam.position);
         t1.show(s.k(0, 0.6, 2.4, ease.lin), { stagger: 0.35, q: s.k(1, 0, 0.8, ease.lin) });
         t2.show(s.k(1, 0.8, 2.6, ease.lin), { stagger: 0.35 });
         sub.show(s.k(1, 2.2, 3.4, ease.lin), { style: "fade" });
         // a label under each stack, projected from 3D
         labels.forEach((l, i) => {
           v3.set(centres[i], -5.2, widths[i] / 2 + 1).project(cam);
-          l.x = view.x0 + (v3.x * 0.5 + 0.5) * view.w; l.y = view.y0 + (0.5 - v3.y * 0.5) * view.h + (i % 2) * (V ? 70 : 56);   // alternate heights so neighbours never touch
+          l.x = view.x0 + (v3.x * 0.5 + 0.5) * view.w; l.y = view.y0 + (0.5 - v3.y * 0.5) * view.h + (V ? (i % 2) * 84 : 0);   // alternate heights so neighbours never touch
           l.show(clamp(s.k(1, 2.4 + i * 0.12, 3.4 + i * 0.12, ease.lin)), { style: "fade" });
         });
       },
