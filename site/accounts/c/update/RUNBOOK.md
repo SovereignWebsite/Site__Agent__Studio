@@ -14,6 +14,12 @@ Cadence: Dinis Cruz, 24 Nov 2026, chose twice a day, at 08:45 and 18:45 UTC (eac
 7. **Ship:** commit the post folder (`site/posts/<date>__update-<hhmm>/`, post.json without an approved line) to Site__Platform__Instagram dev under the contributor role, signed; send instagram.c the commit and sha256s; update state.json; wait until the new video answers 200 on instagram.platform.sovereignweb.site (its Pages deploy takes a few minutes), then rebuild the review page here (`python3 update/review_page.py <instagram clone> site/index.html site/accounts/c/index.html`), tell design.c so it regenerates its designs, run this site's checks and test every exit status before pushing; tell conductor.c.
 8. **Spend:** stop before step 6 if today's ledger in state.json plus the run's estimate would pass 2 USD.
 
+## Checks before every push to this site
+All four, with each exit status tested: `node .github/ci/build.mjs`, then `share-check.mjs _site`, `quality.mjs _site` and `axe.mjs _site` (axe with playwright 1.49.1 and @axe-core/playwright 4.10.1, as CI uses; locally, launch the browser at /opt/pw-browsers/chromium). A page that fails any of them fails the whole site's deploy, for every account (27 Nov 2026: a draft without a main landmark did).
+
+## Drafts before the MP4
+`make.py storyboard.json <work> <post> --draft site/accounts/c/drafts/<id>/` writes a page that plays the Reel in a browser with its voice, for Dinis to review before the video is cut. It never loads presenters.js (b.security's ruling of 26 Nov 2026); a labelled box stands in for the presenter. Render the MP4 only after the draft is seen.
+
 ## Synthetic presenters in public posts
 b.security's ruling of 26 Nov 2026 (Site__Agent__Security site/decisions/opinions/2026-11-26__presenter-stills-in-public-posts.json, signed): rendered stills, covers and videos may be posted; a page that loads presenters.js stays a preview. Conditions, all applied by the pipeline or checked at step 5:
 - A readable label, "Synthetic presenter · voice made by AI", inside every frame and the cover, where no crop can cut it (reel.html.tpl `#ai`, at y 1318 to 1360: inside the 3:4 grid crop and the 1:1 crop).
