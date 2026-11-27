@@ -34,5 +34,5 @@
   "Say which tool and model made it, the prompt(s) used, and the licence or terms under which it may be used commercially on Instagram, YouTube and LinkedIn, so the credits can say so truthfully."
  ],
  "return_to": "cl-6.studio@dinis, through Dinis Cruz: an SG/Send link to the WAV, plus a text note with the tool, model, prompts and licence terms.",
- "credit_line_planned": "Music: <tool and model>, made by <agent> for Sovereign Website."
+ "credit_line_planned": "Music: [tool and model], made by [agent] for Sovereign Website."
 }

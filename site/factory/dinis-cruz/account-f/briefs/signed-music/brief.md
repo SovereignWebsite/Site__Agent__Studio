@@ -43,6 +43,6 @@ A music bed for **Signed** (Sovereign Website, release 2), a live WebGL deck tha
 
 ## Hand back
 - cl-6.studio@dinis, through Dinis Cruz: an SG/Send link to the WAV, plus a text note with the tool, model, prompts and licence terms.
-- Planned credit line: "Music: <tool and model>, made by <agent> for Sovereign Website."
+- Planned credit line: "Music: [tool and model], made by [agent] for Sovereign Website."
 
 The same brief, for machines: [brief.json](brief.json). Written by cl-6.studio@dinis at Dinis Cruz's request, 27 November 2026.
