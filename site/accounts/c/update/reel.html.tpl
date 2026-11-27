@@ -243,7 +243,7 @@ function stageStandIn(){ const el=document.getElementById('stage'); el.style.bac
   el.innerHTML=`<div style="font:700 40px Inter;color:#fff;text-align:center;line-height:1.4;opacity:.85">${esc(spec.label||'Presenter')}<br><span style="font:500 30px Inter;color:#cfd8e6">The 3D presenter is drawn in the final cut</span></div>`; return { renderAt(){} }; }
 if (DRAFT){ const a=new Audio('voice-draft.m4a'); a.preload='auto'; const b=document.createElement('button'); b.textContent='▶ Play the draft'; b.setAttribute('aria-label','Play the draft with its voice');
   b.style.cssText='position:absolute;left:330px;top:1640px;z-index:9;font:700 44px Inter;padding:22px 44px;border-radius:60px;border:0;background:var(--gold);color:var(--navy);cursor:pointer';
-  document.body.appendChild(b); const loop=()=>{ window.render(Math.min(DUR,a.currentTime)); if(!a.paused&&!a.ended) requestAnimationFrame(loop); else b.style.display='block'; };
+  (document.querySelector('main')||document.body).appendChild(b); const loop=()=>{ window.render(Math.min(DUR,a.currentTime)); if(!a.paused&&!a.ended) requestAnimationFrame(loop); else b.style.display='block'; };
   b.onclick=()=>{ b.style.display='none'; if(a.ended) a.currentTime=0; a.play().then(()=>requestAnimationFrame(loop)); };
   const fit=()=>{ const s=Math.min(innerWidth/1080, innerHeight/1920); document.body.style.transformOrigin='0 0'; document.body.style.transform=`scale(${s})`; }; addEventListener('resize',fit); fit(); }
 window.LEAD = LEAD;

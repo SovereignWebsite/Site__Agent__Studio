@@ -222,6 +222,8 @@ if "--draft" in sys.argv:   # a browser draft for review before the MP4 (Dinis, 
     _page = open(f"{HERE}/reel.html.tpl").read()
     _page = _page.replace('<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>reel</title>', _head, 1)
     assert 'data-draft="1"' in _page, "draft head not applied"
+    _page = _page.replace("</style></head><body>", '</style></head><body><main id="main" aria-label="Draft Reel: press play to watch it with its voice">', 1).replace("</script></body></html>", "</script></main></body></html>", 1)   # one main landmark (axe)
+    assert '<main id="main"' in _page and "</main></body>" in _page, "draft landmark not applied"
     open(f"{ddir}/index.html", "w").write(_page)
     if os.path.exists(f"{ddir}/reel.html"): os.remove(f"{ddir}/reel.html")
     print("draft", ddir); sys.exit(0)
