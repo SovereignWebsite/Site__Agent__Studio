@@ -1,6 +1,6 @@
 // node render-reel.js spec.json out.mp4 voice.wav : every frame at 30 fps, piped to ffmpeg with the voice
 const { chromium } = require('playwright'); const { spawn } = require('child_process');
-(async () => { const [spec, out, voice] = process.argv.slice(2); const FPS = 30;
+(async () => { const [spec, out, voice] = process.argv.slice(2); const FPS = +(process.env.FPS || 30);   // a lower rate for quick previews
   const b = await chromium.launch({ args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } }); p.on('pageerror', e => console.log('err:', e.message));
   await p.goto('http://localhost:8766/reel.html?spec=' + spec); await p.waitForFunction(() => window.ready, null, { timeout: 60000 });

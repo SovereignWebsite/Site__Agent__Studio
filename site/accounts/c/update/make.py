@@ -177,7 +177,8 @@ credits = {"kicker": "Credits", "title": "Who made this", "seconds": CREDITS_S, 
     ["Posting", "Under a written rule · riskmandate.ai"]] + [list(r) for r in (sb.get("credit_rows") or [])]}   # e.g. the maker of footage used
 spec["stats"] = {"page": 4.6, "pages": list(sb.get("stats") or []) + [credits]}
 os.makedirs(f"{work}/site", exist_ok=True)
-shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
+CAST = sb.get("layout") == "cast"   # the character version: a deck film full frame with the cast keyed over it (cast.html.tpl)
+shutil.copy(f"{HERE}/{'cast' if CAST else 'reel'}.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
 # image beats: fetch each capture once into site/media (pinned public URLs only), the page reads it locally
 import urllib.request
 os.makedirs(f"{work}/site/media", exist_ok=True)
@@ -200,6 +201,14 @@ for b in beats:
         for _old in os.listdir(fdir): os.remove(os.path.join(fdir, _old))
         run("ffmpeg", "-loglevel", "error", "-y", "-ss", str(v.get("start", 0)), "-t", f"{_len:.2f}", "-i", os.path.join(sb["media_dir"], v["src"][5:]), "-vf", vf, "-q:v", "5", f"{fdir}/f%04d.jpg")
         v["frames"] = len([x for x in os.listdir(fdir) if x.endswith(".jpg")]); v["dir"] = f"media/{b['id']}"; v["fps"] = fps
+if CAST:
+    spec.update({"cast": sb["cast"], "slots": sb.get("slots"), "title": sb.get("title", ""), "end_cues": sb.get("end_cues", []),
+                 "label": "Synthetic presenters", "stage": sb.get("stage", {})})
+    fd = sb["deck_frames"]; os.makedirs(f"{work}/site/media", exist_ok=True)   # a deck film's frames, as film.cjs writes them
+    if not os.path.exists(f"{work}/site/media/film"): os.symlink(os.path.abspath(fd), f"{work}/site/media/film")
+    spec["deck"] = {"dir": "media/film", "fps": sb.get("deck_fps", 30), "frames": len([x for x in os.listdir(fd) if x.endswith(".jpg")])}
+    if str(sb["cover"].get("image", "")).startswith("file:"):
+        shutil.copy(os.path.join(sb["media_dir"], sb["cover"]["image"][5:]), f"{work}/site/cover.jpg"); spec["cover"] = {**sb["cover"], "image": "cover.jpg"}
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
 if "--draft" in sys.argv:   # a browser draft for review before the MP4 (Dinis, 24 Nov 2026): the page, its media and the voice; no presenters library
     ddir = sys.argv[sys.argv.index("--draft") + 1]; os.makedirs(ddir, exist_ok=True)
