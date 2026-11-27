@@ -133,6 +133,7 @@ export function createAudio() {
     get ready() { return !!ac; }, get muted() { return muted; },
     unlock(ctxOverride) { if (ac) { ac.resume && ac.resume(); return; } offline = !!ctxOverride && typeof OfflineAudioContext !== "undefined" && ctxOverride instanceof OfflineAudioContext; graph(ctxOverride || new (window.AudioContext || window.webkitAudioContext)()); },
     pump() { pumps.forEach((f) => f()); },
+    pause(v) { if (ac && ac.suspend) v ? ac.suspend() : ac.resume(); }, get running() { return !!ac && ac.state === "running"; },
     mute(v = !muted) { muted = v; if (master) master.gain.setTargetAtTime(muted ? 0 : 0.85, now(), 0.05); },
     scene, beat, transition, param(k, v) { params[k] = v; }, stream() { return recDest ? recDest.stream : null; },
   };

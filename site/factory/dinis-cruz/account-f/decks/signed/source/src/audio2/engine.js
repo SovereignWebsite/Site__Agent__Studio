@@ -140,6 +140,7 @@ export function createAudio() {
     recording: false, log,
     unlock() { if (E) { E.ctx.state !== "running" && E.ctx.resume(); return; } const C = window.AudioContext || window.webkitAudioContext; if (!C) return; E = makeEngine(new C({ latencyHint: "interactive" })); if (muted) E.master.gain.value = 0; },
     stream() { return E && E.stream ? E.stream.stream : null; }, get ready() { return !!E; }, get muted() { return muted; },
+    pause(v) { if (E) v ? E.ctx.suspend() : E.ctx.resume(); }, get running() { return !!E && E.ctx.state === "running"; },
     mute(v = !muted) { muted = v; if (E) E.master.gain.setTargetAtTime(muted ? 0 : 1, E.now, 0.05); return muted; },
     // the deck calls these with its own clock (deckTime) so they can be logged and replayed offline
     event(type, data, deckTime) { if (api.recording) log.push({ t: deckTime, type, ...data }); if (!E || E.ctx.state !== "running") return; play(E, { type, ...data }, E.now); },

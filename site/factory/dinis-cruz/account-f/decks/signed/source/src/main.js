@@ -1,5 +1,6 @@
 import { createDeck } from "./deck.js";
 import { attachPresenter } from "./presenter.js";
+import { attachPlayer } from "./player.js";
 import { createAudio, renderOffline, preloadAll } from "./audio2/engine.js";
 import fade from "./transitions/fade.js";
 import iris from "./transitions/iris.js";
@@ -44,43 +45,9 @@ const transitions = { fade, iris, burn, tear, daybreak, line, slam };
   document.getElementById("load")?.remove();
   if (!headless) {
     attachPresenter(deck);
-    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const chip = document.getElementById("auto");
-    const show = () => { chip.textContent = deck.auto ? "Auto-play: on · A" : "Auto-play: off · A"; };
-    deck.setAuto(!calm); show();
-    // ---- sound: starts on the first click or key; M toggles it ----
-    // ---- sound: starts on the first click or key (browsers require a gesture); M toggles it ----
-    const snd = document.getElementById("snd");
-    const label = () => { snd.textContent = !audio.ready ? "Sound: off · click" : audio.muted ? "Sound: off · M" : "Sound: on · M"; };
-    const start = () => { if (audio.ready) return; audio.unlock(); const i = deck.info(); audio.event("scene", { id: i.id, beat: i.beat, fade: 1.5 }, 0); label(); };
-    addEventListener("pointerdown", start, { capture: true });
-    addEventListener("keydown", (e) => { if (e.key === "m" || e.key === "M") { if (!audio.ready) start(); else audio.mute(); label(); } else start(); }, { capture: true });
-    // ---- recorder: R starts and stops; the file holds the canvas and the sound, no page chrome ----
-    const recChip = document.getElementById("rec"); let rec = null, chunks = [], t0 = 0, tick = null;
-    const toggleRec = async () => {
-      if (rec) { rec.stop(); return; }
-      await deck.restart(); deck.setAuto(true); show();                       // a recording always starts at the first frame
-      if (!window.MediaRecorder) { recChip.hidden = false; recChip.textContent = "Recording is not supported in this browser"; return; }
-      const tracks = [...document.getElementById("stage").captureStream(60).getVideoTracks()], as = audio.stream();
-      if (as) tracks.push(...as.getAudioTracks());
-      const type = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"].find((t) => MediaRecorder.isTypeSupported(t)) || "";
-      rec = new MediaRecorder(new MediaStream(tracks), { mimeType: type, videoBitsPerSecond: 16e6, audioBitsPerSecond: 192e3 }); chunks = [];
-      rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
-      rec.onstop = () => {
-        const blob = new Blob(chunks, { type: rec.mimeType }), a = document.createElement("a");
-        a.href = URL.createObjectURL(blob); a.download = (document.title || "deck").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-") + (rec.mimeType.includes("mp4") ? ".mp4" : ".webm");
-        document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
-        rec = null; clearInterval(tick); recChip.textContent = "Saved to your downloads"; setTimeout(() => { if (!rec) recChip.hidden = true; }, 4000);
-      };
-      rec.start(1000); t0 = performance.now(); recChip.hidden = false;
-      deck.onEnd = () => { if (!rec) return false; setTimeout(() => rec && rec.stop(), 900); return true; };   // and ends after the last frame
-      const upd = () => { const s = Math.floor((performance.now() - t0) / 1000); recChip.textContent = `Recording ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} · R to stop`; };
-      upd(); tick = setInterval(upd, 500);
-    };
-    addEventListener("keydown", (e) => { if ((e.key === "r" || e.key === "R") && !e.metaKey && !e.ctrlKey) { start(); toggleRec(); } });
-    label();
-    addEventListener("keydown", (e) => { if (e.key === "a" || e.key === "A") setTimeout(show, 0); });
-    setTimeout(() => document.getElementById("hint")?.classList.add("gone"), 9000);
+    const startSound = () => { if (audio.ready) return; audio.unlock(); const i = deck.info(); audio.event("scene", { id: i.id, beat: i.beat, fade: 1.5 }, 0); };
+    attachPlayer({ deck, audio, startSound, name: (document.title || "deck").toLowerCase().replace(/[^a-z0-9]+/g, "-") });
+    addEventListener("pointerdown", startSound, { capture: true });
     document.getElementById("stage").focus();
   }
   window.ready = true;

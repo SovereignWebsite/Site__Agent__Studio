@@ -103,12 +103,15 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
       deck.go(i, { with: "fade", beat });
     },
     setAuto(v) { auto = v; }, get auto() { return auto; },
+    pause(v = !paused) { paused = v; needDraw = true; return paused; }, get paused() { return paused; },
     // back to the very first frame, with no transition (the start of a recording)
     async restart() { trans = null; cur = -1; black = blackT = 0; for (const r of runners) { await r.init(); r.reset(0); } await deck.go(0); },
     toggleBlack() { blackT = blackT ? 0 : 1; },
   };
 
+  let paused = false, needDraw = true;
   function resize() {
+    needDraw = true;
     if (size) {                               // a fixed drawing size (e.g. 1080x1920 for vertical video), fitted to the window
       const [w, h] = size, k = Math.min(innerWidth / w, innerHeight / h);
       Object.assign(canvas.style, { width: w * k + "px", height: h * k + "px", left: (innerWidth - w * k) / 2 + "px", top: (innerHeight - h * k) / 2 + "px", right: "auto", bottom: "auto" });
@@ -186,7 +189,8 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
     warming = false;
     const i = Math.max(0, scenes.findIndex((s) => s.id === id));
     await deck.go(i, { beat });
-    if (!headless) { let last = performance.now(); const loop = (now) => { requestAnimationFrame(loop); step(Math.min(0.05, (now - last) / 1000)); last = now; draw(); }; requestAnimationFrame(loop); }
+    // paused: time stands still and only a needed frame is drawn (so an idle embedded deck costs almost nothing)
+    if (!headless) { let last = performance.now(); const loop = (now) => { requestAnimationFrame(loop); const dt = Math.min(0.05, (now - last) / 1000); last = now; if (!paused) { step(dt); draw(); } else if (needDraw) { needDraw = false; draw(); } }; requestAnimationFrame(loop); }
   };
 
   // ---- deterministic test hooks (used by shoot.cjs and film.cjs) ----
