@@ -31,6 +31,34 @@ const transitions = { fade, iris, burn, tear, daybreak };
     return;
   }
   window.__deck = deck; window.__createAudio = createAudio;
+  if (qs.has("film")) document.body.classList.add("film");
+  // Scenes lay themselves out once, for landscape or portrait; turning the screen past square reloads at the same scene.
+  if (!headless) { const tall = innerHeight > innerWidth; addEventListener("resize", () => { if ((innerHeight > innerWidth) !== tall) location.reload(); }); }
+  // Offline sound for a filmed run: replays the film log against an OfflineAudioContext, returns a 16-bit WAV (base64).
+  window.__renderFilmAudio = async (log, dur) => {
+    const SR = 48000, Q = 128 / SR, off = new OfflineAudioContext(2, Math.ceil(SR * dur), SR), a = createAudio(); a.unlock(off);
+    const evs = log.filter((e) => e.kind !== "mix"), mixes = log.filter((e) => e.kind === "mix");
+    let ei = 0, mi = 0, last = { id: null, beat: -1 };
+    const apply = (e) => {
+      if (e.kind === "trans") { a.transition(e.name, e.dur, e.reverse); a.scene(e.to); a.beat(e.to, e.beat); last = { id: e.to, beat: e.beat }; }
+      else if (e.kind === "move") { if (last.id === null) { a.scene(e.id); a.beat(e.id, e.beat); } else if (e.id === last.id && e.beat > last.beat) a.beat(e.id, e.beat); last = { id: e.id, beat: e.beat }; }
+    };
+    const times = []; for (let t = Q; t < dur; t += 0.025) times.push(Math.round(t / Q) * Q);
+    const uniq = [...new Set(times)];
+    uniq.forEach((qt, k) => off.suspend(qt).then(() => {
+      const until = k + 1 < uniq.length ? uniq[k + 1] : dur + 1;
+      while (ei < evs.length && evs[ei].t < until) apply(evs[ei++]);
+      while (mi < mixes.length && mixes[mi].t < until) a.param("mix", mixes[mi++].v);
+      a.pump(); off.resume();
+    }));
+    const buf = await off.startRendering(), n = buf.length, L = buf.getChannelData(0), R = buf.getChannelData(1);
+    const out = new DataView(new ArrayBuffer(44 + n * 4)), w = (o, s) => [...s].forEach((c, i) => out.setUint8(o + i, c.charCodeAt(0)));
+    w(0, "RIFF"); out.setUint32(4, 36 + n * 4, true); w(8, "WAVEfmt "); out.setUint32(16, 16, true); out.setUint16(20, 1, true); out.setUint16(22, 2, true);
+    out.setUint32(24, SR, true); out.setUint32(28, SR * 4, true); out.setUint16(32, 4, true); out.setUint16(34, 16, true); w(36, "data"); out.setUint32(40, n * 4, true);
+    for (let i = 0; i < n; i++) { out.setInt16(44 + i * 4, Math.max(-1, Math.min(1, L[i])) * 32767, true); out.setInt16(46 + i * 4, Math.max(-1, Math.min(1, R[i])) * 32767, true); }
+    const bytes = new Uint8Array(out.buffer); let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(s);
+  };
   const m = /^#([a-z0-9]+)(?:-(\d+))?$/.exec(location.hash || "");
   await deck.start(m ? m[1] : scenes[0].id, m && m[2] ? +m[2] - 1 : 0);
   document.getElementById("load")?.remove();

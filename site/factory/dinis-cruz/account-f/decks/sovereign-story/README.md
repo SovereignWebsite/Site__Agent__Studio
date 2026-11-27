@@ -15,6 +15,12 @@ node audiotest.cjs                 # renders each sound offline and reports peak
 ```
 Shots are `scene:beat:seconds`, or `trans:scene:progress` for the transition into a scene. Keys when presenting: right arrow or click for next, left for back, A auto-play, M sound, N notes, O overview, F full screen.
 
+## Phone and portrait
+A screen taller than it is wide gets its own 1080x1920 layout: larger type, the split screen divided top and bottom, and nothing in the bottom fifth of the frame, which a feed's caption and buttons cover. Rotating the phone reloads the layout.
+
+## Filming
+`VW=1080 VH=1920 FPS=30 node film.cjs out` plays the deck on auto-play one fixed step per frame and saves every frame, then renders the sound offline to the same timeline of scenes, beats and transitions (`out/audio.wav`). ffmpeg joins them; strip metadata with `-map_metadata -1 -fflags +bitexact`. About an hour for the two-minute vertical film on a software renderer.
+
 ## Parts
 - `src/deck.js` scenes, beats, transitions, live snapshots, drag capture, test hooks. `src/gfx.js` targets, post (bloom, ACES, grade, grain), dithered present. `src/text.js` animated type. `src/view.js` design space, rectangles, the selection marquee.
 - `src/scenes/` plain, own, split, field, recap, move, credits. `src/transitions/` fade, iris, tear, burn, daybreak.

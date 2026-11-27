@@ -13,7 +13,7 @@ export default {
   create(ctx) {
     const { gfx, view } = ctx;
     const hdr = gfx.target();
-    const bg = gfx.pass(NOISE + `uniform float uD,uHot;
+    const bg = gfx.pass(NOISE + `uniform float uD,uHot,uP;
       float sdR(vec2 p,vec2 b,float r){ vec2 d=abs(p)-b+r; return length(max(d,0.))+min(max(d.x,d.y),0.)-r; }
       vec3 rented(vec2 sp){
         vec2 asp=vec2(uRes.x/uRes.y,1.); vec2 g=sp*asp*3.6; g.x+=uTime*.9;             // one belt, one speed
@@ -29,7 +29,7 @@ export default {
         float fill=step(f.x,-.32+.64*fract(uTime*.35));
         k=mix(k,mix(vec3(.6,.62,.66),vec3(.17,.33,.78),fill),bar);
         c=mix(c,k*.92,card);
-        return c*mix(1.,.06,smoothstep(.40,.68,sp.y));                                   // dim the top so the caption reads
+        float top=1.; return c*mix(1.,.06,smoothstep(top-(uP>.5?.30:.60),top-(uP>.5?.10:.32),sp.y));                                   // dim the top so the caption reads
       }
       vec3 owned(vec2 sp){
         vec2 asp=vec2(uRes.x/uRes.y,1.); float pan=uTime*.012;
@@ -56,44 +56,52 @@ export default {
           lay+=vec3(1.,.66,.32)*lamp*(2.2+1.5*sin(uTime*2.+hash12(cell)*40.));
           c=mix(c,lay,m);
         }
-        return c*mix(1.,.28,smoothstep(.48,.72,sp.y));
+        float top=uP>.5?1.-uD:1.; return c*mix(1.,.28,smoothstep(top-(uP>.5?.24:.52),top-(uP>.5?.06:.28),sp.y));
       }
       void main(){
         vec2 px=vUv*uRes; float k=uRes.y/1080.;
-        vec3 c=vUv.x<uD?rented(vUv):owned(vUv);
-        float dx=abs(px.x-uD*uRes.x);
+        // landscape: rented on the left of a vertical seam; portrait: rented above a horizontal one
+        bool left=uP>.5?(1.-vUv.y)<uD:vUv.x<uD;
+        vec3 c=left?rented(vUv):owned(vUv);
+        vec2 seam=uP>.5?vec2(px.x,(1.-uD)*uRes.y):vec2(uD*uRes.x,px.y);
+        float dx=uP>.5?abs(px.y-seam.y):abs(px.x-seam.x);
         c=mix(c,vec3(2.2),1.-smoothstep(1.*k,2.4*k,dx));
         c+=vec3(.9,.8,.6)*exp(-dx/(14.*k))*.18;                                            // a little glow on the seam
-        for(int i=0;i<3;i++){ float y=(.25+.25*float(i))*uRes.y; float r=length(px-vec2(uD*uRes.x,y)); float R=(11.+5.*uHot)*k;
+        for(int i=0;i<3;i++){ float f=.25+.25*float(i); vec2 h=uP>.5?vec2(f*uRes.x,seam.y):vec2(seam.x,f*uRes.y); float r=length(px-h); float R=(11.+5.*uHot)*k;
           float disc=1.-smoothstep(R-k,R+k,r); float ring=1.-smoothstep(1.2*k,2.6*k,abs(r-R));
           c=mix(c,vec3(.04,.05,.06),disc); c=mix(c,vec3(2.2),ring); }
         o=vec4(c,1.);
-      }`, { uD: 0.5, uHot: 0 });
+      }`, { uD: 0.5, uHot: 0, uP: ctx.view.portrait ? 1 : 0 });
     const layer = ctx.overlay();
     const lt = layer.add(ctx.text("Rented.", { x: 0, y: 140, size: 112, font: "display", color: "#f4f7f5" }));
-    const ls = layer.add(ctx.text("Their server, their template.", { x: 0, y: 290, size: 40, font: "text", color: "#d4d9e2" }));
+    const ls = layer.add(ctx.text("Their server, their template.", { x: 0, y: 290, size: ctx.view.portrait ? 46 : 40, font: "text", color: "#d4d9e2" }));
     const rt = layer.add(ctx.text("Owned.", { x: 0, y: 140, size: 112, font: "display", color: "#ffffff" }));
-    const rs = layer.add(ctx.text("Your files, your history, your address.", { x: 0, y: 290, size: 40, font: "text", color: "#ffffff" }));
+    const rs = layer.add(ctx.text(ctx.view.portrait ? "Your files, your history,\nyour address." : "Your files, your history, your address.", { x: 0, y: 290, size: ctx.view.portrait ? 46 : 40, leading: 1.3, font: "text", color: "#ffffff" }));
+    const V = view.portrait, M = V ? 72 : 140;
     let d = 0.5, drag = false, dragD = 0.5, hot = 0;
-    const divX = () => view.x0 + d * view.w;
+    const divX = () => V ? view.y0 + d * view.h : view.x0 + d * view.w;      // the seam, along x (landscape) or y (portrait)
     return {
-      pointer(type, x) {
-        if (type === "down" && Math.abs(x - divX()) < 70) { drag = true; dragD = d; return true; }
-        if (type === "move" && drag) { dragD = clamp((x - view.x0) / view.w, 0.04, 0.96); return true; }
+      pointer(type, x, y) {
+        const p = V ? y : x, lo = V ? view.y0 : view.x0, span = V ? view.h : view.w;
+        if (type === "down" && Math.abs(p - divX()) < 70) { drag = true; dragD = d; return true; }
+        if (type === "move" && drag) { dragD = clamp((p - lo) / span, 0.04, 0.96); return true; }
         if (type === "up") { drag = false; }
         return false;
       },
       update(s) {
         const choreo = lerp(0.5 + 0.09 * Math.sin(s.t * 0.55) + 0.03 * Math.sin(s.t * 1.7), 0.16, s.k(1, 0, 3.2, ease.io3));
         d = drag ? dragD : d + (choreo - d) * damp(drag ? 30 : 3.5, s.dt);
-        hot += ((drag || Math.abs(s.mouse.px - divX()) < 70 ? 1 : 0) - hot) * damp(10, s.dt);
+        hot += ((drag || Math.abs((V ? s.mouse.py : s.mouse.px) - divX()) < 70 ? 1 : 0) - hot) * damp(10, s.dt);
         bg.u.uTime.value = s.t; bg.u.uD.value = d; bg.u.uHot.value = hot; ctx.params.mix = d;
         const x = divX(), inL = s.k(0, 0.4, 2.2, ease.lin), inR = s.k(0, 1.2, 3.0, ease.lin);
-        lt.x = ls.x = view.x0 + 140; rt.x = rs.x = x + 140;
+        if (V) { lt.x = ls.x = rt.x = rs.x = M; lt.y = view.y0 + 200; ls.y = lt.y + 140; rt.y = x + 50; rs.y = rt.y + 140; }
+        else { lt.x = ls.x = view.x0 + 140; rt.x = rs.x = x + 140; }
         lt.show(inL, { stagger: 0.3 }); ls.show(inL, { style: "fade" });
         rt.show(inR, { stagger: 0.3 }); rs.show(inR, { style: "fade" });
-        const roomL = clamp((x - view.x0 - 140 - lt.width()) / 120), roomLs = clamp((x - view.x0 - 140 - ls.width()) / 120);
-        const roomR = clamp((view.x1 - x - 140 - rt.width()) / 120), roomRs = clamp((view.x1 - x - 140 - rs.width()) / 120);
+        const roomL = V ? clamp((x - lt.y - 140) / 80) : clamp((x - view.x0 - 140 - lt.width()) / 120);
+        const roomLs = V ? clamp((x - ls.y - 70) / 80) : clamp((x - view.x0 - 140 - ls.width()) / 120);
+        const roomR = V ? clamp((view.y1 * 0.8 - rt.y - 140) / 80) : clamp((view.x1 - x - 140 - rt.width()) / 120);
+        const roomRs = V ? clamp((view.y1 * 0.8 - rs.y - 70) / 80) : clamp((view.x1 - x - 140 - rs.width()) / 120);
         lt.mat.uniforms.uAlpha.value = roomL; ls.mat.uniforms.uAlpha.value = roomLs;
         rt.mat.uniforms.uAlpha.value = roomR; rs.mat.uniforms.uAlpha.value = roomRs;
       },

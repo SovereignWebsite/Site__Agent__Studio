@@ -14,6 +14,7 @@ body.idle{cursor:none}
 .chrome{transition:opacity .6s}body.idle .chrome{opacity:0}
 .chrome span{background:rgba(2,4,5,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--muted);font:500 12px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 12px}
 #auto,#snd{color:var(--accent)}
+.film .chrome,.film #ui,.film #load{display:none}
 #rec{color:#ff8a7a}
 .chrome #hint{margin-right:auto}
 #hint{transition:opacity .8s}#hint.gone{opacity:0}

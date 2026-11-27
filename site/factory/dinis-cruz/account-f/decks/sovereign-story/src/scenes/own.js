@@ -33,10 +33,11 @@ export default {
         cloud+=vec3(1.,.82,.55)*rim*(.6+2.4*uK)*uL;
         o=vec4(mix(sky,cloud,d),1.);
       }`, { uK: 0, uL: 0 });
+    const V = ctx.view.portrait;
     const layer = ctx.overlay();
-    const title = layer.add(ctx.text("A site you own.", { x: 140, y: 180, size: 150, font: "display" }));
-    const sub = layer.add(ctx.text("The files, the history and the address are yours.", { x: 144, y: 400, size: 46, font: "text", color: "#e3ebe7" }));
-    const tag = layer.add(ctx.text("in a repository you control", { x: 144, y: 470, size: 30, font: "mono", color: "#c9d3ce" }));
+    const title = layer.add(ctx.text(V ? "A site\nyou own." : "A site you own.", { x: V ? 72 : 140, y: V ? 240 : 180, size: 150, font: "display", leading: 1.05 }));
+    const sub = layer.add(ctx.text(V ? "The files, the history\nand the address are yours." : "The files, the history and the address are yours.", { x: V ? 76 : 144, y: V ? 600 : 400, size: V ? 54 : 46, leading: 1.3, font: "text", color: "#e3ebe7" }));
+    const tag = layer.add(ctx.text("in a repository you control", { x: V ? 76 : 144, y: V ? 770 : 470, size: V ? 36 : 30, font: "mono", color: "#c9d3ce" }));
     return {
       update(s) {
         bg.u.uTime.value = s.t;

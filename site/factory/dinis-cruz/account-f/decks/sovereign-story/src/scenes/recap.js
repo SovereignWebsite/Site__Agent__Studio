@@ -33,7 +33,8 @@ export default {
     const STEP = W + GAP, s0 = sOf(-16) - (SLIDES.length - 1) * STEP;  // the latest slide sits just before the bend
     const slotS = (i) => s0 + i * STEP + (i > SLIDES.length - 1 ? (i - SLIDES.length + 1) * 2.9 : 0);   // more room where the curve bends
 
-    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 0.1, 600);
+    const V = view.portrait, M = V ? 72 : 140, Z = V ? 2.1 : 1;
+    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 0.1, 900);
     const ms = gfx.target({ samples: 4, depth: true });
     const plane = new THREE.PlaneGeometry(W, H);
     const VS = `precision highp float; in vec3 position; in vec2 uv; uniform mat4 projectionMatrix,modelViewMatrix; out vec2 vUv;
@@ -64,8 +65,8 @@ export default {
 
     const layer = ctx.overlay(), box = layer.add(new SelectBox(view, "#8fe0b4"));
     const here = layer.add(ctx.text("You are here", { x: 0, y: 0, size: 30, font: "mono", color: "#8fe0b4" }));
-    const t1 = layer.add(ctx.text("Every step, kept.", { x: 140, y: 140, size: 112, font: "display" }));
-    const t2 = layer.add(ctx.text("The history is yours.", { x: 140, y: 140, size: 112, font: "display" }));
+    const t1 = layer.add(ctx.text(V ? "Every step,\nkept." : "Every step, kept.", { x: M, y: V ? 220 : 140, size: 112, leading: 1.05, font: "display" }));
+    const t2 = layer.add(ctx.text(V ? "The history\nis yours." : "The history is yours.", { x: M, y: V ? 220 : 140, size: 112, leading: 1.05, font: "display" }));
     const last = SLIDES.length - 1, v3 = new THREE.Vector3();
     const project = (x, y) => { v3.set(x, y, 0).project(cam); return [view.x0 + (v3.x * 0.5 + 0.5) * view.w, view.y0 + (0.5 - v3.y * 0.5) * view.h]; };
     return {
@@ -75,10 +76,10 @@ export default {
         const ride = ease.ioExpo(s.k(0, 0, 4.6, ease.lin)), up = s.k(1, 0, 4.2, ease.io3);
         const sTarget = lerp(slotS(0) + W / 2, slotS(last) + W / 2, ride);
         const p = at(sTarget), ahead = at(slotS(last + 3));
-        const tx = lerp(p.x + 2, (p.x + ahead.x) / 2 - 2, up), ty = lerp(p.y + H * 0.5 + 3.2, (p.y + ahead.y) / 2 + 3, up);
+        const tx = lerp(p.x + 2, (p.x + ahead.x) / 2 - 2, up), ty = lerp(p.y + H * 0.5 + (V ? 0.6 : 3.2), (p.y + ahead.y) / 2 + 3, up);
         const pull = Math.sin(Math.PI * ride) * 14;
         cam.aspect = gfx.aspect; cam.fov = lerp(32, 44, up);
-        cam.position.set(tx + s.mouse.x * 1.5, ty + s.mouse.y * 1.0, lerp(36 + pull, 64, up)); cam.lookAt(tx, ty, 0); cam.updateProjectionMatrix();
+        cam.position.set(tx + s.mouse.x * 1.5, ty + s.mouse.y * 1.0, lerp(36 + pull, 64, up) * Z); cam.lookAt(tx, ty, 0); cam.updateProjectionMatrix();
         for (const sl of slots) sl.m.uniforms.uLit.value = sl.i === last ? 1 : lerp(0.55, 0.85, up);
         // frame the latest slide with the marquee once the camera lands
         const sel = s.k(0, 4.4, 5.1, ease.lin) * (1 - s.k(1, 0, 0.8, ease.lin));

@@ -14,24 +14,24 @@ export default {
   beats: [{ dur: 2.5, hold: 2 }, { dur: 3.6, hold: 2.4 }],
   notes: ["Most websites look like this slide: someone else's template, on someone else's server.", "So whose is it? (The question gets selected, like an object in a design tool.)"],
   create(ctx) {
-    const { gfx, view } = ctx;
+    const { gfx, view } = ctx, V = view.portrait, M = V ? 72 : 140, RIGHT = V ? 1008 : 1780;
     const white = gfx.pass("void main(){ o=vec4(1.); }");
     const layer = ctx.overlay();
     const rule = layer.add(new Rect("#cfd2d8")), bar = layer.add(new Rect("#2b5cff")), caret = layer.add(new Rect("#111111"));
-    const head = layer.add(ctx.text("Your website", { x: 140, y: 96, size: 80, font: ARIAL("700"), color: "#111111" }));
+    const head = layer.add(ctx.text("Your website", { x: M, y: V ? 200 : 96, size: 80, font: ARIAL("700"), color: "#111111" }));
     const list = layer.add(ctx.text("•  On someone else's server\n•  On someone else's template\n•  On someone else's terms",
-      { x: 146, y: 290, size: 44, font: ARIAL("400"), color: "#3a3d44", leading: 1.65 }));
-    const QX = 1100, QY = 600, QS = 112;
+      { x: M + 6, y: V ? 420 : 290, size: V ? 46 : 44, font: ARIAL("400"), color: "#3a3d44", leading: 1.65 }));
+    const QX = V ? 150 : 1100, QY = V ? 860 : 600, QS = V ? 120 : 112;
     const typed = layer.add(ctx.text(" ", { x: QX, y: QY, size: QS, font: ARIAL("400"), color: "#111111" }));
     const styled = layer.add(ctx.text(Q, { x: QX, y: QY, size: QS, font: "display", color: "#2b5cff" }));
     const box = layer.add(new SelectBox(view));
-    const page = layer.add(ctx.text("1", { x: 1780, y: 0, size: 26, font: ARIAL("400"), color: "#ffffff", align: "right" }));
+    const page = layer.add(ctx.text("1", { x: RIGHT, y: 0, size: 26, font: ARIAL("400"), color: "#ffffff", align: "right" }));
     let shown = -1;
     return {
       update(s) {
-        rule.set(140, 214, 1640, 2);
-        bar.set(view.x0, view.y1 - 64, view.w, 64);
-        page.y = view.y1 - 48; page.show(1, { style: "fade" });
+        rule.set(M, V ? 318 : 214, RIGHT - M, 2);
+        const barY = V ? 1430 : view.y1 - 64;                 // in portrait, above the bottom 20% that a feed's own controls cover
+        bar.set(view.x0, barY, view.w, 64); page.y = barY + 16; page.show(1, { style: "fade" });
         head.show(1, { style: "fade" });
         list.show(s.k(0, 0.4, 2.2, ease.lin), { style: "fade", stagger: 0.6 });
         // type the question, one character at a time

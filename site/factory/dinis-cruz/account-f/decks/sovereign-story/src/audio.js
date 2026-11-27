@@ -5,7 +5,8 @@
 const ROOT = 73.416, H = (n) => ROOT * n;
 
 export function createAudio() {
-  let ac = null, comp, master, verb, bedBus, fxBus, noiseBuf, muted = false, bed = null, timer = null, recDest = null;
+  let ac = null, comp, master, verb, bedBus, fxBus, noiseBuf, muted = false, bed = null, timer = null, recDest = null, offline = false;
+  const pumps = new Set();   // look-ahead schedulers: on a timer live, stepped by hand when rendering offline
   const params = { mix: 0.5 };
   const now = () => ac.currentTime;
 
@@ -66,12 +67,13 @@ export function createAudio() {
     split: () => {
       const right = pad([H(4), H(6), H(8), H(9)], { gain: 0.055, lp: 2200 }), left = ac.createGain(); left.gain.value = 0; left.connect(bedBus);
       let next = now() + 0.1, nextBird = now() + 1;
-      const tick = setInterval(() => {                              // look-ahead scheduling, 300 ms
+      const pumpFn = () => {                                         // look-ahead scheduling, 300 ms
         const m = params.mix; left.gain.setTargetAtTime(Math.min(1, m * 1.6) * 0.9, now(), 0.1); right.out.gain.setTargetAtTime(0.055 * Math.min(1, (1 - m) * 1.6), now(), 0.1);
         while (next < now() + 0.3) { noise(next, 0.03, { type: "highpass", f0: 3500, gain: 0.05, atk: 0.001, dest: left }); tone(H(24), next, 0.03, { type: "square", gain: 0.012, dest: left }); next += 0.25; }   // the belt: one speed
         if (nextBird < now() + 0.3) { const f = 2600 + Math.random() * 1800; tone(f, nextBird, 0.09, { gain: 0.02 * (1 - m), f1: f * 1.35 }); tone(f * 1.1, nextBird + 0.12, 0.07, { gain: 0.015 * (1 - m), f1: f * 0.9 }); nextBird += 0.8 + Math.random() * 1.6; }
-      }, 80);
-      return { out: right.out, stop(t) { clearInterval(tick); right.stop(t); left.gain.setTargetAtTime(0, now(), 0.2); } };
+      };
+      const tick = offline ? null : setInterval(pumpFn, 80); if (offline) pumps.add(pumpFn);
+      return { out: right.out, stop(t) { clearInterval(tick); pumps.delete(pumpFn); right.stop(t); left.gain.setTargetAtTime(0, now(), 0.2); } };
     },
     field: () => pad([H(1), H(2), H(3), H(4)], { gain: 0.06, lp: 520 }),
     recap: () => pad([H(3), H(4), H(6), H(8)], { gain: 0.05, lp: 900 }),
@@ -92,7 +94,8 @@ export function createAudio() {
     if (id === "recap" && b === 1) { noise(t, 3.5, { type: "lowpass", f0: 300, f1: 1600, gain: 0.03, atk: 1.5, rel: 1.5 }); }
     if (id === "move" && b === 0) { [H(6), H(8), H(10), H(12)].forEach((f, i) => tone(f, t + 0.5 + i * 0.35, 3.5, { gain: 0.03, atk: 1.2, rel: 3 })); }
     if (id === "move" && b === 1) { noise(t + 0.3, 2.6, { type: "bandpass", f0: 600, f1: 5000, Q: 0.8, gain: 0.05, atk: 1.6, rel: 0.8 }); }
-    if (id === "credits") { bell(H(8), t + 0.9, 0.04); bell(H(12), t + 1.9, 0.03); }
+    if (id === "credits" && b === 0) { bell(H(8), t + 0.9, 0.04); bell(H(12), t + 1.9, 0.03); }
+    if (id === "credits" && b === 1) { bell(H(6), t + 0.8, 0.035); bell(H(9), t + 1.6, 0.03); bell(H(12), t + 2.4, 0.025); }
   }
 
   // ---- transitions, timed to the picture ----
@@ -128,7 +131,8 @@ export function createAudio() {
   }
   return {
     get ready() { return !!ac; }, get muted() { return muted; },
-    unlock(ctxOverride) { if (ac) { ac.resume && ac.resume(); return; } graph(ctxOverride || new (window.AudioContext || window.webkitAudioContext)()); },
+    unlock(ctxOverride) { if (ac) { ac.resume && ac.resume(); return; } offline = !!ctxOverride && typeof OfflineAudioContext !== "undefined" && ctxOverride instanceof OfflineAudioContext; graph(ctxOverride || new (window.AudioContext || window.webkitAudioContext)()); },
+    pump() { pumps.forEach((f) => f()); },
     mute(v = !muted) { muted = v; if (master) master.gain.setTargetAtTime(muted ? 0 : 0.85, now(), 0.05); },
     scene, beat, transition, param(k, v) { params[k] = v; }, stream() { return recDest ? recDest.stream : null; },
   };

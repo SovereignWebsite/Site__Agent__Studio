@@ -5,11 +5,13 @@ import * as THREE from "three";
 export function createView() {
   const cam = new THREE.OrthographicCamera(0, 1920, 0, 1080, -10, 10);
   const v = {
-    cam, x0: 0, y0: 0, x1: 1920, y1: 1080, w: 1920, h: 1080, scale: 1,
+    cam, x0: 0, y0: 0, x1: 1920, y1: 1080, w: 1920, h: 1080, scale: 1, DW: 1920, DH: 1080, portrait: false,
+    // A portrait screen (taller than wide) gets its own 1080x1920 design space, and scenes lay themselves out for it.
     resize(pw, ph) {
-      const s = Math.min(pw / 1920, ph / 1080);
+      v.portrait = ph > pw; v.DW = v.portrait ? 1080 : 1920; v.DH = v.portrait ? 1920 : 1080;
+      const s = Math.min(pw / v.DW, ph / v.DH);
       v.scale = s; v.w = pw / s; v.h = ph / s;
-      v.x0 = (1920 - v.w) / 2; v.y0 = (1080 - v.h) / 2; v.x1 = v.x0 + v.w; v.y1 = v.y0 + v.h;
+      v.x0 = (v.DW - v.w) / 2; v.y0 = (v.DH - v.h) / 2; v.x1 = v.x0 + v.w; v.y1 = v.y0 + v.h;
       Object.assign(cam, { left: v.x0, right: v.x1, top: v.y0, bottom: v.y1 });
       cam.updateProjectionMatrix();
     },

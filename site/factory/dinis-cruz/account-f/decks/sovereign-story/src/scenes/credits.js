@@ -1,4 +1,5 @@
-// Scene 7: credits. Quiet on purpose: a slow glow, the words, and where the idea came from.
+// Scene 7: credits, then the policy card. Quiet on purpose: a slow glow and the words, held long enough to read.
+// Portrait (1080x1920) has its own, larger layout and keeps the bottom fifth clear for a feed's own controls.
 import { NOISE } from "../glsl.js";
 import { ease } from "../util.js";
 
@@ -6,10 +7,11 @@ export default {
   id: "credits",
   title: "Credits",
   enterWith: "fade",
-  beats: [{ dur: 4, hold: 7 }],
-  notes: ["Inspired by The Last Boring Slide, made by Claude, prompted by Nikita (@fluxxrider) and shared publicly on X."],
+  beats: [{ dur: 4, hold: 9 }, { dur: 3, hold: 7 }],
+  notes: ["Inspired by The Last Boring Slide, made by Claude, prompted by Nikita (@fluxxrider) and shared publicly on X.",
+          "The agents that built this work under a written Agent Behaviour Policy, published on the site at /policy/."],
   create(ctx) {
-    const { gfx } = ctx;
+    const { gfx } = ctx, V = ctx.view.portrait;
     const hdr = gfx.target({ scale: 0.5 });
     const bg = gfx.pass(NOISE + `void main(){
         vec2 p=(vUv-.5)*vec2(uRes.x/uRes.y,1.); float t=uTime*.03;
@@ -18,23 +20,40 @@ export default {
         c+=vec3(1.,.75,.45)*exp(-length(p-vec2(.62,-.28))*3.2)*.10;
         o=vec4(c,1.); }`);
     const SERIF = "italic 400 {px}px 'Newsreader', Georgia, 'Times New Roman', serif";
-    const layer = ctx.overlay(), X = 140;
-    const lbl = layer.add(ctx.text("CREDITS", { x: X + 4, y: 250, size: 26, font: "mono", color: "#8fe0b4" }));
-    const a = layer.add(ctx.text("Inspired by", { x: X + 4, y: 320, size: 44, font: "text", color: "#c9d3ce" }));
-    const title = layer.add(ctx.text("The Last Boring Slide", { x: X - 4, y: 375, size: 132, font: SERIF, color: "#ffffff" }));
-    const b = layer.add(ctx.text("made by Claude, prompted by Nikita (@fluxxrider).", { x: X + 4, y: 545, size: 44, font: "text", color: "#f4f7f5" }));
-    const c = layer.add(ctx.text("This deck was made by Claude as cl-6.studio for Sovereign Website:\nlive WebGL in one HTML file, with no images and no video.",
-      { x: X + 4, y: 760, size: 30, font: "text", color: "#9aa8a1", leading: 1.5 }));
-    const url = layer.add(ctx.text("sovereignwebsite.org", { x: X + 4, y: 880, size: 30, font: "mono", color: "#8fe0b4" }));
+    const layer = ctx.overlay(), X = V ? 72 : 140;
+    // [text, x, y, size, font, colour, leading] for landscape and portrait
+    const L = V ? {
+      lbl: ["CREDITS", 0, 250, 32], a: ["Inspired by", 0, 320, 52], title: ["The Last\nBoring Slide", -4, 395, 150],
+      b: ["made by Claude, prompted by\nNikita (@fluxxrider).", 0, 760, 52],
+      c: ["This deck was made by Claude\nas cl-6.studio for Sovereign Website:\nlive WebGL in one HTML file,\nwith no images and no video.", 0, 960, 40],
+      url: ["sovereignwebsite.org", 0, 1240, 40],
+      p1: ["Built by AI agents\nworking under\na written Agent\nBehaviour Policy.", -2, 380, 96], p2: ["What they may and may not do\nis published on every site.", 0, 860, 46],
+      u1: ["sovereignwebsite.org", 0, 1060, 44], u2: ["riskmandate.ai", 0, 1130, 44],
+    } : {
+      lbl: ["CREDITS", 4, 250, 26], a: ["Inspired by", 4, 320, 44], title: ["The Last Boring Slide", -4, 375, 132],
+      b: ["made by Claude, prompted by Nikita (@fluxxrider).", 4, 545, 44],
+      c: ["This deck was made by Claude as cl-6.studio for Sovereign Website:\nlive WebGL in one HTML file, with no images and no video.", 4, 760, 30],
+      url: ["sovereignwebsite.org", 4, 880, 30],
+      p1: ["Built by AI agents working under\na written Agent Behaviour Policy.", -2, 300, 96], p2: ["What they may and may not do is published on every site.", 4, 560, 40],
+      u1: ["sovereignwebsite.org", 4, 760, 34], u2: ["riskmandate.ai", 520, 760, 34],
+    };
+    const T = (k, font, color, leading = 1.12) => { const [s, dx, y, size] = L[k]; return layer.add(ctx.text(s, { x: X + dx, y, size, font, color, leading })); };
+    const lbl = T("lbl", "mono", "#8fe0b4"), a = T("a", "text", "#c9d3ce"), title = T("title", SERIF, "#ffffff", 1.0);
+    const b = T("b", "text", "#f4f7f5", 1.3), c = T("c", "text", "#9aa8a1", 1.45), url = T("url", "mono", "#8fe0b4");
+    const p1 = T("p1", "display", "#f4f7f5", 1.08), p2 = T("p2", "text", "#c9d3ce", 1.35), u1 = T("u1", "mono", "#8fe0b4"), u2 = T("u2", "mono", "#8fe0b4");
     return {
       update(s) {
         bg.u.uTime.value = s.t;
-        lbl.show(s.k(0, 0.2, 1.0, ease.lin), { style: "fade" });
-        a.show(s.k(0, 0.4, 1.4, ease.lin), { style: "fade" });
-        title.show(s.k(0, 0.8, 2.6, ease.lin), { stagger: 0.35 });
-        b.show(s.k(0, 1.8, 3.0, ease.lin), { style: "fade", stagger: 0.4 });
-        c.show(s.k(0, 2.8, 3.8, ease.lin), { style: "fade" });
-        url.show(s.k(0, 3.2, 4.0, ease.lin), { style: "fade" });
+        const out = s.k(1, 0, 0.9, ease.lin);                            // credits leave as the policy card arrives
+        lbl.show(s.k(0, 0.2, 1.0, ease.lin), { style: "fade", q: out });
+        a.show(s.k(0, 0.4, 1.4, ease.lin), { style: "fade", q: out });
+        title.show(s.k(0, 0.8, 2.6, ease.lin), { stagger: 0.35, q: out });
+        b.show(s.k(0, 1.8, 3.0, ease.lin), { style: "fade", stagger: 0.4, q: out });
+        c.show(s.k(0, 2.8, 3.8, ease.lin), { style: "fade", q: out });
+        url.show(s.k(0, 3.2, 4.0, ease.lin), { style: "fade", q: out });
+        p1.show(s.k(1, 0.8, 2.4, ease.lin), { stagger: 0.35 });
+        p2.show(s.k(1, 1.6, 2.6, ease.lin), { style: "fade" });
+        u1.show(s.k(1, 2.2, 3.0, ease.lin), { style: "fade" }); u2.show(s.k(1, 2.4, 3.0, ease.lin), { style: "fade" });
       },
       render(out, s) {
         bg.render(hdr);

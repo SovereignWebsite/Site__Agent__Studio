@@ -57,9 +57,9 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
   const A = gfx.target(), B = gfx.target(), OUT = gfx.target();
   // Live snapshots: the last frame of each scene, kept small, for recap scenes (the original's "You are here").
   const snapshot = (r) => { const sn = ctx.snapshots; sn[r.def.id] = sn[r.def.id] || gfx.target({ w: 768, h: 432, type: THREE.UnsignedByteType }); gfx.shrink(A, sn[r.def.id]); };
-  let cur = -1, trans = null, auto = false, black = 0, blackT = 0, time = 0;
+  let cur = -1, trans = null, auto = false, black = 0, blackT = 0, time = 0, film = null;   // film: deterministic recording state
   const listeners = {};
-  const emit = (e, ...a) => (listeners[e] || []).forEach((f) => f(...a));
+  const emit = (e, ...a) => { if (film && (e === "trans" || e === "move")) film.log.push(e === "trans" ? { t: time, kind: "trans", ...a[0] } : { t: time, kind: "move", ...deck.info() }); (listeners[e] || []).forEach((f) => f(...a)); };
 
   const deck = {
     ctx, scenes, runners,
@@ -71,6 +71,7 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
       const r = runners[cur];
       if (r.s.beat < r.s.n - 1) { r.s.beat++; r.s.dir = 1; emit("move"); }
       else if (cur < runners.length - 1) deck.go(cur + 1, { with: scenes[cur + 1].enterWith });
+      else if (film) { film.done = true; blackT = 1; }   // filming: end on black instead of looping
       else if (auto) deck.jump(0); // auto-play loops
     },
     back() {
@@ -174,8 +175,20 @@ export async function createDeck({ canvas, scenes, transitions, headless = false
     if (!headless) { let last = performance.now(); const loop = (now) => { requestAnimationFrame(loop); step(Math.min(0.05, (now - last) / 1000)); last = now; draw(); }; requestAnimationFrame(loop); }
   };
 
-  // ---- deterministic test hooks (used by tools/shoot.py) ----
+  // ---- deterministic test hooks (used by shoot.cjs and film.cjs) ----
   deck.test = {
+    // Film: play the whole deck on auto-play from the start, one fixed step per frame, logging every scene, beat
+    // and transition (and the split's divider) so the sound can be rendered offline to exactly the same timeline.
+    async filmStart() {
+      film = { log: [], done: false }; trans = null; time = 0; black = blackT = 0; auto = true; cur = -1;
+      for (const r of runners) { await r.init(); r.reset(0); }
+      await deck.go(0);
+    },
+    filmStep(dt) {
+      step(dt); if (ctx.params.mix !== undefined && runners[cur] && runners[cur].def.id === "split") film.log.push({ t: time, kind: "mix", v: ctx.params.mix });
+      draw(); return { t: time, done: film.done && black > 0.995, scene: runners[cur] ? runners[cur].def.id : null };
+    },
+    filmLog() { return film ? film.log : []; },
     async seek(id, beat, seconds) {
       const i = scenes.findIndex((s) => s.id === id), r = runners[i];
       await r.init(); trans = null; cur = i; r.reset(0); r.inst.enter && r.inst.enter(r.s);
