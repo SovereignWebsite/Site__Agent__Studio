@@ -1,0 +1,38 @@
+{
+ "about": "Music brief for the live WebGL deck 'Signed' (Sovereign Website, release 2), by cl-6.studio@dinis, 27 Nov 2026. The human-readable version is brief.md and index.html beside this file.",
+ "deck": "https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/decks/signed/",
+ "vertical_player": "https://studio.agents.sovereignweb.site/factory/dinis-cruz/account-f/decks/signed/?size=1080x1920",
+ "length_s": 98.0,
+ "key": "D (the deck's own sound effects are tuned to the harmonic series on D: D, A and F sharp)",
+ "deliverable": {"format": "WAV, 48 kHz, 24-bit, stereo", "length_s": 98.0, "starts_at_s": 0, "peak_dbfs_max": -3, "loudness_lufs_integrated_target": -20, "vocals": false},
+ "sections": [
+  {"from": 0.0, "to": 5.9, "scene": "cover", "on_screen": "Signed. This website, told from its own history. sovereignwebsite.ai", "music": "Quiet and expectant: one soft pad and a short motif that can return at the end."},
+  {"from": 5.9, "to": 22.6, "scene": "folder", "on_screen": "This website is a folder. 861 files, served as they are.", "music": "Gentle build: small plucked or mallet figures as the files fly in and pack into a block; a lift at 13.5 when they sort into stacks."},
+  {"from": 22.6, "to": 40.8, "scene": "history", "on_screen": "Every change is kept. Every agent signs its work.", "music": "Warmer, with forward motion: a steady pulse like a timeline being read; a second lift at 30.7 when threads of light join each commit to its agent's key."},
+  {"from": 40.8, "to": 58.5, "scene": "policy", "on_screen": "Five things no agent here may do. Anything the policy does not allow is not allowed.", "music": "Restrained tension, lower register, flowing like a current; thin out from 56 and leave near silence by 58.3."},
+  {"from": 58.5, "to": 75.4, "scene": "end", "on_screen": "A plain white slide: Your website. Who holds the keys? You do.", "music": "Almost nothing: let the slam, the typing and the selection sounds carry it; a soft, warm resolution entering at 68.2 with 'You do.'"},
+  {"from": 75.4, "to": 98.0, "scene": "credits", "on_screen": "Credits and sources, then: Signed. Your website, your history, your keys.", "music": "Resolved and calm, the fullest the piece gets; bring back the opening motif at 89.5 for the closing card; fade to silence by 98.0."}
+ ],
+ "sync_points": [
+  {"t": 5.9, "what": "iris transition into the folder scene (1.6 s)", "music": "a gentle swell is welcome"},
+  {"t": 13.5, "what": "files sort into stacks", "music": "lift"},
+  {"t": 24.57, "what": "the line transition snaps into the timeline", "music": "accent allowed"},
+  {"t": 23.0, "until": 27.2, "what": "one small tick per commit as the timeline fills (deck sound)", "music": "keep the 2 to 5 kHz range light"},
+  {"t": 30.7, "what": "threads join commits to keys", "music": "lift"},
+  {"t": 42.5, "what": "daybreak transition at its brightest", "music": "open up, then settle"},
+  {"t": 59.24, "what": "SLAM impact (deck sound: slam and boom)", "music": "leave silence; no music hit here"},
+  {"t": 62.7, "until": 64.6, "what": "typing, then the selection pop (deck sound)", "music": "leave space"},
+  {"t": 68.2, "what": "'You do.'", "music": "soft resolution enters"},
+  {"t": 76.97, "what": "TEAR: the halves snap apart (deck sound)", "music": "leave space"},
+  {"t": 89.5, "what": "closing card", "music": "opening motif returns"},
+  {"t": 98.0, "what": "end", "music": "silence"}
+ ],
+ "rules": [
+  "Instrumental only: no voice, no lyrics.",
+  "Original music: no imitation of a named artist or a recognisable existing piece.",
+  "It sits under the deck's own sound effects, which stay louder: hits are 15 to 20 dB above the bed.",
+  "Say which tool and model made it, the prompt(s) used, and the licence or terms under which it may be used commercially on Instagram, YouTube and LinkedIn, so the credits can say so truthfully."
+ ],
+ "return_to": "cl-6.studio@dinis, through Dinis Cruz: an SG/Send link to the WAV, plus a text note with the tool, model, prompts and licence terms.",
+ "credit_line_planned": "Music: <tool and model>, made by <agent> for Sovereign Website."
+}
