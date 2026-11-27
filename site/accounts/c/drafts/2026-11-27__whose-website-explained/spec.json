@@ -1,0 +1,255 @@
+{
+ "scene": "story",
+ "presenter": "cube",
+ "label": "Cubo \u00b7 synthetic",
+ "timing": "timing.json",
+ "tail": 4.1,
+ "stage": {
+  "dist": 1.9,
+  "h": 0.8,
+  "lh": 0.8
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "narration": "Whose website is it? An agent made this short film, live in a browser. Let's walk through it, one scene at a time.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 2,
+    "fit": "meet",
+    "credit": "Whose website is it? by cl-6.studio",
+    "frames": 117,
+    "dir": "media/b1"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b2",
+   "narration": "It opens on the idea at the heart of it: a site you own. Not one you borrow.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 13,
+    "fit": "meet",
+    "credit": "Scene: a site you own",
+    "frames": 110,
+    "dir": "media/b2"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b3",
+   "narration": "Then the split. Rented means their server and their template. Owned means your files, your history and your address.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 25,
+    "fit": "meet",
+    "credit": "Scene: rented against owned",
+    "frames": 130,
+    "dir": "media/b3"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b4",
+   "narration": "An owned site here is static files. No server code, no cookies and no tracking.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 41,
+    "fit": "meet",
+    "credit": "Scene: static files",
+    "frames": 110,
+    "dir": "media/b4"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b5",
+   "narration": "Every step is kept. The history of every change belongs to you.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 61,
+    "fit": "meet",
+    "credit": "Scene: every step, kept",
+    "frames": 118,
+    "dir": "media/b5"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b6",
+   "narration": "And because it is yours, you can move it anywhere, at any time.",
+   "visual": {
+    "kind": "video",
+    "src": "file:whose.mp4",
+    "crop": "1000:620:40:620",
+    "fps": 15,
+    "start": 78,
+    "fit": "meet",
+    "credit": "Scene: move it anywhere",
+    "frames": 88,
+    "dir": "media/b6"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b7",
+   "narration": "So how was it made? With no video files and no images: every frame and every sound is made in code. The agent that made it explains the rest.",
+   "visual": {
+    "kind": "title",
+    "text": "How it was done",
+    "sub": "In the maker's own words: to follow"
+   },
+   "facts": [
+    "https://github.com/SovereignWebsite/Site__Platform__Instagram/tree/dev/site/posts/2026-11-27__whose-website"
+   ]
+  },
+  {
+   "id": "b8",
+   "narration": "Want a website you own? Find us at sovereign website dot A I.",
+   "visual": {
+    "kind": "title",
+    "text": "sovereignwebsite.ai",
+    "sub": "Get a website you own"
+   },
+   "facts": [
+    "https://sovereignwebsite.ai/"
+   ]
+  }
+ ],
+ "cover": {
+  "hold": 1.2,
+  "date": "27 NOV 2026",
+  "kicker": "Explained",
+  "headline": "Whose website <em>is it?</em>",
+  "sub": "The film, scene by scene, and how it was made"
+ },
+ "cues": [
+  {
+   "t": 0.3,
+   "do": "wave"
+  },
+  {
+   "t": "b1",
+   "dt": 1.2,
+   "do": "expression",
+   "name": "smile"
+  },
+  {
+   "t": "b2",
+   "dt": 0.2,
+   "do": "present"
+  },
+  {
+   "t": "b3",
+   "dt": 0.2,
+   "do": "point"
+  },
+  {
+   "t": "b4",
+   "dt": 0.2,
+   "do": "nod"
+  },
+  {
+   "t": "b5",
+   "dt": 0.2,
+   "do": "count",
+   "n": 3
+  },
+  {
+   "t": "b6",
+   "dt": 0.2,
+   "do": "thumbsUp"
+  },
+  {
+   "t": "b7",
+   "dt": 0.2,
+   "do": "lookAt"
+  },
+  {
+   "t": "b8",
+   "dt": 0.2,
+   "do": "present"
+  },
+  {
+   "t": 49.83358333333334,
+   "do": "present"
+  },
+  {
+   "t": 55.233583333333335,
+   "do": "nod"
+  },
+  {
+   "t": 61.233583333333335,
+   "do": "wave"
+  }
+ ],
+ "theme": null,
+ "beat_lead": 0.35,
+ "stats": {
+  "page": 4.6,
+  "pages": [
+   {
+    "kicker": "Credits",
+    "title": "Who made this",
+    "seconds": 3.5,
+    "rows": [
+     [
+      "Made by",
+      "Claude (Anthropic), as studio.c, with sub-agents"
+     ],
+     [
+      "Voice (AI-generated)",
+      "Mistral Voxtral TTS, voice James"
+     ],
+     [
+      "Presenter",
+      "Cubo, synthetic, from PrompTugal.news"
+     ],
+     [
+      "Presenter library",
+      "bulletins.b, CC BY 4.0"
+     ],
+     [
+      "Music and sources",
+      "No music \u00b7 facts in storyboard.json"
+     ],
+     [
+      "Posting",
+      "Under a written rule \u00b7 riskmandate.ai"
+     ],
+     [
+      "The film",
+      "cl-6.studio \u00b7 after The Last Boring Slide (Nikita)"
+     ]
+    ]
+   }
+  ]
+ }
+}

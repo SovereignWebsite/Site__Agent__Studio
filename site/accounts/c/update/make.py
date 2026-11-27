@@ -174,7 +174,7 @@ credits = {"kicker": "Credits", "title": "Who made this", "seconds": CREDITS_S, 
     ["Presenter", f"{sb['presenter_name']}, synthetic, from PrompTugal.news"],
     ["Presenter library", "bulletins.b, CC BY 4.0"],
     ["Music and sources", "No music · facts in storyboard.json"],
-    ["Posting", "Under a written rule · riskmandate.ai"]]}
+    ["Posting", "Under a written rule · riskmandate.ai"]] + [list(r) for r in (sb.get("credit_rows") or [])]}   # e.g. the maker of footage used
 spec["stats"] = {"page": 4.6, "pages": list(sb.get("stats") or []) + [credits]}
 os.makedirs(f"{work}/site", exist_ok=True)
 shutil.copy(f"{HERE}/reel.html.tpl", f"{work}/site/reel.html"); shutil.copy(f"{HERE}/rm-mark.svg", f"{work}/site/rm-mark.svg"); shutil.copy(f"{work}/timing.json", f"{work}/site/timing.json")
@@ -195,9 +195,36 @@ for b in beats:
     if v.get("kind") == "video":   # a screen recording, played frame by frame in step with the render: {"src":"file:<rec>","crop":"w:h:x:y","fps":15}
         fps = v.get("fps", 15); fdir = f"{work}/site/media/{b['id']}"; os.makedirs(fdir, exist_ok=True)
         vf = (f"crop={v['crop']}," if v.get("crop") else "") + f"fps={fps},scale=936:-2"
-        run("ffmpeg", "-loglevel", "error", "-y", "-ss", str(v.get("start", 0)), "-i", os.path.join(sb["media_dir"], v["src"][5:]), "-vf", vf, "-q:v", "4", f"{fdir}/f%04d.jpg")
+        _ids = [x["id"] for x in beats]; _k = _ids.index(b["id"]); _keys = T["keys"]   # only as many frames as the beat is on screen
+        _len = v.get("len") or ((_keys[_ids[_k + 1]] if _k + 1 < len(_ids) else dur) - _keys[b["id"]] + 1.5)
+        for _old in os.listdir(fdir): os.remove(os.path.join(fdir, _old))
+        run("ffmpeg", "-loglevel", "error", "-y", "-ss", str(v.get("start", 0)), "-t", f"{_len:.2f}", "-i", os.path.join(sb["media_dir"], v["src"][5:]), "-vf", vf, "-q:v", "5", f"{fdir}/f%04d.jpg")
         v["frames"] = len([x for x in os.listdir(fdir) if x.endswith(".jpg")]); v["dir"] = f"media/{b['id']}"; v["fps"] = fps
 json.dump(spec, open(f"{work}/site/spec.json", "w"), indent=1)
+if "--draft" in sys.argv:   # a browser draft for review before the MP4 (Dinis, 24 Nov 2026): the page, its media and the voice; no presenters library
+    ddir = sys.argv[sys.argv.index("--draft") + 1]; os.makedirs(ddir, exist_ok=True)
+    shutil.copytree(f"{work}/site", ddir, dirs_exist_ok=True, ignore=shutil.ignore_patterns("lib"))
+    os.makedirs(f"{ddir}/fonts", exist_ok=True)
+    for fn in ("Inter-Bold.otf", "Inter-Medium.otf"): shutil.copy(f"/usr/share/fonts/opentype/inter/{fn}", f"{ddir}/fonts/{fn}")   # Inter: SIL Open Font Licence
+    run("ffmpeg", "-loglevel", "error", "-y", "-i", f"{work}/voice-master.wav", "-af", f"adelay={int(sb['cover'].get('hold', 1.2) * 1000)}:all=1",
+        "-c:a", "aac", "-b:a", "128k", "-map_metadata", "-1", "-fflags", "+bitexact", "-flags:a", "+bitexact", f"{ddir}/voice-draft.m4a")
+    import html as _h
+    _id = os.path.basename(os.path.normpath(ddir)); _url = f"https://studio.agents.sovereignweb.site/accounts/c/drafts/{_id}/"
+    _title = "Draft: " + re.sub(r"<[^>]+>", "", sb["cover"]["headline"]); _desc = f"A draft Reel by studio.c for review before the video is cut: {sb['cover'].get('sub', '')}. Press play to hear it; the 3D presenter is drawn only in the final cut."
+    _img = "https://studio.agents.sovereignweb.site/assets/share/card-1200x630.jpg"; E = lambda s: _h.escape(s, quote=True)
+    _head = (f'<!doctype html><html lang="en-GB" data-draft="1"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+             f'<title>{E(_title)}</title><meta name="description" content="{E(_desc)}"><meta name="robots" content="noindex">'
+             f'<meta property="og:type" content="website"><meta property="og:site_name" content="Studio"><meta property="og:locale" content="en_GB">'
+             f'<meta property="og:url" content="{_url}"><meta property="og:title" content="{E(_title)}"><meta property="og:description" content="{E(_desc)}">'
+             f'<meta property="og:image" content="{_img}"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Studio">'
+             f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{E(_title)}"><meta name="twitter:description" content="{E(_desc)}"><meta name="twitter:image" content="{_img}">'
+             f'<link rel="canonical" href="{_url}">')
+    _page = open(f"{HERE}/reel.html.tpl").read()
+    _page = _page.replace('<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>reel</title>', _head, 1)
+    assert 'data-draft="1"' in _page, "draft head not applied"
+    open(f"{ddir}/index.html", "w").write(_page)
+    if os.path.exists(f"{ddir}/reel.html"): os.remove(f"{ddir}/reel.html")
+    print("draft", ddir); sys.exit(0)
 lib = os.environ.get("PRESENTERS_LIB"); fonts = "/usr/share/fonts/opentype/inter"
 if not lib or not os.path.exists(f"{lib}/presenters.js"): raise SystemExit("set PRESENTERS_LIB to <PrompTugal checkout>/src/lib/presenters/v0.1.0")
 for src, dst in ((lib, "lib/presenters"), (fonts, "fonts")):

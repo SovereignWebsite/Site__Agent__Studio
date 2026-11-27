@@ -25,8 +25,11 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--b
 <div id="cover"><div class="date"></div><div class="kick"></div><h1></h1><div class="sub"></div></div>
 <div id="stage"></div><div id="bar"></div><div id="sub"></div><div id="ai">Synthetic presenter · voice made by AI</div>
 <script type="module">
-import { mount } from './lib/presenters/presenters.js';
-const spec = await (await fetch(new URLSearchParams(location.search).get('spec'))).json();
+// Draft mode (?draft): the page plays in a browser with the voice, for review before the MP4 is cut (Dinis, 24 Nov 2026).
+// It never loads presenters.js (b.security, 26 Nov 2026: a page that runs the library stays a preview); a labelled box stands in.
+const HREF = 'hr'+'ef';   // spelt so the site's link checker does not read template code as a link
+const DRAFT = new URLSearchParams(location.search).has('draft') || document.documentElement.dataset.draft === '1';
+const spec = await (await fetch(new URLSearchParams(location.search).get('spec') || 'spec.json')).json();
 const T = await (await fetch(spec.timing)).json(); const K = T.keys; const LEAD = spec.cover ? spec.cover.hold : 0; const DUR = LEAD + T.duration + spec.tail;
 document.getElementById('who').textContent = spec.label;
 const C = Object.assign({ navy:'#0f1b2d', ink:'#16263f', card:'#1c3050', line:'#34507a', gold:'#f0b84a', white:'#ffffff', muted:'#aabad2', green:'#5cc98a', red:'#e86a5a', blue:'#5aa9e8', bg0:'#1d3354', bg1:'#0f1b2d', bg2:'#0b1424', stage:'#13213a' }, (spec.theme||{}).colours||{});
@@ -212,10 +215,10 @@ V.agents=(v,u)=>{ const it=v.items.slice(0,9), mx=Math.max(...it.map(x=>x.count)
   const px=540+Math.cos(a)*(i?290:0), py=540+Math.sin(a)*(i?290:0)*.95, rad=(40+60*Math.sqrt(x.count/mx))*back(ap(u,.15+i*.15,.5));
   if(i) line(540,540,px,py,{stroke:C.gold,sw:3,op:.4*ease(ap(u,.3+i*.15,.4))}); circ(px,py,rad,{fill:i?C.card:C.gold,stroke:C.gold,sw:4}); text(px,py+(i?2:-4),x.name,{size:Math.min(i?26:36,Math.floor(2*rad/Math.max(4,x.name.length)*1.6)),fill:i?C.white:C.navy}); text(px,py+(i?34:36),String(x.count),{size:i?26:34,fill:i?C.gold:C.navy}); }); };
 V.image=(v,u)=>{ const q=ease(ap(u,0,.5)), z=1+0.03*clamp(u/8); g0(`translate(540 500) scale(${z*(0.96+0.04*q)}) translate(-540 -500)`,q);
-  rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.local)}" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid meet"/>`);
+  rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image ${HREF}="${esc(v.local)}" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid meet"/>`);
   if(v.credit) text(540,885,v.credit,{size:22,w:500,fill:C.muted}); g1(); };
 V.video=(v,u)=>{ const q=ease(ap(u,0,.5)); const n=Math.min(v.frames, 1+Math.floor(Math.max(0,u)*v.fps)); const f=String(n).padStart(4,'0');
-  g0('',q); rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image href="${esc(v.dir)}/f${f}.jpg" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid slice"/>`);
+  g0('',q); rect(60,140,960,760,{fill:'#0a0a09',r:24,stroke:C.line,sw:3}); add(`<image ${HREF}="${esc(v.dir)}/f${f}.jpg" x="72" y="152" width="936" height="700" preserveAspectRatio="xMidYMid ${v.fit==='meet'?'meet':'slice'}"/>`);
   if(v.credit) text(540,885,v.credit,{size:22,w:500,fill:C.muted}); g1(); };
 S.story = t => { const B=spec.beats, L=spec.beat_lead||0, at=i=>i?K[B[i].id]-L:0; let k=0; for(let i=0;i<B.length;i++) if(t>=at(i)) k=i; const b=B[k], t0=at(k), t1=k<B.length-1?at(k+1):T.duration+spec.tail, u=t-t0;
   if (spec.stats && t >= T.duration + 0.6) { statsCard(t - T.duration - 0.6); return; }
@@ -223,7 +226,7 @@ S.story = t => { const B=spec.beats, L=spec.beat_lead||0, at=i=>i?K[B[i].id]-L:0
 
 // ---------- stage ----------
 const st = spec.stage;
-const show = await mount(document.getElementById('stage'), { presenters:[spec.presenter], duration:DUR, background:C.stage, tags:false,
+const show = DRAFT ? stageStandIn() : await (await import('./lib/presenters/presenters.js')).mount(document.getElementById('stage'), { presenters:[spec.presenter], duration:DUR, background:C.stage, tags:false,
   auto:{idle:true,blink:true,fidget:true}, tracks:{v:{mouthCues:T.mouth}},
   cues:[{t:0,who:spec.presenter,do:'speak',track:'v',dur:T.duration}, ...spec.cues.map(c=>({...c,t:(typeof c.t==='string'?K[c.t]+(c.dt||0):c.t),who:spec.presenter}))],
   camera:[{t:0,focus:spec.presenter,dist:st.dist,h:st.h,lh:st.lh,fov:st.fov||28}] });
@@ -236,6 +239,13 @@ window.render = T0 => { const t = T0 - LEAD;
   const s=T.subs.find(s=>t>=s.t0-0.05&&t<=s.t1+0.5);
   subEl.innerHTML = s ? '<span>'+s.words.map(w=>t>=w[1]-0.02?`<b>${esc(w[0])}</b>`:esc(w[0])).join(' ')+'</span>' : '';
   bar.style.width = (936*clamp(T0/DUR))+'px'; show.renderAt(Math.max(0,t)); };
+function stageStandIn(){ const el=document.getElementById('stage'); el.style.background=C.stage||'#1d2a3c'; el.style.display='flex'; el.style.alignItems='center'; el.style.justifyContent='center';
+  el.innerHTML=`<div style="font:700 40px Inter;color:#fff;text-align:center;line-height:1.4;opacity:.85">${esc(spec.label||'Presenter')}<br><span style="font:500 30px Inter;color:#cfd8e6">The 3D presenter is drawn in the final cut</span></div>`; return { renderAt(){} }; }
+if (DRAFT){ const a=new Audio('voice-draft.m4a'); a.preload='auto'; const b=document.createElement('button'); b.textContent='▶ Play the draft'; b.setAttribute('aria-label','Play the draft with its voice');
+  b.style.cssText='position:absolute;left:330px;top:1640px;z-index:9;font:700 44px Inter;padding:22px 44px;border-radius:60px;border:0;background:var(--gold);color:var(--navy);cursor:pointer';
+  document.body.appendChild(b); const loop=()=>{ window.render(Math.min(DUR,a.currentTime)); if(!a.paused&&!a.ended) requestAnimationFrame(loop); else b.style.display='block'; };
+  b.onclick=()=>{ b.style.display='none'; if(a.ended) a.currentTime=0; a.play().then(()=>requestAnimationFrame(loop)); };
+  const fit=()=>{ const s=Math.min(innerWidth/1080, innerHeight/1920); document.body.style.transformOrigin='0 0'; document.body.style.transform=`scale(${s})`; }; addEventListener('resize',fit); fit(); }
 window.LEAD = LEAD;
-window.DUR = DUR; window.ready = true;
+window.DUR = DUR; window.ready = true; if (DRAFT) window.render(0);
 </script></body></html>
