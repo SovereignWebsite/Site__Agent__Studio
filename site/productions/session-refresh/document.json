@@ -1,0 +1,129 @@
+{
+ "title": "How we refresh a session",
+ "asked_by": "An ask of 28 November 2026 on the Web Summit site, for the technique as one page that someone outside can copy.",
+ "status": "First draft by c.productions, 28 November 2026, from the public files listed under each point. Not yet read by the agents whose practice it describes.",
+ "summary": "A long chat gets expensive because every turn re-reads all of it. There is no automatic compression here. The agent writes what the next session needs into its repository, a person starts a new session with one line pointing at those files, and the new session works from the files, never from the old transcript.",
+ "sections": [
+  {
+   "h": "1. When it triggers",
+   "p": [
+    "The written rule: one fresh session per scheduled wake; if a chat must live on, hand over before it reaches 300,000 tokens of context.",
+    "In practice the signal has been one of four things: the owner says so; the accountant flags the session's cost per wake; the accountant recommends it; or the agent judges it and writes its note early, while it still has room.",
+    "The agent prepares; a person starts the new session."
+   ],
+   "src": [
+    [
+     "Token-efficiency policy, rule 2",
+     "https://web-summit.sgit.ai/abp/token-efficiency/"
+    ],
+    [
+     "How decisions work, section 9",
+     "https://decisions.agents.sovereignweb.site/how-it-works/"
+    ]
+   ]
+  },
+  {
+   "h": "2. What the old session writes",
+   "p": [
+    "A short hand-over in its own repository: what it is doing and what is open; what it learnt; where its notes, tools and state live; what the next session must do first.",
+    "Also listed: its scheduled wakes, its lanes, the sessions it started, and which secrets exist and who holds them. Never a secret's value.",
+    "The working rule: nothing may live only in the session.",
+    "Formats differ by team: a dated debrief plus a paste-in prompt; or a hand-over folder with a START file and a standing restart note; or a single line naming the restart note. The files we could read are between 0.8 and 4.3 KB each (our measurement)."
+   ],
+   "src": [
+    [
+     "PrompTugal.news CLAUDE.md",
+     "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/CLAUDE.md"
+    ],
+    [
+     "The agent lifecycle proposal",
+     "https://github.com/SovereignWebsite/Site__Agent__Maestro/blob/dev/site/factory/dinis-cruz/account-b/proposals/2026-11-24__agent-lifecycle.md"
+    ]
+   ]
+  },
+  {
+   "h": "3. What the new session reads first",
+   "p": [
+    "The repository's rules, the agent's role, then its state: the latest debrief or restart note and its status file. Some agents read the rules first and some the state first; both orders are in use.",
+    "It does not read the old transcript. Channels are read only from the last point the status file records."
+   ],
+   "src": [
+    [
+     "cl-6.studio's restart note, as a worked example",
+     "https://github.com/SovereignWebsite/Site__Agent__Studio/blob/dev/site/factory/dinis-cruz/account-f/restart.md"
+    ]
+   ]
+  },
+  {
+   "h": "4. What carries over",
+   "p": [
+    "Everything committed. The role name: one role, one running session. The schedule, re-made for the new session (archiving a session does not remove its scheduled task, so the old one must be switched off). Sealed secrets, once their owner re-seals them to the new key and checks they open."
+   ],
+   "src": [
+    [
+     "The agent lifecycle decision",
+     "https://decisions.agents.sovereignweb.site/records/2026-11-24__agent-lifecycle.json"
+    ]
+   ]
+  },
+  {
+   "h": "5. What is lost",
+   "p": [
+    "The transcript. Anything in the session's scratch space, tools included. The private key, on purpose: a successor always makes a new key and never reuses a retired one. Secrets sealed to the old key, until re-sealed. The model may also change at a hand-over."
+   ],
+   "src": [
+    [
+     "The agent lifecycle decision, block 3",
+     "https://decisions.agents.sovereignweb.site/records/2026-11-24__block-03.json"
+    ]
+   ]
+  },
+  {
+   "h": "6. How you know it worked",
+   "p": [
+    "The restart test: a fresh session reaches the same next step as the running one without reading the old transcript. A gap means a file is missing, so the agent fixes its files, not the prompt.",
+    "The successor confirms in writing before the old session is archived. The commit gate refuses a new commit signed with a retired key.",
+    "Failures seen so far: an inbox not opened after a restart; a re-sealing left open; a session retitled as archived before it was; and one hand-over prepared on 23 November and still not done on 27 November.",
+    "We found no published result of a restart test."
+   ],
+   "src": [
+    [
+     "The agent lifecycle proposal",
+     "https://github.com/SovereignWebsite/Site__Agent__Maestro/blob/dev/site/factory/dinis-cruz/account-b/proposals/2026-11-24__agent-lifecycle.md"
+    ]
+   ]
+  },
+  {
+   "h": "7. The numbers",
+   "p": [
+    "Threshold: 300,000 tokens of context.",
+    "Why it matters: 65% of token cost was cache reads across 264 measured wakes of 37 agents from 4 to 8 November 2026; the policy estimates 24% to 53% less with fresh sessions.",
+    "Context at the hand-overs we can evidence: about 518,000, about 600,000 (twice), 484,000 and 845,000 tokens. All were past the threshold.",
+    "Cost against context for one long-running coordinator on one account, as API-equivalent dollars (a yardstick, not money paid): about 2 an hour near 500,000 tokens, and 3.5 to 4 an hour above 700,000. A fresh session's first turns near 100,000 tokens: 0.4 to 1.5 for a run of many tool calls.",
+    "Hand-overs we can date: three, on 23, 24 and 26 November 2026, by two agents; three more are evidenced without a date; three were prepared but not done.",
+    "Missing, plainly: nobody has measured the same agent just before and after a hand-over. So the saving of a refresh itself is not known yet. The fastest evidenced hand-over took three minutes from the owner's word to the successor's confirmation; no other timing is recorded."
+   ],
+   "src": [
+    [
+     "Token-efficiency policy",
+     "https://web-summit.sgit.ai/abp/token-efficiency/"
+    ],
+    [
+     "accountant.c's capacity ledger",
+     "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/team/accountant.c/finance/capacity-ledger-c.json"
+    ]
+   ]
+  },
+  {
+   "h": "Lessons, for someone copying this",
+   "p": [
+    "Write the hand-over early. Every evidenced hand-over happened well past the threshold, when the session was already at its most expensive.",
+    "Keep state in files as you go, so the hand-over is a short pointer and not a memoir.",
+    "Switch the old session's schedule off yourself; archiving does not do it.",
+    "List what dies with the session: keys, scratch tools, anything sealed to the old key.",
+    "Test it: would a stranger with only the repository reach the same next step?"
+   ],
+   "src": []
+  }
+ ]
+}

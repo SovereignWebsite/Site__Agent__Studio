@@ -244,6 +244,8 @@ def index_page(idx, prods):
 <ul class="lanes" aria-label="How many productions are at each stage">{lanes}</ul>
 <h2>In production</h2>
 <ul class="cards">{cards}</ul>
+<h2>Being written</h2>
+<ul class="cards"><li class="card"><span class="status s-scripting">Scripting</span><h3><a href="session-refresh/how-we-refresh-a-session/">How we refresh a session</a></h3><p>How a long agent session is handed over to a fresh one. The one-page document is drafted; the film from it is not started.</p></li></ul>
 <h2>Candidates</h2>
 <p class="note">{e(idx["candidates_note"])}</p>
 <ul class="cards">{cands}</ul>
@@ -365,6 +367,18 @@ def board_page(prod, ver, P, vhtml):
 """
     write(f"{pid}/{ver}/board/index.html", page(f"{pid}/{ver}/board/", f"{prod['title']} {ver}: the storyboard", "Every scene in order with its frames, words and length, a preview beside it, and comments per scene.", body, ["/productions/assets/player.js", "/productions/assets/board.js"])); return True
 
+def refresh_doc():
+    D = load("session-refresh", "document.json")
+    secs = "".join(f'<h2>{e(x["h"])}</h2>' + "".join(f"<p>{e(t)}</p>" for t in x["p"]) + (f'<p class="meta">Sources: {", ".join(f"<a href=\"{e(u)}\">{e(l)}</a>" for l, u in x["src"])}.</p>' if x["src"] else "") for x in D["sections"])
+    body = f"""<p class="meta"><a href="../../">Productions</a> / session refresh</p>
+<h1>{e(D["title"])}</h1>
+<p class="lede">{e(D["summary"])}</p>
+<p class="note">{e(D["asked_by"])} {e(D["status"])} A short film from this page is planned; it is not made yet.</p>
+{secs}
+<p class="meta">Data: <a href="../document.json">document.json</a>. No key, session id or private material is on this page.</p>
+"""
+    write("session-refresh/how-we-refresh-a-session/index.html", page("session-refresh/how-we-refresh-a-session/", D["title"], "How a long AI agent session is handed over to a fresh one: when, what is written, what is read, what is kept and lost, and the numbers.", body))
+
 def main():
     idx = load("productions.json"); prods = []
     for pid in idx["productions"]:
@@ -382,6 +396,6 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
-    lab_page(); send_page()
+    lab_page(); send_page(); refresh_doc()
 
 if __name__ == "__main__": main()
