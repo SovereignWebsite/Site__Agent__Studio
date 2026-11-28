@@ -19,7 +19,7 @@ Written at the hand-over of 28 Nov 2026, for the successor. These are the things
 - Attaching another repository is refused. Read public files with curl from raw.githubusercontent.com or the live sites; api.github.com is blocked. Do not try to get round it.
 - Showing a token or key in chat is refused, rightly. Hand a secret over only sealed to the reader's key.
 - `sgit create` prints a web address that contains the vault key. Always send its output to a private file.
-- You cannot start sessions. c.conductor does, and only on Dinis's word in its own session.
+- Do not start sessions yourself, even where the tools allow it. Dinis, 28 Nov 2026: "you need to ask your conductor to start it, because you should not be able to." Write a start prompt and ask conductor.c.
 
 ## The append lane on SG/Send (not documented anywhere else)
 - The vault must exist with one pushed commit first.

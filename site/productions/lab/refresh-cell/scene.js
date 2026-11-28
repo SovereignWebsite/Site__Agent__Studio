@@ -29,26 +29,26 @@ const N = {
   owner:  { P: [360, 190], L: [640, 102], t: 0.25, col: WARM, size: 170, core: 10, star: 1, label: 'Dinis Cruz', fs: 32, la: 'r' },
   cm:     { P: [255, 372], L: [470, 205], par: 'owner', t: 2.5, col: AMBER, size: 112, core: 7, label: 'c.maestro', fs: 28, la: 'r' },
   bm:     { P: [601, 372], L: [1100, 212], par: 'owner', t: 3.0, col: AMBER, size: 112, core: 7, label: 'b.maestro', fs: 28, la: 'b' },
-  cond:   { P: [255, 505], L: [470, 305], par: 'cm', t: 4.15, col: AMBER, size: 104, core: 6.5, label: 'conductor.c', fs: 28, la: 'r' },
-  lead:   { P: [255, 672], L: [470, 412], par: 'cond', t: 5.45, col: TEAL, size: 210, core: 12, label: 'c.productions', fs: 31, la: 'r', bold: 1 },
+  cond:   { P: [255, 505], L: [470, 296], par: 'cm', t: 4.15, col: AMBER, size: 104, core: 6.5, label: 'conductor.c', fs: 28, la: 'r' },
+  lead:   { P: [255, 672], L: [470, 392], par: 'cond', t: 5.45, col: TEAL, size: 210, core: 12, label: 'c.productions', fs: 31, la: 'r', bold: 1 },
   design: { P: [432, 560], L: [770, 262], par: 'lead', t: 8.35, col: DIM, size: 70, core: 4.6, label: 'design.c', fs: 26, la: 'b', dot: 1 },
-  hig:    { P: [350, 985], L: [860, 470], par: 'lead', t: 8.6, col: DIM, size: 70, core: 4.6, label: 'higgsfield.c', fs: 26, la: 'b', dot: 1, curve: -0.12 },
-  acct:   { P: [165, 985], L: [92, 420], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
-  higb:   { P: [566, 640], L: [1022, 392], par: 'bm', t: 9.1, col: INK, size: 62, core: 4, hollow: 1, label: 'higgsfield.b', fs: 26, la: 'b', dot: 1, curve: 0.1 },
+  hig:    { P: [350, 985], L: [862, 452], par: 'lead', t: 8.6, col: DIM, size: 70, core: 4.6, label: 'higgsfield.c', fs: 26, la: 'b', dot: 1, curve: -0.12 },
+  acct:   { P: [165, 985], L: [108, 408], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
+  higb:   { P: [612, 612], L: [1022, 380], par: 'bm', t: 9.1, col: INK, size: 62, core: 4, hollow: 1, label: 'higgsfield.b', fs: 26, la: 'b', dot: 1, curve: 0.1 },
   elb:    { P: [640, 830], L: [1168, 478], par: 'bm', t: 9.4, col: INK, size: 62, core: 4, hollow: 1, label: 'elevenlabs.b', fs: 26, la: 'b', dot: 1, curve: -0.14 },
 };
 // Clusters of small helper lights round the lead, each with one line from the lead and a short label.
 const CL = [
   { n: 2, P: [100, 590], L: [262, 322], t: 7.0, col: TEAL, label: '2 helper sessions', la: 'al', r: 20 },
-  { n: 5, P: [105, 805], L: [262, 500], t: 7.3, col: AMBER, label: '5 scene-smiths', la: 'bl', r: 30 },
-  { n: 1, P: [255, 880], L: [470, 540], t: 7.6, col: AMBER, label: 'critic', la: 'b', r: 0 },
-  { n: 5, P: [412, 805], L: [682, 500], t: 7.9, col: PALE, label: '5 test viewers', la: 'b', r: 30 },
+  { n: 5, P: [105, 805], L: [262, 470], t: 7.3, col: AMBER, label: '5 scene-smiths', la: 'bl', r: 30 },
+  { n: 1, P: [255, 880], L: [470, 498], t: 7.6, col: AMBER, label: 'critic', la: 'b', r: 0 },
+  { n: 5, P: [412, 805], L: [682, 470], t: 7.9, col: PALE, label: '5 test viewers', la: 'b', r: 30 },
 ];
 const LAY = {
   port: { W: 720, H: 1280, bands: [[22, 488], [504, 698]], bandY: [272, 1050], bandLab: 298,
-    cell: { c: [360, 600], h: [347, 472], r: 64 }, cellLab: [360, 1072], shelf: [360, 712], shelfLab: [360, 800] },
-  land: { W: 1280, H: 720, bands: [[28, 930], [950, 1252]], bandY: [152, 590], bandLab: 176,
-    cell: { c: [640, 336], h: [627, 262], r: 56 }, cellLab: [640, 598], shelf: [640, 372], shelfLab: [640, 456] },
+    cell: { c: [360, 600], h: [347, 472], r: 64 }, cellLab: [360, 1072], shelf: [360, 800], shelfLab: [360, 880] },
+  land: { W: 1280, H: 720, bands: [[28, 930], [950, 1252]], bandY: [152, 578], bandLab: 176,
+    cell: { c: [640, 338], h: [627, 264], r: 56 }, cellLab: [640, 601], shelf: [640, 470], shelfLab: [640, 548] },
 };
 const BAND_T = [2.3, 2.8], CELL_T0 = 10.0, CELL_T1 = 11.3;
 
@@ -214,8 +214,9 @@ export async function create({ canvas, THREE, reduced }) {
     S = Math.min(w / lay.W, h / lay.H); X0 = (w - lay.W * S) / 2; Y0 = (h - lay.H * S) / 2;
     camera.left = 0; camera.right = w; camera.top = 0; camera.bottom = -h; camera.updateProjectionMatrix();
     bgU.uRes.value.set(w, h); bgU.uT.value = t; lineMesh.material.uniforms.uS.value = S; glows.material.uniforms.uS.value = S;
-    const sx = (x) => X0 + x * S, sy = (y) => Y0 + y * S, P = (p) => [sx(p[0]), sy(p[1])];
-    li = 0; gi = 0;
+    const Z = lerp(1.14, 1, sstep((t - 6.4) / 2.4)), oy = N.owner[key][1], cxm = lay.W / 2;
+    const sx = (x) => X0 + (cxm + (x - cxm) * Z) * S, sy = (y) => Y0 + (oy + (y - oy) * Z) * S, P = (p) => [sx(p[0]), sy(p[1])];
+    li = 0; gi = 0; for (const L of labels) { L.m.visible = false; L.m.material.opacity = 0; }
     const live = (o) => (o.out === undefined ? 1 : 1 - sstep((t - o.out) / 0.22));
     const outFlare = (o) => (o.out === undefined || t < o.out - 0.05 ? 0 : Math.exp(-Math.max(0, t - o.out) * 9) * (t < o.out + 0.4 ? 1 : 0));
     const archive = sstep((t - T_OUT0) / (T_OUT1 - T_OUT0 + 0.3));
@@ -228,11 +229,11 @@ export async function create({ canvas, THREE, reduced }) {
     // account bands: open with their maestro, grow downward with the cell
     const deepest = Math.max(...nodes.filter((n) => !n.dot && n.id !== 'owner').map((n) => (t > n.t - 0.6 ? n[key][1] : 0)), 0);
     bands.forEach((b, i) => { const [x0, x1] = lay.bands[i], [y0, y1] = lay.bandY, k = sstep((t - BAND_T[i]) / 0.8);
-      b.u.uC.value.set(sx((x0 + x1) / 2), sy((y0 + y1) / 2)); b.u.uH.value.set((x1 - x0) / 2 * S, (y1 - y0) / 2 * S); b.u.uR.value = 26 * S;
+      b.u.uC.value.set(X0 + (x0 + x1) / 2 * S, sy((y0 + y1) / 2)); b.u.uH.value.set((x1 - x0) / 2 * S, (y1 - y0) / 2 * S * Z); b.u.uR.value = 26 * S;
       const grow = i === 0 ? lerp(Math.max(sy(y0 + 150), sy(deepest + 130)), sy(y1 + 60), sstep((t - 6.9) / 2.2)) : lerp(sy(y0 + 150), sy(y1 + 60), sstep((t - 8.6) / 1.2));
       b.u.uRev.value = grow; const fade = 1 - sstep((t - 12.0) / 0.9);
       b.u.uFill.value = 0.055 * k * fade; b.u.uEdge.value = 0.20 * k * fade; b.m.visible = k * fade > 0.002;
-      placeLabel(bandLabs[i], sx(x0 + 18), sy(lay.bandLab), 'al', S, 0.92 * sstep((t - BAND_T[i] - 0.2) / 0.5) * fade); });
+      placeLabel(bandLabs[i], i ? X0 + (x1 - 18) * S - bandLabs[i].tw * S : X0 + (x0 + 18) * S, sy(lay.bandLab), 'al', S, 0.92 * sstep((t - BAND_T[i] - 0.2) / 0.5) * fade); });
 
     // the named lights and the lines to whoever started or briefed them
     const posOf = (n) => n[key];
@@ -243,10 +244,10 @@ export async function create({ canvas, THREE, reduced }) {
       if (n.par) { const pp = posOf(byId[n.par]), cv = n.curve || 0; if (arrive < 1) p = bez(pp, home, cv, arrive);
         a = (t > n.t - 0.6 ? 1 : 0) * lv; const pul = n.dot ? fract((t - n.t) * 0.55 + n.t * 0.37) : fract((t - n.t) * 0.42 + n.t * 0.61);
         const back = n.hollow ? -2 : fract((t - n.t) * 0.42 + n.t * 0.61 + 0.5);
-        const lineA = (n.hollow ? 0.55 : n.dot ? 0.7 : 0.85) * a * (n.id === 'bm' || n.id === 'cm' ? 1 : 1);
-        addLine(P(pp), P(home), cv, n.hollow ? [0.85, 0.82, 0.75] : n.dot ? DIM : n.col === TEAL ? TEAL : AMBER, lineA, arrive, n.dot ? 1 : 0,
+        const lineA = (n.hollow ? 0.55 : n.dot ? 0.7 : 0.85) * (t > n.t - 0.6 ? 1 : 0);
+        addLine(P(pp), P(home), cv, n.hollow ? [0.85, 0.82, 0.75] : n.dot ? DIM : n.col === TEAL ? TEAL : AMBER, lineA, arrive * (n.out === undefined ? 1 : 1 - sstep((t - n.out + 0.1) / 0.35)), n.dot ? 1 : 0,
           t > n.t + 0.3 ? [1 - pul * 1.2 + 0.1, n.hollow ? -2 : back * 1.2 - 0.1, msgs] : null, S, (x) => x);
-      } else a = sstep((t - n.t) / 0.9);
+      } else a = sstep((t - 0.05) / 0.6);
       if (a <= 0.002 && fl <= 0.002) continue;
       const pop = n.par && t > n.t ? Math.exp(-(t - n.t) * 5) : 0, breathe = 1 + 0.04 * Math.sin(t * 1.7 + home[0]);
       let A = a * (n.hollow ? 0.55 + 0.12 * Math.sin(t * 3 + home[1]) : 1) , size = n.size * breathe * (1 + 0.6 * pop);
@@ -264,7 +265,7 @@ export async function create({ canvas, THREE, reduced }) {
     CL.forEach((c, ci) => { const cp = c[key], k = sstep((t - (c.t - 0.1)) / 0.6), mine = helpers.filter((h) => h.ci === ci);
       const lv = Math.min(...mine.map(live)), anyLive = Math.max(...mine.map(live));
       const pul = fract((t - c.t) * 0.6 + ci * 0.27), back = fract((t - c.t) * 0.47 + ci * 0.53 + 0.4);
-      addLine(P(lp), P(cp), ci % 2 ? 0.08 : -0.08, c.col, 0.75 * (t > c.t - 0.1 ? 1 : 0) * anyLive, k, 0, t > c.t + 0.4 ? [pul * 1.2 - 0.1, 1.1 - back * 1.2, msgs] : null, S, (x) => x);
+      addLine(P(lp), P(cp), ci % 2 ? 0.08 : -0.08, c.col, 0.75 * (t > c.t - 0.1 ? 1 : 0), k * (1 - sstep((t - Math.max(...mine.map((h) => h.out)) + 0.15) / 0.35)), 0, t > c.t + 0.4 ? [pul * 1.2 - 0.1, 1.1 - back * 1.2, msgs] : null, S, (x) => x);
       let lab = c.la, lx = cp[0], ly = cp[1];
       if (lab === 'al') { lx = cp[0] - 70; ly = cp[1] - c.r - 34; } else if (lab === 'bl') { lx = cp[0] - 75; ly = cp[1] + c.r + 36; } else { ly = cp[1] + Math.max(c.r, 14) + 36; lab = 'c'; }
       if (!portrait) { lab = 'c'; lx = cp[0]; ly = c.la === 'al' ? cp[1] - c.r - 32 : cp[1] + Math.max(c.r, 14) + 34; }
@@ -290,7 +291,7 @@ export async function create({ canvas, THREE, reduced }) {
       const tgt = [sh[0] + ((o.out * 97) % 1 - 0.5) * 200, sh[1] - 20], p = bez(from, tgt, 0.18, e);
       if (k < 1) addGlow(sx(p[0]), -sy(p[1]), AMBER, 0.85 * Math.sin(Math.PI * Math.min(1, k * 1.2)) + 0.15, 30 * S, 3 * S, 0); else landed++; }
     shelfU.uC.value.set(sx(sh[0]), sy(sh[1])); shelfU.uS.value = S; shelfU.uT.value = t;
-    shelfU.uA.value = sstep((t - 12.25) / 0.5); shelfU.uN.value = 8 * landed / nItems + 0.0 * archive;
+    shelfU.uA.value = sstep((t - 12.3) / 0.5); shelfU.uN.value = 8 * landed / nItems + 0.0 * archive;
     placeLabel(shelfLab, sx(lay.shelfLab[0]), sy(lay.shelfLab[1]), 'c', S, sstep((t - 13.0) / 0.45));
 
     // finish the dynamic buffers
