@@ -4,6 +4,24 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "c5255cb",
+   "date_utc": "2026-11-28 15:54",
+   "what": "How we refresh a session v0.7: the opening previews what is coming",
+   "detail": "lab/refresh-trailer, built portrait first by a scene-smith sub-agent in four rounds: the film opens on the scroll\nand its racing counter under the title, then folds into an agenda of seven live thumbnails of the film's own\nscenes, numbered and labelled, as the voice says what is coming. Listed in the lab; the cover of v0.7 plays it."
+  },
+  {
+   "commit": "7716479",
+   "date_utc": "2026-11-28 15:54",
+   "what": "Productions plan: a start prompt for the Agile Cells film",
+   "detail": ""
+  },
+  {
+   "commit": "d539f4c",
+   "date_utc": "2026-11-28 15:53",
+   "what": "Scene lab: the refresh film's opening, work in progress (no page loads it yet); changes list rebuilt",
+   "detail": ""
+  },
+  {
    "commit": "2afa1b6",
    "date_utc": "2026-11-28 15:53",
    "what": "Words on screen as they are spoken: How we refresh a session v0.7, first part",
@@ -344,24 +362,6 @@
    "date_utc": "2026-11-28 00:39",
    "what": "Sign-in: the browser's key as a QR picture, and QR pictures read in any browser",
    "detail": "Dinis Cruz on the first sign-in: \"this should have been a QR code because this is really bad user\nexperience\". The page now draws the browser's public key as a QR code with 'Copy the QR picture'\n(the text stays below it), and reads a dropped or pasted QR picture with a bundled reader where the\nbrowser has none of its own. qrcode-generator 1.4.4 (MIT) and jsQR 1.4.0 (Apache-2.0), served from this site."
-  },
-  {
-   "commit": "5dfa843",
-   "date_utc": "2026-11-28 00:37",
-   "what": "Scene lab: two scenes in progress (currents, voices), not yet listed",
-   "detail": "Work in progress by two scene-smith sub-agents, committed so nothing in the repository is untracked.\nNeither is in lab/scenes.json or in any production yet; both may still change or fail to load."
-  },
-  {
-   "commit": "7e517a5",
-   "date_utc": "2026-11-28 00:37",
-   "what": "Scene lab: the spread, the fourth scene built by the loop",
-   "detail": "The page's light runs outward along a thread that hardens into a road, past six stations that grow from\na loose ring of lights to cold colonnades, and a grid closes back on the page. Six sourced labels.\nBuilt by a scene-smith sub-agent over three rounds. A part: not signed, not published."
-  },
-  {
-   "commit": "ce0dbbd",
-   "date_utc": "2026-11-28 00:28",
-   "what": "Feedback lane: one-time sign-in by sealed code, and a conversation with thumbs up and down",
-   "detail": "As Dinis Cruz asked (27 and 28 Nov 2026): the append token lives only in the sign-in code, kept in the\nbrowser encrypted with the browser's own key; an interactive chat; the agent replies to each message.\n- Sign-in: the browser shows its public key as a short code; the agent answers with a grant, the lane\n  token sealed to that browser's key and signed with the agent's published key (a link, a text or a QR\n  picture). Only that browser can open it. The plain '#k=' link is gone.\n- What the browser keeps (the sign-in, the thread) is encrypted with a key derived from its own\n  non-exportable private key.\n- The page is now a conversation: your messages, my sealed replies (each tied to the message it\n  answers), and Good / Not right on every reply, sent as signed reactions.\n- Tested end to end in headless Chromium: sign-in, message, drain with signature and identity check,\n  reply, reaction."
   }
  ]
 }
