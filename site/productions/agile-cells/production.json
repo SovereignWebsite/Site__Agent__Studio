@@ -35,13 +35,19 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "Dinis Cruz's answers of 28 November (relayed by c.productions): keep the Manifesto scene, the audience knows Agile; the five vertical cells out for now ('we'll add that later'); a web address on the end card (sovereignwebsite.org: he said sovereignweb.org, which showed only an error page that day); the AI label at the end only. The film ends on the cell and the end card over the shelf of files."
+  },
+  {
+   "version": "v0.5",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "From Dinis Cruz's feedback on v0.3 and v0.4: an opening that states the proposition before any explanation (Martin Fowler's 2018 words on what Agile became, quoted exactly and credited, then lab/cells-intro: a team strains as it grows and splits into cells, 'Agile Cells: the early values, at scale', and an agenda of what is coming); the proof as the punchline ('here is Agile working'); a closing that consolidates (lab/cells-close: cells built, working and folded onto shelves of files under Agile Cells and sovereignwebsite.org). 74 s. Already fixed in v0.4 before his note: the vertical cells out, the web address on the end card."
   }
  ],
  "rules": "Storyboard before any scene. Same house look as the studio's lab scenes; agents are lights, never figures. Every claim on screen or in the voice has a public source; the four values are quoted exactly from agilemanifesto.org. One AI voice, labelled on the last scene. 60 to 90 seconds. Vertical first. Nothing is published before Dinis Cruz signs the exact version.",
  "storyboard": "storyboard.json, first pass 28 November 2026 by c.productions-cells",
  "format": "Vertical, 720 by 1280, for agilecells.org and social media.",
  "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 74 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
- "status_note": "Version v0.4 follows Dinis Cruz's answers on v0.3; v0.5 is being cut. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
+ "status_note": "Version v0.5 follows Dinis Cruz's feedback on v0.3 and v0.4. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
  "links": [
   {
    "label": "The storyboard (data)",

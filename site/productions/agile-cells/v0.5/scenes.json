@@ -190,12 +190,12 @@
     5,
     14
    ],
-   "seconds": 8.16,
+   "seconds": 10.41,
    "title": "What a cell made",
-   "narration": "And here is Agile working. One cell made a real film, How we refresh a session: seven versions in one day.",
+   "narration": "And here is Agile working. One cell made a real film, How we refresh a session, version after version, in one day.",
    "sources": [
     {
-     "claim": "How we refresh a session has versions v0.1 to v0.7, all dated 28 November 2026.",
+     "claim": "How we refresh a session: every version, v0.1 onwards, is dated 28 November 2026.",
      "title": "How we refresh a session: the production",
      "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/",
      "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"

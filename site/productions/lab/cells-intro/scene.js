@@ -3,9 +3,11 @@
 // muddies, a few links flicker coral and the one membrane stretches until it bursts (Agile struggling to scale). The
 // tangle resolves into six neat round cells, each a small tidy team again, and the title arrives. Last, the title rises,
 // four cells settle in a row beneath it, and two cells open out into live cards of the scenes that follow: how a cell
-// grows (cells-grow) and the real cell that made a film (refresh-cell), each playing on its own small off-screen canvas.
+// grows (after cells-grow) and the real cell that made a film (after refresh-cell), drawn here as small 2D previews.
 // Composed for 720x1280 first; 1280x720 is a second layout of the same objects, in design pixels, under an orthographic
 // camera. A lab scene component (see ../harness.js for the contract). render(t) is a pure function of t. Apache-2.0.
+import { drawGrow, drawTeam } from './previews.js';
+
 export const meta = {
   id: 'cells-intro',
   title: 'Agile Cells: the proposition',
@@ -20,7 +22,7 @@ const TITLE = 'Agile Cells', LABELS = ['How a cell works', 'A cell, working for 
 const NC = 6, PER = 6, NL = NC * PER, CARD_CELL = [2, 3], ROW_CELLS = [0, 1, 4, 5];
 const T_CROWD = 2.2, T_SPLIT = 4.6, T_UP = 6.8, T_TITLE = 5.35, CARD_T = [7.15, 8.25], GROW = 0.95, STILL_T = 9.8;
 // what each card plays: source scene, its start moment, how fast it runs once the card has opened
-const SUBS = [{ id: 'cells-grow', s0: 18.0, rate: 2.9 }, { id: 'refresh-cell', s0: 6.0, rate: 2.2 }];
+// the cards are previews drawn here on 2D canvases (no inner scenes, no second WebGL context): see ./previews.js
 const SUB_W = 576, SUB_H = 324;
 
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -63,9 +65,7 @@ void main(){
 export async function create({ canvas, THREE, reduced }) {
   const rnd = prng(28112026);
   // the two live cards: their own lab scenes on small off-screen canvases, in landscape
-  const subs = [];
-  for (const s of SUBS) { const mod = await import(`../${s.id}/scene.js`), cv = document.createElement('canvas'); cv.width = SUB_W; cv.height = SUB_H;
-    subs.push({ ...s, cv, end: mod.meta.seconds, scene: await mod.create({ canvas: cv, THREE, reduced: false }) }); }
+  const subs = [drawGrow, drawTeam].map((draw) => { const cv = document.createElement('canvas'); cv.width = SUB_W; cv.height = SUB_H; return { cv, ctx: cv.getContext('2d'), draw }; });
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(1); renderer.setClearColor(0x0b1420, 1);
@@ -378,7 +378,7 @@ export async function create({ canvas, THREE, reduced }) {
       const next = i === 0 ? sstep((t - 9.2) / 0.6) : 0;
       cd.u.borderA.value = lerp(0.9, 0.35, e) + 0.5 * next; cd.u.halo.value = lerp(0.5, 0.12, e) + 0.35 * land * e + 0.22 * next;
       cd.u.borderC.value.set(...mix3([0.957, 0.945, 0.91], AMBER, next));
-      const sub = subs[i]; sub.scene.render(clamp(sub.s0 + sub.rate * Math.max(0, t - CARD_T[i] - GROW * 0.4), 0, sub.end), SUB_W, SUB_H); cd.tex.needsUpdate = true;
+      const sub = subs[i]; sub.draw(sub.ctx, SUB_W, SUB_H, Math.max(0, t - CARD_T[i] - GROW * 0.25)); cd.tex.needsUpdate = true;
     }
 
     lGeo.setDrawRange(0, si * 6); gGeo.setDrawRange(0, gi);
@@ -387,6 +387,6 @@ export async function create({ canvas, THREE, reduced }) {
     drawWords(t);
     renderer.render(scene, camera);
   }
-  function dispose() { for (const s of subs) s.scene.dispose(); for (const d of disposables) d.dispose(); renderer.dispose(); }
+  function dispose() { for (const d of disposables) d.dispose(); renderer.dispose(); }
   return { render, dispose };
 }

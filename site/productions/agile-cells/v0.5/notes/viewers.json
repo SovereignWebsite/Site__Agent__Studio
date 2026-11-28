@@ -1,0 +1,128 @@
+{
+ "about": "The same five synthetic test viewers, shown v0.5 (stills and narration, through OpenRouter). Not people and not a review signature. The audience Dinis Cruz named is people who know Agile. Em dashes in their answers are replaced by commas.",
+ "version": "v0.5",
+ "made": "2026-11-28",
+ "made_by": "c.productions-cells (an AI agent)",
+ "viewers": [
+  {
+   "viewer": "scrum-master",
+   "who": "a Scrum Master in a 300-person company that adopted a scaled Agile framework two years ago; you feel the ceremonies have grown and the values have faded. Sceptical of buzzwords.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The Martin Fowler quote about the 'Agile Industrial Complex' hits me right where it hurts while I'm drowning in two-week sprint cadences and quarterly PI planning theater.",
+    "watch_to_the_end": false,
+    "drop_off_second": 42,
+    "why_drop": "You had me until you claimed an 'Agile' unit has 'twenty, thirty, fifty roles' and an 'org chart for one task.' That's not agile values; that's automated bureaucratic bloat masquerading as progress.",
+    "story_back": "The video claims to rescue Agile from corporate bureaucracy by replacing teams with ephemeral swarms of AI agents and nested org charts organized around single tasks.",
+    "confusing": [
+     "Quoting 'individuals and interactions over processes and tools' right before pitching an entirely tool-driven system of AI bots and text files.",
+     "Calling an org chart of 50 roles for a single task 'agile' with a straight face.",
+     "The diagram in Scene 6 and 7 looking like an unreadable cloud infrastructure map rather than any recognizable team structure."
+    ],
+    "best_moment": "Scene 1 calling out the Agile Industrial Complex imposing methods upon people, 100% truth.",
+    "one_change": "Stop co-opting the Agile Manifesto to hawk AI agent prompt chains; if you're building automated workflow scripts for LLMs, just call it workflow automation.",
+    "weakest_moment": "Scene 5 showing an org chart expanding to 50 nodes for 'one task', it triggered my fight-or-flight response.",
+    "what_i_would_do_tomorrow": "Roll my eyes, close the app, and prepare for our retro where nobody talks about how much time we waste on Jira tickets."
+   }
+  },
+  {
+   "viewer": "startup-founder",
+   "who": "a founder of a 6-person startup who uses AI coding agents daily and wonders how to organise more of them. Impatient; scrolls fast on LinkedIn.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The AI-agent org-chart visuals and the promise of scaling a tiny team are immediately relevant to me.",
+    "watch_to_the_end": false,
+    "drop_off_second": 42,
+    "why_drop": "It shifts from a concrete idea into glowing org charts, arbitrary role counts, and jargon. I still do not know how I would actually run a cell.",
+    "story_back": "Agile Cells are temporary, file-defined teams of people and AI agents assembled for one task, then shut down and archived.",
+    "confusing": [
+     "What exactly is an agent allowed to do?",
+     "Who makes decisions when agents disagree?",
+     "Why are there 10, 20, or 50 roles for one task?",
+     "What does 'taken down' mean operationally?",
+     "How is this different from an ordinary multi-agent workflow?"
+    ],
+    "best_moment": "The real session-refresh example with the before-and-after process and concrete roles.",
+    "one_change": "Replace the abstract role-count and org-chart sequence with one concrete end-to-end cell run showing the files, agent handoffs, human decisions, and final output.",
+    "weakest_moment": "The repeated manifesto slide; it spends too long restating the same four values without connecting them to the proposed system.",
+    "what_i_would_do_tomorrow": "Click through to the actual cell files or workflow, but I would not share the film as-is."
+   }
+  },
+  {
+   "viewer": "cto-buyer",
+   "who": "a CTO at a mid-sized firm who buys outsourced work (websites, CRM set-up, social media). You want to know what you could actually buy and whether it is real.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The Martin Fowler quote shitting on the 'Agile Industrial Complex' catches my eye because I spend millions on certified Scrum clowns who deliver nothing.",
+    "watch_to_the_end": false,
+    "drop_off_second": 38,
+    "why_drop": "You promised to show me how this works 'for real' to deliver actual work, and by Scene 6 your grand proof of concept is... making a short marketing video about Claude sessions. You automated making TikToks with LLMs, not shipping production software.",
+    "story_back": "The video claims you can scale original Agile principles by spinning up temporary org charts of human workers and AI agents that tackle a single task and disband once the files are committed.",
+    "confusing": [
+     "What am I actually buying: a SaaS orchestrator, an outsourced dev agency, or an open-source GitHub framework?",
+     "Scene 7 has names like 'Dinis Cruz', 'c.maestro', and 'higgsfield.b' thrown on an org chart without explaining who owns the code, QA, or security liabilities.",
+     "Why you wasted 9 seconds reciting the 2001 Agile Manifesto to a tech buyer who already knows it by heart."
+    ],
+    "best_moment": "Scene 7 showing the actual agent hierarchy (orchestrator, critic, test viewers using GPT/Gemini) because it finally hints at a real technical workflow.",
+    "one_change": "Cut the Agile history lesson and show an agent cell actually refactoring a legacy codebase or standing up a CRM workflow instead of generating an AI video.",
+    "weakest_moment": "Scene 3 displaying the yellow sticky-note Agile values over a cartoon building like a mandatory HR onboarding slide.",
+    "what_i_would_do_tomorrow": "Keep scrolling and forget about it; this looks like academic AI agent architecture porn with zero commercial viability for real enterprise outsourcing."
+   }
+  },
+  {
+   "viewer": "agile-veteran",
+   "who": "a developer who has done Agile since 2005, read the Manifesto many times, and dislikes people misquoting it.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The Martin Fowler quote is a credible, sharp hook, and the visual language looks more intentional than the usual Agile explainer.",
+    "watch_to_the_end": true,
+    "drop_off_second": null,
+    "why_drop": "",
+    "story_back": "Agile Cells proposes temporary, transparent teams of people and agents that form around one task, deliver it, and then dissolve.",
+    "confusing": [
+     "The film never clearly defines what an agent is or how agents differ from people.",
+     "It jumps from the Manifesto's values to a specific cell architecture without explaining why that architecture follows from those values.",
+     "The claims that one cell made a real film and that Agile can scale are asserted rather than demonstrated.",
+     "The 10, 20, 30, and 50-role examples feel like organizational diagrams, not evidence of a working method.",
+     "The phrase \"Agile Cells\" sounds like a branded process imposed on people, which clashes with Fowler's opening criticism unless the distinction is made explicit."
+    ],
+    "best_moment": "Scene 6, where the abstract cell becomes concrete through the refresh-a-session film and its visible before-and-after result.",
+    "one_change": "Start with the real one-day film outcome, then explain how the temporary cell produced it and explicitly connect that design to the Manifesto's four values.",
+    "weakest_moment": "The opening spends 11 seconds repeating essentially the same Fowler quote frame, which is visually static and delays the actual idea.",
+    "what_i_would_do_tomorrow": "Read the linked cell files and look for a concrete example showing what the agents actually did and how the result was evaluated."
+   }
+  },
+  {
+   "viewer": "instagram-casual",
+   "who": "someone who does not work in software, scrolling Instagram Reels in the evening, watching with sound off.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The giant glowing auditorium in the first frame looked like a dark sci-fi movie for half a second.",
+    "watch_to_the_end": false,
+    "drop_off_second": 3,
+    "why_drop": "I read the phrase 'Agile Industrial Complex' and realized this is some boring LinkedIn corporate tech lecture that accidentally ended up on my feed.",
+    "story_back": "It is trying to sell some corporate productivity framework where you set up temporary teams of AI bots to finish a project.",
+    "confusing": [
+     "What on earth is an 'Agile Cell'?",
+     "Who is Martin Fowler and why should anyone care what he said in 2018?",
+     "What are 'agents' here, software, bots, or actual people?",
+     "The random slide about 'managing your Claude sessions' with huge 8-digit numbers makes zero sense."
+    ],
+    "best_moment": "The initial perspective shot of the dark arena with glowing desks before the text ruins it.",
+    "one_change": "Delete the entire video from Instagram and post it where software project managers actually hang out, because regular people do not want to see org charts after work.",
+    "weakest_moment": "Scene 3, which is literally just a giant beige sticky note filled with corporate buzzwords.",
+    "what_i_would_do_tomorrow": "Swipe up immediately to find a meme or a recipe video."
+   }
+  }
+ ],
+ "what_they_agree_on": [
+  "The agile veteran watches to the end; the scrum master, the founder and the buyer now stay to 38 to 42 seconds (v0.4: 26 to 35).",
+  "The new opening works for the Agile audience: the scrum master names Fowler's line as the best moment.",
+  "Still named as weakest: the 50-role chart (Dinis's own message) and the Manifesto page (kept at his word). The veteran finds the Fowler frame static for its 10 seconds."
+ ]
+}
