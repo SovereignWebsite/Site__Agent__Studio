@@ -202,6 +202,17 @@
    "tool_uses": 23,
    "status": "in session-refresh v0.1",
    "batch": 6
+  },
+  {
+   "n": 17,
+   "role": "Scene-smith",
+   "job": "The Agile film's opening as a preview of its own animations, and the AI label only at the end (a helper session, c.productions-agile, not a sub-agent)",
+   "result": "lab/agile-trailer, two rounds; Agile v0.4",
+   "minutes": 25,
+   "tool_uses": 0,
+   "status": "in agile-history v0.4",
+   "batch": 7,
+   "outside": true
   }
  ],
  "working_now": 0,
@@ -212,6 +223,7 @@
   "28 Nov, 00:15: second loop",
   "28 Nov, 00:45: the new opening",
   "28 Nov, 01:00: review and refresh",
-  "28 Nov, 03:00: the refresh film, first loop (the successor session)"
+  "28 Nov, 03:00: the refresh film, first loop (the successor session)",
+  "28 Nov, 12:51: a helper session for the Agile film's opening"
  ]
 }
