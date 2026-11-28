@@ -1,0 +1,31 @@
+{
+ "id": "session-refresh",
+ "title": "How we refresh a session",
+ "status": "scripting",
+ "brief": {
+  "from": "Dinis Cruz, 28 November 2026, in c.conductor's and c.productions's sessions",
+  "text": "this is a great opportunity for us to create a complete new video to explain exactly how we do it here ... I think it's a great example of a video for us to create. Those data are really cool, the savings that you get.",
+  "document": "how-we-refresh-a-session/ (data: document.json)"
+ },
+ "so_what": "A long chat re-reads itself every turn, so it gets dearer the longer it lives. Writing a short note and starting fresh cut one agent's context by 86%.",
+ "data_to_show": [
+  "One message costs in proportion to the context it lands in; the total goes with the square (document.json, 'The maths').",
+  "One measured session: 597,635 tokens of context, 95.2 million tokens re-read, 96% of all it used (document.json, measured).",
+  "One measured hand-over: 859,600 to 118,600 tokens; conversation 781,000 to 43,900; a floor of about 75,000 that a hand-over does not shrink (document.json, measured_handover).",
+  "The model: the same work handed over at 300,000 re-reads 49% less; at 150,000, 70% less. Label it a model.",
+  "The rule: hand over before 300,000. Every evidenced hand-over happened at 484,000 to 845,000."
+ ],
+ "beats_to_storyboard_first": [
+  "Hook: the number. A scroll that re-reads itself from the top on every turn, growing; the counter of tokens re-read racing past the counter of tokens written.",
+  "Why: a straight line per message, a curve in total. Draw the curve from the real data.",
+  "The moment: a gauge crosses the 300,000 line and nobody stops.",
+  "What the old session writes: a few pages go on a shelf in the repository; scratch tools fade on the desk.",
+  "What the new one reads: an empty room, one line spoken, a new light reads the shelf in order and never opens the old scroll.",
+  "What is lost and what carries: a new key is cut, the old stamped retired; sealed envelopes re-addressed and checked to open.",
+  "Did it work: two slips saying 'what is next' are compared and match.",
+  "The saving: the before and after bars, 859,600 and 118,600, and the floor that stays.",
+  "The lesson: write it early; keep state in files; load only what you need."
+ ],
+ "rules": "Storyboard before any scene (Dinis: think like a storyboard). Same house look as the Agile lab scenes. Agents are lights, never figures. Every number on screen is in document.json with its source. Voice labelled as made by AI. Aim for 60 to 90 seconds.",
+ "made_by": "to be made by c.productions's successor as its first production, with scene-smith sub-agents"
+}

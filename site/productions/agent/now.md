@@ -12,6 +12,9 @@ Dinis Cruz, 28 Nov 2026: "Yes, can you refresh this session?" Read just before: 
 - The story of Agile v0.3 (12 of 15 scenes are lab pictures) and A galaxy of agents v0.1, both in review. Nothing is published or approved.
 - Dinis is signed in to the lane (browser key 72ef359081a9e945). I read the lane only when he says to.
 
+## First job for the successor (Dinis, 28 Nov: "it's a great example of a video for us to create")
+The session-refresh film. Its brief, the data to show and nine beats to storyboard are in `session-refresh/production.json`; the facts are in `session-refresh/document.json`. Storyboard first, then scenes, then voice. Keep it lean: account C is near its weekly limit.
+
 ## Next, in the order I would do it
 0. Dinis wants data analysis first, then a picture of it: the cost curve is in `session-refresh/document.json` (a chart is on the page); the cell is a timeline in `cell.json`. An animated, live view of who is working is wanted and not started.
 1. The new Agile opening Dinis asked for: why you are watching (Agile took over), what a methodology is, the waterfall, software shipping a couple of times a year, the process solidifying. Sourced research is done (about 30 items); script, then a storyboard pass, then scenes for the hook and the ending.
