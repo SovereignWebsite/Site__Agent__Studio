@@ -29,9 +29,9 @@ const after = (t, t0, rate) => (t >= t0 ? Math.exp(-(t - t0) * rate) : 0); // a 
 // (shelf in the upper third, a light over each slip, the slips large in the lower two thirds, nothing else).
 // Landscape spreads the same things left and right. Slots are in key units from the key's centre.
 const layout = (portrait, test) => (portrait
-  ? (test ? { d: 18.59, cy: 0, visH: 9.96, ks: 1, kx: 9, ky: 0, lx: 1.45, ly: 1.2, slots: [[0, 0], [0, 0], [0, 0], [0, 0]], shelfY: 2.3, shS: 1.38, slipY: -1.68, slipS: 1.4, liftY: 3.05, liftS: 1.45 }
+  ? (test ? { d: 18.59, cy: 0, visH: 9.96, ks: 1, kx: 9, ky: 0, lx: 1.45, ly: 1.2, slots: [[0, 0], [0, 0], [0, 0], [0, 0]], shelfY: 2.2, shS: 1.38, slipY: -1.42, slipS: 1.4, liftY: 2.9, liftS: 1.45 }
     : { d: 18.59, cy: 0, visH: 9.96, ks: 1.3, kx: 1.45, ky: 0, lx: 1.45, ly: 2.15, slots: [[0.4, -1.85], [0.4, -2.45], [-0.4, -1.85], [-0.4, -2.45]], shelfY: 2.8, shS: 1.2, slipY: -1.78, slipS: 1.3, liftY: 3.25, liftS: 1.35 })
-  : { d: 13.44, cy: 0.45, visH: 7.2, ks: 1, kx: 3.0, ky: 1.3, lx: test ? 1.0 : 2.1, ly: test ? 1.25 : 2.35, slots: [[1.23, -2.6], [0.41, -2.6], [-0.41, -2.6], [-1.23, -2.6]], shelfY: 1.9, shS: 1, slipY: -0.82, slipS: 1, liftY: 2.62, liftS: 1.5 });
+  : { d: 13.44, cy: 0.45, visH: 7.2, ks: 1, kx: 3.0, ky: 1.3, lx: test ? 1.0 : 2.1, ly: test ? 1.25 : 2.35, slots: [[1.23, -2.6], [0.41, -2.6], [-0.41, -2.6], [-1.23, -2.6]], shelfY: 1.9, shS: 1, slipY: -0.75, slipS: 0.9, liftY: 2.62, liftS: 1.5 });
 
 export async function create({ canvas, THREE, reduced }) {
   const rnd = prng(41107), renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -124,7 +124,7 @@ export async function create({ canvas, THREE, reduced }) {
 
   // The shelf behind, with the three pages the old session left. The third has a line missing.
   const shelf = new THREE.Group(); scene.add(shelf);
-  const bar = new THREE.Mesh(boxG, keep(new THREE.MeshStandardMaterial({ color: 0x4a637c, roughness: 0.7, metalness: 0.1 }))); bar.scale.set(3.2, 0.06, 0.5); bar.position.set(0, -0.035, -0.6); shelf.add(bar); for (const sx of [-1.56, 1.56]) { const u = new THREE.Mesh(boxG, bar.material); u.scale.set(0.055, 1.75, 0.055); u.position.set(sx, 0.5, -0.62); shelf.add(u); }
+  const bar = new THREE.Mesh(boxG, keep(new THREE.MeshStandardMaterial({ color: 0x4a637c, roughness: 0.7, metalness: 0.1 }))); bar.scale.set(3.2, 0.06, 0.5); bar.position.set(0, -0.035, -0.6); shelf.add(bar); for (const sx of [-1.56, 1.56]) { const u = new THREE.Mesh(boxG, bar.material); u.scale.set(0.055, 1.6, 0.055); u.position.set(sx, 0.42, -0.62); shelf.add(u); }
   const border = (g, w, h, th, mat, z = 0.004) => { add(g, unit, mat, 0, h / 2 - th / 2, z, w, th); add(g, unit, mat, 0, -h / 2 + th / 2, z, w, th); add(g, unit, mat, -w / 2 + th / 2, 0, z, th, h); add(g, unit, mat, w / 2 - th / 2, 0, z, th, h); return mat; };
   const PAGE = col(TEAL).multiplyScalar(0.16), PSTROKE = col(TEAL), pages = [-1.0, 0, 1.0].map((x, pi) => { const g = new THREE.Group(); shelf.add(g);
     const paper = add(g, unit, flat(0xffffff), 0, 0, 0, 0.8, 1.1), strokes = [add(g, unitL, flat(0x17323d), -0.3, 0.38, 0.004, 0.34, 0.07)], edge = border(g, 0.8, 1.1, 0.018, flat(TEAL));
@@ -138,10 +138,10 @@ export async function create({ canvas, THREE, reduced }) {
   // Slips: one from each light, each saying what comes next.
   const clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0), cl = { clippingPlanes: [clip] };
   const headTex = texOf(640, 100, (x) => { x.fillStyle = '#ffffff'; x.font = `700 82px ${FONT}`; x.textAlign = 'left'; x.textBaseline = 'middle'; x.fillText('what is next', 6, 54); });
-  const STROKE = col(0xd4d1c6), MATCHED = col(TEAL), rowY = (i) => 0.56 - i * 0.31;
+  const STROKE = col(0xd4d1c6), MATCHED = col(TEAL), rowY = (i) => 0.74 - i * 0.37;
   const makeSlip = (paperHex, edgeHex, missing) => { const g = new THREE.Group(); scene.add(g);
-    const paper = add(g, unit, flat(0xffffff, cl), 0, 0, 0, 1.7, 2.6), head = add(g, unit, flat(INK, { map: headTex, transparent: true, depthWrite: false, ...cl }), -0.03, 0.98, 0.006, 1.3, 1.3 * 100 / 640);
-    border(g, 1.7, 2.6, 0.024, flat(edgeHex, cl)); add(g, unitL, flat(0x7d8a96, cl), -0.66, 0.8, 0.005, 1.32, 0.012);
+    const paper = add(g, unit, flat(0xffffff, cl), 0, 0, 0, 1.7, 3.0), head = add(g, unit, flat(INK, { map: headTex, transparent: true, depthWrite: false, ...cl }), -0.03, 1.2, 0.006, 1.3, 1.3 * 100 / 640);
+    border(g, 1.7, 3.0, 0.024, flat(edgeHex, cl)); add(g, unitL, flat(0x7d8a96, cl), -0.66, 1.02, 0.005, 1.32, 0.012);
     const rows = SLIP_ROWS.map((L, i) => add(g, unitL, flat(0xffffff, cl), -0.66, rowY(i), 0.006, (i === missing ? 0.001 : L), 0.085));
     return { g, paper, head, rows, base: col(paperHex) }; };
   const oldSlip = makeSlip(0x2b2a26, 0xe0a13a, -1), newSlip = makeSlip(0x1c3247, 0xf4f1e8, GAP_ROW);
@@ -214,11 +214,11 @@ export async function create({ canvas, THREE, reduced }) {
     pageFill.scale.x = Math.max(0.001, PAGE_ROWS[PAGE_GAP] * ease(mendU)); pageFill.material.color.copy(AMBERC).lerp(TEALC, mended);
 
     // the slips
-    const pr = ease((t - 8.6) / 1.7), go = ease((t - 10.3) / 0.7), snap = ease((t - T_JOIN + 0.15) / 0.3), sxF = (0.98 - 0.045 * snap) * S, matchK = ease((t - T_JOIN) / 0.4), yL = P.ly - 0.17, hh = 1.3 * S * 0.8;
+    const pr = ease((t - 8.6) / 1.7), go = ease((t - 10.3) / 0.7), snap = ease((t - T_JOIN + 0.15) / 0.3), sxF = (0.98 - 0.045 * snap) * S, matchK = ease((t - T_JOIN) / 0.4), yL = P.ly - 0.17, hh = 1.5 * S * 0.8;
     clip.constant = yL;
     [[oldSlip, -1, oldX, oldY], [newSlip, 1, restX, restY]].forEach(([s, side, lx0, ly0], n) => { s.g.visible = test; const sc = mix(0.8, 1, go) * S, x = side * mix(P.lx, sxF, go), y = mix(mix(yL + hh, yL - 0.26 - hh, pr), P.slipY, go);
       s.g.position.set(x, y, 0.35); s.g.scale.set(sc, sc, 1); tint(s.paper, s.base, 1 + 0.25 * matchK);
-      lay(tethers[n], lx0, ly0, x, Math.min(yL, y + 1.3 * sc), 0.03, 0.34, test ? 0.6 * ease((t - 9.6) / 0.6) * (n ? 1 : mix(1, 0.6, handed)) : 0); });
+      lay(tethers[n], lx0, ly0, x, Math.min(yL, y + 1.5 * sc), 0.03, 0.34, test ? 0.6 * ease((t - 9.6) / 0.6) * (n ? 1 : mix(1, 0.6, handed)) : 0); });
     const sy0 = P.slipY, hold = t >= ROW_T[GAP_ROW] && t < ROW_T[GAP_ROW + 1], fillU = ease((t - T_FILL) / 0.3);
     let scanY = null, scanOp = 0; ROW_T.forEach((rt, i) => { const hot = i === GAP_ROW ? (hold ? 1 : 0) : after(t, rt, 6), done = ease((t - (i === GAP_ROW ? T_FILL + 0.3 : rt) - 0.05) / 0.2);
       if (t >= rt && (ROW_T[i + 1] === undefined ? t < rt + 0.25 : t < ROW_T[i + 1])) { scanY = sy0 + rowY(i) * S; scanOp = i === GAP_ROW ? 1 : 1 - ease((t - rt - 0.12) / 0.13) * (ROW_T[i + 1] === undefined ? 1 : 0); }
@@ -241,7 +241,7 @@ export async function create({ canvas, THREE, reduced }) {
     const dn = ease((t - T_MENDED - 0.08) / 0.42), po = (t > T_MENDED + 0.08 ? 1 : 0) * (1 - ease((t - T_FILL - 0.05) / 0.25)); put(pulseDot, mix(tx1, tx0, dn), mix(ty1, ty0, dn), 1.0, 0.3, po); put(pulseHalo, mix(tx1, tx0, dn), mix(ty1, ty0, dn), 1.0, 1.3, 0.75 * po);
 
     // they match: one teal line round both
-    const x0 = -sxF - 0.92 * S, x1 = sxF + 0.92 * S, y0 = sy0 - 1.37 * S, y1 = sy0 + 1.37 * S, f1 = clamp((t - T_JOIN) / 0.15), f2 = clamp((t - T_JOIN - 0.13) / 0.15), f3 = clamp((t - T_JOIN - 0.26) / 0.15), fo = t >= T_JOIN ? 1 : 0;
+    const x0 = -sxF - 0.92 * S, x1 = sxF + 0.92 * S, y0 = sy0 - 1.57 * S, y1 = sy0 + 1.57 * S, f1 = clamp((t - T_JOIN) / 0.15), f2 = clamp((t - T_JOIN - 0.13) / 0.15), f3 = clamp((t - T_JOIN - 0.26) / 0.15), fo = t >= T_JOIN ? 1 : 0;
     lay(frame[0], 0, y1, x0, y1, 0.05, 0.45, fo, f1); lay(frame[1], 0, y1, x1, y1, 0.05, 0.45, fo, f1); lay(frame[2], x0, y1, x0, y0, 0.05, 0.45, fo * (f2 > 0 ? 1 : 0), f2); lay(frame[3], x1, y1, x1, y0, 0.05, 0.45, fo * (f2 > 0 ? 1 : 0), f2); lay(frame[4], x0, y0, 0, y0, 0.05, 0.45, fo * (f3 > 0 ? 1 : 0), f3); lay(frame[5], x1, y0, 0, y0, 0.05, 0.45, fo * (f3 > 0 ? 1 : 0), f3);
     put(joinGlow, 0, sy0, 0.7, 6.5, 0.3 * after(t, T_JOIN + 0.1, 1.6) + 0.1 * matchK);
 
