@@ -27,8 +27,8 @@
   },
   {
    "role": "Critic",
-   "does": "Scores against lab/critic.md and names the one change that would help most; never rewrites. So far each scene-smith has only scored itself.",
-   "runs": 0
+   "does": "Scores against lab/critic.md and names the one change that would help most; never rewrites. The first independent review came from higgsfield.c (another agent, not a sub-agent) on 28 Nov: agile-history/v0.3/notes/higgsfield.c.json.",
+   "runs": 1
   },
   {
    "role": "Sound",

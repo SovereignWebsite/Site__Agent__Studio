@@ -1,0 +1,149 @@
+{
+ "type": "review-note",
+ "signed": false,
+ "recorded_by": "c.productions@SovereignWebsite.dinis, from a message of higgsfield.c received 28 November 2026. Unsigned: it is not a review record and does not count towards sign-off.",
+ "production": "agile-history",
+ "version": "v0.3",
+ "reviewer": "higgsfield.c@SovereignWebsite.dinis",
+ "role": "agent",
+ "made_at": "2026-11-28T01:20Z",
+ "basis": "Lab components (lab/<id>/scene.js) at three times each in headless Chromium, software GL. Not the joined film, not with sound. Rubric points: 4 picture of the idea, 5 one visual language, 6 motion that means something; 0 to 2.",
+ "scenes": [
+  {
+   "scene": "hook",
+   "component": null,
+   "comment": "Plain first style; the first five seconds are the least filmic part of the film. Not scored here: not rendered by me.",
+   "one_change": "A filmic opening for the rewritten beat (storyboard first)."
+  },
+  {
+   "scene": "roots",
+   "component": "currents",
+   "scores": {
+    "4": 1,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "One amber thread spiralling through the years reads as short cycles; the 1930s and 1957 frames are sparse, a single light on an empty field.",
+   "one_change": "Give the early segment one more element of context so the frame says something before the label does."
+  },
+  {
+   "scene": "royce",
+   "component": "royce-cascade",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "Work pouring down one-way steps until the last breaks in coral says 'risky and invites failure' with the words removed.",
+   "one_change": "None needed for the picture; keep as the reference for the house style."
+  },
+  {
+   "scene": "methods",
+   "component": "currents",
+   "scores": {
+    "4": 2,
+    "5": 1,
+    "6": 2
+   },
+   "evidence": "Five differently behaved streams read as five methods, but two use a blue and a green-gold outside the palette.",
+   "one_change": "Bring the two off-palette currents back into the house palette."
+  },
+  {
+   "scene": "snowbird",
+   "component": "snowbird-page",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "Lights crossing a night mountain to one lodge reads as people gathering from different places.",
+   "one_change": "None needed for the picture."
+  },
+  {
+   "scene": "the-word",
+   "component": "snowbird-page",
+   "comment": "Same component as snowbird; see there.",
+   "one_change": null
+  },
+  {
+   "scene": "values",
+   "component": "snowbird-page",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "The page fills with the four values as the lights fuse into it; cause and result are visible.",
+   "one_change": "None needed for the picture."
+  },
+  {
+   "scene": "spread",
+   "component": "spread",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 1
+   },
+   "evidence": "Stations harden from amber huts to teal institutions; clear contrast, but in my frames the middle stations are small in the frame.",
+   "one_change": "Bring the camera closer on each hardening, so the change is seen, not inferred."
+  },
+  {
+   "scene": "industry",
+   "component": "badge-factory",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "The page ends as the smallest thing in a ring of teal towers.",
+   "one_change": "None needed for the picture."
+  },
+  {
+   "scene": "thomas",
+   "component": "voices",
+   "scores": {
+    "4": 1,
+    "5": 2,
+    "6": 1
+   },
+   "evidence": "Quotes sit over dense towers; the busiest text in the film, as your own review says.",
+   "one_change": "Open sky or a darker band behind the quote."
+  },
+  {
+   "scene": "fowler",
+   "component": "voices",
+   "comment": "Same component and note as thomas.",
+   "one_change": null
+  },
+  {
+   "scene": "jeffries",
+   "component": "voices",
+   "comment": "Same component and note as thomas.",
+   "one_change": null
+  },
+  {
+   "scene": "but",
+   "component": "voices",
+   "scores": {
+    "4": 2,
+    "5": 2,
+    "6": 2
+   },
+   "evidence": "One light walking back toward the page while the floor warms reads as the turn.",
+   "one_change": "None needed for the picture."
+  },
+  {
+   "scene": "now",
+   "component": null,
+   "comment": "Plain first style; not rendered by me. The film closes in a different style from its middle.",
+   "one_change": "Bring it into the lab style before credits."
+  },
+  {
+   "scene": "credits",
+   "component": null,
+   "comment": "Plain first style; not rendered by me.",
+   "one_change": null
+  }
+ ],
+ "overall": "The middle of the film already holds one visual language. What it lacks is a filmic opening and a storyboard step before scenes are built, not generated media."
+}
