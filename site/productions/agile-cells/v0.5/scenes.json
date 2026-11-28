@@ -26,35 +26,68 @@
  "captions_in_frame": true,
  "scenes": [
   {
+   "id": "critique",
+   "kind": "component",
+   "component": "voices",
+   "span": [
+    9.6,
+    19
+   ],
+   "seconds": 10.67,
+   "title": "What Agile became",
+   "narration": "Martin Fowler, one of the Manifesto's authors, in 2018: the Agile Industrial Complex imposing methods upon people, and that to me is an absolute travesty.",
+   "quotes": [
+    {
+     "quote": "the Agile Industrial Complex imposing methods upon people, and that to me is an absolute travesty",
+     "by": "One of the seventeen authors"
+    }
+   ],
+   "sources": [
+    {
+     "fact": "fowler-agile-industrial-complex-2018",
+     "claim": "In his 2018 keynote at Agile Australia Fowler called it a travesty that an \"Agile Industrial Complex\" was imposing methods on people.",
+     "fact_url": "https://agile.history.sovereignweb.site/facts/#fowler-agile-industrial-complex-2018",
+     "title": "The State of Agile Software in 2018",
+     "url": "https://martinfowler.com/articles/agile-aus-2018.html",
+     "publisher": "martinfowler.com"
+    }
+   ],
+   "source_line": "martinfowler.com",
+   "on_screen": "“the Agile Industrial Complex imposing methods upon people, and that to me is an absolute travesty” (Martin Fowler, 2018)",
+   "audio": "audio/01-critique.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
    "id": "intro",
    "kind": "component",
    "component": "cells-intro",
    "span": [
-    0,
+    3.6,
     10
    ],
-   "seconds": 9.15,
+   "seconds": 8.47,
    "title": "The proposition",
-   "narration": "Agile is a great framework. But it struggles to scale. With Agile Cells, it can. Here is how a cell works, and here is one, working for real.",
+   "narration": "Agile Cells: the early values, at scale. Here is how a cell works, and here is one, working for real.",
    "sources": [
-    {
-     "claim": "Dinis Cruz, 28 November 2026: 'we think Agile is a great framework, it just struggles to scale, and now we can, and here is an example of us using Agile Cells for real.'",
-     "title": "Agile Cells: the production, with Dinis Cruz's feedback of 28 November 2026",
-     "url": "https://studio.agents.sovereignweb.site/productions/agile-cells/",
-     "publisher": "studio.agents.sovereignweb.site (c.productions-cells, an AI agent)"
-    },
     {
      "claim": "Dinis Cruz, 28 November 2026: Agile can scale and go back to its early values.",
      "title": "Start prompt of the Agile Cells film, with Dinis Cruz's words of 28 November 2026",
      "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md",
      "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    },
+    {
+     "claim": "Dinis Cruz, 28 November 2026, on the opening: Agile Cells as the early values, at scale; 'here is an example of us using Agile Cells for real'.",
+     "title": "Agile Cells: the production, with Dinis Cruz's feedback of 28 November 2026",
+     "url": "https://studio.agents.sovereignweb.site/productions/agile-cells/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions-cells, an AI agent)"
     }
    ],
    "source_line": "studio.agents.sovereignweb.site",
-   "on_screen": "A small team strains as it grows, then splits into cells. Agile Cells. How a cell works. A cell, working for real.",
-   "audio": "audio/01-intro.mp3",
+   "on_screen": "A tangle of lights splits into cells. Agile Cells. How a cell works. A cell, working for real.",
    "lead": 0.25,
-   "tail": 0.7
+   "tail": 0.7,
+   "audio": "audio/02-intro.mp3"
   },
   {
    "id": "values",
@@ -64,7 +97,7 @@
     9.6,
     14
    ],
-   "seconds": 8.42,
+   "seconds": 8.71,
    "title": "Four values",
    "values": [
     [
@@ -97,7 +130,7 @@
    "on_screen": "Individuals and interactions over processes and tools; Working software over comprehensive documentation; Customer collaboration over contract negotiation; Responding to change over following a plan",
    "lead": 0.25,
    "tail": 0.7,
-   "audio": "audio/02-values.mp3"
+   "audio": "audio/03-values.mp3"
   },
   {
    "id": "cell",
@@ -107,7 +140,7 @@
     5,
     18
    ],
-   "seconds": 9.78,
+   "seconds": 10.69,
    "title": "What a cell is",
    "narration": "An agile cell is a small team of people and agents, formed for one piece of work and ended after it. Its roles, rules and work are files anyone can read.",
    "sources": [
@@ -122,7 +155,7 @@
    "on_screen": "roles, rules, work",
    "lead": 0.25,
    "tail": 0.7,
-   "audio": "audio/03-cell.mp3"
+   "audio": "audio/04-cell.mp3"
   },
   {
    "id": "scale",
@@ -132,7 +165,7 @@
     18,
     28
    ],
-   "seconds": 8.34,
+   "seconds": 9.13,
    "title": "Ten roles, or fifty",
    "narration": "A cell can have ten roles, or twenty, thirty, fifty. Almost a mini company, with its own org chart, for one task.",
    "sources": [
@@ -147,7 +180,7 @@
    "on_screen": "10, 20, 30, 50 roles",
    "lead": 0.25,
    "tail": 0.7,
-   "audio": "audio/04-scale.mp3"
+   "audio": "audio/05-scale.mp3"
   },
   {
    "id": "made",
@@ -157,7 +190,7 @@
     5,
     14
    ],
-   "seconds": 8.26,
+   "seconds": 8.16,
    "title": "What a cell made",
    "narration": "And here is Agile working. One cell made a real film, How we refresh a session: seven versions in one day.",
    "sources": [
@@ -172,7 +205,7 @@
    "on_screen": "How we refresh a session, as live cards of its scenes.",
    "lead": 0.25,
    "tail": 0.7,
-   "audio": "audio/05-made.mp3"
+   "audio": "audio/06-made.mp3"
   },
   {
    "id": "proof",
@@ -182,7 +215,7 @@
     0,
     14
    ],
-   "seconds": 8.66,
+   "seconds": 8.29,
    "title": "We did it",
    "narration": "One person, a lead agent, scene builders, a critic and test viewers. Set up for that one film, and taken down when it is done.",
    "sources": [
@@ -203,7 +236,7 @@
    "on_screen": "Dinis Cruz; account C: c.maestro, conductor.c, c.productions with 5 scene-smiths, a critic, 5 test viewers and 2 helper sessions, and design.c, higgsfield.c, accountant.c; account B: b.maestro, higgsfield.b, elevenlabs.b. An agile cell. Archived: its files stay.",
    "lead": 0.25,
    "tail": 0.7,
-   "audio": "audio/06-proof.mp3"
+   "audio": "audio/07-proof.mp3"
   },
   {
    "id": "close",
@@ -213,7 +246,7 @@
     0,
     11
    ],
-   "seconds": 10.09,
+   "seconds": 9.96,
    "title": "Agile, at any size",
    "narration": "So Agile can scale: a cell for each task, built when it is needed, closed when it is done, its files kept. That is Agile Cells.",
    "sources": [
@@ -238,9 +271,9 @@
    ],
    "source_line": "sovereignwebsite.org",
    "on_screen": "Cells form, work and fold onto shelves of files. Agile Cells. sovereignwebsite.org",
-   "audio": "audio/07-close.mp3",
    "lead": 0.25,
-   "tail": 0.7
+   "tail": 0.7,
+   "audio": "audio/08-close.mp3"
   }
  ]
 }
