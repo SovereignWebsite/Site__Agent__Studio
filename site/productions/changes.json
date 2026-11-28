@@ -4,6 +4,24 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "7ea1e4d",
+   "date_utc": "2026-11-28 17:04",
+   "what": "Scene lab: the refresh film's opening survives a switch to landscape",
+   "detail": "Seen by Dinis Cruz on his iPad, 28 Nov 2026: after switching the player from portrait to landscape, the opening's\ntitle was stretched and its labels lay over the cards. The words layer kept its first size. Now any size change\nis handled like a fresh start (layout, renderer, words texture, camera), and the landscape layout is a clean\ntwo-column grid with each label beside its own card. Fixed by its scene-smith sub-agent, tested by creating the\nscene in portrait and switching to landscape and back. Both films that use it get the fix."
+  },
+  {
+   "commit": "1c9befd",
+   "date_utc": "2026-11-28 17:04",
+   "what": "Agile Cells: Dinis's feedback recorded; v0.5 script and voice (not yet listed)",
+   "detail": "production.json carries Dinis Cruz's words of 28 Nov on v0.3 and v0.4 (shown on the\nproduction page; the public source for the new opening's proposition). v0.5:\nan opening that states the proposition, the proof as the punchline (\"here is Agile\nworking\"), a closing that consolidates; 62.7 s. Its two new lab scenes are still\nbeing built, so v0.5 is not in production.json yet."
+  },
+  {
+   "commit": "3fde327",
+   "date_utc": "2026-11-28 16:59",
+   "what": "Words on screen: never more than two lines at a time",
+   "detail": "Dinis Cruz, 28 Nov 2026, on his iPad: the caption of a long sentence ran over the picture. The player now shows\na long sentence two lines at a time, the pair that holds the word being said. player.js changed: self-check\nreviews re-signed."
+  },
+  {
    "commit": "393be0a",
    "date_utc": "2026-11-28 16:58",
    "what": "Agile Cells v0.4: Dinis's answers on v0.3 (53 s)",
@@ -344,24 +362,6 @@
    "date_utc": "2026-11-28 02:56",
    "what": "Scene lab: the saving and the lesson, the close of the session-refresh film (not yet listed)",
    "detail": "Built portrait first by a scene-smith sub-agent in four rounds: two columns of context to true scale\n(859,600 and 118,600), the gap drawn as the thing saved, the floor of about 75,000 that stays, then the\nthree lessons, each beside the object that answers it."
-  },
-  {
-   "commit": "6414c95",
-   "date_utc": "2026-11-28 02:55",
-   "what": "Scene lab: the scroll and the curve, the opening of the session-refresh film (not yet listed)",
-   "detail": "Built portrait first by a scene-smith sub-agent in four rounds: a scroll re-read from the top on every turn,\nthe two measured totals, then the scroll as a chart floor: a line per message, a curve in total."
-  },
-  {
-   "commit": "641be8a",
-   "date_utc": "2026-11-28 02:54",
-   "what": "Scene lab: the 300,000 line, the first scene of the session-refresh film (not yet listed)",
-   "detail": "Built portrait first (720 by 1280) by a scene-smith sub-agent in four rounds: a gate at 300,000, a light that\ngoes straight through it, and the five evidenced hand-overs as marks beyond it. Not yet in lab/scenes.json."
-  },
-  {
-   "commit": "4f8f325",
-   "date_utc": "2026-11-28 02:54",
-   "what": "Session refresh film: the scene list and the voice for a first version, not yet listed",
-   "detail": "Ten scenes, vertical (720 by 1280), one AI voice (Mistral Voxtral), about 97 seconds. The five WebGL scenes\nare still being built by scene-smith sub-agents, so the version is not registered on the productions page yet\nand has no page of its own."
   }
  ]
 }
