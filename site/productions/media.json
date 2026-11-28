@@ -21,6 +21,11 @@
    "path": "session-refresh/v0.7/frames/",
    "what": "33 full-size frames (720x1280 PNG) of How we refresh a session v0.7, and frames.json.",
    "added": "2026-11-28"
+  },
+  {
+   "path": "session-refresh/v0.8/frames/",
+   "what": "33 full-size frames (720x1280 PNG) of How we refresh a session v0.8, and frames.json.",
+   "added": "2026-11-28"
   }
  ],
  "earlier": [

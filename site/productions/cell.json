@@ -23,7 +23,7 @@
   {
    "role": "Scene-smith",
    "does": "Builds one WebGL scene, shoots its own frames, criticises them against the rubric and improves, three rounds or more.",
-   "runs": 14
+   "runs": 15
   },
   {
    "role": "Critic",
@@ -252,6 +252,16 @@
    "minutes": 7,
    "tool_uses": 30,
    "status": "in agile-cells v0.1",
+   "batch": 9
+  },
+  {
+   "n": 22,
+   "role": "Scene-smith",
+   "job": "The agile cell, second round: model tags, then the files into the library and 'This is how we scale.'",
+   "result": "lab/refresh-cell extended to 24 s, two rounds; ends in the library",
+   "minutes": 5,
+   "tool_uses": 14,
+   "status": "in session-refresh v0.8",
    "batch": 9
   }
  ],

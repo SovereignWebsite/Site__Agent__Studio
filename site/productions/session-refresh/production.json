@@ -32,7 +32,7 @@
  "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
  "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow.",
  "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about 110 seconds: a cover, nine scenes and the team that made it drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
- "status_note": "Version v0.7 adds words on screen as they are spoken, an opening that previews the film, and the team as an agile cell. Nobody has signed it. Nothing is published anywhere.",
+ "status_note": "Version v0.8 ends on the agile cell and 'This is how we scale.' Nobody has signed it. Nothing is published anywhere.",
  "approvers": [],
  "versions": [
   {
@@ -76,6 +76,12 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "From Dinis Cruz's review of v0.6 (28 November): the words now appear in the frame as they are spoken, the word being said in amber, so the film works without sound; each chapter line moves to the top under the logo. The opening previews what is coming, as live thumbnails of the film's own scenes (lab/refresh-trailer), and the last scene shows the team as an agile cell that will be archived when the film is done (lab/refresh-cell). After Dinis's look at it on his iPad: the logo moved to the bottom right corner, the chapter line to the very top, and the AI label shows only on the last scene."
+  },
+  {
+   "version": "v0.8",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "From Dinis Cruz's notes on v0.7 (28 November): the ending now says that saving tokens is a side effect and that scale is the gain. The agile cell shows each agent's model (Fable, Opus, Gemini, GPT, Mistral) across two accounts; then everything fades, the files stream into a library labelled as the repository, the source of truth, with a small vault for big encrypted files, and the film ends on 'This is how we scale.' About 125 seconds."
   }
  ],
  "links": [
@@ -107,6 +113,11 @@
   }
  ],
  "owner_feedback": [
+  {
+   "text": "That explanation that you have at the end is absolutely brilliant ... make everything fade away, and you just leave the files ... a big representation of our library ... this is how we scale ... this is not just good for tokens ... spending less tokens is a good positive side effect of us now gaining scalability ... the use of very different types of agents ... work this across multiple accounts ... the GitHub repo is the source of truth ... a little mention of the vaults.",
+   "from": "Dinis Cruz, 28 November 2026, on v0.7",
+   "done": "Done in v0.8."
+  },
   {
    "text": "We need to make sure that the transcription is there ... showing the transcription as it is being spoken, because this has to also work without sound ... add the same carousel that you added to the other one ... show what is about to come with a little screenshot of each one ... a quick animation visualization of the agents that we had working here ... you can say that this is an agile cell ... one of those ephemeral cells that is basically going to be archived as soon as we finish.",
    "from": "Dinis Cruz, 28 November 2026, on v0.6",

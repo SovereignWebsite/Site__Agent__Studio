@@ -1,4 +1,4 @@
-# How we refresh a session: script, v0.7
+# How we refresh a session: script, v0.8
 
 1. **cover** (13 s): Burning too many tokens with Claude? When a session gets long, Claude compacts it for you, and you do not choose what is lost. We compact our own sessions, on purpose. Here is the problem, our rule, and the three steps.
 2. **hook** (7 s): This Claude agent wrote three quarters of a million tokens. To do it, it re-read ninety-five million.
@@ -10,4 +10,4 @@
 8. **test** (8 s): Step three: check it. Does the fresh session reach the same next step as the old one? If not, a file is missing. Fix the file.
 9. **saving** (12 s): One measured hand-over. Before: eight hundred and sixty thousand tokens of context. After: one hundred and nineteen thousand. Eighty-six per cent less to re-read, on every turn.
 10. **lesson** (7 s): Write it early. Keep state in files. Load only what you need.
-11. **team** (16 s): This film was made by an agile cell: one person, two maestros on two accounts, a conductor, a lead agent and its helpers. It was set up for this one film, and it will be archived when the film is done.
+11. **team** (25 s): Saving tokens is a side effect. The real gain is scale. This film was made by an agile cell: one person, two maestros on two accounts, a conductor, a lead agent and its helpers, on different models. The work was handed out across them, with one repository as the source of truth. When the film is done, the cell is archived, and its files stay in the library. This is how we scale.
