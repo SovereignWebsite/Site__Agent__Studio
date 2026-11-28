@@ -28,10 +28,10 @@ const start = async () => {
       if (rec) { rec.stop(); return; }
       P.pause(); rec = new SR(); rec.lang = navigator.language && navigator.language.startsWith('en') ? navigator.language : 'en-GB'; rec.continuous = true; rec.interimResults = true; try { rec.processLocally = true; } catch { /* not offered */ }
       const base = text.value ? text.value.replace(/\s*$/, ' ') : ''; let fin = '';
-      rec.onresult = (e) => { let tmp = ''; for (let k = e.resultIndex; k < e.results.length; k++) { const r = e.results[k]; if (r.isFinal) fin += r[0].transcript.trim() + ' '; else tmp += r[0].transcript; } text.value = base + fin + tmp; };
-      rec.onend = () => { rec = null; text.value = (base + fin).trim(); mic.textContent = 'Speak'; mic.setAttribute('aria-pressed', 'false'); };
+      rec.onresult = (e) => { let tmp = ''; for (let k = e.resultIndex; k < e.results.length; k++) { const r = e.results[k]; if (r.isFinal) fin += r[0].transcript.trim() + ' '; else tmp += r[0].transcript; } text.value = base + fin + tmp; text.scrollTop = text.scrollHeight; sent.textContent = 'Listening: your words appear in the box as you speak.'; };
+      rec.onend = () => { rec = null; text.value = (base + fin).trim(); text.scrollTop = text.scrollHeight; if (sent.textContent.startsWith('Listening')) sent.textContent = 'Stopped listening. Your words are in the box.'; mic.textContent = 'Speak'; mic.setAttribute('aria-pressed', 'false'); };
       rec.onerror = (e) => { sent.textContent = e.error === 'not-allowed' ? 'The microphone was not allowed for this page.' : `Dictation stopped (${e.error}).`; };
-      rec.start(); mic.textContent = 'Stop listening'; mic.setAttribute('aria-pressed', 'true');
+      rec.start(); mic.textContent = 'Stop listening'; mic.setAttribute('aria-pressed', 'true'); sent.textContent = 'Listening. The film is paused here.'; text.focus(); text.scrollIntoView({ block: 'nearest' });
     });
   }
 };

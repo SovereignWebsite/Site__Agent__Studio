@@ -1,0 +1,80 @@
+{
+ "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
+ "production": "session-refresh",
+ "version": "v0.3",
+ "digest": "2aef425edcd202ac0c73d6ea8c0c01d3eba220243d9393312e5b7430d3cf42fe",
+ "files": [
+  {
+   "path": "assets/player.js",
+   "sha256": "3718498bf55c36268e65d7f26c8f070de8bfb4f25dde7390f1d1c4e6ef035650"
+  },
+  {
+   "path": "session-refresh/v0.3/scenes.json",
+   "sha256": "ef3cae5a5fd466f4b576536e929113d3940aa1686e32f389d28c1d76713352a3"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/01-cover.mp3",
+   "sha256": "86817c73e073ed7b299e8b5a9aa9e9e2917b262f91ac97856a7ed49b14539e75"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/02-hook.mp3",
+   "sha256": "271a37323b4c4d289cb2cf0cb209ef092778f45eb493dcf3d35759073f531b7c"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/03-why.mp3",
+   "sha256": "769414efee772a7bc9d6b56a86ddfd637f17feaa5315cb96a5580ec4a9042887"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/04-moment.mp3",
+   "sha256": "565400e0a7f53655e565659e74d4c9c7f3f766fa67fdf6426da888106910fdcd"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/05-writes.mp3",
+   "sha256": "b05018681933777ece8eba435c652825093f71179e7ff689c024d33486d0ac6d"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/06-reads.mp3",
+   "sha256": "49f2f49a12e87736eb50dbafa5de76e212c7b6027f178873c31093e1c8643d0f"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/07-test.mp3",
+   "sha256": "00ca9c72b6cabf7cadc45a34e888e42eef790ae61a22e1b47276a92910dbc2b3"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/08-saving.mp3",
+   "sha256": "308c7c8f5a8fbf99666a0d081eb54bf0b4d20584b1b6e307eeea40f56c78075d"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/09-lesson.mp3",
+   "sha256": "27d292652cce206d19fd1af196bf02cc35c6adb267161f5e09c14a029d35de1e"
+  },
+  {
+   "path": "session-refresh/v0.3/audio/10-credits.mp3",
+   "sha256": "d1834cda380599998f5c880169a6a1c202dccb4866ddcd1dab47e9c17659863c"
+  },
+  {
+   "path": "lab/refresh-keys/scene.js",
+   "sha256": "b2639c7d824bad849587f6101af78611a0f9331a9871b51a2f8e716a4ccf4e09"
+  },
+  {
+   "path": "lab/refresh-line/scene.js",
+   "sha256": "a0cbbd49a91f606bd8a38e3e17ffc1effe00b8d766490a500ebe4b86fc09ef15"
+  },
+  {
+   "path": "lab/refresh-saving/scene.js",
+   "sha256": "c9ef7ef1a76a5b2b52730d6e4c4cee5b802fcc814ab725ff3efaf83736cf0e75"
+  },
+  {
+   "path": "lab/refresh-scroll/scene.js",
+   "sha256": "8e3be4238724a68d4dd23d88e73fbf4586afed57786bf31aab5b109a58e9b973"
+  },
+  {
+   "path": "lab/refresh-shelf/scene.js",
+   "sha256": "fe28bae4143c438cadd8d2bc912b8cce55011c8619bb35b913fbd24e428c7079"
+  },
+  {
+   "path": "assets/vendor/three-0.187.0/three.module.min.js",
+   "sha256": "e0df03ddbddcf65926df5b79a04724d1a05af235d6af8b4113767f9107a8c233"
+  }
+ ]
+}

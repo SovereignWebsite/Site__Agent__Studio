@@ -4,6 +4,30 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "35aaa72",
+   "date_utc": "2026-11-28 06:49",
+   "what": "c.productions: record accountant.c's second reading and c.maestro's confirmation",
+   "detail": ""
+  },
+  {
+   "commit": "2208a72",
+   "date_utc": "2026-11-28 03:11",
+   "what": "c.productions: record accountant.c's first reading of the successor session",
+   "detail": "No saving so far from this hand-over: the workload changed and the context is already past the threshold."
+  },
+  {
+   "commit": "f7c5556",
+   "date_utc": "2026-11-28 03:11",
+   "what": "c.productions: now.md after the second loop",
+   "detail": ""
+  },
+  {
+   "commit": "59ee35a",
+   "date_utc": "2026-11-28 03:10",
+   "what": "How we refresh a session v0.2: the second loop, after two critics",
+   "detail": "- Nine scenes, about 76 seconds, vertical. The keys scene is cut to keep one story (it stays in v0.1 and on the\n  document page); narration trimmed in four scenes; the credits are two short lines over 5 seconds.\n- Every lab scene had a second round from the critics' notes: the first frame is mid-pass with 'tokens' on\n  screen; the 300,000 line is a bar that gets knocked open; the new light is larger and passes the rolled scroll;\n  the test starts clean with each slip under its own light; '86% less' is the biggest thing in the film; the\n  lesson shows one phrase at a time.\n- v0.1 and v0.2 share the lab scenes, so v0.1 now plays the second-round pictures under its first narration.\n- cell.json records the critic runs and the second round; full-size frames are in the media vault.\n- In review beside v0.1. Nobody has approved either; nothing is published. Still no music or effects."
+  },
+  {
    "commit": "6a8c877",
    "date_utc": "2026-11-28 03:07",
    "what": "Scene lab: second-round work in progress, saved as it stands (renders without errors)",

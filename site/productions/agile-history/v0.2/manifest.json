@@ -2,11 +2,11 @@
  "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
  "production": "agile-history",
  "version": "v0.2",
- "digest": "ad46fe783d020a3867e4dfb467ff8e78c829f1a3f13113d725aa8056d1898806",
+ "digest": "6118fc47d80ee158e464d3d5d0922340e68c7353a7e805bfe411165fc4b34194",
  "files": [
   {
    "path": "assets/player.js",
-   "sha256": "d08ed446580e96694f19244ca4560b20966c74ca69b7140602c406a80dcf34cf"
+   "sha256": "3718498bf55c36268e65d7f26c8f070de8bfb4f25dde7390f1d1c4e6ef035650"
   },
   {
    "path": "agile-history/v0.2/scenes.json",

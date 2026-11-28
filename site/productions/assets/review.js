@@ -63,9 +63,12 @@ function wire(root, manifest, checked, state) {
   let rec = null;
   mic.addEventListener('click', () => {
     if (rec) { rec.stop(); return; }
-    rec = new SR(); rec.lang = 'en-GB'; rec.continuous = true; rec.interimResults = false; try { rec.processLocally = true; } catch { /* not offered by this browser */ }
-    rec.onresult = (e) => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) box.value += (box.value && !box.value.endsWith('\n') ? '\n' : '') + e.results[i][0].transcript.trim(); };
-    rec.onend = () => { rec = null; mic.textContent = 'Speak your comments'; mic.setAttribute('aria-pressed', 'false'); };
+    rec = new SR(); rec.lang = 'en-GB'; rec.continuous = true; rec.interimResults = true; try { rec.processLocally = true; } catch { /* not offered by this browser */ }
+    // the film stops where you are, and your words show in the box as you speak, scrolled into view
+    try { document.querySelector('[data-player]')?.__player?.pause?.(); } catch { /* no player on this page */ }
+    const base = box.value ? box.value.replace(/\s*$/, '\n') : ''; let fin = '';
+    rec.onresult = (e) => { let tmp = ''; for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; if (r.isFinal) fin += r[0].transcript.trim() + '\n'; else tmp += r[0].transcript; } box.value = base + fin + tmp; box.scrollTop = box.scrollHeight; dn.textContent = 'Listening: your words appear in the box as you speak. The film is paused.'; };
+    rec.onend = () => { box.value = (base + fin).trimEnd(); box.scrollTop = box.scrollHeight; dn.textContent = 'Stopped listening. Your words are in the box.'; rec = null; mic.textContent = 'Speak your comments'; mic.setAttribute('aria-pressed', 'false'); };
     rec.onerror = (e) => { dn.textContent = `Dictation stopped (${e.error}).`; };
     rec.start(); mic.textContent = 'Stop listening'; mic.setAttribute('aria-pressed', 'true');
   });

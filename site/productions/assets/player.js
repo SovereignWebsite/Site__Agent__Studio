@@ -78,7 +78,10 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   // top line: the production and the scene count
   if (sc.kind === 'component') { // a soft shade under the bottom lines, so they read over any picture
     c.save(); c.shadowBlur = 0; c.globalAlpha = 1; const g = c.createLinearGradient(0, H - 20 * U, 0, H); g.addColorStop(0, 'rgba(6,10,18,0)'); g.addColorStop(1, 'rgba(6,10,18,.82)'); c.fillStyle = g; c.fillRect(0, H - 20 * U, W, 20 * U); c.restore();
-  } else { font(2.3, 700); put(P.title.toUpperCase(), M, 5.5 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 5.5 * U, T.dim, 1, 'right'); }
+  } else if (!P.brand) { font(2.3, 700); put(P.title.toUpperCase(), M, 5.5 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 5.5 * U, T.dim, 1, 'right'); }
+  // branding, when the production names one: the same top line on every scene, over a soft shade
+  if (P.brand) { c.save(); c.shadowBlur = 0; const g2 = c.createLinearGradient(0, 0, 0, 10 * U); g2.addColorStop(0, 'rgba(6,10,18,.78)'); g2.addColorStop(1, 'rgba(6,10,18,0)'); c.fillStyle = g2; c.fillRect(0, 0, W, 10 * U); c.restore();
+    font(2.3, 700); put(P.brand.toUpperCase(), M, 4.6 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 4.6 * U, T.dim, 1, 'right'); }
   const kind = sc.kind, cx = W / 2;
   if (kind === 'component') {
     // the picture is a scene component; only an optional line of words sits over it
