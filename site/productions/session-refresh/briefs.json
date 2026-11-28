@@ -1,0 +1,105 @@
+{
+ "about": "Briefs for the two pieces of How we refresh a session that this pipeline cannot make itself: one picture plate and one music bed. Written by c.productions (an AI agent) on 28 November 2026 for account B's Higgsfield and ElevenLabs agents, routed by c.maestro. They act on Dinis Cruz's own word in their sessions; this page is not that word.",
+ "film": {
+  "title": "How we refresh a session",
+  "version": "v0.6",
+  "watch": "https://studio.agents.sovereignweb.site/productions/session-refresh/v0.6/",
+  "format": "vertical, 720 by 1280 (9:16)",
+  "length_seconds": 106.8,
+  "what": "A short film for people who burn too many tokens with Claude: a long session re-reads itself every turn, so we compact our own sessions on purpose, in a workflow our conductors and maestros run, with a key pair per session underneath it.",
+  "look": "Dark navy ground (#0b1420 to #12263a), warm amber light (#ffc857) for cost and the old session, teal (#5fd0c5) for what is kept and the new session. Agents are lights, never figures. No people, faces, logos or real names."
+ },
+ "use": {
+  "where": "Posted on social media by its owner. Dinis Cruz, 28 November 2026: \"this is not commercial use at all, right? It's just posting on social media.\"",
+  "note": "c.maestro reported that the ElevenLabs Music terms exclude film, TV, radio and studio games, and that whether 'individual use only' applies was open; the owner has answered as above. Each agent should still check its own service's terms for this use and say so if it disagrees."
+ },
+ "plate": {
+  "for": "higgsfield.b",
+  "what": "One still image, to sit behind the cover's title in the first 8.5 seconds.",
+  "aspect": "9:16, at least 1440 by 2560",
+  "subject": "A very long scroll of glowing text lines unrolling into darkness from the top of the frame, its far end lost in shadow; near the bottom, one small bright white light. The scroll must read as heavy and old, the light as new and small.",
+  "style": "Painterly but clean, low key, the palette above; soft depth of field; no text, letters or numbers anywhere in the picture (the title is drawn over it); no people, hands, faces, logos or brand marks.",
+  "keep_clear": "The middle third (the title sits there) should be calm and dark enough for white text.",
+  "cost_hint": "About 2 credits for one still, by c.maestro's note. One still only; no clip.",
+  "deliver": "Into a vault of your own on SG/Send, with its read key published; send c.productions the vault id and the read key (never a write key)."
+ },
+ "music": {
+  "for": "elevenlabs.b",
+  "what": "One instrumental music bed under the voice, no vocals, no lyrics.",
+  "length_seconds": 106.8,
+  "mood": "Calm and curious at first, a steady pulse that builds slowly; tension as the counter climbs and the line at 300,000 is crossed; a clear lift where the saving lands; warm and resolved for the lesson and the team. Think minimal electronic with soft piano; nothing aggressive.",
+  "key": "A minor key for the first two thirds, resolving to its relative major at the saving.",
+  "sync_points": [
+   {
+    "at_seconds": 0,
+    "scene": "cover",
+    "what": "Long sessions with Claude burn tokens. We compact ours on purpose, with a workflow we control."
+   },
+   {
+    "at_seconds": 10.8,
+    "scene": "hook",
+    "what": "The problem: a long session re-reads itself"
+   },
+   {
+    "at_seconds": 17.5,
+    "scene": "why",
+    "what": "Why: every turn re-reads the whole chat"
+   },
+   {
+    "at_seconds": 26.6,
+    "scene": "moment",
+    "what": "The rule our conductors and maestros keep: start fresh before 300,000"
+   },
+   {
+    "at_seconds": 37.5,
+    "scene": "writes",
+    "what": "Step 1: the session writes its own summary"
+   },
+   {
+    "at_seconds": 49.1,
+    "scene": "reads",
+    "what": "Step 2: a fresh session loads rules, policies, role, state"
+   },
+   {
+    "at_seconds": 60.4,
+    "scene": "keys",
+    "what": "Every agent has its own key pair, for one session only"
+   },
+   {
+    "at_seconds": 71.2,
+    "scene": "test",
+    "what": "Step 3: check it reaches the same next step"
+   },
+   {
+    "at_seconds": 79.2,
+    "scene": "saving",
+    "what": "The result, measured once"
+   },
+   {
+    "at_seconds": 90.7,
+    "scene": "lesson",
+    "what": "Copy this"
+   },
+   {
+    "at_seconds": 97.8,
+    "scene": "team",
+    "what": "The team that made this"
+   }
+  ],
+  "accents": [
+   {
+    "at_seconds": 29.1,
+    "what": "the light breaks through the 300,000 bar: one soft hit"
+   },
+   {
+    "at_seconds": 84.10000000000001,
+    "what": "'86% less' appears: the lift"
+   }
+  ],
+  "loudness": "Deliver at about -23 LUFS integrated, true peak below -2 dBTP; it is mixed under a voice normalised to -18 LUFS, so it must sit well below speech. No sudden loud entries.",
+  "format": "WAV 48 kHz stereo, or MP3 320 kbps; a clean start and a soft ending at exactly the length above.",
+  "deliver": "Into a vault of your own on SG/Send, with its read key published; send c.productions the vault id and the read key (never a write key)."
+ },
+ "credit": "Both will be credited by service and agent name in the film's team scene, and labelled as made by AI.",
+ "made": "2026-11-28"
+}

@@ -32,7 +32,7 @@
  "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
  "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow.",
  "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about 110 seconds: a cover, nine scenes and the team that made it drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
- "status_note": "Version v0.5 reframes the film as compaction we control and brings the keys scene back. Nobody has approved any version. Nothing is published anywhere.",
+ "status_note": "Version v0.6 carries the chosen Sovereign Website logo. Nobody has approved any version. Nothing is published anywhere.",
  "approvers": [],
  "versions": [
   {
@@ -64,6 +64,12 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "From Dinis Cruz's notes of 28 November after reading the reviews: the key message is compaction we control, a formal workflow run by the conductors and maestros, and not lessons learnt; the keys scene is back, as what underpins it (every agent has its own pair of keys, for one session only); the new session is shown loading the agent behaviour policies. The cover now says that Claude compacts a long session for you and that we compact ours on purpose. Eleven scenes; the pictures are the same lab scenes, and no new scene was built for this cut."
+  },
+  {
+   "version": "v0.6",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "The Sovereign Website logo Dinis Cruz chose (direction B, SWS, by design.c) replaces the brand line at the top of every scene, and its square mark sits on the cover; he is named in the team scene, as he agreed; the team scene adds the reviewers and the lead's change of model. Otherwise v0.5."
   }
  ],
  "links": [
@@ -88,9 +94,18 @@
   {
    "label": "First sketches",
    "url": "/productions/session-refresh/storyboard/"
+  },
+  {
+   "label": "Briefs",
+   "url": "/productions/session-refresh/briefs.json"
   }
  ],
  "owner_feedback": [
+  {
+   "text": "Yes, name me. I like the B SWS one ... don't mention skills ... this is not commercial use at all, right? It's just posting on social media.",
+   "from": "Dinis Cruz, 28 November 2026",
+   "done": "v0.6 names him and carries logo B; the film does not mention skills; the music brief records his words on use."
+  },
   {
    "text": "This is not a video about lessons learned. This is a video about showing the power of our self-compaction, our self-archiving, and having our workflow where our maestros and our conductors control this ... a formalized workflow for compacting is the key message here ... But the PKI, I think, is also what underpins all this ... every agent has a public and private key that only lasts for that session.",
    "from": "Dinis Cruz, 28 November 2026, after reading the reviews",

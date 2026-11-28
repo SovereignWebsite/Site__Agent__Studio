@@ -76,6 +76,7 @@ def valid(rec):
 def manifest(pid, ver, P):
     comps = sorted({s["component"] for s in P["scenes"] if s.get("component")})
     files = ["assets/player.js", f"{pid}/{ver}/scenes.json"] + [f"{pid}/{ver}/{s['audio']}" for s in P["scenes"] if s.get("audio")]
+    files += [u.removeprefix("/productions/") for u in [P.get("brand_logo")] + [x.get("mark") for x in P["scenes"]] if u]
     files += [f"lab/{c}/scene.js" for c in comps] + (["assets/vendor/three-0.187.0/three.module.min.js"] if comps else [])
     rows = [{"path": f, "sha256": sha(open(os.path.join(ROOT, f), "rb").read())} for f in files]
     digest = sha("".join(f"{r['sha256']}  {r['path']}\n" for r in rows).encode())

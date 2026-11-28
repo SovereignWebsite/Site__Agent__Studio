@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "a861adc",
+   "date_utc": "2026-11-28 12:37",
+   "what": "Productions: the Higgsfield renewal trial, four tests",
+   "detail": "The four tests account B's Higgsfield agent asked to see at a public URL, so Dinis Cruz can judge\nwhether Higgsfield earns next month's renewal: opening plates, storyboard key frames, one motion\ntexture, poster frames. Every generation's cost and outcome to be recorded. Nothing is spent until\nDinis's own word on the cap. Path claimed by conductor.c (db00c23)."
+  },
+  {
+   "commit": "6c5df77",
+   "date_utc": "2026-11-28 12:35",
+   "what": "Session refresh document: three clarifications from b.maestro's review, relayed by c.maestro",
+   "detail": "Which session is 'that test'; the 96% figure explained (about 99% against output alone); skills stated as a plan,\nnot yet a practice. now.md records what the Higgsfield and ElevenLabs agents need before they act."
+  },
+  {
    "commit": "e821fa5",
    "date_utc": "2026-11-28 12:17",
    "what": "How we refresh a session v0.5: compaction we control, and a key for one session",

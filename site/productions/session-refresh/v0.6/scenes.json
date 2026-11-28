@@ -1,0 +1,320 @@
+{
+ "id": "session-refresh",
+ "version": "v0.6",
+ "title": "How we refresh a session",
+ "theme": "ink",
+ "format": {
+  "w": 720,
+  "h": 1280
+ },
+ "label": "Voice made by AI · no presenter · every number sourced",
+ "voice": {
+  "made_by_ai": true,
+  "provider": "Mistral",
+  "model": "voxtral-mini-tts-3",
+  "voice": "voice_3150 (James, a stock preset)",
+  "speed": 1.25
+ },
+ "from": {
+  "what": "The one-page document 'How we refresh a session' and its storyboard",
+  "page": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+  "data": "https://studio.agents.sovereignweb.site/productions/session-refresh/document.json"
+ },
+ "scenes": [
+  {
+   "id": "cover",
+   "kind": "title",
+   "seconds": 10.77,
+   "title": "How we refresh a session",
+   "caption": "Long sessions with Claude burn tokens. We compact ours on purpose, with a workflow we control.",
+   "narration": "Burning too many tokens with Claude? When a session gets long, Claude compacts it for you, and you do not choose what is lost. We compact our own sessions, on purpose. This is how.",
+   "sources": [
+    {
+     "claim": "A long chat gets expensive because every turn re-reads all of it; the agents here are Claude sessions that hand over to a fresh session from files.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "mark": "/productions/assets/brand/sws-mark.svg",
+   "audio": "audio/01-cover.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "hook",
+   "kind": "component",
+   "seconds": 6.75,
+   "title": "The number",
+   "narration": "This Claude agent wrote three quarters of a million tokens. To do it, it re-read ninety-five million.",
+   "sources": [
+    {
+     "claim": "One measured session wrote 745,255 tokens of output and re-read 95,247,818 from cache (its own usage record, 28 November 2026).",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "written: 745,255 tokens. re-read: 95,247,818 tokens.",
+   "component": "refresh-scroll",
+   "span": [
+    0,
+    7
+   ],
+   "caption": "The problem: a long session re-reads itself",
+   "audio": "audio/02-hook.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "why",
+   "kind": "component",
+   "seconds": 9.13,
+   "title": "A line per message, a curve in total",
+   "narration": "Every turn, a chat re-reads itself from the top. So each message costs a little more than the last. Add them up, and you get a curve.",
+   "sources": [
+    {
+     "claim": "Every turn re-reads the whole conversation, so one message costs in proportion to the context it lands in, and the total goes with the square.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "one message: a line. all of them: a curve.",
+   "component": "refresh-scroll",
+   "span": [
+    7,
+    17
+   ],
+   "caption": "Why: every turn re-reads the whole chat",
+   "audio": "audio/03-why.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "moment",
+   "kind": "component",
+   "seconds": 10.9,
+   "title": "The line nobody stops at",
+   "narration": "Our conductors and maestros watch every session. The rule: hand over before three hundred thousand tokens. Every hand-over we can evidence came later. The latest, at eight hundred and forty-five thousand.",
+   "sources": [
+    {
+     "claim": "The hand-overs that can be evidenced happened at about 484,000 to 845,000 tokens of context, all past the threshold.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    },
+    {
+     "claim": "The written rule: hand over before 300,000 tokens of context.",
+     "title": "Token-efficiency policy, rule 2",
+     "url": "https://web-summit.sgit.ai/abp/token-efficiency/",
+     "publisher": "web-summit.sgit.ai"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "hand over before 300,000. 484,000. 845,000.",
+   "component": "refresh-line",
+   "span": [
+    0,
+    8
+   ],
+   "caption": "The rule our conductors and maestros keep: start fresh before 300,000",
+   "audio": "audio/04-moment.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "writes",
+   "kind": "component",
+   "seconds": 11.56,
+   "title": "What the old session writes",
+   "narration": "So we compact on purpose. Step one: the old session writes its own summary into its repository, as plain Markdown. What happened. What is open. What to do next.",
+   "sources": [
+    {
+     "claim": "The old session writes a short hand-over into its own repository; nothing may live only in the session.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "role, now, restart.",
+   "component": "refresh-shelf",
+   "span": [
+    0,
+    9
+   ],
+   "caption": "Step 1: the session writes its own summary",
+   "audio": "audio/05-writes.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "reads",
+   "kind": "component",
+   "seconds": 11.24,
+   "title": "What the new one reads",
+   "narration": "Step two: a conductor starts a new session with one line, pointing at the note. It loads the rules, the agent behaviour policies, its role, its state. It never opens the old transcript.",
+   "sources": [
+    {
+     "claim": "The new session reads the rules, its role and its state, and does not read the old transcript.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "Read restart.md and continue.",
+   "component": "refresh-shelf",
+   "span": [
+    9,
+    17
+   ],
+   "caption": "Step 2: a fresh session loads rules, policies, role, state",
+   "audio": "audio/06-reads.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "keys",
+   "kind": "component",
+   "seconds": 10.85,
+   "title": "A key for one session",
+   "caption": "Every agent has its own key pair, for one session only",
+   "narration": "Underneath it all: every agent has its own pair of keys, and they last for one session only. The old key is retired. The new session makes its own, and signs everything it does.",
+   "sources": [
+    {
+     "claim": "A successor always makes a new key and never reuses a retired one; the commit gate refuses a new commit signed with a retired key.",
+     "title": "How we refresh a session, sections 5 and 6",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    },
+    {
+     "claim": "The agent lifecycle decision: a session key ends with its session.",
+     "title": "The agent lifecycle decision",
+     "url": "https://decisions.agents.sovereignweb.site/records/2026-11-24__agent-lifecycle.json",
+     "publisher": "decisions.agents.sovereignweb.site"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "retired.",
+   "component": "refresh-keys",
+   "span": [
+    0,
+    9
+   ],
+   "audio": "audio/07-keys.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "test",
+   "kind": "component",
+   "seconds": 7.98,
+   "title": "Did it work",
+   "narration": "Step three: check it. Does the fresh session reach the same next step as the old one? If not, a file is missing. Fix the file.",
+   "sources": [
+    {
+     "claim": "The restart test: a fresh session reaches the same next step without the old transcript; a gap means a file is missing.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "what is next.",
+   "component": "refresh-keys",
+   "span": [
+    9,
+    16
+   ],
+   "caption": "Step 3: check it reaches the same next step",
+   "audio": "audio/08-test.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "saving",
+   "kind": "component",
+   "seconds": 11.5,
+   "title": "The saving",
+   "narration": "One measured hand-over. Before: eight hundred and sixty thousand tokens of context. After: one hundred and nineteen thousand. Eighty-six per cent less to re-read, on every turn.",
+   "sources": [
+    {
+     "claim": "One measured hand-over on 28 November 2026: context fell from 859,600 to 118,600 tokens, 86% less; about 75,000 tokens are fixed load that a hand-over does not shrink.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "859,600. 118,600. 86% less. floor: about 75,000.",
+   "component": "refresh-saving",
+   "span": [
+    0,
+    10
+   ],
+   "caption": "The result, measured once",
+   "audio": "audio/09-saving.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "lesson",
+   "kind": "component",
+   "seconds": 7.11,
+   "title": "The lesson",
+   "narration": "Write it early. Keep state in files. Load only what you need.",
+   "sources": [
+    {
+     "claim": "The lessons for someone copying this: write the hand-over early, keep state in files, load only what is needed.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "Write it early. Keep state in files. Load only what you need.",
+   "component": "refresh-saving",
+   "span": [
+    10,
+    17
+   ],
+   "caption": "Copy this",
+   "audio": "audio/10-lesson.mp3",
+   "lead": 0.25,
+   "tail": 3.2
+  },
+  {
+   "id": "team",
+   "kind": "credits",
+   "seconds": 8.99,
+   "title": "The team that made this",
+   "lines": [
+    "One person: Dinis Cruz, who gave the brief and the feedback.",
+    "One lead agent: c.productions, on Claude Fable 5.2, then Claude Opus 5.5.",
+    "Five scene-smiths and a critic: sub-agents of the lead.",
+    "Reviewers: conductor.c and c.maestro. Test viewers and a critic: Gemini and GPT. Voice: Mistral Voxtral.",
+    "Logo: design.c. Not published: it waits for a signed review of this exact version."
+   ],
+   "narration": "This was made by one person and a small team of AI agents. The team, the script and every source are on the page below.",
+   "sources": [
+    {
+     "claim": "The film's numbers and their sources are on the one-page document.",
+     "title": "How we refresh a session",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "audio": "audio/11-team.mp3",
+   "lead": 0.25,
+   "tail": 2.5
+  }
+ ],
+ "brand": "Sovereign Website · Productions",
+ "brand_logo": "/productions/assets/brand/sws-wordmark-navy.svg"
+}

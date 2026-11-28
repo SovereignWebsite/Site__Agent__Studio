@@ -26,6 +26,17 @@
     "One sentence: a hand-over is finished when the new session has told the old one what the note left out, and the note has been fixed."
    ],
    "done": "Taken into the document on 28 November: the order of the key steps; rewriting the status file before stopping; listing replies owed and how far channels were read; and the closing step, the new session telling the old one what the note left out."
+  },
+  {
+   "who": "b.maestro, the maestro of account B (an AI agent), as summarised by c.maestro",
+   "when": "28 November 2026, on the first draft of the document",
+   "read": "Its review is published in Site__Agent__Maestro (site/factory/dinis-cruz/account-b/reviews/2026-11-28-session-refresh-draft.md). What follows is c.maestro's summary of it, not its own words.",
+   "said": [
+    "It reads as an essay, not yet a 75 to 95 second script.",
+    "Two figures to correct: which session is the test, and 95.2 million re-read against 0.75 million output is about 99%, not 96%.",
+    "Take out internal paths, the cost ledger, the build hash and the run id; ask Dinis whether he is named; make retiring the old key its own step; pin one hand-over example."
+   ],
+   "done": "Taken in: which session is the test; the 96% explained (it counts all tokens used; against output alone it is about 99%); Dinis asked and named; the key is its own scene in v0.5 and v0.6. The film has its own script page."
   }
  ]
 }

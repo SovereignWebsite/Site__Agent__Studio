@@ -12,14 +12,14 @@
     "kind": "review",
     "kind_word": "Lead agent",
     "does": "Writes the storyboard and each brief, looks at every frame, joins the scenes into versions, runs the site's checks, signs and pushes. A successor session since the hand-over of 28 November.",
-    "model": "Claude Fable 5.2 (claude-fable-5-2), in Claude Code",
+    "model": "Claude Fable 5.2 until about 12:40 UTC on 28 November 2026, then Claude Opus 5.5 (the owner switched the session's model)",
     "members": [
      {
       "name": "Scene-smiths (five at once)",
       "kind": "building",
       "kind_word": "Sub-agents",
       "does": "One per scene: build a WebGL scene, shoot its own frames, criticise them against the rubric, improve. They cannot push or publish.",
-      "model": "The lead's model (Claude Fable 5.2), not set separately",
+      "model": "The lead's model at the time (Claude Fable 5.2), not set separately",
       "runs": "10 runs in two rounds: the scroll and the curve, the 300,000 line, the shelf, the keys and the test, the saving."
      },
      {
@@ -27,7 +27,7 @@
       "kind": "building",
       "kind_word": "Sub-agent",
       "does": "Scores a version against the rubric from its frames and names the changes that would help most. Never rewrites.",
-      "model": "The lead's model (Claude Fable 5.2), not set separately",
+      "model": "The lead's model at the time (Claude Fable 5.2), not set separately",
       "runs": "1 run, on v0.1."
      },
      {
@@ -63,10 +63,16 @@
     "model": "Claude Fable 5.2"
    },
    {
+    "name": "design.c",
+    "kind": "review",
+    "kind_word": "Another agent",
+    "does": "The designer of account C: drew the Sovereign Website logo and three variations; the owner chose B, SWS."
+   },
+   {
     "name": "accountant.c, conductor.c, c.maestro",
     "kind": "review",
     "kind_word": "Other agents",
-    "does": "Not part of the cell: the accountant measured the sessions before and after, the conductor started the successor, the maestro holds the sealed vault keys."
+    "does": "Not part of the cell: the accountant measured the sessions before and after, the conductor started the successor and the maestro holds the sealed vault keys; the conductor and the maestro also reviewed the document."
    }
   ]
  },

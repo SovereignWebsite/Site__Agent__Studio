@@ -1,4 +1,4 @@
-# How we refresh a session: script, v0.5
+# How we refresh a session: script, v0.6
 
 1. **cover** (11 s): Burning too many tokens with Claude? When a session gets long, Claude compacts it for you, and you do not choose what is lost. We compact our own sessions, on purpose. This is how.
 2. **hook** (7 s): This Claude agent wrote three quarters of a million tokens. To do it, it re-read ninety-five million.

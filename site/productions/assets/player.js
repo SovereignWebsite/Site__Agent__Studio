@@ -2,6 +2,7 @@
 // a capture button (MediaRecorder) and a teleprompter experiment (camera and microphone, local only).
 // No dependencies, no network calls except this version's own files. Apache-2.0. By c.productions (an AI agent).
 const N = 7000, TAU = Math.PI * 2;
+const IMGS = {}; // pictures a production names (a brand logo, a cover mark), loaded once before the first frame
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const ease = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
 const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
@@ -80,14 +81,17 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
     c.save(); c.shadowBlur = 0; c.globalAlpha = 1; const g = c.createLinearGradient(0, H - 20 * U, 0, H); g.addColorStop(0, 'rgba(6,10,18,0)'); g.addColorStop(1, 'rgba(6,10,18,.82)'); c.fillStyle = g; c.fillRect(0, H - 20 * U, W, 20 * U); c.restore();
   } else if (!P.brand) { font(2.3, 700); put(P.title.toUpperCase(), M, 5.5 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 5.5 * U, T.dim, 1, 'right'); }
   // branding, when the production names one: the same top line on every scene, over a soft shade
-  if (P.brand) { c.save(); c.shadowBlur = 0; const g2 = c.createLinearGradient(0, 0, 0, 10 * U); g2.addColorStop(0, 'rgba(6,10,18,.78)'); g2.addColorStop(1, 'rgba(6,10,18,0)'); c.fillStyle = g2; c.fillRect(0, 0, W, 10 * U); c.restore();
-    font(2.3, 700); put(P.brand.toUpperCase(), M, 4.6 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 4.6 * U, T.dim, 1, 'right'); }
+  const logo = P.brand_logo && IMGS[P.brand_logo];
+  if (P.brand || logo) { c.save(); c.shadowBlur = 0; const g2 = c.createLinearGradient(0, 0, 0, 10 * U); g2.addColorStop(0, 'rgba(6,10,18,.78)'); g2.addColorStop(1, 'rgba(6,10,18,0)'); c.fillStyle = g2; c.fillRect(0, 0, W, 10 * U); c.restore();
+    if (logo) { const lw = (L.portrait ? 0.4 : 0.24) * W, lh = lw * logo.height / logo.width; c.shadowBlur = 0; c.globalAlpha = 1; c.drawImage(logo, (W - lw) / 2, 2.4 * U, lw, lh); font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 2.4 * U + lh / 2, T.dim, 1, 'right'); }
+    else { font(2.3, 700); put(P.brand.toUpperCase(), M, 4.6 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 4.6 * U, T.dim, 1, 'right'); } }
   const kind = sc.kind, cx = W / 2;
   if (kind === 'component') {
     // the picture is a scene component; only an optional line of words sits over it
     if (sc.caption) { const big = !!P.brand, lh = (big ? font(4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
   } else if (kind === 'title') {
     const lh = font(L.portrait ? 7.4 : 7, 700) * 1.16, ls = wrap(sc.title, maxW), y0 = H * 0.46 - (ls.length - 1) * lh / 2;
+    const mk = sc.mark && IMGS[sc.mark]; if (mk) { const ms = 24 * U; c.save(); c.shadowBlur = 0; c.globalAlpha = rv(0, ls.length + 2); c.drawImage(mk, cx - ms / 2, y0 - lh - ms - 2 * U, ms, ms); c.restore(); }
     ls.forEach((l, k) => put(l, cx, y0 + k * lh, T.ink, rv(k, ls.length + 2), 'center'));
     if (sc.caption) { const lh2 = font(3.5, 500) * 1.3; block(sc.caption, cx, y0 + ls.length * lh + 3 * U, maxW, lh2, T.dim, rv(ls.length + 1, ls.length + 2), 'center'); }
   } else if (kind === 'stat') {
@@ -123,8 +127,8 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   // bottom lines, in every frame: the scene's sources and the label
   c.globalAlpha = 1; font(2.15, 500);
   if (sc.source_line) { const s = wrap('Source: ' + sc.source_line, maxW)[0]; c.fillStyle = T.dim; c.textAlign = 'center'; c.fillText(s, cx, H - 9.4 * U); }
-  font(2.45, 700); const lw = c.measureText(P.label).width + 5 * U, lhh = 4.6 * U; c.shadowBlur = 0; c.fillStyle = 'rgba(0,0,0,.62)'; c.beginPath(); c.roundRect(cx - lw / 2, H - 6.9 * U, lw, lhh, lhh / 2); c.fill();
-  c.fillStyle = '#ffffff'; c.textAlign = 'center'; c.fillText(P.label, cx, H - 6.9 * U + lhh / 2 + 0.1 * U);
+  // the label: on every frame, or (label_end_only) only on the last scene, where the credits say it
+  if (!P.label_end_only || meta.i === meta.n - 1) {   font(2.45, 700); const lw = c.measureText(P.label).width + 5 * U, lhh = 4.6 * U; c.shadowBlur = 0; c.fillStyle = 'rgba(0,0,0,.62)'; c.beginPath(); c.roundRect(cx - lw / 2, H - 6.9 * U, lw, lhh, lhh / 2); c.fill();   c.fillStyle = '#ffffff'; c.textAlign = 'center'; c.fillText(P.label, cx, H - 6.9 * U + lhh / 2 + 0.1 * U); }
 }
 function drawCam(c, L, cam) {
   const v = cam.video; if (!v || v.readyState < 2) return; const { W, H, U, M } = L, vw = v.videoWidth, vh = v.videoHeight; c.save(); c.shadowBlur = 0; c.globalAlpha = 1;
@@ -160,6 +164,7 @@ export async function mount(root) {
   } else say('This browser has no WebGL: the transcript below has the whole story.');
   function size(w, h) { canvas.width = text.width = w; canvas.height = text.height = h; L = layout(w, h); root.classList.toggle('portrait', h > w); if (gl) gl.viewport(0, 0, w, h); }
   size(P.format?.w || 1280, P.format?.h || 720);
+  for (const u of [P.brand_logo, ...scenes.map((x) => x.mark)].filter(Boolean)) { if (IMGS[u]) continue; try { const im = new Image(); im.src = u; await im.decode(); IMGS[u] = im; } catch { /* drawn without it */ } }
   // scene components (built in the lab): each draws into its own canvas, which this player lays under the words
   const comps = {}; let ctex = null;
   { const ids = [...new Set(scenes.map((s) => s.component).filter(Boolean))];
