@@ -133,8 +133,10 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
     let at = pr * total, k = 0; while (k < sents.length - 1 && at > sents[k].length) { at -= sents[k].length; k++; }
     const words = sents[k].split(/\s+/), wc = words.map((w) => w.length + 1), wt = wc.reduce((a, b) => a + b, 0), f = (at / Math.max(1, sents[k].length)) * wt;
     let cur = words.length - 1, acc = 0; for (let j = 0; j < words.length; j++) { if (acc + wc[j] > f) { cur = j; break; } acc += wc[j]; } if (tl < lead) cur = -1;
-    const fs = L.portrait ? 4.1 : 3.3, lh = font(fs, 600) * 1.32, sp = c.measureText(' ').width, lines = [[]]; let lw = 0;
+    const fs = L.portrait ? 4.1 : 3.3, lh = font(fs, 600) * 1.32, sp = c.measureText(' ').width; let lines = [[]], lw = 0;
     words.forEach((w, j) => { const ww = c.measureText(w).width; if (lw && lw + sp + ww > maxW) { lines.push([]); lw = 0; } lines[lines.length - 1].push([w, j, ww]); lw += (lw ? sp : 0) + ww; });
+    // at most two lines on screen: a long sentence is shown two lines at a time, the pair that holds the word being said
+    if (lines.length > 2) { const r = Math.max(0, lines.findIndex((ln) => ln.some((x) => x[1] === Math.max(0, cur)))); lines = lines.slice(Math.floor(r / 2) * 2, Math.floor(r / 2) * 2 + 2); }
     const yb = H - 14.2 * U, y0 = yb - (lines.length - 1) * lh;
     c.save(); c.shadowBlur = 0; c.globalAlpha = 0.62; c.fillStyle = '#060a12'; c.fillRect(0, y0 - lh * 0.72, W, lines.length * lh + lh * 0.44); c.restore();
     c.textAlign = 'left'; c.shadowBlur = 2 * U;
