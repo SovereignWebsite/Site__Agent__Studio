@@ -1,0 +1,45 @@
+{
+ "about": "Two critics' notes on How we refresh a session v0.1, recorded as unsigned notes. Neither is a review signature. The lead (c.productions) chose from them what to change in v0.2.",
+ "critics": [
+  {
+   "who": "A critic sub-agent of the cell (Claude), judging the 30 player frames and 14 more it shot, against lab/critic.md",
+   "scores": {
+    "so_what": 1,
+    "one_story": 1,
+    "best_line_first": 1,
+    "picture_of_the_idea": 1,
+    "one_visual_language": 1,
+    "motion_that_means_something": 1,
+    "sound": "not scored (frames only)",
+    "true_and_labelled": 2
+   },
+   "top_three": [
+    "Cut the keys scene and bring the saving forward, so the pay-off lands before 60 seconds and one story remains.",
+    "Rebuild the ending: the lesson at 7 seconds with one phrase at a time, the credits folded over its last image; no serif.",
+    "One shelf, one look across writes, reads, test and saving; relight the test in the ink look."
+   ],
+   "per_scene": {
+    "hook": "No unit, and the first 0.3 s is empty: start mid-pass and add 'tokens'.",
+    "why": "Top 55% of the frame empty until about 6 s; the sideways scroll is too small.",
+    "moment": "The 300,000 line reads as a horizon with a floating caption: make it a bar across the tray.",
+    "writes": "The first page is washed out by glow; page labels differ from the spoken words.",
+    "reads": "A 20 px light beside a shelf, half the frame empty, for 9 s.",
+    "keys": "Off the through-line, in a different look, stretched 1.5 times: cut it.",
+    "test": "Cluttered by miniature keys; mark which slip is old and which is new.",
+    "saving": "One static tower for over 4 s; '86% less' smaller and paler than the hook's counter.",
+    "lesson": "An annotated diagram in a serif, with the third phrase arriving at the very end.",
+    "credits": "A slide: four paragraphs in 8 s."
+   }
+  },
+  {
+   "who": "An outside model, google/gemini-3.8-flash through OpenRouter, shown three contact sheets and the narration",
+   "scores": {
+    "all_eight_points": 1
+   },
+   "said": "### 1. Rubric Scores (0–2)\n\n1. **So what? — Score: 1**  \n   The token waste is established, but the practical consequences on cost or system speed are never made clear to a layman.\n2. **One story — Score: 1**  \n   The core narrative of resetting context gets bogged down midway by technical detours into cryptographic key rotation.\n3. **The best line first — Score: 1**  \n   The opening line offers impressive scale, but it front-loads abstract token jargon rather than an immediate human hook.\n4. **A picture of the idea — Score: 1**  \n   Several scenes rely on document diagrams and floating bars that resemble animated slides rather than visual metaphors.\n5. **One visual language — Score: 1**  \n   The teal-and-gold palette is consistent, but physical keys and glowing lightbulbs clash with the abstract charts.\n6. **Motion that means something — Score: 1**  \n   Light pulses and growing bars indicate progression, but much of the secondary movement serves as decorative fill.\n7. **Sound in one piece — Score: 1**  \n   The voice-over is clean, though the synthetic delivery keeps the emotional stakes flat across transitions.\n8. **True and labelled — Score: 1**  \n   The technical disclaimers are present, though tiny margin text is illegible on mobile viewports.\n\n---\n\n### 2. Scene-by-Scene Critique\n\n* **Scene 1 (Hook)**  \n  *Worst problem:* Abstract token counts mean nothing to a general audience.  \n  *Single change:* Visualise tokens as a towering stack of physical paper.\n* **Scene 2 (Why)**  \n  *Worst problem:* The staircase chart feels like a corporate spreadsheet.  \n  *Single change:* Show the prompt visibly groaning under the weight of previous messages.\n* **Scene 3 (Moment)**  \n  *Worst problem:* The illuminated runway fails to communicate a hard limit.  \n  *Single change:* Replace the ramp with a stark barrier that gets breached.\n* **Scene 4 (Writes)**  \n  *Worst problem:* The glowing orb and scaffolding clutter the composition.  \n  *Single change:* Focus the camera cleanly on a single sheet sliding into a drawer.\n* **Scene 5 (Reads)**  \n  *Worst problem:* Wireframe cards look like static software documentation.  \n  *Single change:* Show the fresh agent discarding the past transcript into darkness.\n* **Scene 6 (Keys)**  \n  *Worst problem:* Literal brass keys clash with the data aesthetic.  \n  *Single change:* Use simple digital lock glyphs integrated into the file cards.\n* **Scene 7 (Test)**  \n  *Worst problem:* Comparing text lines looks like an unengaging slide diff.  \n  *Single change:* Use an instant colour pulse—red to green—to signify the match.\n* **Scene 8 (Saving)**  \n  *Worst problem:* Repeating column stacks feels redundant after Scene 2.  \n  *Single change:* Show the giant pillar compressing down into a compact cube.\n* **Scene 9 (Lesson)**  \n  *Worst problem:* The summary text",
+   "note": "Its answer was cut off at the ninth scene by the length limit set for it."
+  }
+ ],
+ "what_the_lead_did": "v0.2: the keys scene is cut from the film (what is lost at a hand-over stays on the document page); the narration is trimmed in why, writes, saving and the credits; each of the five scene-smiths got one focused round of fixes from these notes. Not taken: the outside model's wish to drop the word 'tokens' and the real page names, because the numbers and names are the measured ones.",
+ "made": "2026-11-28"
+}

@@ -1,37 +1,37 @@
-# c.productions: now (28 Nov 2026, 01:20 UTC, written at the hand-over)
+# c.productions: now (28 Nov 2026, 03:05 UTC, the successor session)
 
-## This session was handed over here
-Dinis Cruz, 28 Nov 2026: "Yes, can you refresh this session?" Read just before: 597,635 tokens of context in a 1,000,000 window; 95.2 million tokens re-read from cache against 0.75 million of output; 82.19 dollars API-equivalent (a yardstick, not money paid); about 7.2 hours. accountant.c was asked to read this session before and the successor for a day after. The successor: make a new key, a new feedback lane and a new media vault (see restart.md), give Dinis a new sign-in code, re-sign the self-check reviews, and tell accountant.c and c.conductor you are up.
+## Who is running
+The successor session, started 28 Nov 2026 02:39:50 UTC by conductor.c at Dinis Cruz's word. The first session has stopped. accountant.c reads this session at +1 h, +6 h and +24 h: it has no wake of its own, so send it a one-line ping when awake near 03:40 and 08:40 on 28 Nov and 02:40 on 29 Nov (UTC). A wake may not be scheduled without Dinis's word.
 
-## Added after the hand-over note was written
-- c.maestro's measured hand-over (859,600 to 118,600 tokens of context) is in the refresh document. accountant.c confirmed my own before-reading and will read the successor at +1 h, +6 h and +24 h: tell it your start time. If you run on a different model, compare tokens, not cost.
-- The new c.maestro was asked for its public encryption key (for the vault and lane keys) and had not answered.
+## Remade at the hand-over (all done)
+- Signing key: `site/keys/c.productions.json` (the first session's is in `site/keys/retired/`). Self-check reviews re-signed.
+- Feedback lane: vault a2tb8hpe (`send/inbox.json`). Dinis's new sign-in link was given to him in this session's chat; his browser key is 72ef359081a9e945. The lane is read only when he says to.
+- Media vault: odt7m8oh (`media.json`). The first vault (l9bf0dri) is read only.
+- Both vault keys are sealed to c.maestro in `agent/for-maestro/2026-11-28.sealed.json`; c.maestro was told.
 
-## Done and live
-- Timeline, player, review and sign-off, scene lab (7 scenes), storyboard page, feedback lane with sign-in and chat, media vault.
-- The story of Agile v0.3 (12 of 15 scenes are lab pictures) and A galaxy of agents v0.1, both in review. Nothing is published or approved.
-- Dinis is signed in to the lane (browser key 72ef359081a9e945). I read the lane only when he says to.
+## Dinis's word in this session, 28 Nov, between 02:40 and 02:55 UTC
+- The Agile film: name its source site and the Sovereign Website family. Done on the production page and in v0.3's first credits line. The Agile film stays horizontal.
+- The session-refresh film: a new page, a first pass with WebGL, a couple of loops, a cell of agents working together; "plan it as vertical from the beginning". Use Higgsfield, ElevenLabs and OpenRouter where reachable.
 
-## First job for the successor (Dinis, 28 Nov: "it's a great example of a video for us to create")
-The session-refresh film. Its brief, the data to show and nine beats to storyboard are in `session-refresh/production.json`; the facts are in `session-refresh/document.json`. Storyboard first, then scenes, then voice. Keep it lean: account C is near its weekly limit.
+## The session-refresh film
+- `session-refresh/storyboard/` (nine beats, sketches from the document's numbers), then v0.1 (ten scenes, 97 s, vertical, five lab scenes `lab/refresh-*`, one AI voice).
+- Two critics judged v0.1: a critic sub-agent and an outside model through OpenRouter (`session-refresh/v0.1/notes/critics.json`). Both: the keys scene is a detour; the ending is a diagram; too long.
+- v0.2: the keys scene cut, narration trimmed to about 76 s, one round of fixes per scene. If v0.2 is not listed in `session-refresh/production.json`, it is not finished: check `session-refresh/v0.2/` and the lab scenes, shoot frames, look, then list it.
+- No music or effects, no generated footage: account C sessions cannot reach account B's ElevenLabs and Higgsfield agents. The route is c.maestro's six-hourly wake; one plate and one music bed were asked for on 28 Nov.
 
 ## Next, in the order I would do it
-0. Dinis wants data analysis first, then a picture of it: the cost curve is in `session-refresh/document.json` (a chart is on the page); the cell is a timeline in `cell.json`. An animated, live view of who is working is wanted and not started.
-1. The new Agile opening Dinis asked for: why you are watching (Agile took over), what a methodology is, the waterfall, software shipping a couple of times a year, the process solidifying. Sourced research is done (about 30 items); script, then a storyboard pass, then scenes for the hook and the ending.
-2. Fix list from higgsfield.c's review (`agile-history/v0.3/notes/higgsfield.c.json`).
-3. The session-refresh film, from `session-refresh/document.json`. Add the successor's measured numbers to the document a day after the hand-over.
-4. Sound, through the ElevenLabs agent on account B.
-5. One copy of the voice files instead of one per version (6.8 MB of repeats).
+1. Dinis's reaction to the refresh film: v0.1 against v0.2, and whether the keys beat should return.
+2. Add to `session-refresh/document.json`: conductor.c's own refresh of 28 Nov (601,347 tokens at hand-over, about 5.4 days, its restart note of about 1,100 words; Dinis's standing rule that conductors and maestros refresh without asking, and his title rule "[being refreshed]" then "[archived]"), and this session's measured numbers from accountant.c a day after the hand-over.
+3. A 60-second cut for Reels (drop the test scene, trim reads).
+4. The new Agile opening (see restart.md, research already paid for), then the fix list in `agile-history/v0.3/notes/higgsfield.c.json`. The Agile v0.3 storyboard thumbnail of the credits scene predates the new credits line.
+5. Sound, when c.maestro has a route to the ElevenLabs agent.
+6. One copy of the voice files instead of one per version.
 
 ## Waiting on Dinis
-- Which comes first: the refresh film or the Agile opening.
-- Higgsfield: agreed as support (stills, plates, textures, posters; never replacing WebGL). The four-test trial waits on account B being reachable; whether a spend cap applies is unclear (higgsfield.c says none, c.conductor says pending).
-- Whether his signed-in key may approve for publishing.
-- Screenshots of other sites' old pages in a public video.
+- Higgsfield trial and spend cap; whether his signed-in key may approve for publishing; screenshots of other sites' old pages in a public video.
 
 ## Waiting on others
-- factory.c: the Site__Agent__Productions repository.
-- c.maestro: reachable again, and its public encryption key, for the two vault keys.
-- feedback.c: its key and the shared vault, at Dinis's word in its session.
+- c.maestro: the plate and the music bed; confirmation that the sealed vault keys open.
+- factory.c: the Site__Agent__Productions repository. feedback.c: its key and the shared vault.
 
 ## Account C is near its weekly limit: keep it lean.
