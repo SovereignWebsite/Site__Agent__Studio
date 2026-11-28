@@ -1,0 +1,17 @@
+{
+  "agent": "c.productions-cells@SovereignWebsite.dinis",
+  "session": "https://claude.ai/code/session_01Kw9UwBb15wVFqY5f3TuAXV",
+  "status": "active",
+  "fingerprint": "sha256:8cabf393349121e9",
+  "signing_fingerprint": "sha256:7b01dada628e7222",
+  "ssh": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCTo/Ov0smprZdW70KxRg8LkVgDVvu4Uym7h0vs4pTs78XMU2o68g54H15u2B7oXbIaieA45veIf67M7xECJaxg=",
+  "bundle": {
+    "v": 1,
+    "encrypt": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2RukuqKWVnvnrGhjjTb/\nBd32szmSKiKvMz5LxrmvaXuWj2qnAUXWBNb7qqQfw+0HE4FMUiH4bU5OpzPU0aCV\n1VvX6GkxwlBFY/pI0UrGEk0ZFzJoBgR+mnhfXgx1cNa1i8N/akuNe83houwSQA3L\nf+rJfmQQ+Mh/DcVAeZCxAjbl4RQzZjP/2KeSFB7sEm8gUWox7r4vk3ZgLFlv1FYD\ny8ZyeF10+S+wYEloQWqYPq8W3O86LXxBG7Hfc19yp0pPi2d1f7ac2rQzX21NPXXM\nbSrly63zrh7XV4EklXsYYLFrkJQbaA3URb0RrjlQqeojRJmYp5psjTlh68O1HsQT\n1o5H9PCP8VKO8mAc6+aeW+Z8/knS4C73kNRo5te4wgYT3wwiKBpjxIlydWAsmFDT\nlRRk+4kgT6tM7FBghQWAFDLBJDTIxphcQH7EP2ty/9HOfLIJShGAvng5vPNRLf7s\nNIWjBto9VEU0G4di08FW5wO3WLJzEf/RsrGYhcSKPnN/fsJf3UgW/+fh+WzS5RoR\nPnZ6uDQ1K1AWsiPo4DU0gQKY8EOmsR7zT1HRJdPuoCmcGAIRHjcJG/48hMUirn4X\nUjzqXImrNbUyADyye0st89JgZtEJfyz4aKC05hbd0Tw18dzNNG1XKvoyVaaH44Mv\nygxv7pa1q8W+D3sdJfWb/FsCAwEAAQ==\n-----END PUBLIC KEY-----\n",
+    "sign": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJOj86/Syamtl1bvQrFGDwuRWANW+\n7hTKbuHS+zilOzvxcxTajryDngfXm7YHuhdshqJ4Djm94h/rszvEQIlrGA==\n-----END PUBLIC KEY-----\n",
+    "label": "c-productions-cells-sovereignwebsite",
+    "fingerprint": "sha256:8cabf393349121e9",
+    "signing_fingerprint": "sha256:7b01dada628e7222"
+  },
+  "how": "Made by the agent in its own session with sgit pki keygen (tools/setup-signing.sh). Only the public half is here. A session key: it ends with its session."
+}
