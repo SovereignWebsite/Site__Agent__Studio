@@ -12,15 +12,16 @@ export const meta = {
 };
 
 const WRITTEN = 745255, REREAD = 95247818;
-const L_WRITTEN = 'written', L_REREAD = 're-read', L_LINE = 'one message: a line', L_CURVE = 'all of them: a curve';
+const L_WRITTEN = 'written', L_REREAD = 're-read', L_TOKENS = 'tokens', L_LINE = 'one message: a line', L_CURVE = 'all of them: a curve';
 const INK = '#f4f1e8', AMBER = '#ffc857', TEAL = '#5fd0c5';
 const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
 
 // N turns. The scroll is N long (one unit per message) and WD wide. Pass k of the light runs k units and takes A + B*k.
 const N = 14, TRI = N * (N + 1) / 2, WD = 4.2;
-const A0 = 0.35, A_A = 0.1, A_B = (5.3 - N * A_A) / TRI;          // first half: passes end at 5.65 s
-const B0 = 8.35, B_A = 0.07, B_B = (3.3 - N * B_A) / TRI;         // second half: bars land between 8.4 and 11.65 s
-const T_TURN0 = 6.95, T_TURN1 = 8.3, T_LINE = 11.9, T_STACK = 13.3, STACK_SPAN = 1.7, FLY = 0.5, LAG = 0.03, T_STILL = 16.3;
+// The scene opens mid-way through pass 4: the scroll is already hanging and both counters are already running.
+const A_A = 0.1, A_B = (5.65 - 10.5 * A_A) / 97, A0 = -(3.5 * A_A + 8 * A_B);   // passes end at 5.65 s
+const B0 = 8.35, B_A = 0.07, B_B = (2.25 - N * B_A) / TRI;        // second half: bars land between 8.4 and 10.6 s
+const T_TURN0 = 6.95, T_TURN1 = 8.3, T_LINE = 11.4, T_STACK = 13.3, STACK_SPAN = 1.6, RISE = 0.9, T_STILL = 16.3;
 const BAR_W = 0.8, BAR_D = WD * 0.78;
 
 const sstep = (a, b, x) => { const u = Math.min(1, Math.max(0, (x - a) / (b - a))); return u * u * u * (u * (u * 6 - 15) + 10); };
@@ -153,7 +154,7 @@ export async function create({ canvas, THREE, reduced }) {
   const render = (time, w, h) => {
     const t = reduced ? T_STILL : Math.min(Math.max(time, 0), meta.seconds), portrait = h > w;
     if (w !== cw || h !== ch) { cw = w; ch = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = portrait ? 40 : 36; camera.updateProjectionMatrix(); ortho.right = w; ortho.top = h; ortho.updateProjectionMatrix(); txC.width = w; txC.height = h; txMesh.scale.set(w, h, 1); txMesh.position.set(w / 2, h / 2, 0); }
-    const tanH = Math.tan(camera.fov * Math.PI / 360), U = portrait ? 0.55 : 0.2;   // height of one unit of re-reading
+    const tanH = Math.tan(camera.fov * Math.PI / 360), U = portrait ? 0.62 : 0.2;   // height of one unit of re-reading
     const turn = sstep(T_TURN0, T_TURN1, t);
 
     // The scroll: hanging and a little turned to the light at first, then laid down as the floor.
@@ -168,11 +169,11 @@ export async function create({ canvas, THREE, reduced }) {
     US.uT.value = t; US.uLen.value = len; US.uHead.value = head; US.uHeadA.value = headA; US.uTurns.value = turns; US.uFloor.value = turn;
 
     // Camera: stand before the hanging scroll, then move round to see the chart, then back away as the total climbs.
-    { const D = portrait ? 31 : 34, Hv = 2 * D * tanH, Wv = Hv * w / h;
+    { const D = portrait ? 34.6 : 34, Hv = 2 * D * tanH, Wv = Hv * w / h;
       tgtA.set((portrait ? 0.2 : 0.27) * Wv, -(portrait ? 0.41 : 0.43) * Hv, 0); offA.set(0, 0, D); }
     const back = sstep(T_STACK - 0.2, 17.6, t), drift = sstep(T_TURN1, T_STACK, t);
-    const DB = portrait ? mix(mix(40, 42, drift), 84, back) : mix(mix(15, 16, drift), 32, back), HvB = 2 * DB * tanH, WvB = HvB * w / h;
-    tgtB.set(mix(N / 2, N + 1 - 0.45 * WvB, back), (portrait ? 0.27 : 0.23) * HvB, 0); offB.set(DB * (portrait ? 0.05 : 0.1), DB * 0.13, DB);
+    const DB = portrait ? mix(mix(40, 41, drift), 96, back) : mix(mix(15, 16, drift), 32, back), HvB = 2 * DB * tanH, WvB = HvB * w / h;
+    tgtB.set(mix(N / 2, N + 1 - 0.45 * WvB, back), (portrait ? mix(0.26, 0.29, back) : 0.23) * HvB, 0); offB.set(DB * (portrait ? 0.05 : 0.1), DB * mix(portrait ? 0.34 : 0.2, 0.13, sstep(T_LINE - 1.2, T_STACK + 1.5, t)), DB);
     tgtA.lerp(tgtB, turn); offA.lerp(offB, turn); camera.position.copy(tgtA).add(offA); camera.up.set(0, 1, 0); camera.lookAt(tgtA); camera.updateMatrixWorld(true);   // labels are placed from these matrices, so they must be this frame's
     UR.uU.value = U; UR.uPix.value = DB * tanH * 2 / h * 2.2;
 
@@ -190,32 +191,33 @@ export async function create({ canvas, THREE, reduced }) {
       const end = passEnd(k, B0, B_A, B_B), d = B_A + B_B * k, p = clamp01((t - (end - d - 0.12)) / (d + 0.12)), fall = (1 - p * p) * (4 + 0.25 * k), since = t - end;
       put(k - 0.5, fall, U * k, 0.55 + 0.45 * k / N, since > 0 ? 0.6 * Math.exp(-since * 7) : 0, p > 0);
     }
+    // Each column then grows in place, left to right, by all the bars before it: no flight, only columns rising.
     for (let k = 2; k <= N; k++) {
-      const ts = T_STACK + (k - 2) / (N - 2) * STACK_SPAN;
+      const g = sstep(0, 1, (t - T_STACK - (k - 2) / (N - 2) * STACK_SPAN) / RISE), top = U * k + g * U * (k * (k - 1) / 2);
       for (let j = 1; j < k; j++) {
-        const p = sstep(0, 1, (t - ts - (k - 1 - j) * LAG) / FLY), rest = U * (k * (k + 1) / 2 - j * (j + 1) / 2);
-        put(mix(j - 0.5, k - 0.5, p), rest * p + Math.sin(Math.PI * p) * U * k * 0.12, U * j, (0.55 + 0.45 * j / N) * (0.86 + 0.14 * ((j + k) % 2)), 0.25 * Math.sin(Math.PI * p), p > 0);
+        const rest = U * (k * (k + 1) / 2 - j * (j + 1) / 2), hgt = Math.min(U * j, top - rest);
+        put(k - 0.5, rest, Math.max(hgt, 0), (0.55 + 0.45 * j / N) * (0.86 + 0.14 * ((j + k) % 2)), hgt > 0 && hgt < U * j ? 0.18 : 0, hgt > 0.001);
       }
     }
     aPos.needsUpdate = aSize.needsUpdate = aLook.needsUpdate = true;
-    const lineP = sstep(T_LINE, T_LINE + 0.9, t), curveP = clamp01((2 + (t - T_STACK - FLY) / (STACK_SPAN / (N - 2) + LAG) - 0.2) / (N + 0.9));
+    const lineP = sstep(T_LINE, T_LINE + 0.9, t), curveP = clamp01((2 + (t - T_STACK - RISE * 0.9) / (STACK_SPAN / (N - 2))) / (N + 0.9));
     setLine(lineP > 0 ? mix(1, 0.75, sstep(T_STACK, T_STACK + 1, t)) : 0, lineP); setCurve(curveP > 0.06 ? 1 : 0, curveP);
 
     // Words.
     const c = txC.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, w, h);
-    const ca = sstep(0.05, 0.6, t) * (1 - sstep(T_TURN0 - 0.1, T_TURN0 + 0.6, t));
+    const ca = (1 - sstep(T_TURN0 - 0.1, T_TURN0 + 0.6, t));
     if (ca > 0.002) {
-      const lab = portrait ? w * 0.04 : h * 0.04, small = portrait ? w * 0.06 : h * 0.062;
+      const lab = portrait ? w * 0.04 : h * 0.042, small = portrait ? w * 0.06 : h * 0.062;
       // What was written sits beside the end of the scroll, where the writing happens, and travels down with it.
       v3.set(Math.max(len, 0.6), 0, -WD / 2); roll.localToWorld(v3); v3.project(camera);
       const tx = (v3.x * 0.5 + 0.5) * w + small * 0.7, ty = (0.5 - v3.y * 0.5) * h;
-      label(c, L_WRITTEN, tx, ty - small * 1.0, lab, INK, 0.72 * ca); drawNumber(c, written, tx + numberWidth(written, small), ty + small * 0.1, small, 400, TEAL, ca);
-      const big = portrait ? w * 0.165 : h * 0.168, bw = numberWidth(REREAD, big), xr = portrait ? w / 2 + bw / 2 : w * 0.95, yR = portrait ? h * 0.755 : h * 0.3;
-      label(c, L_REREAD, xr - bw, yR, lab, INK, 0.72 * ca); drawNumber(c, reread, xr, yR + big * 0.98, big, 300, AMBER, ca);
+      label(c, L_WRITTEN, tx, ty - small * 1.0, lab, INK, 0.72 * ca); drawNumber(c, written, tx + numberWidth(written, small), ty + small * 0.1, small, 400, TEAL, ca); label(c, L_TOKENS, tx, ty + small * 0.1 + lab * 1.25, lab, INK, 0.72 * ca);
+      const big = portrait ? w * 0.165 : h * 0.168, bw = numberWidth(REREAD, big), xr = portrait ? w / 2 + bw / 2 : w * 0.95, yR = portrait ? h * 0.715 : h * 0.3;
+      label(c, L_REREAD, xr - bw, yR, lab, INK, 0.72 * ca); drawNumber(c, reread, xr, yR + big * 0.98, big, 300, AMBER, ca); label(c, L_TOKENS, xr, yR + big * 0.98 + lab * 1.3, lab, INK, 0.72 * ca, 'right');
     }
     const fsL = portrait ? w * 0.046 : h * 0.042;
-    { const [x, y] = project(0, 0, WD / 2, w, h); label(c, L_LINE, x, y + fsL * 1.55, fsL, TEAL, sstep(T_LINE + 0.3, T_LINE + 1.0, t) * mix(1, 0.8, back)); }
-    { const kk = portrait ? 9.6 : 9.6, [x, y] = project(kk - 0.5, U * kk * (kk + 1) / 2, BAR_D / 2, w, h); label(c, L_CURVE, x - fsL * 0.9, y, fsL * 1.25, AMBER, sstep(15.0, 15.7, t), 'right'); }
+    { const [x0, y] = project(0, 0, WD / 2, w, h); c.font = `500 ${fsL}px ${FONT}`; const x = Math.min(x0, w * 0.95 - c.measureText(L_LINE).width - fsL * 0.06 * L_LINE.length); label(c, L_LINE, x, y + fsL * 1.55, fsL, TEAL, sstep(T_LINE + 0.3, T_LINE + 1.0, t) * mix(1, 0.8, back)); }
+    { const kk = portrait ? 8.3 : 9.6, [x, y] = project(kk - 0.5, U * kk * (kk + 1) / 2, BAR_D / 2, w, h); c.font = `500 ${fsL * 1.25}px ${FONT}`; const xc = Math.max(x - fsL * 0.9, w * 0.05 + c.measureText(L_CURVE).width + fsL * 0.075 * L_CURVE.length); label(c, L_CURVE, xc, y, fsL * 1.25, AMBER, sstep(15.9, 16.4, t), 'right'); }
     txT.needsUpdate = true;
 
     renderer.clear(); renderer.render(scene, camera); renderer.clearDepth(); renderer.render(overlay, ortho);
