@@ -11,6 +11,6 @@ on an earlier Reel that Dinis Cruz shared on 27 November 2026 (he agreed with it
 5. **One visual language.** One palette, one type pairing, a few motifs that return and change. Variety inside it, not a new style each scene.
 6. **Motion that means something.** Movement shows cause, growth, loss or contrast. No movement only for decoration, no dead time.
 7. **Sound in one piece.** One bed, gentle effects under it, the voice on top. Effects never fight the music.
-8. **True and labelled.** Every beat has a public source. "Voice made by AI" is in every frame. No real person's likeness or voice.
+8. **True and labelled.** Every beat has a public source. The film says its voice is made by AI: in every frame, or, where the owner has chosen it (Dinis Cruz, 28 November 2026: "I think you just need to have that disclaimer at the end"), on the closing scene only. No real person's likeness or voice.
 
 The critic scores each point 0 to 2 with one sentence of evidence, names the single change that would help most, and never rewrites the work itself.
