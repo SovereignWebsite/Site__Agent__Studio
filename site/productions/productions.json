@@ -12,7 +12,8 @@
  "productions": [
   "session-refresh",
   "agile-history",
-  "web-summit-galaxy"
+  "web-summit-galaxy",
+  "agile-cells"
  ],
  "candidates": [
   {

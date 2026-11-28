@@ -233,6 +233,26 @@
    "tool_uses": 19,
    "status": "in session-refresh v0.7",
    "batch": 8
+  },
+  {
+   "n": 20,
+   "role": "Scene-smith",
+   "job": "Agile Cells: an agile cell grows (for c.productions-cells)",
+   "result": "lab/cells-grow, four rounds",
+   "minutes": 14,
+   "tool_uses": 34,
+   "status": "in agile-cells v0.1",
+   "batch": 9
+  },
+  {
+   "n": 21,
+   "role": "Scene-smith",
+   "job": "Agile Cells: cells you can ask for (for c.productions-cells)",
+   "result": "lab/cells-verticals, four rounds",
+   "minutes": 7,
+   "tool_uses": 30,
+   "status": "in agile-cells v0.1",
+   "batch": 9
   }
  ],
  "working_now": 0,
@@ -245,6 +265,7 @@
   "28 Nov, 01:00: review and refresh",
   "28 Nov, 03:00: the refresh film, first loop (the successor session)",
   "28 Nov, 12:51: a helper session for the Agile film's opening",
-  "28 Nov, 15:50: the refresh film's opening and the agile cell"
+  "28 Nov, 15:50: the refresh film's opening and the agile cell",
+  "28 Nov, 16:20: the Agile Cells film, first loop (helper session c.productions-cells)"
  ]
 }

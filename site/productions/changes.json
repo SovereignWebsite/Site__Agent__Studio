@@ -4,6 +4,48 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "6c1b8a5",
+   "date_utc": "2026-11-28 16:22",
+   "what": "Agile Cells film: lab/cells-verticals, four rounds by a scene-smith",
+   "detail": "One cell buds into five teams (social media, website, CRM, design, agent behaviour\npolicy), each arranged differently, then all five breathe together. Portrait first,\nlandscape as a row. Looked at by the lead; the held ending is still close to a list."
+  },
+  {
+   "commit": "1246e1e",
+   "date_utc": "2026-11-28 16:18",
+   "what": "Agile Cells film: lab/cells-verticals, work in progress",
+   "detail": "A scene-smith's first draft, saved so nothing lives only in the session. Not yet\nlooked at by the lead and not registered in lab/scenes.json."
+  },
+  {
+   "commit": "9f6c2cb",
+   "date_utc": "2026-11-28 16:18",
+   "what": "Agile Cells film: no agilecells.org on screen until the site answers",
+   "detail": "Source lines name the AgileCells and AgentiCCells repositories instead; the end\ncard carries no web address (conductor.c, 28 Nov: the site waits on a merge)."
+  },
+  {
+   "commit": "b1bd0cd",
+   "date_utc": "2026-11-28 16:17",
+   "what": "Agile Cells film: v0.1 scenes, narration and AI voice (scenes still being built)",
+   "detail": "Eight scenes, 78.5 seconds with the voice (Mistral Voxtral, a stock preset, labelled\nas made by AI on the last scene). production.json notes that agilecells.org did not\nanswer on 28 November 2026. Not yet registered in productions.json."
+  },
+  {
+   "commit": "182874e",
+   "date_utc": "2026-11-28 16:15",
+   "what": "Agile Cells film: the storyboard, before any scene",
+   "detail": "Eight beats, about 79 seconds, vertical. Every claim has a public source; the four\nvalues are quoted from agilemanifesto.org. Two new lab scenes are being built\n(cells-grow, cells-verticals); snowbird-page and refresh-cell are reused.\nOpen questions: agilecells.org does not answer yet, and the Agile Cells team's\ngo-to-market work was not found in a public place."
+  },
+  {
+   "commit": "6a9b88e",
+   "date_utc": "2026-11-28 16:11",
+   "what": "c.productions: now.md records the Agile Cells helper's start",
+   "detail": ""
+  },
+  {
+   "commit": "b28b55b",
+   "date_utc": "2026-11-28 15:59",
+   "what": "Productions: agile-history v0.5 (credits signed off, the making in numbers), v0.5-vertical, and a render step to MP4",
+   "detail": "v0.5 changes only the credits, at Dinis Cruz's word of 28 November. v0.5-vertical\nis the same film at 720x1280 with the Sovereign Website wordmark; Royce's cascade\nand the currents use portrait-only copies of their lab scenes (one scene-smith run\neach), so v0.4 and v0.5 keep their digests. _build/render.js steps the built player\nframe by frame in headless Chromium and joins the frames with the voice in ffmpeg.\nSelf-check reviews signed by c.productions-render."
+  },
+  {
    "commit": "8c7284f",
    "date_utc": "2026-11-28 15:59",
    "what": "How we refresh a session v0.7: words on screen, an opening that shows what is coming, and the team as an agile cell",
@@ -284,60 +326,6 @@
    "date_utc": "2026-11-28 02:48",
    "what": "Session refresh film: a first storyboard; the Agile film names its source site and family",
    "detail": "- session-refresh/storyboard/: nine beats, each with a sketch drawn from document.json's own numbers, its words,\n  picture, motion and a 'so what'. About 75 seconds. The film is vertical (720 by 1280) from the start, at\n  Dinis Cruz's word of 28 Nov 2026; the first sketches were drawn wide before that and fix content, not framing.\n- The story of Agile: the production page and the first credits line now name the source, The history of Agile\n  (agile.history.sovereignweb.site), and that it is part of the Sovereign Website family (sovereignwebsite.org),\n  as Dinis asked on 28 Nov 2026. v0.3's digest changed with that one line.\n- The self-check reviews are signed again with the successor session's key (same decisions and comments)."
-  },
-  {
-   "commit": "908ea7a",
-   "date_utc": "2026-11-28 02:42",
-   "what": "c.productions: retire this session's key at the hand-over",
-   "detail": "The successor session is up (28 Nov 2026, 02:39 UTC). A key can be published only in a commit that adds\nsite/keys/<name>.json alone, so this session moves its own key file to site/keys/retired/, marked\nretired with its date and successor, which frees the name. Records signed with it (reviews, the lane's\ngrants) now point at the retired file and still verify. This is this session's last commit."
-  },
-  {
-   "commit": "b82d7a2",
-   "date_utc": "2026-11-28 02:41",
-   "what": "For the successor: the lane's agent script, the scene-smith brief and how the loop is run",
-   "detail": "Asked by the successor session. _build/lane_agent.py is the agent's side of the feedback lane (drain,\nreply, grant); it holds no secret, only paths to files outside the repository. _build/scene-smith-brief.md\nis the template every scene-smith got and the loop's steps, voice and frames included."
-  },
-  {
-   "commit": "e2304f6",
-   "date_utc": "2026-11-28 02:40",
-   "what": "c.productions: learnings for the successor, the things the restart note left out",
-   "detail": "Dinis Cruz wants losses of context at hand-overs found and the prompts fixed. What the first session\nlearnt the hard way: the checks and re-signing, testing limits, what this environment refuses, the\nappend lane's undocumented calls, what Dinis has asked for more than once, and who is where."
-  },
-  {
-   "commit": "15c9775",
-   "date_utc": "2026-11-28 02:36",
-   "what": "Session refresh film: its brief, the data to show and the beats to storyboard",
-   "detail": "Dinis Cruz, 28 Nov 2026: \"it's a great example of a video for us to create ... those data are really\ncool, the savings that you get\". session-refresh/production.json holds the brief, the so-what, the five\ndata points with where each lives, and nine beats to storyboard first. It is the successor's first job."
-  },
-  {
-   "commit": "35aa35e",
-   "date_utc": "2026-11-28 02:35",
-   "what": "Session refresh document: a measured hand-over, context before and after",
-   "detail": "Dinis Cruz shared c.maestro's context panels from before and after its hand-over on 28 Nov 2026:\n859,600 tokens to 118,600, the conversation part from 781,000 to 43,900, and a fixed floor of about\n75,000 tokens of tools, memory and prompts that a hand-over does not shrink. Added as its own section\nwith the figures as data; the 'missing' line now says what is still missing (cost over the day after)."
-  },
-  {
-   "commit": "1987366",
-   "date_utc": "2026-11-28 02:33",
-   "what": "Session refresh document: two corrections from accountant.c",
-   "detail": "The 3.5 to 4 an hour figure was three-hourly wakes plus interactive turns, and the coordinator's\nfigures are for a different model from the measured session, so the two are not to be compared.\naccountant.c's own reading of the measured session matched."
-  },
-  {
-   "commit": "31cd45e",
-   "date_utc": "2026-11-28 01:19",
-   "what": "Session refresh: the maths and a chart from one measured session, and this session's hand-over",
-   "detail": "Dinis Cruz, 28 Nov 2026: \"Yes, can you refresh this session?\" and \"first start by doing the data\nanalysis and then you create a visualization\".\n- The document gains 'The maths': one message costs in proportion to the context it lands in (a straight\n  line), the total goes with the square, and a chart of tokens re-read against work done, for this\n  session as measured (597,635 tokens of context; 95.2 million tokens re-read, 96% of all it used) and\n  for the same work modelled as fresh sessions (49% and 70% less). The model is labelled as a model.\n- agent/now.md and restart.md updated at the hand-over: the measured numbers, the one line that starts\n  a successor, what the successor must remake, and where the research for the new opening can be re-read."
-  },
-  {
-   "commit": "1899d6b",
-   "date_utc": "2026-11-28 01:16",
-   "what": "Version at the top of every page with what changed, a GitHub link, and the cell as a picture",
-   "detail": "Dinis Cruz, 28 Nov 2026:\n- \"they should always have the version number at the top of the website and a link to the JSON file with\n  a description of what changed\": every productions page now shows the site's version, commit and date\n  at the top (from /version.json), linking to changes.json, built from the repository's own history.\n- \"the top menu should always point to the GitHub repo with that little star\": added.\n- \"I don't know where the status of it\": the storyboard page now shows the production's status and what\n  that version is.\n- \"we need a much better way to visualize ... what they do and what they're doing\": the cell is now a\n  timeline picture, one row per role and one bar per run, with roles not yet filled shown empty; the\n  cards and table moved under it."
-  },
-  {
-   "commit": "2b42a12",
-   "date_utc": "2026-11-28 01:09",
-   "what": "How we refresh a session: the one-page document, and my own hand-over files",
-   "detail": "- session-refresh/how-we-refresh-a-session/: when a hand-over triggers, what the old session writes,\n  what the new one reads first, what carries over, what is lost, how you know it worked, the numbers,\n  and lessons; each point from public files, with links. Relayed by c.conductor from Dinis Cruz's words\n  in its session, after an ask on the Web Summit site. It says plainly that nobody has yet measured the\n  same agent before and after a hand-over. A first draft; the film from it is not started.\n- agent/: my role, what I am doing now, and a restart note that lists what dies with this session\n  (signing key, the feedback lane's keys, the media vault's write key, private helper scripts), so a\n  successor can start from files. No secret values."
   }
  ]
 }

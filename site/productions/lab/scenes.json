@@ -70,6 +70,16 @@
    "id": "refresh-cell",
    "title": "An agile cell",
    "beat": "The team that made the refresh film grows from one person through two maestros, a conductor and a lead to its helpers, is drawn round as an agile cell, then is archived and leaves its files on a shelf."
+  },
+  {
+   "id": "cells-grow",
+   "title": "An agile cell grows",
+   "beat": "Four lines of the Manifesto become four lights, then one cell; a person and agents join it and it puts out its roles, rules and work as files; it grows to 10, 20, 30 and 50 roles as an org chart, then folds onto a shelf as a stack of files."
+  },
+  {
+   "id": "cells-verticals",
+   "title": "Cells you can ask for",
+   "beat": "One cell buds into five, each a different team for one kind of job: social media, website, CRM, design, agent behaviour policy."
   }
  ]
 }
