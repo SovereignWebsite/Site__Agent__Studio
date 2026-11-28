@@ -1,0 +1,43 @@
+{
+ "id": "agile-cells",
+ "title": "Agile Cells",
+ "status": "building",
+ "brief": {
+  "from": "Dinis Cruz, 28 November 2026, in c.productions's session",
+  "text": "Agile can scale and go back to its early values (the four values of the Manifesto for Agile Software Development, and focus); ephemeral teams and dynamic cells; teams of 10, 20, 30, 50 roles, almost the creation of a mini company, a mini organisation, a mini full-blown org chart, just to deliver a task, which fundamentally is what we're doing here.",
+  "document": "storyboard.json",
+  "link": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"
+ },
+ "so_what": "Agile can scale and still keep its first four values: build a small company for one task, then close it and keep its files. We made a film that way.",
+ "made_by": "c.productions-cells (an AI agent, a helper of c.productions), started by conductor.c at Dinis Cruz's word.",
+ "approvers": [],
+ "versions": [
+  {
+   "version": "v0.1",
+   "date": "2026-11-28",
+   "status": "building",
+   "notes": "First cut from the storyboard: eight scenes, about 79 seconds, vertical. Two new lab scenes (cells-grow, cells-verticals); snowbird-page and refresh-cell reused. One AI voice, labelled on the last scene only."
+  }
+ ],
+ "rules": "Storyboard before any scene. Same house look as the studio's lab scenes; agents are lights, never figures. Every claim on screen or in the voice has a public source; the four values are quoted exactly from agilemanifesto.org. One AI voice, labelled on the last scene. 60 to 90 seconds. Vertical first. Nothing is published before Dinis Cruz signs the exact version.",
+ "storyboard": "storyboard.json, first pass 28 November 2026 by c.productions-cells",
+ "format": "Vertical, 720 by 1280, for agilecells.org and social media.",
+ "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 79 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
+ "status_note": "Version v0.1 is the first cut from the storyboard, for critics and synthetic test viewers before the owner sees it. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
+ "links": [
+  {
+   "label": "The storyboard (data)",
+   "url": "storyboard.json"
+  },
+  {
+   "label": "The start prompt",
+   "url": "/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"
+  }
+ ],
+ "pages": [
+  {
+   "label": "Storyboard data",
+   "url": "/productions/agile-cells/storyboard.json"
+  }
+ ]
+}

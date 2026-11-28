@@ -1,0 +1,255 @@
+{
+ "id": "agile-cells",
+ "version": "v0.1",
+ "title": "Agile Cells",
+ "theme": "ink",
+ "format": {
+  "w": 720,
+  "h": 1280
+ },
+ "label": "Voice made by AI · no presenter · every claim sourced",
+ "label_end_only": true,
+ "voice": {
+  "made_by_ai": true,
+  "provider": "Mistral",
+  "model": "voxtral-mini-tts-3",
+  "voice": "voice_3150 (James, a stock preset)",
+  "speed": 1.25
+ },
+ "from": {
+  "what": "The storyboard of the Agile Cells film",
+  "page": "https://studio.agents.sovereignweb.site/productions/agile-cells/storyboard.json",
+  "data": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"
+ },
+ "brand": "Sovereign Website",
+ "brand_logo": "/productions/assets/brand/sws-wordmark-navy.svg",
+ "captions_in_frame": true,
+ "scenes": [
+  {
+   "id": "hook",
+   "kind": "component",
+   "component": "cells-grow",
+   "span": [
+    26,
+    32
+   ],
+   "seconds": 5.73,
+   "title": "A company for one task",
+   "narration": "To deliver one task, we built a small company. Then we closed it.",
+   "caption": "To deliver one task, we built a small company. Then we closed it.",
+   "sources": [
+    {
+     "claim": "Dinis Cruz, 28 November 2026: teams of 10, 20, 30, 50 roles, almost a mini company, 'just to deliver a task, which fundamentally is what we're doing here'.",
+     "title": "Start prompt of the Agile Cells film, with Dinis Cruz's words of 28 November 2026",
+     "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "50 roles. A shelf of files.",
+   "audio": "audio/01-hook.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "values",
+   "kind": "component",
+   "component": "snowbird-page",
+   "span": [
+    9.6,
+    14
+   ],
+   "seconds": 17.17,
+   "title": "Four values",
+   "values": [
+    [
+     "Individuals and interactions",
+     "processes and tools"
+    ],
+    [
+     "Working software",
+     "comprehensive documentation"
+    ],
+    [
+     "Customer collaboration",
+     "contract negotiation"
+    ],
+    [
+     "Responding to change",
+     "following a plan"
+    ]
+   ],
+   "narration": "In 2001, seventeen people wrote down four values. Individuals and interactions, over processes and tools. Working software, over comprehensive documentation. Customer collaboration, over contract negotiation. Responding to change, over following a plan.",
+   "sources": [
+    {
+     "claim": "The Manifesto's four values, word for word; seventeen names; '© 2001, the above authors'.",
+     "title": "Manifesto for Agile Software Development",
+     "url": "https://agilemanifesto.org/",
+     "publisher": "agilemanifesto.org"
+    }
+   ],
+   "source_line": "agilemanifesto.org",
+   "on_screen": "Individuals and interactions over processes and tools; Working software over comprehensive documentation; Customer collaboration over contract negotiation; Responding to change over following a plan",
+   "audio": "audio/02-values.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "question",
+   "kind": "component",
+   "component": "cells-grow",
+   "span": [
+    0,
+    7
+   ],
+   "seconds": 6.49,
+   "title": "Can it scale and keep them?",
+   "narration": "Agile Cells asks: can Agile scale, and go back to those values? And to focus?",
+   "caption": "Can Agile scale, and go back to those values? And to focus?",
+   "sources": [
+    {
+     "claim": "Dinis Cruz, 28 November 2026: Agile can scale and go back to its early values (the four values of the Manifesto, and focus).",
+     "title": "Start prompt of the Agile Cells film, with Dinis Cruz's words of 28 November 2026",
+     "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "Four lights become one cell.",
+   "audio": "audio/03-question.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "cell",
+   "kind": "component",
+   "component": "cells-grow",
+   "span": [
+    7,
+    18
+   ],
+   "seconds": 11.45,
+   "title": "What a cell is",
+   "narration": "An agile cell is a small team of people and agents, formed for a piece of work and ended after it. Its roles, its rules and its work are written down as files anyone can read.",
+   "caption": "A small team of people and agents, formed for a piece of work and ended after it",
+   "sources": [
+    {
+     "claim": "An agile cell is a small team of people and agents, formed for a piece of work and ended after it, with its roles, its rules and its work written down as files anyone can read.",
+     "title": "agilecells.org, the page as seeded by the AgileCells organisation",
+     "url": "https://github.com/AgileCells/AgileCells-AgileCells__IaC/blob/dev/seed/AgileCells__Site__Website/site/index.html",
+     "publisher": "github.com/AgileCells"
+    }
+   ],
+   "source_line": "agilecells.org",
+   "on_screen": "roles, rules, work",
+   "audio": "audio/04-cell.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "scale",
+   "kind": "component",
+   "component": "cells-grow",
+   "span": [
+    18,
+    28
+   ],
+   "seconds": 9.31,
+   "title": "Ten roles, or fifty",
+   "narration": "A cell can have ten roles, or twenty, thirty, fifty. Almost a mini company, with its own org chart, just to deliver one task.",
+   "caption": "Almost a mini company, with its own org chart, for one task",
+   "sources": [
+    {
+     "claim": "Dinis Cruz, 28 November 2026: teams of 10, 20, 30, 50 roles, 'almost the creation of a mini company, a mini organisation, a mini full-blown org chart, just to deliver a task'.",
+     "title": "Start prompt of the Agile Cells film, with Dinis Cruz's words of 28 November 2026",
+     "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "10, 20, 30, 50 roles",
+   "audio": "audio/05-scale.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "proof",
+   "kind": "component",
+   "component": "refresh-cell",
+   "span": [
+    0,
+    14
+   ],
+   "seconds": 14.43,
+   "title": "We did it",
+   "narration": "We did this for a film. One person, two maestros on two accounts, a conductor, a lead agent, scene builders, a critic, test viewers and a designer. Set up for one film, and archived when it is done.",
+   "sources": [
+    {
+     "claim": "The team that made How we refresh a session: one person, two maestros on two accounts, a conductor, a lead agent and its helpers, set up for one film.",
+     "title": "How we refresh a session: the team that made it",
+     "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/team/",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    },
+    {
+     "claim": "The cell's runs, by role, with what each produced.",
+     "title": "The productions cell: who did what",
+     "url": "https://studio.agents.sovereignweb.site/productions/cell.json",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "Dinis Cruz; account C: c.maestro, conductor.c, c.productions with 5 scene-smiths, a critic, 5 test viewers and 2 helper sessions, and design.c, higgsfield.c, accountant.c; account B: b.maestro, higgsfield.b, elevenlabs.b. An agile cell. Archived: its files stay.",
+   "audio": "audio/06-proof.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "verticals",
+   "kind": "component",
+   "component": "cells-verticals",
+   "span": [
+    0,
+    11
+   ],
+   "seconds": 9.7,
+   "title": "Cells you can ask for",
+   "narration": "And a cell can be what you ask for. A social media cell. A website cell. A CRM cell. A design cell. An agent behaviour policy cell.",
+   "say": "And a cell can be what you ask for. A social media cell. A website cell. A C R M cell. A design cell. An agent behaviour policy cell.",
+   "caption": "A cell can be what you ask for",
+   "sources": [
+    {
+     "claim": "Dinis Cruz, 28 November 2026: Agile Cells as vertical cells: a social media cell, a website cell, a CRM cell, a design cell, an agent behaviour policy cell.",
+     "title": "Start prompt of the Agile Cells film, with Dinis Cruz's words of 28 November 2026",
+     "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md",
+     "publisher": "studio.agents.sovereignweb.site (c.productions, an AI agent)"
+    }
+   ],
+   "source_line": "studio.agents.sovereignweb.site",
+   "on_screen": "social media, website, CRM, design, agent behaviour policy",
+   "audio": "audio/07-verticals.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  },
+  {
+   "id": "end",
+   "kind": "title",
+   "seconds": 4.19,
+   "title": "Agile Cells",
+   "narration": "Agile Cells. A small company, for one task.",
+   "caption": "Made by an agile cell of people and agents",
+   "sources": [
+    {
+     "claim": "Agile Cells: many types of cells, made of people and agents, working together in an agile way.",
+     "title": "Agile Cells (AgentiCCells__Site__AgileCells-Org)",
+     "url": "https://github.com/AgentiCCells/AgentiCCells__Site__AgileCells-Org",
+     "publisher": "github.com/AgentiCCells"
+    }
+   ],
+   "source_line": "agilecells.org",
+   "on_screen": "Agile Cells. Made by an agile cell of people and agents.",
+   "audio": "audio/08-end.mp3",
+   "lead": 0.25,
+   "tail": 0.7
+  }
+ ]
+}
