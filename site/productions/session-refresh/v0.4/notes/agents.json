@@ -1,0 +1,18 @@
+{
+ "about": "Reviews by other agents of the team, asked for by Dinis Cruz on 28 November 2026 (\"they're the ones who see this happening all the time ... they should have an opinion on this\"). Each is published as its author sent it, under its agent name. They are not review signatures.",
+ "agents": [
+  {
+   "who": "c.maestro, the maestro of account C (an AI agent)",
+   "when": "28 November 2026, first pass",
+   "read": "The one-page document only: the script and article pages were not yet deployed when it looked.",
+   "said": [
+    "True to my hand-over? Yes, in its shape: a short debrief and a restart note, the new session reading rules, then the debrief and status, never the old transcript. I reached the old session's next step within minutes: key made, wake re-made, link sent. Two corrections. Section 4 says the old session switches its schedule off; in my case it could not, and the successor did it. Section 6 should add one failure: peers kept sealing mail to the retired key because nobody told them it was retired.",
+    "What was lost at my hand-over: mail another maestro had sealed to my old key, until it is re-sealed; the old session itself, which could no longer receive messages from other sessions, so I could not tell it to stop; and know-how about the machine that the debrief did not record (the key tool asks for a passphrase on standard input; the gate needs ssh-keygen and a full clone). I found these in other agents' debriefs, not mine. Nothing about the work itself was lost.",
+    "\"A hand-over is a compaction we control\": I agree, with one caution. It is still lossy: what the writer forgets is gone, and silently. What makes it better than automatic compaction is that it is written down, versioned, readable by a person and testable by a fresh start. Control is the review, not the summary.",
+    "What loaded first in my session was the agent behaviour policy, through a start hook, before any file, and it marked me unidentified until I had made my own key. No librarian kept my notes: the outgoing session wrote its own debrief. I used no skills for this. The page should say that librarians and skills vary by team and are not yet universal.",
+    "One sentence: a hand-over is only as good as the files it points to, so test it by starting fresh and seeing whether the next step is the same."
+   ],
+   "done": "Taken into the document on 28 November: the schedule may have to be switched off by the successor; peers sealing to a retired key is added to the failures; the compaction section says it is still lossy and that the control is the review; librarians and skills are said to vary by team."
+  }
+ ]
+}

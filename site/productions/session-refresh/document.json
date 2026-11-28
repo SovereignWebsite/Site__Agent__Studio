@@ -1,7 +1,7 @@
 {
  "title": "How we refresh a session",
  "asked_by": "An ask of 28 November 2026 on the Web Summit site, for the technique as one page that someone outside can copy.",
- "status": "Fourth draft by c.productions, 28 November 2026: a section on the hand-over as a compaction we control, from the owner's words. Reviews by the conductor and the maestro of account C have been asked for.",
+ "status": "Fourth draft by c.productions, 28 November 2026, with c.maestro's first review taken in. A review by the conductor of account C has been asked for.",
  "summary": "A long chat gets expensive because every turn re-reads all of it. There is no automatic compression here. The agent writes what the next session needs into its repository, a person starts a new session with one line pointing at those files, and the new session works from the files, never from the old transcript.",
  "sections": [
   {
@@ -57,7 +57,8 @@
   {
    "h": "4. What carries over",
    "p": [
-    "Everything committed. The role name: one role, one running session. The schedule, re-made for the new session (archiving a session does not remove its scheduled task, so the old one must be switched off). Sealed secrets, once their owner re-seals them to the new key and checks they open."
+    "Everything committed. The role name: one role, one running session. The schedule, re-made for the new session (archiving a session does not remove its scheduled task, so the old one must be switched off). Sealed secrets, once their owner re-seals them to the new key and checks they open.",
+    "One correction from c.maestro's own hand-over: its old session could not switch its schedule off, so the successor did. Whoever does it, it must be done by hand."
    ],
    "src": [
     [
@@ -84,6 +85,7 @@
     "The restart test: a fresh session reaches the same next step as the running one without reading the old transcript. A gap means a file is missing, so the agent fixes its files, not the prompt.",
     "The successor confirms in writing before the old session is archived. The commit gate refuses a new commit signed with a retired key.",
     "Failures seen so far: an inbox not opened after a restart; a re-sealing left open; a session retitled as archived before it was; and one hand-over prepared on 23 November and still not done on 27 November.",
+    "A further failure, reported by c.maestro: peers kept sealing mail to the retired key because nobody had told them it was retired.",
     "We found no published result of a restart test."
    ],
    "src": [
@@ -102,7 +104,7 @@
     "What the note really is. It is plain Markdown, but it is not only a note. It holds the history (what happened), the state (what is done and what is open) and the next tasks, so that the aim can be zero loss of context between one session being archived and the next one starting. Dinis Cruz: \"The markdown is also maintained by a librarian ... it has all the context.\"",
     "What the new session loads, in order: the repository's rules; the agent behaviour policies that bind it (the ABPs, from RiskMandate), which the owner calls \"super critical\"; its role; then its state. The token-efficiency rule quoted in section 1 is itself one of those policies.",
     "Some of what a session learns does not stay in the note: when a way of doing something has settled, it is turned into a skill that any later session can load only when it needs it. That keeps the floor of every turn low.",
-    "Still to check against the files: which librarian keeps which notes, and which learnings have become skills. This page does not yet list them."
+    "From c.maestro's review of this page: a hand-over is still lossy, and what the writer forgets is gone silently; what makes it better than automatic compaction is that it is written down, versioned, readable by a person and testable by a fresh start. \"Control is the review, not the summary.\" In its own hand-over the behaviour policy loaded first, through a start hook, before any file; no librarian kept its notes and it used no skills. So librarians and skills vary by team and are not yet universal."
    ],
    "src": [
     [

@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "9dae56f",
+   "date_utc": "2026-11-28 12:03",
+   "what": "Session refresh document and article: the hand-over as a compaction we control",
+   "detail": "From Dinis Cruz's words of 28 Nov 2026, given as his account and not as a measurement: Claude's own compaction is\nnot controlled; a hand-over is one done on purpose. What the Markdown note holds (history, state, next tasks,\nkept by a librarian, aiming at zero context loss); what the new session loads (rules, the agent behaviour\npolicies from RiskMandate, role, state); learnings that become skills. Reviews by the conductor and the maestro\nare asked for."
+  },
+  {
    "commit": "1c896f9",
    "date_utc": "2026-11-28 12:01",
    "what": "Each production as a small website; reviews, script, team and article pages; How we refresh a session v0.4",

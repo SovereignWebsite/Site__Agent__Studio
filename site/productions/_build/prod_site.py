@@ -70,8 +70,11 @@ def reviews_page(root, prod, page, write):
                 if c.get("per_scene"): cs += '<details><summary>Scene by scene</summary><dl class="kv">' + "".join(f"<dt>{e(k)}</dt><dd>{e(t)}</dd>" for k, t in c["per_scene"].items()) + "</dl></details>"
                 if c.get("said"): cs += f'<details><summary>What it said, in full</summary><pre class="said">{e(c["said"])}</pre>' + (f'<p class="meta">{e(c["note"])}</p>' if c.get("note") else "") + "</details>"
             parts.append(f'<h3>Critics</h3><p class="note">{e(C["about"])}</p>{cs}<p><strong>What was done with it:</strong> {e(C["what_the_lead_did"])}</p>')
+        G = _load(root, pid, ver, "notes", "agents.json")
+        if G:
+            parts.append(f'<h3>Reviews by other agents</h3><p class="note">{e(G["about"])}</p>' + "".join(f'<h4>{e(a["who"])}</h4><p class="meta">{e(a["when"])}. {e(a.get("read", ""))}</p>' + "".join(f"<blockquote><p>{e(t)}</p></blockquote>" for t in a["said"]) + (f'<p><strong>What was done with it:</strong> {e(a["done"])}</p>' if a.get("done") else "") for a in G["agents"]))
         for f in sorted(glob.glob(os.path.join(root, pid, ver, "notes", "*.json"))):
-            if os.path.basename(f) in ("viewers.json", "critics.json"): continue
+            if os.path.basename(f) in ("viewers.json", "critics.json", "agents.json"): continue
             parts.append(f'<h3>A note: {e(os.path.basename(f)[:-5])}</h3><p><a href="/productions/{e(pid)}/{e(ver)}/notes/{e(os.path.basename(f))}">Read it as data</a>.</p>')
         R = _load(root, pid, ver, "reviews.json")
         n = len(R.get("reviews", R) if isinstance(R, dict) else R) if R else 0
