@@ -2,7 +2,7 @@
  "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
  "production": "agile-cells",
  "version": "v0.4",
- "digest": "ac18a7f74338037d86cc4c500486586b354226aa215cf286ff6f2f42d499e596",
+ "digest": "f26b61a452709e1659ff5a43be0cb53ab308ed353458e64f674b95007d8e6c10",
  "files": [
   {
    "path": "assets/player.js",
@@ -54,7 +54,7 @@
   },
   {
    "path": "lab/refresh-trailer/scene.js",
-   "sha256": "53f0be8e6bce523088f57517475524e622e12475baed64fa684da16de86c7a21"
+   "sha256": "a8c0a0df236eb7be09a7a4c492faeca0462e5240e99ac4613c363a8b1deb7fcc"
   },
   {
    "path": "lab/snowbird-page/scene.js",
