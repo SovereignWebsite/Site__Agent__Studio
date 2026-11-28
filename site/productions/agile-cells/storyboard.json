@@ -1,0 +1,122 @@
+{
+ "id": "agile-cells",
+ "title": "Agile Cells",
+ "status": "First storyboard by c.productions-cells (an AI agent, a helper of c.productions), 28 November 2026, before any scene is built. Nothing here is approved; nothing is published before Dinis Cruz signs the exact version.",
+ "format": "Vertical, 720 by 1280, 60 to 90 seconds. No presenter. One AI voice, labelled as made by AI on the last scene (label_end_only). The Sovereign Website logo on every scene (brand_logo), the spoken words on screen (captions_in_frame).",
+ "through_line": "Agile can scale and still keep its first four values: build a small company for one task, then close it and keep its files. We made a film that way.",
+ "look": "The ink look of the studio's lab scenes: navy ground, agents as points of light, never figures; amber for people and leads, teal for the work, coral only for failure. Text on screen only as spoken.",
+ "audience": "People who run or buy software and agent work, met on social media and at agilecells.org: they know the word Agile and suspect that scaling it means more process.",
+ "beats": [
+  {
+   "id": "hook",
+   "title": "A company for one task",
+   "seconds": 6,
+   "words": "To deliver one task, we built a small company. Then we closed it.",
+   "picture": "Points of light snap into an org chart in a second or two, thirty or more roles, then fold down onto a shelf as a stack of files.",
+   "motion": "Fast build, a held beat on the full chart, a quick fold. A preview of beats four and six.",
+   "build": "New lab scene cells-grow, its last seconds (the full chart and the fold).",
+   "sources": [
+    {"claim": "Dinis Cruz, 28 November 2026: teams of 10, 20, 30, 50 roles, 'almost the creation of a mini company ... just to deliver a task, which fundamentally is what we're doing here'.", "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"}
+   ],
+   "so_what": "A promise the film keeps in beat six: this is real, and it was done."
+  },
+  {
+   "id": "values",
+   "title": "Four values",
+   "seconds": 15,
+   "words": "In 2001, seventeen people wrote down four values. Individuals and interactions over processes and tools. Working software over comprehensive documentation. Customer collaboration over contract negotiation. Responding to change over following a plan.",
+   "picture": "The one page of the Manifesto, its four lines lit in turn: the left half bright, 'over' in amber, the right half dim.",
+   "motion": "Reused: lab/snowbird-page, span 9.6 to 14 s, as in The story of Agile. The four values quoted exactly from agilemanifesto.org.",
+   "build": "Reuse lab/snowbird-page (no new scene).",
+   "sources": [
+    {"claim": "The four values, word for word; seventeen names; '© 2001, the above authors'.", "url": "https://agilemanifesto.org/"}
+   ],
+   "so_what": "The values were about people and working results, not process."
+  },
+  {
+   "id": "question",
+   "title": "Can it scale and keep them?",
+   "seconds": 7,
+   "words": "Agile Cells asks: can Agile scale, and go back to those values? And to focus?",
+   "picture": "The four lit lines shrink into four small lights that drift into one round membrane: the start of a cell.",
+   "motion": "The hand-off from the page to the cell: the same lights carry over.",
+   "build": "New lab scene cells-grow, its first seconds.",
+   "sources": [
+    {"claim": "Dinis Cruz, 28 November 2026: 'Agile can scale and go back to its early values (the four values ... and focus)'.", "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"}
+   ],
+   "so_what": "Names the problem without claiming facts about other frameworks."
+  },
+  {
+   "id": "cell",
+   "title": "What a cell is",
+   "seconds": 11,
+   "words": "An agile cell is a small team of people and agents, formed for a piece of work and ended after it. Its roles, its rules and its work are written down as files anyone can read.",
+   "picture": "Inside the membrane: one warm light (a person) and a few cooler ones (agents). Three cards slide out of the cell, labelled roles, rules, work.",
+   "motion": "The cell forms, the members join one by one, the files fan out beside it.",
+   "build": "New lab scene cells-grow, middle.",
+   "sources": [
+    {"claim": "'An agile cell is a small team of people and agents, formed for a piece of work and ended after it, with its roles, its rules and its work written down as files anyone can read.' The agilecells.org page as seeded by the AgileCells organisation.", "url": "https://github.com/AgileCells/AgileCells-AgileCells__IaC/blob/dev/seed/AgileCells__Site__Website/site/index.html"}
+   ],
+   "so_what": "A cell is temporary and readable: that is the whole idea."
+  },
+  {
+   "id": "scale",
+   "title": "Ten roles, or fifty",
+   "seconds": 10,
+   "words": "A cell can have ten roles, or twenty, thirty, fifty. Almost a mini company, with its own org chart, just to deliver one task.",
+   "picture": "The cell grows in steps, 10, 20, 30, 50, a counter beside it; inside, the lights arrange themselves into an org chart with branches.",
+   "motion": "Each step lands on a word of the voice. Ends on the full chart (the same frame the hook previewed).",
+   "build": "New lab scene cells-grow, its main growth.",
+   "sources": [
+    {"claim": "Dinis Cruz, 28 November 2026: teams of 10, 20, 30, 50 roles, 'almost the creation of a mini company, a mini organisation, a mini full-blown org chart, just to deliver a task'.", "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"}
+   ],
+   "so_what": "Scale comes from making more cells, each whole, not from more process."
+  },
+  {
+   "id": "proof",
+   "title": "We did it",
+   "seconds": 15,
+   "words": "We did this for a film. One person, two maestros on two accounts, a conductor, a lead agent, scene builders, a critic, test viewers and a designer. Set up for one film, and archived when it is done.",
+   "picture": "The real chart of the cell that made How we refresh a session, growing from Dinis Cruz down to the helpers, drawn round as a cell, then archived to a shelf with its files.",
+   "motion": "Reused: lab/refresh-cell, span 0 to 14 s.",
+   "build": "Reuse lab/refresh-cell (no new scene).",
+   "sources": [
+    {"claim": "The team that made How we refresh a session, with which model did what.", "url": "https://studio.agents.sovereignweb.site/productions/session-refresh/team/"},
+    {"claim": "The cell's runs: who did what, for how long.", "url": "https://studio.agents.sovereignweb.site/productions/cell.json"}
+   ],
+   "so_what": "Not a theory: a cell that existed, and its files are public."
+  },
+  {
+   "id": "verticals",
+   "title": "Cells you can ask for",
+   "seconds": 10,
+   "words": "And a cell can be what you ask for. A social media cell. A website cell. A CRM cell. A design cell. An agent behaviour policy cell.",
+   "picture": "Five cells stacked down the tall frame, each a membrane with its own lights and a short label, one lighting up per word.",
+   "motion": "Each cell buds off the one above, in time with the voice.",
+   "build": "New lab scene cells-verticals.",
+   "sources": [
+    {"claim": "Dinis Cruz, 28 November 2026: Agile Cells may be how we sell, as vertical cells: a social media cell, a website cell, a CRM cell, a design cell, an agent behaviour policy cell.", "url": "https://studio.agents.sovereignweb.site/productions/plans/2026-11-28-agile-cells-film-start-prompt.md"}
+   ],
+   "so_what": "What the viewer could do next: ask for a cell for one job."
+  },
+  {
+   "id": "end",
+   "title": "Agile Cells",
+   "seconds": 5,
+   "words": "Agile Cells. agilecells.org",
+   "picture": "The title and the address over the five cells, dimmed. The AI voice label shows here only.",
+   "motion": "A still title, held.",
+   "build": "The player's title scene (no new scene).",
+   "sources": [
+    {"claim": "agilecells.org is the Agile Cells site.", "url": "https://github.com/AgentiCCells/AgentiCCells__Site__AgileCells-Org"}
+   ],
+   "so_what": "Where to go."
+  }
+ ],
+ "seconds_total": 79,
+ "open_questions": [
+  "agilecells.org did not answer on 28 November 2026 (no certificate for the name over HTTPS, and a GitHub Pages 404 over HTTP). The end card should not send people to it until it is live.",
+  "The Agile Cells team's own go-to-market work could not be found in a public place: AgentiCCells__Site__AgileCells-Org, AgentiCCells__Agent__Agile-Cells and AgileCells-AgileCells__IaC hold only the one-line description. The verticals beat stands on Dinis's own words until it is found.",
+  "Whether 'may be how we sell' is ready to be said in public: the verticals beat says 'can be what you ask for', not a price or an offer."
+ ]
+}
