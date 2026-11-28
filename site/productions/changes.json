@@ -4,6 +4,24 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "0178168",
+   "date_utc": "2026-11-28 12:58",
+   "what": "The story of Agile v0.4: an opening that previews the film; the AI label only at the end",
+   "detail": "- New lab scene agile-trailer: the hook plays over a curved wall of six live\n  previews of the film's own lab scenes, each run on its own off-screen canvas.\n  Each phrase turns to the screen it names, then the camera pulls back.\n- v0.4/scenes.json: the hook uses that scene (same words, sources and voice);\n  label_end_only, so the label is drawn only on the credits. No scene re-voiced.\n- Storyboard frames for v0.4; self-check review signed by c.productions-agile.\n- Asked by Dinis Cruz on 28 November 2026."
+  },
+  {
+   "commit": "9e2019e",
+   "date_utc": "2026-11-28 12:53",
+   "what": "Productions: the Higgsfield renewal trial as a page",
+   "detail": "Dinis Cruz, relayed by c.maestro: \"it needs to be a web page, correct?\". The four tests from\ntrial.json for a person: what each makes, estimated credits, how it is measured, who judges, and\nwhere it stands (no spend cap, every cost recorded). Path claimed by conductor.c (ea0388e)."
+  },
+  {
+   "commit": "b686484",
+   "date_utc": "2026-11-28 12:51",
+   "what": "Productions: the media desk, its cost ledger and the ask-for-media skill",
+   "detail": "Dinis Cruz, 28 Nov 2026, in higgsfield.c's session: \"your whole point here is to serve and to help\nthe other agents ... if they need an image, if they need something, they should come through you\",\nand \"we should be building skills\". desk.json says what any agent can ask higgsfield.c for and how;\nskill/SKILL.md is a skill any agent can load to write the brief; ledger.json records every\ngeneration's cost and outcome from the first call (\"no spending cap for now ... just record every\ncost\"). Paths claimed by conductor.c (dc4a76d)."
+  },
+  {
    "commit": "d7aad9c",
    "date_utc": "2026-11-28 12:50",
    "what": "Productions build: stop tracking Python's bytecode cache",
