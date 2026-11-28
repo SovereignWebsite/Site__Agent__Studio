@@ -39,6 +39,13 @@
    ]
   },
   {
+   "h": "A compaction you control",
+   "p": [
+    "Claude already does something like this by itself: when a session fills up, it compacts the conversation. The trouble, as Dinis Cruz puts it, is that \"we don't control it, and this is where hallucinations happen\": an automatic summary cannot know which details must not be lost.",
+    "A hand-over is the same move done on purpose. The agent that knows the work writes the summary, into Markdown a person can read, with the history, the state and the next tasks, so the aim is zero loss of context. The new session then loads the rules, the agent behaviour policies that bind it (our ABPs, from RiskMandate), its role and its state, and nothing else. What has settled into a routine becomes a skill, loaded only when it is needed."
+   ]
+  },
+  {
    "h": "What it saved",
    "frame": "v0.3/board/frames/08-saving-3.jpg",
    "alt": "A tall amber column labelled 859,600 beside a short teal one labelled 118,600, with 86% less across them.",

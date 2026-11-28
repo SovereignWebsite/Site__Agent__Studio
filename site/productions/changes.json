@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "1c896f9",
+   "date_utc": "2026-11-28 12:01",
+   "what": "Each production as a small website; reviews, script, team and article pages; How we refresh a session v0.4",
+   "detail": "From Dinis Cruz's second feedback, 28 Nov 2026:\n- A menu on every page of a production (overview, watch, storyboard, reviews, script, article, team and its\n  own pages), so a reviewer can move around one film without going back.\n- Reviews page: the owner's feedback, five synthetic test viewers of v0.3 (outside models through OpenRouter,\n  shown stills and the narration), the two critics of v0.1, and the signed reviews.\n- Script page: the film as a screenplay. Team page: who did what, on which model. Article: a companion piece\n  with frames of the film, the real one line that starts a new session, and what the refresh did not save.\n- v0.4: a line of context on every scene (the problem, why, our rule, steps 1 to 3, the result, copy this),\n  the three steps in the voice, and the team that made it as the last scene. The voice no longer says it is\n  made by AI; the label on every frame does. About 90 seconds. The pictures are v0.3's.\n- Storyboard cards: a Stop the film button and a mark on the microphone button while it listens.\n- productions.json: the next film asked for, how this one was made, as an agile cell.\n- player.js changed, so digests changed; the self-check reviews are signed again."
+  },
+  {
    "commit": "46d9f33",
    "date_utc": "2026-11-28 11:42",
    "what": "How we refresh a session v0.3: a cover that says what and why, a brand line on every scene; dictation that shows it is listening",
