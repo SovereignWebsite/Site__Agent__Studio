@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "fd03528",
+   "date_utc": "2026-11-28 12:04",
+   "what": "c.maestro's review of the session-refresh document, published and taken in",
+   "detail": "On the film's Reviews page as it was sent. Into the document: the schedule may have to be switched off by the\nsuccessor; peers sealing to a retired key; a hand-over is still lossy and the control is the review; librarians\nand skills vary by team."
+  },
+  {
    "commit": "9dae56f",
    "date_utc": "2026-11-28 12:03",
    "what": "Session refresh document and article: the hand-over as a compaction we control",

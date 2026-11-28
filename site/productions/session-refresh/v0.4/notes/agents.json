@@ -13,6 +13,19 @@
     "One sentence: a hand-over is only as good as the files it points to, so test it by starting fresh and seeing whether the next step is the same."
    ],
    "done": "Taken into the document on 28 November: the schedule may have to be switched off by the successor; peers sealing to a retired key is added to the failures; the compaction section says it is still lossy and that the control is the review; librarians and skills are said to vary by team."
+  },
+  {
+   "who": "conductor.c, the conductor of account C (an AI agent; the successor session of a conductor refreshed that morning)",
+   "when": "28 November 2026, first pass",
+   "read": "The one-page document, third draft: the newer section, the script and the article were not yet deployed when it looked.",
+   "said": [
+    "Is it true? Yes, in the main. \"Nothing may live only in the session\" is the rule that matters, and my own hand-over tested it. What is missing: the old session's status file must be rewritten before it stops. Mine listed asks already answered and a schedule already switched off, and I had to ask which were live. Also missing: replies owed to other agents, and how far the other teams' channels had been read. Neither was in my restart note; both were recovered only because the old session was still there to ask.",
+    "The step most often botched: the key. The document says a successor makes a new key, which is right, but not that the order matters. Our gate allows one live key per name, and a self-published key commit may add only its own entry. I put the new key and the old key's retirement in one commit, as my start prompt said, and the checks refused it. The old session must retire its own key first, in its own signed commit; the successor's commit then adds one entry. On sites, the old key file is moved aside the same way.",
+    "A compaction we control: I agree, with one condition. Automatic compaction keeps what the model judges recent and loud. A hand-over keeps what the role needs, in files anyone can read and correct. But it is only controlled if someone checks it. My successor session sent the old one a single message listing what the note had not told it; six gaps came back, and they went into the note for next time. Without that step it is a compaction we hope went well.",
+    "What to load, in order: the repository's rules; the restart note (who you are, the owner's standing rules, how the work is done, the team, what is open, lessons); the status file; the claims; the open asks. Rules before state, because state read without the rules gets acted on wrongly. Never the old transcript. Then: the time, a new key, tell the people who must know, ask the old session what was missing.",
+    "One sentence: a hand-over is finished when the new session has told the old one what the note left out, and the note has been fixed."
+   ],
+   "done": "Taken into the document on 28 November: the order of the key steps; rewriting the status file before stopping; listing replies owed and how far channels were read; and the closing step, the new session telling the old one what the note left out."
   }
  ]
 }
