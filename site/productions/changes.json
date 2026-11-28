@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "2afa1b6",
+   "date_utc": "2026-11-28 15:53",
+   "what": "Words on screen as they are spoken: How we refresh a session v0.7, first part",
+   "detail": "From Dinis Cruz's review of v0.6, 28 Nov 2026 (the film must work without sound):\n- The player can draw the narration in the frame as it is spoken (captions_in_frame): the sentence being said,\n  the word being said in amber, the rest dimmed; the chapter line moves to the top under the logo.\n- v0.7 turns it on, with a new opening line that says what is coming and a closing line that calls the team an\n  agile cell that will be archived when the film is done. The opening and closing pictures are being built.\n- player.js changed: self-check reviews re-signed. Other productions do not use the new option."
+  },
+  {
    "commit": "873f9f4",
    "date_utc": "2026-11-28 15:48",
    "what": "Review pages: sign in where you review, and no note box until notes can be sent",
@@ -356,12 +362,6 @@
    "date_utc": "2026-11-28 00:28",
    "what": "Feedback lane: one-time sign-in by sealed code, and a conversation with thumbs up and down",
    "detail": "As Dinis Cruz asked (27 and 28 Nov 2026): the append token lives only in the sign-in code, kept in the\nbrowser encrypted with the browser's own key; an interactive chat; the agent replies to each message.\n- Sign-in: the browser shows its public key as a short code; the agent answers with a grant, the lane\n  token sealed to that browser's key and signed with the agent's published key (a link, a text or a QR\n  picture). Only that browser can open it. The plain '#k=' link is gone.\n- What the browser keeps (the sign-in, the thread) is encrypted with a key derived from its own\n  non-exportable private key.\n- The page is now a conversation: your messages, my sealed replies (each tied to the message it\n  answers), and Good / Not right on every reply, sent as signed reactions.\n- Tested end to end in headless Chromium: sign-in, message, drain with signature and identity check,\n  reply, reaction."
-  },
-  {
-   "commit": "969f7d0",
-   "date_utc": "2026-11-28 00:25",
-   "what": "The story of Agile v0.2: five scenes are now pictures from the scene lab",
-   "detail": "Dinis Cruz, after playing the lab scenes: \"that is exactly what I was talking about, can you add these\n(and the next batch) to the original video\".\n- The player can play a lab scene component under its words: the component draws into its own canvas,\n  which the player lays in as a texture, so captions, labels, capture and review still work.\n- v0.2: Royce's cascade; Snowbird across three scenes (gathering, the word, the four values); the badge\n  factory. Same script, voice and sources as v0.1; v0.1 stays as it was.\n- A version's digest now covers the scene components and three.js it uses.\n- The maker's signed self-checks, re-signed for the new digests. In review; nothing is published."
   }
  ]
 }

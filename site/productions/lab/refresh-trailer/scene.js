@@ -80,7 +80,7 @@ void main(){
   float inside = clamp(0.5 - d, 0.0, 1.0);
   float ring = clamp(1.0 - abs(d + 0.8) / 1.3, 0.0, 1.0) * borderA;
   vec3 col = mix(pic, borderC, ring);
-  float h = halo * exp(-max(d, 0.0) / max(margin * 0.32, 1.0));
+  float h = halo * exp(-max(d, 0.0) / max(margin * 0.24, 1.0)) * (1.0 - smoothstep(margin * 0.6, margin * 0.98, d));
   float a = max(inside, h * (1.0 - inside));
   gl_FragColor = vec4(mix(haloC, col, inside), a * alpha);
 }`;
@@ -135,7 +135,7 @@ export async function create({ canvas, THREE, reduced }) {
 
   // place one screen: rect in top-down pixels, the source window (x0, y0 from the top, w, h, all 0..1)
   function put(s, r, win, o) {
-    const m = 40 * L.s, fw = r.w + 2 * m, fh = r.h + 2 * m;
+    const m = 56 * L.s, fw = r.w + 2 * m, fh = r.h + 2 * m;
     s.m.position.set(r.x + r.w / 2, H - (r.y + r.h / 2), 0); s.m.scale.set(fw, fh, 1);
     s.u.size.value.set(r.w, r.h); s.u.margin.value = m; s.u.radius.value = Math.min(r.w, r.h) * 0.06;
     s.u.uvr.value.set(win[0], 1 - win[1] - win[3], win[2], win[3]);
@@ -212,7 +212,7 @@ export async function create({ canvas, THREE, reduced }) {
       const gs = 1 + 0.05 * glow, cw = C.w * gs, chh = C.h * gs, cx = C.x - (cw - C.w) / 2, cyy = C.y - (chh - C.h) / 2;
       const r = { x: lerp(bx, cx, k) - arc, y: lerp(by, cyy, k), w: lerp(bw, cw, k), h: lerp(bh, chh, k) };
       const dip = 1 - 0.6 * Math.max(0, 1 - Math.abs(t - T_GLOW + 0.05) / 0.12);
-      put(screens[0], r, coverWin(r, lerp(0.5, 0.765, k)), { bright: dip, alpha: 1, borderA: lerp(0.25, 0.35, k) + 0.65 * glow, halo: lerp(0.22, 0.08, k) + glow * (0.5 + 0.25 * breathe), amberBorder: glow > 0.3 });
+      put(screens[0], r, coverWin(r, lerp(0.5, 0.775, k)), { bright: dip, alpha: 1, borderA: lerp(0.25, 0.35, k) + 0.65 * glow, halo: lerp(0.22, 0.08, k) + glow * (0.5 + 0.25 * breathe), amberBorder: glow > 0.3 });
       subs[0].scene.render(clamp(bigSrc(t), 0, subs[0].end), BIG_W, BIG_H); screens[0].tex.needsUpdate = true;
     }
     // cards 2 to 7: each slides in from the right as its turn comes, playing its own scene slowly
