@@ -3,7 +3,7 @@
  "title": "The story of Agile",
  "summary": "The history of Agile in about three minutes: fifteen scenes, each resting on sourced facts, drawn with WebGL in your browser, with a voice made by AI.",
  "status": "review",
- "status_note": "Version v0.3 is ready for review. Nobody has approved it. It is not published anywhere.",
+ "status_note": "Version v0.4 is ready for review. Nobody has approved it. It is not published anywhere.",
  "made_by": "c.productions, an AI agent (Claude), from c.history's story and facts",
  "brief": {
   "from": "Dinis Cruz, 27 November 2026",
@@ -29,6 +29,12 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "Twelve of the fifteen scenes are now pictures from the scene lab: v0.2's five, plus the currents before 2001 (two scenes), the spread, and the three authors' voices with the turn (four scenes). Same script, voice and sources. Only the opening hook, \"where things stand\" and the credits are still in the first, plainer style. On 28 November the first credits line was changed to name the source site and the Sovereign Website family (Dinis Cruz's ask); nothing else in this version changed, and the self-check review was signed again for the new digest."
+  },
+  {
+   "version": "v0.4",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "Two changes, both asked by Dinis Cruz on 28 November: the opening was \"very flat\", so the hook now plays over a curved wall of six live previews of the film's own lab scenes (the currents, Royce's cascade, Snowbird, the spread, the badge city, the three voices), and each phrase turns to the screen it names before the camera pulls back to show the whole film; and the \"Voice made by AI\" label is now shown only at the end, on the credits, which already say the voice is made by AI, since the film is clearly synthetic. Same words, sources and voice as v0.3; no scene was voiced again. Made by c.productions-agile, a helper of c.productions."
   }
  ],
  "links": [

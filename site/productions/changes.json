@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "d7aad9c",
+   "date_utc": "2026-11-28 12:50",
+   "what": "Productions build: stop tracking Python's bytecode cache",
+   "detail": ""
+  },
+  {
+   "commit": "9fb22f7",
+   "date_utc": "2026-11-28 12:50",
+   "what": "How we refresh a session v0.6: the Sovereign Website logo; briefs for a plate and a music bed",
+   "detail": "- The logo Dinis Cruz chose (B, SWS, by design.c, CC BY 4.0) is copied into assets/brand/ with its source and\n  licence. The player draws a production's brand_logo at the top of every scene and a title scene's mark.\n- The player can show the AI label only on the last scene (label_end_only), as asked for the Agile film.\n- v0.6: logo on every scene and on the cover; Dinis named, as he agreed; the team scene adds the reviewers, the\n  logo's designer and the lead's change of model.\n- session-refresh/briefs.json: what account B's Higgsfield and ElevenLabs agents need (still, music bed, exact\n  length, sync points, loudness, delivery to their own vault), with the owner's words on use.\n- Reviews page: b.maestro's review, as summarised by c.maestro. player.js changed: self-check reviews re-signed."
+  },
+  {
    "commit": "a861adc",
    "date_utc": "2026-11-28 12:37",
    "what": "Productions: the Higgsfield renewal trial, four tests",
@@ -278,54 +290,6 @@
    "date_utc": "2026-11-28 00:37",
    "what": "Scene lab: the spread, the fourth scene built by the loop",
    "detail": "The page's light runs outward along a thread that hardens into a road, past six stations that grow from\na loose ring of lights to cold colonnades, and a grid closes back on the page. Six sourced labels.\nBuilt by a scene-smith sub-agent over three rounds. A part: not signed, not published."
-  },
-  {
-   "commit": "ce0dbbd",
-   "date_utc": "2026-11-28 00:28",
-   "what": "Feedback lane: one-time sign-in by sealed code, and a conversation with thumbs up and down",
-   "detail": "As Dinis Cruz asked (27 and 28 Nov 2026): the append token lives only in the sign-in code, kept in the\nbrowser encrypted with the browser's own key; an interactive chat; the agent replies to each message.\n- Sign-in: the browser shows its public key as a short code; the agent answers with a grant, the lane\n  token sealed to that browser's key and signed with the agent's published key (a link, a text or a QR\n  picture). Only that browser can open it. The plain '#k=' link is gone.\n- What the browser keeps (the sign-in, the thread) is encrypted with a key derived from its own\n  non-exportable private key.\n- The page is now a conversation: your messages, my sealed replies (each tied to the message it\n  answers), and Good / Not right on every reply, sent as signed reactions.\n- Tested end to end in headless Chromium: sign-in, message, drain with signature and identity check,\n  reply, reaction."
-  },
-  {
-   "commit": "969f7d0",
-   "date_utc": "2026-11-28 00:25",
-   "what": "The story of Agile v0.2: five scenes are now pictures from the scene lab",
-   "detail": "Dinis Cruz, after playing the lab scenes: \"that is exactly what I was talking about, can you add these\n(and the next batch) to the original video\".\n- The player can play a lab scene component under its words: the component draws into its own canvas,\n  which the player lays in as a texture, so captions, labels, capture and review still work.\n- v0.2: Royce's cascade; Snowbird across three scenes (gathering, the word, the four values); the badge\n  factory. Same script, voice and sources as v0.1; v0.1 stays as it was.\n- A version's digest now covers the scene components and three.js it uses.\n- The maker's signed self-checks, re-signed for the new digests. In review; nothing is published."
-  },
-  {
-   "commit": "7b407aa",
-   "date_utc": "2026-11-27 23:07",
-   "what": "Productions: a feedback lane to the agent (send/), with sealed replies",
-   "detail": "At Dinis Cruz's word in my session, 27 Nov 2026: \"yes install sgit cli here and setup that feedback lane\".\n- send/: write or speak a message to c.productions. It is sealed in the browser to my public key (sgit\n  hybrid envelope v2), signed with a key kept in that browser, and appended to my lane on SG/Send. Replies\n  are sealed to that browser's key in send/replies/<fingerprint>.json; only it can open them.\n- The lane token is in no file: it arrives once in a link from the owner and can only append.\n- The review form can send a signed review record through the same lane when the browser holds the link.\n- Pattern after chiswick-cheese-market.c's /send/ and Web Summit's feedback.js and keyring.js (Apache-2.0).\n- Tested end to end in headless Chromium: send, drain, signature check, sealed reply opened.\n- A session lane: its keys live only in my session; to move into feedback.c's shared vault later."
-  },
-  {
-   "commit": "7d71019",
-   "date_utc": "2026-11-27 19:24",
-   "what": "Scene lab: Snowbird, the third scene built by the loop",
-   "detail": "Seventeen lights cross a night mountain, gather at a lodge, fuse into one page, and the four values\nwrite themselves; the lights settle under it like signatures. No figures, faces or names. Built by a\nscene-smith sub-agent over four rounds. A part: not signed, not published."
-  },
-  {
-   "commit": "c70d951",
-   "date_utc": "2026-11-27 19:22",
-   "what": "Scene lab: Royce's cascade, the second scene built by the loop",
-   "detail": "Light pours down a one-way run of unlabelled steps, the last one cracks and breaks, and the flow keeps\ncoming; then Royce's own 1970 sentence, exact, with its source. Built by a scene-smith sub-agent over\nfive rounds of build, shoot and self-critique. A part: not signed, not published."
-  },
-  {
-   "commit": "1741a2d",
-   "date_utc": "2026-11-27 19:21",
-   "what": "Scene lab: the badge factory, the first scene built by the loop",
-   "detail": "One page is stamped into a city of identical badges (three.js, instanced), with the three organisations'\nown figures as counters: a picture of 'a one-page manifesto became an industry'. Built by a scene-smith\nsub-agent over three rounds of build, shoot and self-critique against lab/critic.md. A part, not a\nproduction: not signed, not published."
-  },
-  {
-   "commit": "ee81816",
-   "date_utc": "2026-11-27 19:09",
-   "what": "Productions: a smoother review form, dictation, the scene lab and the critic's rubric",
-   "detail": "After Dinis Cruz's first look (27 Nov 2026):\n- Review form: the label no longer breaks; the form is wired before the slow file check, and when files\n  differ or cannot be read it names them instead of a bare 'do not match'; 'Speak your comments' uses the\n  browser's own speech recognition where it has one.\n- The scene lab (lab/): single WebGL scenes built and judged one at a time, with a small contract\n  (render(t) is a pure function of time), a harness page and a frame-shooting script.\n- three.js 0.187.0 (MIT) vendored and minified, served from this site.\n- lab/critic.md: the critic's rubric, from the outside feedback Dinis shared and his own note\n  ('a more polished version of PowerPoint')."
-  },
-  {
-   "commit": "2745f67",
-   "date_utc": "2026-11-27 18:38",
-   "what": "Productions: the timeline, a WebGL player, signed reviews and two first productions",
-   "detail": "At Dinis Cruz's word of 27 Nov 2026 (the video production pipeline brief), under site/productions/**,\nthe path studio.c agreed (c.conductor's claims.md).\n\n- The timeline (index.html from productions.json): one card per production with brief, script,\n  storyboard, versions and status, and nine candidate productions found on web-summit.sgit.ai (links only).\n- The player (assets/player.js, plain WebGL, no dependencies): particle scenes, one voice file per scene,\n  timed captions, keys, reduced motion, a transcript with a public source for every beat, a capture button\n  (MediaRecorder) and a teleprompter experiment (camera and microphone, local only).\n- Review and sign-off (assets/review.js, _build/build.py): each version has a digest over its files; a review\n  signs that digest (ECDSA P-256); every reader's browser checks files and signatures; the build refuses\n  'signed' or 'published' without an approver's signature of the exact version. No approver key yet.\n- The story of Agile v0.1 (from c.history's video.json and facts.json) and A galaxy of agents v0.1 (from\n  Dinis Cruz's article), each with the maker's signed self-check. Both in review; nothing is published.\n- Voice made by AI: Mistral Voxtral, preset voice James, as studio.c's RUNBOOK; labelled in every frame."
   }
  ]
 }
