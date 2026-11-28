@@ -36,8 +36,8 @@ function prng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; 
 const LAY = {
   port: { W: 720, H: 1280, S0: [360, 1018], Z0: 2.2, title: [360, 300], titleFs: 104, url: [360, 392], urlFs: 34, textW: 600,
     tiers: [{ y: 1035, k: 0.4545, n: 3, sp: 220 }, { y: 866, k: 0.36, n: 4, sp: 172 }, { y: 740, k: 0.285, n: 5, sp: 138 }, { y: 638, k: 0.225, n: 6, sp: 114 }, { y: 558, k: 0.175, n: 7, sp: 98 }] },
-  land: { W: 1280, H: 720, S0: [640, 566], Z0: 2.564, title: [640, 148], titleFs: 100, url: [640, 226], urlFs: 30, textW: 900,
-    tiers: [{ y: 580, k: 0.40, n: 7, sp: 175 }, { y: 440, k: 0.30, n: 8, sp: 150 }, { y: 350, k: 0.22, n: 11, sp: 110 }] },
+  land: { W: 1280, H: 720, S0: [640, 566], Z0: 2.849, title: [640, 148], titleFs: 100, url: [640, 226], urlFs: 30, textW: 900,
+    tiers: [{ y: 582, k: 0.36, n: 7, sp: 175 }, { y: 455, k: 0.27, n: 8, sp: 150 }, { y: 358, k: 0.2, n: 11, sp: 110 }] },
 };
 const HOME = [[0, -44], [-73, 5], [73, 2], [-47, 60], [49, 58], [0, 78]]; // light offsets in cell units (amber first)
 
@@ -140,7 +140,7 @@ export async function create({ canvas, THREE, reduced }) {
     const draw = () => { let px = pad; x.font = f; x.textAlign = 'left'; x.textBaseline = 'middle'; chars.forEach((ch, i) => { x.fillText(ch, px, c.height / 2); px += cw[i] + sp; }); };
     if (glow) { x.shadowColor = glow; x.shadowBlur = fs * 0.45 * S2; x.fillStyle = color; draw(); x.shadowBlur = fs * 0.1 * S2; }
     x.fillStyle = color; draw();
-    const m = new THREE.Mesh(unitPlane, keep(new THREE.MeshBasicMaterial({ map: texOf(c), transparent: true, depthTest: false, depthWrite: false, opacity: 0, blending: THREE.NormalBlending })));
+    const m = new THREE.Mesh(unitPlane, keep(new THREE.MeshBasicMaterial({ map: texOf(c), transparent: true, depthTest: false, depthWrite: false, opacity: 0, blending: THREE.AdditiveBlending })));
     m.renderOrder = 22; m.frustumCulled = false; m.visible = false; scene.add(m); const s = { m, w: c.width / S2, h: c.height / S2 }; sprites.push(s); return s;
   }
   const place = (s, x, y, scale, a) => { s.m.position.set(x, -y, 0); s.m.scale.set(s.w * scale, s.h * scale, 1); s.m.material.opacity = a; s.m.visible = a > 0.003; };
@@ -175,7 +175,7 @@ export async function create({ canvas, THREE, reduced }) {
       const dn = Math.hypot((s.x - hero.x) / L.W, (s.y - hero.y) / L.H * 1.6) / far;
       // two fates: done (built, works, folds onto its files before the title) or still at work when the film ends
       if (rnd() < 0.58) { const b1 = 2.8 + 2.0 * dn + rnd() * 0.6, f1 = Math.min(6.7, b1 + 1.25 + rnd() * 0.7); s.lives.push({ b: b1, f: f1 });
-        if (rnd() < 0.3) { const b2 = f1 + 0.95; if (b2 < 6.9) s.lives.push({ b: b2, f: Infinity }); } }
+        if (rnd() < (s.ti <= 1 ? 0.8 : 0.3)) { const b2 = f1 + 0.95; if (b2 < 6.9) s.lives.push({ b: b2, f: Infinity }); } }
       else { const b1 = 3.6 + 2.2 * dn + rnd() * 0.9; s.lives.push({ b: Math.min(b1, 6.6), f: Infinity }); }
       s.lives.forEach((lf, li) => {
         const end = Math.min(lf.f, 7.5); for (let tc = lf.b + 1.05 + rnd() * 0.3; tc < end - 0.2; tc += 1.0 + rnd() * 0.5) s.cards.push({ t: tc, life: li });
@@ -259,7 +259,7 @@ export async function create({ canvas, THREE, reduced }) {
       const fk = live.f < Infinity ? s5((t - live.f) / 0.85) : 0;                                   // the fold
       let form, lightK;
       if (live.hero) { form = s5((t - 0.85) / 1.4); lightK = (i) => s5((t - 0.3 - i * 0.12) / 1.1); }
-      else { form = backOut(clamp((lt - 0.1) / 0.6)); lightK = (i) => (i === 0 ? s5(lt / 0.3) : s5((lt - 0.2 - i * 0.08) / 0.45)); }
+      else { form = backOut(clamp((lt - 0.1) / 0.6)); lightK = (i) => (i === 0 ? s5(lt / 0.3) : s5((lt - 0.12 - i * 0.06) / 0.35)); }
       const breathe = 1 + 0.025 * Math.sin(t * 1.3 + s.ph) * (1 - 0.5 * calm);
       const ccx = s.x, ccyU = lerp(cyU, stackTopU - 14, fk), rx = R * form * (1 - 0.3 * fk) * breathe, ry = R * form * (1 - 0.88 * fk) * breathe;
       const wave = gauss(t - 7.25 - Math.hypot((s.x - hero.x) / L.W, (s.y - hero.y) / L.H) * 0.9, 0.22) * 0.55;

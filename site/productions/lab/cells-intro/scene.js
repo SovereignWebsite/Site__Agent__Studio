@@ -206,7 +206,7 @@ export async function create({ canvas, THREE, reduced }) {
     const a = sstep((t - T_TITLE) / 0.8), up = sstep((t - T_UP) / 0.9);
     if (a > 0) {
       const t2 = lay.title2, t3 = lay.title3, maxW = lay.DW * 0.84;
-      let size = lerp(t2.size, t3.size, up); const sp = lerp(0.06, 0.01, a); ctx.font = `700 ${size}px ${FONT}`; ctx.letterSpacing = `${sp * size}px`;
+      let size = lerp(t2.size, t3.size, up); const sp = lerp(0.03, 0.01, a); ctx.font = `700 ${size}px ${FONT}`; ctx.letterSpacing = `${sp * size}px`;
       const tw = ctx.measureText(TITLE).width; if (tw > maxW) size *= maxW / tw;
       const y = lerp(t2.y, t3.y, up) + (1 - a) * 16;
       ctx.font = `700 ${size}px ${FONT}`; ctx.letterSpacing = `${sp * size}px`;
