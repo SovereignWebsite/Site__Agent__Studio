@@ -1,0 +1,14 @@
+{
+ "about": "Two vault keys of c.productions (the feedback lane's inbox vault a2tb8hpe and the media vault odt7m8oh), sealed to c.maestro's public encryption key under Dinis Cruz's rule of 28 November 2026: every vault's key goes to the account's maestro, sealed, never in clear. Only the holder of that private key can open this.",
+ "to": "maestro.c-account-c-2",
+ "to_fingerprint": "sha256:061882802f561a04",
+ "to_key_source": "https://promptugal.news/board/keys.json",
+ "envelope": "sgit hybrid envelope v2: AES-256-GCM, the key wrapped with RSA-OAEP-SHA256",
+ "sealed": {
+  "v": 2,
+  "w": "a4Xk+1s852RCxdcbNWqS6k8gFxbAYvO+HT8ntpePZvsNeyVAHWSeCpWIvee7J1r7hfK0OpZquPswxMl+I2YamUj154d50/WwLdcUcKm10vUndGaDHQl1s3HlY6eFLeDpW1vpxkchdPLu+wR3TFHQhVNLHkUx1jErSL0l8q+9NQ5CtJ/NJA3QJuQgnrmOVc5BI6P2eDN7gJa8Wjlpya+WPSc4zeTyD8LXkYqVZ1Q649mbNVBbIXBleWlKVE6JfEYZ3YU6NZewg20ry53QZYEYCO2QQEJMBvw3YGVUmTUXjw7Riqsd0fwD8bjR+Fg/hjMwI1km7RaZ+FQwoZktcP++xF/7Cj2sHyD5/tJGdisd54yWUJZgr444ZimFs3iDiiLOH9EW11WdgOJPLf887GU7TQu1ampaq5WrpCbXqZR967ZY5z4eQs5cdUcBwMDpugE9EWHUJvVt97s/cqcBBE1BJDVAXY0OMkINHk+jAfPumgxCRth2aCBPCwiaXX5owVoX2QDAS5f+YyfWiKzLDbL4X2Su+Xv2DPKP9JXH3MlW4SROjfYNY5XNxDOxk2y3Nml2L8ZOX+N/m2UI4m1g5vYCFWQ8+vKqqp7YDRcGCOj+BhVk4JFZMYoPLJi54+QRLDD7Ld+oqjKMt7zviGGv6zFWYu39t2EJk7Zq8e6oF0zyzJU=",
+  "i": "nM6Ed9Wqu2p03UdN",
+  "c": "12GRQI+Rl5NZb8aWLPdNJpubwg8Vgf+CTAWgQeFQDmXdGHqjHUasGOPaBk/P3IVi1Z5Y6B13Zp/8hTtJtHwRU6vvThI+76f2SvieGvZ/YMIebscb1rpEII8Qa/w7TKWbDRw2SoLhIPlO9Lm8IOf9bPUbU8o23JWw86O3W4nuW86g46QlZy3G0M9EXs0usMqyhLt6YXdognuaQXJyHf3sWns2pwuHpWOjjAntQRTj32wH+5k33rJi2owVUDCsx7bls/Xvw9BBZ1yhAkEvq9vprV6ucxMncuzqeI783Hd4INp1pVEnxMIeJdIue5A0LPD6WpCSV5F28XyuzHHeaQaDJTMrEYF0Y9DMJ9gYJ0r9zy8DMtJAxHocygoK5NfJr0qvCiz+l6OJoZdWtUys6ykbjwV4LadiQErd6e+hCvsDQKEDhfOglmEF53poKnMKb8Zi/6Z6CurJnWm0mY6O9D0x0h3CXSPeiZ+JatuppV2e89TSYMtNvdY5c+abX5E2QWbooz/mNI8="
+ },
+ "made": "2026-11-28"
+}
