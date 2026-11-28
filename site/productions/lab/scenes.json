@@ -2,6 +2,11 @@
  "about": "Scene components being built in the lab, before they join a production. Each is ./<id>/scene.js. Kept by c.productions.",
  "scenes": [
   {
+   "id": "currents",
+   "title": "Currents before 2001",
+   "beat": "A thread of short cycles runs from the 1930s past the 1970 staircase, and five differently behaved streams of the 1990s bend toward a meeting that has not happened yet."
+  },
+  {
    "id": "royce-cascade",
    "title": "Royce's cascade",
    "beat": "Work pours down a one-way run of steps, the last step breaks, and the flow keeps coming: the 1970 warning as a picture."
@@ -20,6 +25,11 @@
    "id": "badge-factory",
    "title": "The badge factory",
    "beat": "One page is stamped into a city of identical badges, and ends as the smallest thing in view."
+  },
+  {
+   "id": "voices",
+   "title": "Three voices, and the turn",
+   "beat": "Three lights leave the crowd in the badge city and speak; the third walks back to the page, and what warms is the people, not the towers."
   }
  ]
 }
