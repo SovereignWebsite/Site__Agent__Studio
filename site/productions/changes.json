@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "398e90c",
+   "date_utc": "2026-11-28 17:14",
+   "what": "How we refresh a session v0.8: the opening starts on a headline, and its last frame is the cover",
+   "detail": "From Dinis Cruz's notes, 28 Nov 2026: the first frame people see must say why they should care. lab/refresh-trailer\nnow opens on 'How to manage your Claude sessions, and re-read 86% less on every turn', zooms through it into the\nscroll and the agenda, and ends on the headline over the full agenda (the still before Play, and the cover for\nsocial media). Fourth round by its scene-smith sub-agent. Storyboard frames reshot."
+  },
+  {
+   "commit": "ec004e9",
+   "date_utc": "2026-11-28 17:13",
+   "what": "Agile Cells: lab/cells-close (five rounds); cells-intro and cells-close registered",
+   "detail": "cells-close: a cell re-forms from its files; cells are built, work and fold onto\ntheir own stacks, tier on tier, under Agile Cells and sovereignwebsite.org.\nRegistered (append only): both scenes in lab/scenes.json, runs in cell.json.\nv0.5 stays unlisted: in the full film the page needs 17 WebGL contexts, one over\nChrome's 16, and the player goes blank; cells-intro is being made self-contained."
+  },
+  {
    "commit": "5dba77d",
    "date_utc": "2026-11-28 17:10",
    "what": "Agile Cells: lab/cells-intro, four rounds by a scene-smith; cells-close in progress",
@@ -350,18 +362,6 @@
    "date_utc": "2026-11-28 03:07",
    "what": "Scene lab: the test, second round finished: a clean start at 9 s, each slip under its own light, the ink look",
    "detail": ""
-  },
-  {
-   "commit": "0a1ec6d",
-   "date_utc": "2026-11-28 03:06",
-   "what": "Scene lab: the line and the test, second round in progress",
-   "detail": "Saved as they stand while their scene-smiths work; both load and render without errors at this point."
-  },
-  {
-   "commit": "12ef880",
-   "date_utc": "2026-11-28 03:06",
-   "what": "Scene lab: the saving and the lesson, second round from the critics' notes",
-   "detail": "'86% less' is now the biggest thing in the film; the short column rises sooner; the lesson shows one phrase at\na time in the film's sans, with no leader lines, and a new strip of scroll starts to grow under the light."
   }
  ]
 }
