@@ -51,7 +51,7 @@ function layout(W, H) {
       titleBig: { lines: [[W / 2, 180 * s], [W / 2, 256 * s]], size: 70 * s },
       titleSmall: { y: 156 * s, size: 42 * s, cx: W / 2 },
       big: { x: W / 2 - 228 * s, y: 302 * s, w: 456 * s, h: 456 * s * 16 / 9 * 0.98 },
-      cards: CARDS.map((c, i) => ({ x: 100 * s, y: top + i * pitch + (pitch - ch) / 2, w: cw, h: ch, nx: 56 * s, lx: 100 * s + cw + 26 * s })),
+      cards: CARDS.map((c, i) => ({ x: 100 * s, y: top + i * pitch + (pitch - ch) / 2, w: cw, h: ch, nx: 56 * s, lx: 100 * s + cw + 26 * s, lmax: W - (100 * s + cw + 26 * s) - 20 * s })),
       num: 46 * s, head: 27 * s, tail: 36 * s,
     };
   }
@@ -61,7 +61,7 @@ function layout(W, H) {
     titleBig: { lines: [[W / 2 - 250 * s, 318 * s], [W / 2 - 250 * s, 396 * s]], size: 66 * s },
     titleSmall: { y: 96 * s, size: 40 * s, cx: W / 2 },
     big: { x: W / 2 + 140 * s, y: 100 * s, w: 284 * s, h: 284 * s * 16 / 9 },
-    cards: CARDS.map((c, i) => { const col = i < 4 ? 0 : 1, row = i < 4 ? i : i - 4, x = colX[col] + 38 * s; return { x, y: top + row * pitch, w: cw, h: ch, nx: colX[col], lx: x + cw + 24 * s }; }),
+    cards: CARDS.map((c, i) => { const col = i < 4 ? 0 : 1, row = i < 4 ? i : i - 4, x = colX[col] + 38 * s; const lx = x + cw + 24 * s, lmax = (col === 0 ? colX[1] - 34 * s : W - 24 * s) - lx; return { x, y: top + row * pitch, w: cw, h: ch, nx: colX[col], lx, lmax }; }),
     num: 42 * s, head: 26 * s, tail: 34 * s,
   };
 }
@@ -124,9 +124,9 @@ export async function create({ canvas, THREE, reduced }) {
   const dust = new THREE.Points(dgeo, dmat); dust.frustumCulled = false; dust.renderOrder = 0; scene.add(dust);
 
   // the words, the numbers and the thread: drawn on a canvas laid over the picture
-  const hudCv = document.createElement('canvas'), hud = hudCv.getContext('2d'), hudTex = keep(new THREE.CanvasTexture(hudCv));
-  hudTex.minFilter = THREE.LinearFilter; hudTex.generateMipmaps = false;
-  const hudMat = keep(new THREE.ShaderMaterial({ transparent: true, depthTest: false, depthWrite: false, uniforms: { map: { value: hudTex } },
+  // the canvas and its texture are made afresh at every size: a texture keeps the size it was first uploaded at
+  let hudCv = null, hud = null, hudTex = null;
+  const hudMat = keep(new THREE.ShaderMaterial({ transparent: true, depthTest: false, depthWrite: false, uniforms: { map: { value: null } },
     vertexShader: 'varying vec2 v; void main(){ v = position.xy * 0.5 + 0.5; gl_Position = vec4(position.xy, 0.0, 1.0); }',
     fragmentShader: 'uniform sampler2D map; varying vec2 v; void main(){ gl_FragColor = texture2D(map, v); }' }));
   const hudMesh = new THREE.Mesh(keep(new THREE.PlaneGeometry(2, 2)), hudMat); hudMesh.frustumCulled = false; hudMesh.renderOrder = 5; scene.add(hudMesh);
@@ -187,17 +187,23 @@ export async function create({ canvas, THREE, reduced }) {
       ctx.fillText(String(i + 1), r.nx, cy + 2 * s);
       ctx.textAlign = 'left';
       const cut = c.label.indexOf(': ');
+      // each label stays beside its own card: if it would run past its room, it is set smaller, never over a neighbour
+      const fit = (text, size) => { ctx.font = `600 ${size}px ${FONT}`; const wd = ctx.measureText(text).width; if (wd > r.lmax) ctx.font = `600 ${size * r.lmax / wd}px ${FONT}`; };
       if (cut > 0) {
-        ctx.fillStyle = AMBER; ctx.font = `600 ${L.head}px ${FONT}`; ctx.fillText(c.label.slice(0, cut + 1), r.lx + dx, cy - L.tail * 0.62);
-        ctx.fillStyle = INK; ctx.font = `600 ${L.tail}px ${FONT}`; ctx.fillText(c.label.slice(cut + 2), r.lx + dx, cy + L.head * 0.62);
-      } else { ctx.fillStyle = INK; ctx.font = `600 ${L.tail}px ${FONT}`; ctx.fillText(c.label, r.lx + dx, cy + 2 * s); }
+        ctx.fillStyle = AMBER; fit(c.label.slice(0, cut + 1), L.head); ctx.fillText(c.label.slice(0, cut + 1), r.lx + dx, cy - L.tail * 0.62);
+        ctx.fillStyle = INK; fit(c.label.slice(cut + 2), L.tail); ctx.fillText(c.label.slice(cut + 2), r.lx + dx, cy + L.head * 0.62);
+      } else { ctx.fillStyle = INK; fit(c.label, L.tail); ctx.fillText(c.label, r.lx + dx, cy + 2 * s); }
     });
     ctx.globalAlpha = 1; hudTex.needsUpdate = true;
   }
 
   function render(t, w, h) {
     if (w !== W || h !== H) {
-      W = w; H = h; L = layout(w, h); renderer.setSize(w, h, false); hudCv.width = w; hudCv.height = h;
+      // a size change is handled exactly like a fresh start in that size
+      W = w; H = h; L = layout(w, h); renderer.setSize(w, h, false); renderer.setViewport(0, 0, w, h);
+      if (hudTex) hudTex.dispose();
+      hudCv = document.createElement('canvas'); hudCv.width = w; hudCv.height = h; hud = hudCv.getContext('2d');
+      hudTex = new THREE.CanvasTexture(hudCv); hudTex.minFilter = THREE.LinearFilter; hudTex.generateMipmaps = false; hudMat.uniforms.map.value = hudTex;
       camera.left = 0; camera.right = w; camera.top = h; camera.bottom = 0; camera.updateProjectionMatrix();
       bgMat.uniforms.asp.value = w / h; dmat.uniforms.px.value = 5 * L.s;
     }
@@ -232,6 +238,6 @@ export async function create({ canvas, THREE, reduced }) {
     drawWords(t);
     renderer.render(scene, camera);
   }
-  function dispose() { for (const s of subs) s.scene.dispose(); for (const d of disposables) d.dispose(); renderer.dispose(); }
+  function dispose() { for (const s of subs) s.scene.dispose(); for (const d of disposables) d.dispose(); if (hudTex) hudTex.dispose(); renderer.dispose(); }
   return { render, dispose };
 }
