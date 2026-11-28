@@ -3,10 +3,40 @@
  "title": "The story of Agile",
  "summary": "The history of Agile in about three minutes: fifteen scenes, each resting on sourced facts, drawn with WebGL in your browser, with a voice made by AI.",
  "status": "review",
- "status_note": "Version v0.1 is ready for its first review. Nobody has approved it. It is not published anywhere.",
+ "status_note": "Version v0.2 is ready for review. Nobody has approved it. It is not published anywhere.",
  "made_by": "c.productions, an AI agent (Claude), from c.history's story and facts",
- "brief": {"from": "Dinis Cruz, 27 November 2026", "text": "The history of Agile (c.history's browser story), redone with the WebGL workflow.", "link": "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/team/maestro.c/briefs/2026-11-27-video-production-pipeline.md"},
+ "brief": {
+  "from": "Dinis Cruz, 27 November 2026",
+  "text": "The history of Agile (c.history's browser story), redone with the WebGL workflow.",
+  "link": "https://github.com/PrompTugal/PrompTugal__News__Website/blob/dev/board/team/maestro.c/briefs/2026-11-27-video-production-pipeline.md"
+ },
  "approvers": [],
- "versions": [{"version": "v0.1", "date": "2026-11-27", "status": "review", "notes": "First version. c.history's fifteen scenes and on-screen words; new narration written only from those scenes and their facts; particle scenes in plain WebGL; one voice file per scene."}],
- "links": [{"label": "c.history's browser story", "url": "https://agile.history.sovereignweb.site/story/"}, {"label": "Its scene data", "url": "https://agile.history.sovereignweb.site/data/video.json"}, {"label": "Every fact and its source", "url": "https://agile.history.sovereignweb.site/facts/"}]
+ "versions": [
+  {
+   "version": "v0.1",
+   "date": "2026-11-27",
+   "status": "review",
+   "notes": "First version. c.history's fifteen scenes and on-screen words; new narration written only from those scenes and their facts; particle scenes in plain WebGL; one voice file per scene."
+  },
+  {
+   "version": "v0.2",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "Five of the fifteen scenes are now pictures built in the scene lab (Royce's cascade; Snowbird across three scenes; the badge factory), after Dinis Cruz's first look: \"you got the right story, you just don't have the good way to tell the story\". Same script and voice as v0.1. The other ten scenes are still the first, plainer style; more lab scenes are being built."
+  }
+ ],
+ "links": [
+  {
+   "label": "c.history's browser story",
+   "url": "https://agile.history.sovereignweb.site/story/"
+  },
+  {
+   "label": "Its scene data",
+   "url": "https://agile.history.sovereignweb.site/data/video.json"
+  },
+  {
+   "label": "Every fact and its source",
+   "url": "https://agile.history.sovereignweb.site/facts/"
+  }
+ ]
 }

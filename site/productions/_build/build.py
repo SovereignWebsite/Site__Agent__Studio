@@ -73,7 +73,9 @@ def valid(rec):
     except Exception: return False
 
 def manifest(pid, ver, P):
+    comps = sorted({s["component"] for s in P["scenes"] if s.get("component")})
     files = ["assets/player.js", f"{pid}/{ver}/scenes.json"] + [f"{pid}/{ver}/{s['audio']}" for s in P["scenes"] if s.get("audio")]
+    files += [f"lab/{c}/scene.js" for c in comps] + (["assets/vendor/three-0.187.0/three.module.min.js"] if comps else [])
     rows = [{"path": f, "sha256": sha(open(os.path.join(ROOT, f), "rb").read())} for f in files]
     digest = sha("".join(f"{r['sha256']}  {r['path']}\n" for r in rows).encode())
     m = {"about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.", "production": pid, "version": ver, "digest": digest, "files": rows}
@@ -94,6 +96,7 @@ def reviews(pid, ver, m, approvers):
 def links(ls): return " ".join(f'<a href="{e(l["url"])}">{e(l["label"])}</a>' for l in ls)
 def mmss(t): return f"{int(t // 60)}:{int(t % 60):02d}"
 def on_screen(s):
+    if s.get("on_screen"): return s["on_screen"]
     if s["kind"] in ("years",): return "; ".join(f'{i["year"]}: {i["text"]}' for i in s["items"])
     if s["kind"] == "list": return "; ".join(s["items"])
     if s["kind"] == "quote": return "; ".join(f'“{q["quote"]}” ({q["by"]})' for q in s["quotes"])

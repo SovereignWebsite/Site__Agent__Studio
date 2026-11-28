@@ -76,9 +76,14 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   c.textBaseline = 'middle'; c.shadowColor = T.bg1; c.shadowBlur = 2.2 * U;
   if (meta.cam && meta.cam.mode === 'full') drawCam(c, L, meta.cam);
   // top line: the production and the scene count
-  font(2.3, 700); put(P.title.toUpperCase(), M, 5.5 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 5.5 * U, T.dim, 1, 'right');
+  if (sc.kind === 'component') { // a soft shade under the bottom lines, so they read over any picture
+    c.save(); c.shadowBlur = 0; c.globalAlpha = 1; const g = c.createLinearGradient(0, H - 20 * U, 0, H); g.addColorStop(0, 'rgba(6,10,18,0)'); g.addColorStop(1, 'rgba(6,10,18,.82)'); c.fillStyle = g; c.fillRect(0, H - 20 * U, W, 20 * U); c.restore();
+  } else { font(2.3, 700); put(P.title.toUpperCase(), M, 5.5 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 5.5 * U, T.dim, 1, 'right'); }
   const kind = sc.kind, cx = W / 2;
-  if (kind === 'title') {
+  if (kind === 'component') {
+    // the picture is a scene component; only an optional line of words sits over it
+    if (sc.caption) { const lh = font(3.3, 500, true) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, H - 13.2 * U - (ls.length - 1 - k) * lh, T.ink, rv(1, 3), 'center')); }
+  } else if (kind === 'title') {
     const lh = font(L.portrait ? 7.4 : 7, 700) * 1.16, ls = wrap(sc.title, maxW), y0 = H * 0.46 - (ls.length - 1) * lh / 2;
     ls.forEach((l, k) => put(l, cx, y0 + k * lh, T.ink, rv(k, ls.length + 2), 'center'));
     if (sc.caption) { const lh2 = font(3.5, 500) * 1.3; block(sc.caption, cx, y0 + ls.length * lh + 3 * U, maxW, lh2, T.dim, rv(ls.length + 1, ls.length + 2), 'center'); }
@@ -152,6 +157,15 @@ export async function mount(root) {
   } else say('This browser has no WebGL: the transcript below has the whole story.');
   function size(w, h) { canvas.width = text.width = w; canvas.height = text.height = h; L = layout(w, h); root.classList.toggle('portrait', h > w); if (gl) gl.viewport(0, 0, w, h); }
   size(P.format?.w || 1280, P.format?.h || 720);
+  // scene components (built in the lab): each draws into its own canvas, which this player lays under the words
+  const comps = {}; let ctex = null;
+  { const ids = [...new Set(scenes.map((s) => s.component).filter(Boolean))];
+    if (ids.length && gl) {
+      say('Loading the scenes.'); const THREE = await import(new URL('./vendor/three-0.187.0/three.module.min.js', import.meta.url));
+      for (const id of ids) { const m = await import(new URL(`../lab/${id}/scene.js`, import.meta.url)), cv = document.createElement('canvas'); cv.width = L.W; cv.height = L.H; comps[id] = { canvas: cv, seconds: m.meta.seconds, scene: await m.create({ canvas: cv, THREE, reduced: still }) }; }
+      ctex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, ctex); for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+      gl.bindTexture(gl.TEXTURE_2D, tex); say('');
+    } }
   const sceneAt = (t) => { let i = scenes.length - 1; while (i > 0 && starts[i] > t) i--; return i; };
   const shapeOf = (sc) => SHAPES[sc.shape || DEFAULT_SHAPE[sc.kind]] || SHAPES.swirl;
 
@@ -159,7 +173,7 @@ export async function mount(root) {
     const i = sceneAt(pos), sc = scenes[i], tl = Math.min(pos - starts[i], sc.seconds), d = sc.seconds, t = still ? 0 : pos;
     drawText(tc, L, P, sc, tl, d, still, { i, n: scenes.length, cam });
     if (gl) {
-      const T = P.theme, f = shapeOf(sc), mixing = !still && i > 0 && tl < 1, prev = mixing ? scenes[i - 1] : null, fp = prev && shapeOf(prev), hide = cam && cam.mode === 'full';
+      const T = P.theme, f = shapeOf(sc), comp = sc.component && comps[sc.component], mixing = !still && i > 0 && tl < 1 && !comp && !scenes[i - 1].component, prev = mixing ? scenes[i - 1] : null, fp = prev && shapeOf(prev), hide = (cam && cam.mode === 'full') || !!comp;
       for (let k = 0; k < N; k++) {
         sd[0] = SEED[k * 4]; sd[1] = SEED[k * 4 + 1]; sd[2] = SEED[k * 4 + 2]; sd[3] = SEED[k * 4 + 3];
         f(o, sd, t, sc, L, tl, d, still, k);
@@ -168,6 +182,11 @@ export async function mount(root) {
       }
       gl.disable(gl.BLEND); gl.useProgram(pb); gl.bindBuffer(gl.ARRAY_BUFFER, qbuf); let a = gl.getAttribLocation(pb, 'p'); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
       gl.uniform3fv(gl.getUniformLocation(pb, 'a'), hex(T.bg1)); gl.uniform3fv(gl.getUniformLocation(pb, 'b'), hex(T.bg2)); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (comp && !(cam && cam.mode === 'full')) {
+        const sp = sc.span || [0, comp.seconds]; comp.scene.render(still ? sp[1] : sp[0] + clamp(tl / d) * (sp[1] - sp[0]), L.W, L.H);
+        gl.useProgram(pq); a = gl.getAttribLocation(pq, 'p'); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+        gl.bindTexture(gl.TEXTURE_2D, ctex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, comp.canvas); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.bindTexture(gl.TEXTURE_2D, tex);
+      }
       gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE); gl.useProgram(pp);
       const q = gl.getAttribLocation(pp, 'q'), al = gl.getAttribLocation(pp, 'al');
       gl.bindBuffer(gl.ARRAY_BUFFER, pbuf); gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW); gl.enableVertexAttribArray(q); gl.vertexAttribPointer(q, 4, gl.FLOAT, false, 0, 0);
