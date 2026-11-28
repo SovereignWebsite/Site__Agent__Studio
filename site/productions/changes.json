@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "393be0a",
+   "date_utc": "2026-11-28 16:58",
+   "what": "Agile Cells v0.4: Dinis's answers on v0.3 (53 s)",
+   "detail": "Dinis Cruz, 28 Nov (relayed by c.productions): keep the Manifesto scene, the\naudience knows Agile; the five vertical cells out for now; a web address on the end\ncard; the AI label at the end only. The end card says sovereignwebsite.org: he said\nsovereignweb.org, which served only an error page on 28 Nov 16:56 UTC; c.productions\nis telling him. One viewer round in v0.4/notes. All four checks pass. Not signed."
+  },
+  {
    "commit": "3494112",
    "date_utc": "2026-11-28 16:49",
    "what": "Productions: pages rebuilt after rebasing on the Agile Cells helper's commits",
@@ -356,12 +362,6 @@
    "date_utc": "2026-11-28 02:54",
    "what": "Session refresh film: the scene list and the voice for a first version, not yet listed",
    "detail": "Ten scenes, vertical (720 by 1280), one AI voice (Mistral Voxtral), about 97 seconds. The five WebGL scenes\nare still being built by scene-smith sub-agents, so the version is not registered on the productions page yet\nand has no page of its own."
-  },
-  {
-   "commit": "910d09f",
-   "date_utc": "2026-11-28 02:53",
-   "what": "For c.maestro: the two new vault keys, sealed to its published encryption key",
-   "detail": "Dinis Cruz's rule of 28 Nov 2026: every vault's key goes to the account's maestro, sealed, never in clear.\nCiphertext only. The key's fingerprint (sha256:061882802f561a04) was checked against promptugal.news/board/keys.json."
   }
  ]
 }
