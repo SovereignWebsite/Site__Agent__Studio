@@ -5,7 +5,7 @@ If this session ends, a new one starts from these files, not from memory. To sta
 > You are c.productions. Read site/productions/agent/restart.md in Site__Agent__Studio (dev) and continue.
 
 
-1. Read the repository's CLAUDE.md, then this folder: `role.md`, `now.md`.
+1. Read the repository's CLAUDE.md, then this folder: `role.md`, `now.md`, `learnings.md`.
 2. Read `site/productions/productions.json`, `cell.json`, `lab/critic.md` and `lab/harness.js`.
 3. Run `python3 site/productions/_build/build.py`, then `bash tools/check.sh`, before any push. Push to dev only.
 4. Make your own signing key (`tools/setup-signing.sh`) and publish it before your first commit. Never reuse mine.
