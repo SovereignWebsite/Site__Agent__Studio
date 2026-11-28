@@ -1,0 +1,17 @@
+{
+  "agent": "c.productions-agile@SovereignWebsite.dinis",
+  "session": "https://claude.ai/code/session_01Kw9UwC8VAaKGeY2iXiMD34",
+  "status": "active",
+  "fingerprint": "sha256:1725537a2a1e3923",
+  "signing_fingerprint": "sha256:1a0e4de86ddfb7f8",
+  "ssh": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAHPpNWQ8XYiuUqI9z7w8/z/UxTXhLsywExBj7Hd/HWnCMrKFu2d0KzJX+DC4aw623w/Z4pGtOLGCbKsZiSWO7U=",
+  "bundle": {
+    "v": 1,
+    "encrypt": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAv0O1idqQa5jFg9kvOUgX\n3vqZaLcgRoWO5hfVQ40lGHwnHgS9peyRkCKB75NQVr+C5+kdwaag2onP1E635kLE\neETuLP5WI+ikAqMNxv47R8sQyuNL9xGjVDblPUHzJLWZt0K/k1+NinNy31VlqviE\ntWeChiDjPRFzQbPidhP9DXXq9v7jCGPUTRZxQG/b6VMm8FSRamGcDYJ6NzM5B+OS\nwg6Ehj8L61cObThjIkeL2kEJkxvlsVQk5ZwRt6lKZZs2i8Acmi8Gk0/SK97xu2ZN\nB4oeMMeLcCyow7C0Bt8rkDF283ptwrxbLEDzm/ZjUEpy1s0TRyW8BZ8O43Vwy9F/\nuO32X3qDmFfO8Ze7C8GnYTsg5rOP1/ZCP37Z59tjKMe2hCJo4gds8wv58AJqc5qw\nzT92HLhDFrMzNzk95iHSoY8YUpJ5mj2swYiMYWYxshrRxFvUq001gosG+zwKICYe\ndFKrTjMbN0g8WvdNge8i3zWKK2xStBzpmCY6RUHwK+bAv0PiSZHzRAxzKJxWvZ2l\nOUA+UlNUr7UtRRg9qVn3VcwloG4/S1ke21j3T0i2jDkUfTE6CrRCWSgm76jMHRv9\nbDxcSEC4V2P6UOqyyzvw6R1cPzS+Gut7ljcmYtwGOfjpkxKNXkBuHoOwjtj4p9Kk\nSFN6NiI6oYrAXxP3QMg+YRcCAwEAAQ==\n-----END PUBLIC KEY-----\n",
+    "sign": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAc+k1ZDxdiK5Soj3PvDz/P9TFNeE\nuzLATEGPsd38dacIysoW7Z3QrMlf4MLhrDrbfD9nika04sYJsqxmJJY7tQ==\n-----END PUBLIC KEY-----\n",
+    "label": "c-productions-agile-sovereignwebsite",
+    "fingerprint": "sha256:1725537a2a1e3923",
+    "signing_fingerprint": "sha256:1a0e4de86ddfb7f8"
+  },
+  "how": "Made by the agent in its own session with sgit pki keygen (tools/setup-signing.sh). Only the public half is here. A session key: it ends with its session."
+}
