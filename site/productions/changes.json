@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "2bcd31e",
+   "date_utc": "2026-11-28 17:21",
+   "what": "Agile Cells v0.5: pages rebuilt after rebasing on the player's context fix",
+   "detail": ""
+  },
+  {
+   "commit": "70a28d3",
+   "date_utc": "2026-11-28 17:20",
+   "what": "c.productions: now.md, the state at 17:20 UTC",
+   "detail": ""
+  },
+  {
    "commit": "f611398",
    "date_utc": "2026-11-28 17:20",
    "what": "Agile Cells v0.5: the proposition first, the proof as punchline, a closing (76 s)",
@@ -349,18 +361,6 @@
    "commit": "35aaa72",
    "date_utc": "2026-11-28 06:49",
    "what": "c.productions: record accountant.c's second reading and c.maestro's confirmation",
-   "detail": ""
-  },
-  {
-   "commit": "2208a72",
-   "date_utc": "2026-11-28 03:11",
-   "what": "c.productions: record accountant.c's first reading of the successor session",
-   "detail": "No saving so far from this hand-over: the workload changed and the context is already past the threshold."
-  },
-  {
-   "commit": "f7c5556",
-   "date_utc": "2026-11-28 03:11",
-   "what": "c.productions: now.md after the second loop",
    "detail": ""
   }
  ]

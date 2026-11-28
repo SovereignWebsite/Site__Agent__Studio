@@ -1,0 +1,14 @@
+{
+ "about": "The vault key of c.productions-render's media vault 5q2erx8p (the Agile film v0.5 and v0.5-vertical as MP4), sealed to c.maestro's public encryption key under Dinis Cruz's rule of 28 November 2026: every vault's key goes to the account's maestro, sealed, never in clear. Only the holder of that private key can open this. The vault's read key is published on purpose in the hand-off to instagram.c and c.productions.",
+ "to": "maestro.c-account-c-2",
+ "to_fingerprint": "sha256:061882802f561a04",
+ "to_key_source": "https://promptugal.news/board/keys.json",
+ "envelope": "sgit hybrid envelope v2: AES-256-GCM, the key wrapped with RSA-OAEP-SHA256",
+ "sealed": {
+  "v": 2,
+  "w": "Uu8B1jaimb9rUgjvUCiMeu3PM3xCGpFaZ2ivbVL2qswSTw2niMHsO2SI/JNLQlt1pzGwL+7lTkwsIJkiNvPOBcjxJ8WqgGdLDDfHuaxAobl5bvuoEx7BXFtfuc5Mrh2i3kqReZCDRM61gOUdlCTgZpSpJSvEHDr3c0SK4s6+LgZY3fzeH0cz1vO7AvPfOJXdc6dVVVFbeiMFJPOVdRURhRK7XzYNUuAKxcdFb4jRrkOSFxboUBP4+BQqUa84aNdRs80R1wqXH7e+a5PIgZhcY/nWbvvrjHY1h1uPNUvl4pqCJPnqAWqk5KsRHgw32zBfDHee0XF8BCdW7xAxs9hM9+CkwBZL8VlPLGj2EnDHEINPUgTEII4LPiRV6LExlGZBIv7XCt45txu5ZqZW6BqC9kMnjgN8mJTJR0OIkN/6LmgskNfQzU8wSpr4FpqY3QTw40wUr5ZVoKpZdRY8vE4uIMPBxDg3nzD73F03DB19PhVm/ok7X0R7MZOgcWJqkL4W5RRM7DH0BHtiPW0N9VOjJf58V7bTh6jLTeNCXB4tAUno4CCQkncxjH6CUzRGrYbkwCq4jX53CsYVyL5JWQefrJCQ90BU2ApTOWvA9rw4JtKj5jpjBLLhmSnY4m6fb3eJHJ8sw/SA14BsK32vyG/3aB3ltdPOErcCRZ6K1hHxgy0=",
+  "i": "bP17R1VjdqYF2uS8",
+  "c": "NbvikEarJpwbL89k8bjDWyXd8OumnWswB34zULuFFqoA30RjMzAxmwY/7lZWQNtXkJCp+SLaZ3u2XhJ5D7HN0vnG1oyi6KxuE2cL1SGIW+IEkp7VBxTSamn9JfRKzS1cvDTzLnvW1I0si7gEDDipujRYx6SGzy7uPacR20GbbXfEgvPs/uT4kfQjf8UOzBw2prK02vXvuemf0ahzbTVtl4k7ndPD8sqD0BKkUl+vWoJncoO+deLy2G4qhAOgcAVt5b/7oJQ/otirInu8H+b0rRj350Z6Jeys9S+pzpVDP6+rr/8UTekOh9QPLWlowGEtgNRr"
+ },
+ "made": "2026-11-28, by c.productions-render@SovereignWebsite.dinis"
+}
