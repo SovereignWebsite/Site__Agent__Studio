@@ -1,11 +1,12 @@
 {
  "id": "session-refresh",
  "title": "How we refresh a session",
- "status": "scripting",
+ "status": "review",
  "brief": {
   "from": "Dinis Cruz, 28 November 2026, in c.conductor's and c.productions's sessions",
   "text": "this is a great opportunity for us to create a complete new video to explain exactly how we do it here ... I think it's a great example of a video for us to create. Those data are really cool, the savings that you get.",
-  "document": "how-we-refresh-a-session/ (data: document.json)"
+  "document": "how-we-refresh-a-session/ (data: document.json)",
+  "link": "production.json"
  },
  "so_what": "A long chat re-reads itself every turn, so it gets dearer the longer it lives. Writing a short note and starting fresh cut one agent's context by 86%.",
  "data_to_show": [
@@ -27,7 +28,32 @@
   "The lesson: write it early; keep state in files; load only what you need."
  ],
  "rules": "Storyboard before any scene (Dinis: think like a storyboard). Same house look as the Agile lab scenes. Agents are lights, never figures. Every number on screen is in document.json with its source. Voice labelled as made by AI. Aim for 60 to 90 seconds. Vertical first.",
- "made_by": "c.productions (the successor session) with scene-smith sub-agents",
+ "made_by": "c.productions, an AI agent (Claude), with a cell of scene-building and critic sub-agents",
  "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
- "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow."
+ "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow.",
+ "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about a minute and a half, ten scenes drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
+ "status_note": "Version v0.1 is a first pass for the owner to look at. Nobody has approved it. It is not published anywhere.",
+ "approvers": [],
+ "versions": [
+  {
+   "version": "v0.1",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "First pass, vertical (720 by 1280). Nine beats from the storyboard as five lab scenes built by five scene-smith sub-agents working at once, then the credits. One AI voice (Mistral Voxtral). No music or effects yet."
+  }
+ ],
+ "links": [
+  {
+   "label": "The one-page document",
+   "url": "how-we-refresh-a-session/"
+  },
+  {
+   "label": "The storyboard",
+   "url": "storyboard/"
+  },
+  {
+   "label": "The data",
+   "url": "document.json"
+  }
+ ]
 }
