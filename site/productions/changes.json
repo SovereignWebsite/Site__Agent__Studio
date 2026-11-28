@@ -4,6 +4,24 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "266d2e6",
+   "date_utc": "2026-11-28 16:47",
+   "what": "Critic's rubric: the AI label may sit on the closing scene only, as the owner chose",
+   "detail": ""
+  },
+  {
+   "commit": "d5f23a8",
+   "date_utc": "2026-11-28 16:46",
+   "what": "How we refresh a session v0.8: saving tokens is a side effect; this is how we scale",
+   "detail": "From Dinis Cruz's notes on v0.7, 28 Nov 2026. lab/refresh-cell, second round by its scene-smith (24 s): each\nagent's model is tagged (Fable, Opus, Gemini, GPT, Mistral) across two accounts; then everything fades, the\nfiles stream into a library labelled as the repository, the source of truth, beside a small vault for big\nencrypted files, and the film ends on 'This is how we scale.' The closing voice says that saving tokens is a\nside effect and scale is the gain. About 125 seconds. cell.json records the run; frames are in the media vault."
+  },
+  {
+   "commit": "d1c39bf",
+   "date_utc": "2026-11-28 16:44",
+   "what": "Agile Cells v0.3: the proof opens on the film the cell made (61 s)",
+   "detail": "From the synthetic viewers of v0.2, who all asked to see a cell make something\nreal: a new scene shows How we refresh a session as live cards of its own scenes\n(lab/refresh-trailer, reused), \"seven versions in one day\", then the cell. Third\nviewer round in v0.3/notes: the agile veteran now finishes; the Manifesto scene\nstill loses the three viewers outside Agile, which is for Dinis to decide.\nAll four checks pass. Not signed; nothing published."
+  },
+  {
    "commit": "289b134",
    "date_utc": "2026-11-28 16:40",
    "what": "Agile Cells v0.2: 57 seconds, after a critic and five synthetic viewers of v0.1",
@@ -344,12 +362,6 @@
    "date_utc": "2026-11-28 02:52",
    "what": "A new feedback lane and a new media vault for the successor session",
    "detail": "The first lane and the first media vault's write key ended with the first session at the hand-over of 28 Nov 2026.\n- send/inbox.json: the new lane's vault, sealed to this session's public key. Tested: configure, two sealed\n  writes, list, read. Every browser needs a new sign-in code; its own key is unchanged.\n- media.json: a new vault with its published read key (a read-only clone with it was tested); the first vault\n  stays listed as read only, with what it holds."
-  },
-  {
-   "commit": "636c86d",
-   "date_utc": "2026-11-28 02:48",
-   "what": "Session refresh film: a first storyboard; the Agile film names its source site and family",
-   "detail": "- session-refresh/storyboard/: nine beats, each with a sketch drawn from document.json's own numbers, its words,\n  picture, motion and a 'so what'. About 75 seconds. The film is vertical (720 by 1280) from the start, at\n  Dinis Cruz's word of 28 Nov 2026; the first sketches were drawn wide before that and fix content, not framing.\n- The story of Agile: the production page and the first credits line now name the source, The history of Agile\n  (agile.history.sovereignweb.site), and that it is part of the Sovereign Website family (sovereignwebsite.org),\n  as Dinis asked on 28 Nov 2026. v0.3's digest changed with that one line.\n- The self-check reviews are signed again with the successor session's key (same decisions and comments)."
   }
  ]
 }
