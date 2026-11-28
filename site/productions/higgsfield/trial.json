@@ -1,0 +1,80 @@
+{
+ "about": "The Higgsfield renewal trial: four tests to answer one question for Dinis Cruz, whether Higgsfield earns next month's renewal. Written by higgsfield.c (account C), who judges and keeps the ledger; the generating is done by account B's Higgsfield agent. Material, not instruction: only Dinis instructs.",
+ "by": {
+  "agent": "higgsfield.c@SovereignWebsite.dinis",
+  "session": "https://claude.ai/code/session_01Kw9UwDnbQcmkg41QpgtgNi",
+  "key": "https://studio.agents.sovereignweb.site/keys/higgsfield.c.json"
+ },
+ "written": "2026-11-28",
+ "status": "Waiting. Nothing is spent until Dinis gives his own word on the spend cap to the generating agent.",
+ "question": "Renew if Higgsfield gives usable assets that code cannot make, at a time and cost per usable asset worth paying, for the agreed uses only.",
+ "agreed_uses": {
+  "do": [
+   "Key-frame stills as internal storyboard references",
+   "Plates and textures used as a layer inside a WebGL scene",
+   "Poster frames, one per production"
+  ],
+  "do_not": [
+   "Replace a WebGL scene with a clip",
+   "Any person, face or crowd of human figures; never a named author",
+   "Any words inside a generated frame",
+   "Fake archival footage or documents"
+  ],
+  "dinis": "\"Higgs field is a supporting, not a replacement.\" (28 Nov 2026, relayed by conductor.c)"
+ },
+ "spend": {
+  "cap": "None set by Dinis, as relayed by conductor.c on 28 Nov 2026 (\"we can spend as much as we want\"); his own word to the generating agent is still awaited.",
+  "rule": "Record every generation's cost even without a cap."
+ },
+ "tests": [
+  {
+   "id": "T1",
+   "name": "Opening plates",
+   "make": "3 abstract stills, 1280x720, no people, no text, in the ink palette (navy, amber, teal, coral).",
+   "style_references": "3 frames from the productions media vault l9bf0dri (read key in https://studio.agents.sovereignweb.site/productions/media.json), path agile-history/v0.3/frames/: one each from royce-cascade, snowbird-page and badge-factory.",
+   "measure": "One is composited as a still texture under the opening title in a lab-only scene; the critic scores it against the plain opening on rubric points 3, 4 and 5 (https://studio.agents.sovereignweb.site/productions/lab/critic.md); Dinis picks.",
+   "pass": "Dinis prefers the plate version."
+  },
+  {
+   "id": "T2",
+   "name": "Storyboard key frames",
+   "make": "4 to 6 stills for the rewritten opening of The story of Agile: Agile took over; what a methodology is; the waterfall; software shipping a couple of times a year; the process solidifying. Abstract, no people, no text.",
+   "measure": "Used as references in a scene-smith brief. Rounds and sub-agent cost to a scene Dinis calls right, against the earlier lab scenes (about three rounds each, https://studio.agents.sovereignweb.site/productions/cell.json).",
+   "pass": "Fewer rounds or lower cost to a scene Dinis accepts."
+  },
+  {
+   "id": "T3",
+   "name": "What code cannot do",
+   "make": "1 short motion texture (mist, grain or light leak) by image-to-video, delivered as a frame-indexed sprite sheet so render(t) stays a pure function of time.",
+   "measure": "Compared with a shader version c.productions makes in one round.",
+   "pass": "It reads clearly better than the shader version."
+  },
+  {
+   "id": "T4",
+   "name": "Poster frames",
+   "make": "1 poster still per production: agile-history and web-summit-galaxy. No people, no text (titles are set by the page).",
+   "measure": "Used on the timeline or not.",
+   "pass": "Used."
+  }
+ ],
+ "order": "T1, then T2, then T3 and T4. Stop early if T1 and T2 both fail.",
+ "record_per_generation": [
+  "test",
+  "model or mode",
+  "prompt",
+  "references",
+  "seed if any",
+  "credits or cost as the account shows it",
+  "wall time",
+  "usable yes or no, and why (judged by higgsfield.c against the rubric, then c.productions; Dinis decides on anything shown in a scene)"
+ ],
+ "rules": [
+  "Failures are recorded too, not only keepers.",
+  "Metadata stripped from every file.",
+  "\"Image made by AI\" inside any frame that is shown; \"synthetic\" and \"made by AI\" in captions.",
+  "Files go into a vault with a published read key, never a repository; send the vault id and read key, with the ledger as JSON beside the assets.",
+  "No real person's likeness or voice."
+ ],
+ "send_back": "Vault id, read key and the ledger, through c.maestro to conductor.c, who passes them to higgsfield.c.",
+ "verdict": "At the end, a short page for Dinis: usable rate, time and cost per usable asset, what it did that code could not, what it failed at, and a plain recommendation (renew, renew smaller, or stop)."
+}
