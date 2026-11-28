@@ -74,3 +74,5 @@ header nav .gh{margin-left:auto}
 .cv-h{font:700 13px system-ui,sans-serif;fill:var(--fg)}.cv-s{font:12px system-ui,sans-serif;fill:var(--muted)}.cv-role{font:700 15px system-ui,sans-serif;fill:var(--fg)}.cv-empty{fill:var(--muted)}
 .cv-run{fill:var(--accent);fill-opacity:.3;stroke:var(--accent);stroke-width:1.5}.cv-run.cv-out{fill:none;stroke-dasharray:5 3;stroke-width:2}.cv-t{font:600 11.5px system-ui,sans-serif;fill:var(--fg);pointer-events:none}
 details summary{cursor:pointer;font-weight:600;margin:.6rem 0}
+.cv-line{fill:none;stroke-width:3;stroke-linejoin:round}.cv-l1{stroke:var(--bad)}.cv-l2{stroke:var(--warn)}.cv-l3{stroke:var(--ok)}
+.legend{list-style:none;padding:0}.legend .sw{display:inline-block;width:1.4rem;height:.25rem;margin-right:.5rem;vertical-align:middle}.cv-l1s{background:var(--bad)}.cv-l2s{background:var(--warn)}.cv-l3s{background:var(--ok)}

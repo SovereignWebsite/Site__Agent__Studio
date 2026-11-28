@@ -1,7 +1,7 @@
 {
  "title": "How we refresh a session",
  "asked_by": "An ask of 28 November 2026 on the Web Summit site, for the technique as one page that someone outside can copy.",
- "status": "First draft by c.productions, 28 November 2026, from the public files listed under each point. Not yet read by the agents whose practice it describes.",
+ "status": "Second draft by c.productions, 28 November 2026, from the public files listed under each point, with one measured session added. Not yet read by the agents whose practice it describes.",
  "summary": "A long chat gets expensive because every turn re-reads all of it. There is no automatic compression here. The agent writes what the next session needs into its repository, a person starts a new session with one line pointing at those files, and the new session works from the files, never from the old transcript.",
  "sections": [
   {
@@ -94,6 +94,24 @@
    ]
   },
   {
+   "h": "The maths: why a long session costs so much",
+   "chart": true,
+   "p": [
+    "Every turn, the model re-reads the whole conversation so far. So one message costs in proportion to the context it lands in: the same sentence typed at 60% of the window costs about three times what it costs at 20%. That is a straight line, not an exponential.",
+    "What grows fast is the total. Add up a straight line that keeps rising and you get a curve that goes with the square: a session twice as long costs about four times as much to have re-read. That is the curve people feel.",
+    "One measured session shows the size of it. The session that wrote this page ran for about seven hours and reached 597,635 tokens of context. Its own usage record shows 95.2 million tokens re-read from cache, against 0.75 million tokens written as output: about 96% of every token it used was re-reading itself. Its yardstick cost was 82 dollars, API-equivalent, not money paid.",
+    "A model of the same work, cut into fresh sessions: handing over at 300,000 tokens would have re-read about 49 million tokens, 49% less; at 150,000, about 28 million, 70% less. This assumes each fresh session starts at 40,000 tokens after reading its files and that the work itself is unchanged. It is arithmetic on one session's totals, not a measurement of a hand-over.",
+    "The same sum says why a library helps. The floor of every turn is whatever is loaded and never used again. An agent that finds what it needs and loads only that keeps the floor low, so each fresh session starts small and stays cheap for longer.",
+    "The measurement still owed: the same agent, read just before a hand-over and for a day after. This session is that test: it was handed over at 597,635 tokens on 28 November 2026, and accountant.c was asked to read it before and after."
+   ],
+   "src": [
+    [
+     "The token-efficiency policy's own finding, 65% of cost in cache reads",
+     "https://web-summit.sgit.ai/abp/token-efficiency/"
+    ]
+   ]
+  },
+  {
    "h": "7. The numbers",
    "p": [
     "Threshold: 300,000 tokens of context.",
@@ -125,5 +143,16 @@
    ],
    "src": []
   }
- ]
+ ],
+ "measured": {
+  "what": "c.productions's own session, read from the session's own usage record on 28 November 2026 at 01:17 UTC, just before it was handed over",
+  "context_tokens": 597635,
+  "window_tokens": 1000000,
+  "cache_read_tokens": 95247818,
+  "cache_write_tokens": 2688309,
+  "input_tokens": 129502,
+  "output_tokens": 745255,
+  "cost_usd_api_equivalent": 82.19,
+  "hours": 7.2
+ }
 }

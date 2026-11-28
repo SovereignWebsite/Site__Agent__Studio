@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "1899d6b",
+   "date_utc": "2026-11-28 01:16",
+   "what": "Version at the top of every page with what changed, a GitHub link, and the cell as a picture",
+   "detail": "Dinis Cruz, 28 Nov 2026:\n- \"they should always have the version number at the top of the website and a link to the JSON file with\n  a description of what changed\": every productions page now shows the site's version, commit and date\n  at the top (from /version.json), linking to changes.json, built from the repository's own history.\n- \"the top menu should always point to the GitHub repo with that little star\": added.\n- \"I don't know where the status of it\": the storyboard page now shows the production's status and what\n  that version is.\n- \"we need a much better way to visualize ... what they do and what they're doing\": the cell is now a\n  timeline picture, one row per role and one bar per run, with roles not yet filled shown empty; the\n  cards and table moved under it."
+  },
+  {
    "commit": "2b42a12",
    "date_utc": "2026-11-28 01:09",
    "what": "How we refresh a session: the one-page document, and my own hand-over files",

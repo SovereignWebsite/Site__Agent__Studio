@@ -389,9 +389,35 @@ def board_page(prod, ver, P, vhtml):
 """
     write(f"{pid}/{ver}/board/index.html", page(f"{pid}/{ver}/board/", f"{prod['title']} {ver}: the storyboard", "Every scene in order with its frames, words and length, a preview beside it, and comments per scene.", body, ["/productions/assets/player.js", "/productions/assets/board.js"])); return True
 
+def refresh_chart(M):
+    # tokens re-read against work done, for one session and for the same work cut into fresh sessions (a model)
+    end, total = M["context_tokens"], M["cache_read_tokens"]; start = 30000; turns = round(total / ((start + end) / 2)); g = (end - start) / turns
+    def run(limit, floor=40000):
+        ctx, cum, pts = start, 0, [(0, 0)]
+        for t in range(1, turns + 1):
+            cum += ctx; ctx += g
+            if limit and ctx >= limit: ctx = floor
+            pts.append((t * g, cum))
+        return pts
+    lines = [("One session, never refreshed", run(0), "cv-l1"), ("Handed over at 300,000 tokens", run(300000), "cv-l2"), ("Handed over at 150,000 tokens", run(150000), "cv-l3")]
+    W, H, L, B, T = 760, 380, 70, 48, 20; X = lambda v: L + v / (end - start) * (W - L - 170); Y = lambda v: H - B - v / total * (H - B - T)
+    g_ = [f'<rect x="0" y="0" width="{W}" height="{H}" rx="10" class="cv-bg"/>']
+    for k in range(0, 101, 25): y = Y(total * k / 100); g_.append(f'<line x1="{L}" y1="{y:.0f}" x2="{W - 160}" y2="{y:.0f}" class="cv-grid"/><text x="{L - 8}" y="{y + 4:.0f}" text-anchor="end" class="cv-s">{total * k / 100 / 1e6:.0f} M</text>')
+    for k in range(0, 6): v = (end - start) * k / 5; g_.append(f'<text x="{X(v):.0f}" y="{H - B + 18}" text-anchor="middle" class="cv-s">{v / 1000:.0f}k</text>')
+    g_.append(f'<text x="{L}" y="{H - 8}" class="cv-s">Work done: new tokens added to the conversation</text><text x="{L}" y="14" class="cv-s">Tokens re-read so far</text>')
+    for name, pts, cls in lines:
+        d = " ".join(f"{X(x):.1f},{Y(y):.1f}" for x, y in pts[::3] + [pts[-1]]); fx, fy = pts[-1]
+        g_.append(f'<polyline points="{d}" class="cv-line {cls}"/><text x="{X(fx) + 8:.0f}" y="{Y(fy) + 4:.0f}" class="cv-s {cls}t">{fy / 1e6:.0f} M</text>')
+    ends = [p[-1][1] for _, p, _ in lines]
+    leg = "".join(f'<li><span class="sw {c}s"></span>{e(n)}: {v / 1e6:.0f} million tokens re-read{"" if i == 0 else f", {100 - v / ends[0] * 100:.0f}% less"}</li>' for i, ((n, _, c), v) in enumerate(zip(lines, ends)))
+    return f"""<div class="table" tabindex="0" role="region" aria-label="Chart: tokens re-read against work done"><svg class="cellviz" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="A chart of tokens re-read against work done. Never refreshed, the line curves upward to {ends[0] / 1e6:.0f} million. Handed over at 300,000 tokens it reaches {ends[1] / 1e6:.0f} million; at 150,000, {ends[2] / 1e6:.0f} million.">{"".join(g_)}</svg></div>
+<ul class="legend">{leg}</ul>
+<p class="meta">The top line ends at this session\u2019s measured total. The two lower lines are a model of the same work: {turns} turns adding about {g:,.0f} tokens each, with each fresh session starting at 40,000.</p>
+"""
+
 def refresh_doc():
     D = load("session-refresh", "document.json")
-    secs = "".join(f'<h2>{e(x["h"])}</h2>' + "".join(f"<p>{e(t)}</p>" for t in x["p"]) + (f'<p class="meta">Sources: {", ".join(f"<a href=\"{e(u)}\">{e(l)}</a>" for l, u in x["src"])}.</p>' if x["src"] else "") for x in D["sections"])
+    secs = "".join(f'<h2>{e(x["h"])}</h2>' + (refresh_chart(D["measured"]) if x.get("chart") else "") + "".join(f"<p>{e(t)}</p>" for t in x["p"]) + (f'<p class="meta">Sources: {", ".join(f"<a href=\"{e(u)}\">{e(l)}</a>" for l, u in x["src"])}.</p>' if x["src"] else "") for x in D["sections"])
     body = f"""<p class="meta"><a href="../../">Productions</a> / session refresh</p>
 <h1>{e(D["title"])}</h1>
 <p class="lede">{e(D["summary"])}</p>
