@@ -15,7 +15,7 @@ export const meta = {
 
 const AMBER = [1.0, 0.784, 0.341], TEAL = [0.373, 0.816, 0.773];
 const FONT = 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const T_LIT = [2.2, 3.8, 5.4, 7.0, 8.6], T_ALL = 9.6, BUD = 1.15, STILL_T = 10.4;
+const T_LIT = [2.2, 3.8, 5.4, 7.0, 8.6], T_ALL = 9.6, BUD = 1.4, STILL_T = 10.4;
 const WORDS = ['social media', 'website', 'CRM', 'design', 'agent behaviour policy'];
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const sstep = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
@@ -25,10 +25,10 @@ function prng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; 
 // Layouts in design pixels. Portrait: a zigzag between 22% and 86% of the height, labels in the free column.
 // Landscape: the same zigzag along a row (up, down, up, down, up), labels beneath.
 const LAY = {
-  port: { W: 720, H: 1280, r: 70, fs: 34, cells: [[196, 356], [512, 521], [196, 686], [512, 851], [196, 1016]],
-    lab: (i, c, r) => (i % 2 === 0 ? { x: c[0] + r + 30, y: c[1], a: 'l' } : { x: c[0] - r - 30, y: c[1], a: 'r' }), Z0: [196, 356] },
-  land: { W: 1280, H: 720, r: 64, fs: 32, cells: [[248, 262], [444, 486], [640, 262], [836, 486], [1032, 262]],
-    lab: (i, c, r) => ({ x: c[0], y: c[1] + r + 36, a: 'c' }), Z0: [248, 262] },
+  port: { W: 720, H: 1280, r: 80, fs: 34, cells: [[198, 362], [508, 527], [198, 692], [508, 856], [198, 1021]], bend: 'down',
+    lab: (i, c, r) => (i % 2 === 0 ? { x: c[0] + r + 28, y: c[1], a: 'l' } : { x: c[0] - r - 28, y: c[1], a: 'r' }), Z0: [198, 362], pan: [360, 380] },
+  land: { W: 1280, H: 720, r: 72, fs: 32, cells: [[248, 262], [444, 486], [640, 262], [836, 486], [1032, 262]], bend: 'side',
+    lab: (i, c, r) => ({ x: c[0], y: c[1] + r + 36, a: 'c' }), Z0: [248, 262], pan: [480, 330] },
 };
 
 // Each team's arrangement, in units of the cell's radius (y down): the amber person, the teal agents, and who talks to whom.
@@ -75,7 +75,7 @@ export async function create({ canvas, THREE, reduced }) {
         float di = length(d) - c.z + wob, k = 6.0 * uS;
         if (n.z > 0.3) { float dn = neck(p, n.xy, c.xy, n.z); di = smin(di, dn, 26.0 * uS); }
         s = smin(s, di, k); float w = exp(-max(di, 0.0) / (22.0 * uS)); wsum += w; bsum += w * c.w; rr = c.z;
-        float age = n.w; if (age > 0.0 && age < 2.0) { float R = age * 150.0 * uS; ring += exp(-pow((di - R) / (5.0 * uS), 2.0)) * exp(-age * 2.4) * 0.8; } }
+        float age = n.w; if (age > 0.0 && age < 2.0) { float R = age * 95.0 * uS; ring += exp(-pow((di - R) / (7.0 * uS), 2.0)) * exp(-age * 3.6) * 0.5; } }
       float b = bsum / wsum, as = abs(s);
       float edge = exp(-as / (1.6 * uS)) * 0.95 + exp(-as / (9.0 * uS)) * 0.38;
       float halo = exp(-max(s, 0.0) / (34.0 * uS)) * 0.10;
@@ -126,13 +126,18 @@ export async function create({ canvas, THREE, reduced }) {
   const lights = TEAMS.map((tm) => ({ amberPh: rnd() * 6.28, teal: tm.teal.map(() => ({ ph: rnd() * 6.28, sp: 0.6 + rnd() * 0.7 })), linkPh: tm.links.map(() => rnd()) }));
 
   // How each cell stands at time t: where it is, how big, how bright, and the neck to its parent while it buds.
+  // A bud leaves its parent away from the parent's label: downwards first in portrait, sideways first in landscape.
+  function budPath(lay, i, m) {
+    const a = lay.cells[i - 1], b = lay.cells[i], c = lay.bend === 'down' ? [a[0], b[1]] : [b[0], a[1]], u = 1 - m;
+    return [u * u * a[0] + 2 * u * m * c[0] + m * m * b[0], u * u * a[1] + 2 * u * m * c[1] + m * m * b[1]];
+  }
   function cellState(i, t, lay) {
     const home = lay.cells[i], r = lay.r;
     if (i === 0) { const g = sstep(t / 1.1); return { c: home, r: r * lerp(0.82, 1, g), g, neck: 0, par: home, u: 1 }; }
     const u = clamp((t - (T_LIT[i] - BUD)) / (BUD - 0.1)); if (u <= 0) return null;
     const par = lay.cells[i - 1], e = sstep(u), m = e * e * (3 - 2 * e) * 0.35 + e * 0.65;
-    const c = [lerp(par[0], home[0], m), lerp(par[1], home[1], m)];
-    const neck = r * 0.62 * (1 - sstep((u - 0.3) / 0.42));
+    const c = budPath(lay, i, m);
+    const neck = r * 0.78 * (1 - sstep((u - 0.38) / 0.4));
     return { c, r: r * lerp(0.5, 1, sstep(u * 1.15)), g: sstep(u * 1.25), neck, par, u };
   }
   function brightness(i, t) {
@@ -153,49 +158,58 @@ export async function create({ canvas, THREE, reduced }) {
     bgU.uRes.value.set(w, h); memU.uT.value = t; memU.uS.value = S;
     // a slow pull back: close on the first cell at the start, the whole family by the time the last one lights
     const Z = lerp(1.22, 1, sstep((t - 1.6) / 7.6)), zc = lay.Z0;
-    const sx = (x) => X0 + (zc[0] + (x - zc[0]) * Z) * S, sy = (y) => Y0 + (zc[1] + (y - zc[1]) * Z) * S, sc = S * Z;
+    const pk = sstep((t - 1.4) / 2.6), ox = lerp(lay.pan[0] - zc[0], 0, pk), oy = lerp(lay.pan[1] - zc[1], 0, pk) * (lay === LAY.land ? 1 : 0);
+    const sx = (x) => X0 + (zc[0] + ox + (x - zc[0]) * Z) * S, sy = (y) => Y0 + (zc[1] + oy + (y - zc[1]) * Z) * S, sc = S * Z;
     gi = 0;
 
     for (const d of dust) { const x = (d.x + 0.003 * t * d.sp + 0.01 * Math.sin(t * 0.3 + d.ph)) % 1, y = ((d.y - 0.005 * t * d.sp) % 1 + 1) % 1;
       addGlow(x * w, y * h, [0.6, 0.72, 0.85], d.a * (0.7 + 0.3 * Math.sin(t * d.sp * 2 + d.ph)), d.s * S, 1.2); }
 
-    const fin = sstep((t - T_ALL) / 1.0), calm = 1 - 0.6 * fin; // the lights' own motion slows as the film comes to rest
+    // the lights' own motion slows as the film comes to rest: a clock that runs at 40% speed by the end (integrated, so it never runs back)
+    const fin = sstep((t - T_ALL) / 1.0), xr = clamp(t - T_ALL, 0, 1e3), clk = t - 0.6 * (xr < 1 ? xr * xr / 2 : xr - 0.5);
     for (let i = 0; i < 5; i++) {
       const st = cellState(i, t, lay), C = memU.uC.value[i], Nn = memU.uN.value[i];
       if (!st) { C.set(0, 0, 0, 0); Nn.set(0, 0, 0, 0); labels[i].m.visible = false; continue; }
       const b = brightness(i, t);
+      // the newest team is the busiest: its messages run at double speed from the moment it lights until the next cell does
+      const busyEnd = i < 4 ? T_LIT[i + 1] : T_ALL, busy = clamp(t - T_LIT[i], 0, busyEnd - T_LIT[i]), work = clk + 1.2 * busy;
+      const hot = sstep((t - T_LIT[i]) / 0.3) * (1 - sstep((t - busyEnd) / 0.6));
       // the parent gives a little of itself while the bud draws out of it
       C.set(sx(st.c[0]), sy(st.c[1]), st.r * sc, b);
       Nn.set(sx(st.par[0]), sy(st.par[1]), st.neck * sc, t - T_LIT[i]);
+      // the pinch: where the neck snaps, a small warm spark
+      if (i > 0) { const pf = Math.exp(-Math.pow((st.u - 0.75) / 0.05, 2)); if (pf > 0.01) { const m = [(st.par[0] + st.c[0]) / 2, (st.par[1] + st.c[1]) / 2];
+        addGlow(sx(m[0]), sy(m[1]), [1.0, 0.9, 0.72], pf * 0.55, 46 * sc, 3.5 * sc); } }
       if (i > 0 && st.u < 1) { const P = memU.uC.value[i - 1]; P.z *= 1 - 0.1 * Math.sin(Math.PI * st.u); }
 
       // the team inside: lights spread out from where the bud began as the cell grows round them
       const tm = TEAMS[i], L = lights[i], R = st.r, cx = st.c[0], cy = st.c[1], g = st.g;
       const appear = (k) => (i === 0 ? sstep((t - 0.25 - k * 0.18) / 0.5) : sstep((g - 0.25 - k * 0.06) / 0.4));
-      const ang = (tm.spin || 0) * t * calm, ca = Math.cos(ang), sa = Math.sin(ang);
+      const ang = (tm.spin || 0) * clk, ca = Math.cos(ang), sa = Math.sin(ang);
       const pos = (k) => { // k = -1 for the person
         if (k < 0) { const [ax, ay] = tm.amber; return [cx + ax * R * g + 1.5 * Math.sin(t * 0.8 + L.amberPh), cy + ay * R * g + 1.5 * Math.cos(t * 0.7 + L.amberPh)]; }
         let [x, y] = tm.teal[k]; if (tm.spin) { const nx = x * ca - y * sa; y = x * sa + y * ca; x = nx; }
-        if (tm.sway) { const s = 0.05 * Math.sin(t * 1.3 * calm + k * 0.9); x += s; }
-        const p = L.teal[k]; return [cx + x * R * g + 2.5 * Math.sin(t * p.sp * calm + p.ph), cy + y * R * g + 2.5 * Math.cos(t * p.sp * 1.2 * calm + p.ph)]; };
+        if (tm.sway) { const s = 0.05 * Math.sin(clk * 1.3 + k * 0.9); x += s; }
+        const p = L.teal[k]; return [cx + x * R * g + 2.5 * Math.sin(clk * p.sp + p.ph), cy + y * R * g + 2.5 * Math.cos(clk * p.sp * 1.2 + p.ph)]; };
       // links: dotted threads with a message running along each one
       tm.links.forEach(([a, bb], li) => {
         const A = pos(a), B = pos(bb), la = Math.min(appear(a < 0 ? 0 : a + 1), appear(bb + 1)) * Math.min(1.2, b);
         if (la <= 0.01) return; const len = Math.hypot(B[0] - A[0], B[1] - A[1]) * sc, n = Math.max(2, Math.floor(len / (7 * S)));
-        const sp = tm.pipe ? 0.55 : 0.42, ph = tm.pipe ? (t * sp * calm - li * 0.33) % 1 : (t * sp * calm + L.linkPh[li]) % 1;
+        const sp = tm.pipe ? 0.55 : 0.42, ph = tm.pipe ? ((work * sp - li * 0.33) % 1 + 1) % 1 : (work * sp + L.linkPh[li]) % 1;
         for (let k = 1; k < n; k++) { const f = k / n, pulse = Math.exp(-Math.pow((f - ph) * 7, 2)) * (tm.ring && a >= 0 ? 0.6 : 1);
           const col = a < 0 && !tm.ring ? AMBER : TEAL; const x = lerp(A[0], B[0], f), y = lerp(A[1], B[1], f);
-          addGlow(sx(x), sy(y), pulse > 0.3 ? AMBER : col, la * (0.16 + 0.7 * pulse), (5 + 9 * pulse) * S, 1.1 * S); } });
-      tm.teal.forEach((_, k) => { const p = pos(k), a = appear(k + 1); addGlow(sx(p[0]), sy(p[1]), TEAL, a * Math.min(1.25, 0.35 + 0.75 * b), 40 * sc, 3.6 * sc); });
-      { const p = pos(-1), a = appear(0); addGlow(sx(p[0]), sy(p[1]), AMBER, a * Math.min(1.3, 0.45 + 0.8 * b), 66 * sc * (1 + 0.04 * Math.sin(t * 1.9)), 6.5 * sc, 1); }
+          addGlow(sx(x), sy(y), pulse > 0.3 ? AMBER : col, la * (0.16 + (0.6 + 0.5 * hot) * pulse), (5 + (8 + 4 * hot) * pulse) * S, 1.1 * S); } });
+      if (tm.spin) { const A = pos(-1); for (let q = 0; q < 2; q++) { const f = ((work * 0.45 + q * 0.5) % 1), rr = R * g * (0.18 + 0.72 * f), n = 36, ra = appear(0) * Math.sin(Math.PI * f) * 0.5 * Math.min(1, b);
+        if (ra > 0.01) for (let k = 0; k < n; k++) { const an = (k / n) * 6.2832 + q; addGlow(sx(A[0] + Math.cos(an) * rr), sy(A[1] + Math.sin(an) * rr), AMBER, ra * 0.5, 7 * S, 1.2 * S); } } }
+      tm.teal.forEach((_, k) => { const p = pos(k), a = appear(k + 1); addGlow(sx(p[0]), sy(p[1]), TEAL, a * Math.min(1.25, 0.35 + 0.75 * b), 48 * sc, 4.2 * sc); });
+      { const p = pos(-1), a = appear(0); addGlow(sx(p[0]), sy(p[1]), AMBER, a * Math.min(1.3, 0.45 + 0.8 * b), 80 * sc * (1 + 0.04 * Math.sin(t * 1.9)), 7.5 * sc, 1); }
 
       // the lineage thread: once a bud has pinched off, a faint line of dots remembers where it came from
       if (i > 0) { const sep = sstep((st.u - 0.75) / 0.25) * (1 - 0.35 * fin); if (sep > 0.01) {
-        const P = lay.cells[i - 1], Q = st.c, dx = Q[0] - P[0], dy = Q[1] - P[1], dl = Math.hypot(dx, dy), ux = dx / dl, uy = dy / dl;
-        const A = [P[0] + ux * (lay.r + 10), P[1] + uy * (lay.r + 10)], B = [Q[0] - ux * (lay.r + 10), Q[1] - uy * (lay.r + 10)];
-        const n = Math.floor(Math.hypot(B[0] - A[0], B[1] - A[1]) / 11), ph = ((t - T_LIT[i]) * 0.35 * calm) % 1;
-        for (let k = 0; k <= n; k++) { const f = k / n, pulse = Math.exp(-Math.pow((f - ph) * 6, 2));
-          addGlow(sx(lerp(A[0], B[0], f)), sy(lerp(A[1], B[1], f)), [1.0, 0.87, 0.64], sep * (0.10 + 0.25 * pulse), (5 + 4 * pulse) * S, 1.2 * S); } } }
+        const n = 40, ph = ((clk - T_LIT[i]) * 0.35 % 1 + 1) % 1, P = lay.cells[i - 1], Q = lay.cells[i];
+        for (let k = 0; k <= n; k++) { const f = k / n, q = budPath(lay, i, f); const dP = Math.hypot(q[0] - P[0], q[1] - P[1]), dQ = Math.hypot(q[0] - Q[0], q[1] - Q[1]);
+          if (dP < lay.r + 12 || dQ < lay.r + 12) continue; const pulse = Math.exp(-Math.pow((f - ph) * 6, 2));
+          addGlow(sx(q[0]), sy(q[1]), [1.0, 0.87, 0.64], sep * (0.10 + 0.25 * pulse), (5 + 4 * pulse) * S, 1.2 * S); } } }
 
       // the label: arrives as the cell lights, slides out a little from the cell, stays warm while it is the newest
       const lp = lay.lab(i, lay.cells[i], lay.r), lk = sstep((t - T_LIT[i] - 0.05) / 0.5), newest = i < 4 ? 1 - sstep((t - T_LIT[i + 1]) / 0.6) : 1;
