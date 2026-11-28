@@ -23,10 +23,9 @@
  "scenes": [
   {
    "id": "cover",
-   "kind": "title",
+   "kind": "component",
    "seconds": 13.15,
    "title": "How we refresh a session",
-   "caption": "Long sessions with Claude burn tokens. We compact ours on purpose, with a workflow we control.",
    "narration": "Burning too many tokens with Claude? When a session gets long, Claude compacts it for you, and you do not choose what is lost. We compact our own sessions, on purpose. Here is the problem, our rule, and the three steps.",
    "sources": [
     {
@@ -37,10 +36,15 @@
     }
    ],
    "source_line": "studio.agents.sovereignweb.site",
-   "mark": "/productions/assets/brand/sws-mark.svg",
    "audio": "audio/01-cover.mp3",
    "lead": 0.25,
-   "tail": 0.7
+   "tail": 0.7,
+   "component": "refresh-trailer",
+   "span": [
+    0,
+    14
+   ],
+   "on_screen": "How we refresh a session. 1 The problem. 2 Why. 3 Our rule. 4 Step 1: write a note. 5 Step 2: start fresh. 6 Step 3: check it. 7 The result."
   },
   {
    "id": "hook",

@@ -212,7 +212,7 @@ export async function create({ canvas, THREE, reduced }) {
       const gs = 1 + 0.05 * glow, cw = C.w * gs, chh = C.h * gs, cx = C.x - (cw - C.w) / 2, cyy = C.y - (chh - C.h) / 2;
       const r = { x: lerp(bx, cx, k) - arc, y: lerp(by, cyy, k), w: lerp(bw, cw, k), h: lerp(bh, chh, k) };
       const dip = 1 - 0.6 * Math.max(0, 1 - Math.abs(t - T_GLOW + 0.05) / 0.12);
-      put(screens[0], r, coverWin(r, lerp(0.5, 0.775, k)), { bright: dip, alpha: 1, borderA: lerp(0.25, 0.35, k) + 0.65 * glow, halo: lerp(0.22, 0.08, k) + glow * (0.5 + 0.25 * breathe), amberBorder: glow > 0.3 });
+      put(screens[0], r, coverWin(r, lerp(0.5, 0.79, k)), { bright: dip, alpha: 1, borderA: lerp(0.25, 0.35, k) + 0.65 * glow, halo: lerp(0.22, 0.08, k) + glow * (0.5 + 0.25 * breathe), amberBorder: glow > 0.3 });
       subs[0].scene.render(clamp(bigSrc(t), 0, subs[0].end), BIG_W, BIG_H); screens[0].tex.needsUpdate = true;
     }
     // cards 2 to 7: each slides in from the right as its turn comes, playing its own scene slowly
