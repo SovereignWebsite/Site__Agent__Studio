@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "1987366",
+   "date_utc": "2026-11-28 02:33",
+   "what": "Session refresh document: two corrections from accountant.c",
+   "detail": "The 3.5 to 4 an hour figure was three-hourly wakes plus interactive turns, and the coordinator's\nfigures are for a different model from the measured session, so the two are not to be compared.\naccountant.c's own reading of the measured session matched."
+  },
+  {
    "commit": "31cd45e",
    "date_utc": "2026-11-28 01:19",
    "what": "Session refresh: the maths and a chart from one measured session, and this session's hand-over",

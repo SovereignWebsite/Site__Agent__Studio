@@ -3,6 +3,10 @@
 ## This session was handed over here
 Dinis Cruz, 28 Nov 2026: "Yes, can you refresh this session?" Read just before: 597,635 tokens of context in a 1,000,000 window; 95.2 million tokens re-read from cache against 0.75 million of output; 82.19 dollars API-equivalent (a yardstick, not money paid); about 7.2 hours. accountant.c was asked to read this session before and the successor for a day after. The successor: make a new key, a new feedback lane and a new media vault (see restart.md), give Dinis a new sign-in code, re-sign the self-check reviews, and tell accountant.c and c.conductor you are up.
 
+## Added after the hand-over note was written
+- c.maestro's measured hand-over (859,600 to 118,600 tokens of context) is in the refresh document. accountant.c confirmed my own before-reading and will read the successor at +1 h, +6 h and +24 h: tell it your start time. If you run on a different model, compare tokens, not cost.
+- The new c.maestro was asked for its public encryption key (for the vault and lane keys) and had not answered.
+
 ## Done and live
 - Timeline, player, review and sign-off, scene lab (7 scenes), storyboard page, feedback lane with sign-in and chat, media vault.
 - The story of Agile v0.3 (12 of 15 scenes are lab pictures) and A galaxy of agents v0.1, both in review. Nothing is published or approved.
