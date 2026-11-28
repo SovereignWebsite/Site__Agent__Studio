@@ -1,5 +1,5 @@
 {
- "about": "The cell that makes these productions: one lead agent (c.productions) and the sub-agents it starts for one job each. A sub-agent lives only for its job and reports back; it cannot push or publish. This file is written by hand by the lead after each run, from the runs' own reports. Kept so the owner can see who did what.",
+ "about": "The cell that makes these productions: one lead agent (c.productions) and the sub-agents it starts for one job each. A sub-agent lives only for its job and reports back; it cannot push or publish. Runs started together share a batch. This file is written by hand by the lead after each run, from the runs' own reports. Kept so the owner can see who did what.",
  "lead": {
   "agent": "c.productions@SovereignWebsite.dinis",
   "does": "Takes Dinis Cruz's direction, writes the briefs for each job, looks at every result, joins scenes into versions, runs the site's checks, signs and pushes, answers the feedback lane."
@@ -8,7 +8,7 @@
   {
    "role": "Researcher",
    "does": "Finds facts with a public source and an exact quote for each; never invents.",
-   "runs": 2
+   "runs": 3
   },
   {
    "role": "Story editor",
@@ -49,7 +49,8 @@
    "result": "15 candidates with links; no 'how LLMs work' explainer found",
    "minutes": 4,
    "tool_uses": 23,
-   "status": "done"
+   "status": "done",
+   "batch": 1
   },
   {
    "n": 2,
@@ -58,7 +59,8 @@
    "result": "'He gave up the word' recommended; v0.1's script scored 1, 1, 0 of 2",
    "minutes": 3,
    "tool_uses": 2,
-   "status": "done"
+   "status": "done",
+   "batch": 2
   },
   {
    "n": 3,
@@ -67,7 +69,8 @@
    "result": "lab/royce-cascade, 5 rounds",
    "minutes": 10,
    "tool_uses": 23,
-   "status": "in v0.2 and v0.3"
+   "status": "in v0.2 and v0.3",
+   "batch": 2
   },
   {
    "n": 4,
@@ -76,7 +79,8 @@
    "result": "lab/snowbird-page, 4 rounds",
    "minutes": 11,
    "tool_uses": 26,
-   "status": "in v0.2 and v0.3"
+   "status": "in v0.2 and v0.3",
+   "batch": 2
   },
   {
    "n": 5,
@@ -85,7 +89,8 @@
    "result": "lab/badge-factory, 3 rounds",
    "minutes": 9,
    "tool_uses": 26,
-   "status": "in v0.2 and v0.3"
+   "status": "in v0.2 and v0.3",
+   "batch": 2
   },
   {
    "n": 6,
@@ -94,7 +99,8 @@
    "result": "lab/currents, 4 rounds; first half sparse in landscape",
    "minutes": 17,
    "tool_uses": 33,
-   "status": "in v0.3"
+   "status": "in v0.3",
+   "batch": 3
   },
   {
    "n": 7,
@@ -103,7 +109,8 @@
    "result": "lab/spread, 3 rounds",
    "minutes": 13,
    "tool_uses": 22,
-   "status": "in v0.3"
+   "status": "in v0.3",
+   "batch": 3
   },
   {
    "n": 8,
@@ -112,7 +119,8 @@
    "result": "lab/voices, 3 rounds; first segment the weakest",
    "minutes": 15,
    "tool_uses": 32,
-   "status": "in v0.3"
+   "status": "in v0.3",
+   "batch": 3
   },
   {
    "n": 9,
@@ -121,9 +129,38 @@
    "result": "about 30 sourced items; the Wayback Machine could not be reached from here",
    "minutes": 8,
    "tool_uses": 31,
-   "status": "done, not yet used"
+   "status": "done, not yet used",
+   "batch": 4
+  },
+  {
+   "n": 10,
+   "role": "Researcher",
+   "job": "How sessions are handed over, from public files",
+   "result": "the six points with sources; no before-and-after measurement exists",
+   "minutes": 3,
+   "tool_uses": 15,
+   "status": "used for the session-refresh document",
+   "batch": 5
+  },
+  {
+   "n": 11,
+   "role": "Critic",
+   "job": "higgsfield.c reviews the lab scenes (another agent, not a sub-agent)",
+   "result": "scores per scene; the film lacks a filmic opening and a storyboard step",
+   "minutes": 15,
+   "tool_uses": 0,
+   "status": "recorded as an unsigned note",
+   "batch": 5,
+   "outside": true
   }
  ],
  "working_now": 0,
- "as_of": "2026-11-28"
+ "as_of": "2026-11-28",
+ "batches": [
+  "27 Nov, evening: finding what exists",
+  "27 Nov, night: first loop",
+  "28 Nov, 00:15: second loop",
+  "28 Nov, 00:45: the new opening",
+  "28 Nov, 01:00: review and refresh"
+ ]
 }

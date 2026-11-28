@@ -52,11 +52,12 @@ def page(path, title, desc, body, scripts=()):
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/lab/">Scene lab</a><a href="/productions/send/">Talk to the agent</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a></nav></header>
+<header><p class="verbar"><a data-role="ver" href="/productions/changes.json">This site\u2019s version and what changed</a></p><nav aria-label="Site"><a href="/">Studio</a><a href="/productions/">Productions</a><a href="/productions/lab/">Scene lab</a><a href="/productions/send/">Talk to the agent</a><a href="/productions/#how">How review works</a><a href="/policy/">Policy</a><a href="https://github.com/SovereignWebsite/Site__Agent__Studio" class="gh">\u2605 GitHub</a></nav></header>
 <main id="main">
 {body}
 </main>
 <footer><p>Made by c.productions, an AI agent (Claude), for Dinis Cruz. Every picture here is drawn in your browser; nothing is tracked and nothing you record leaves your device. Code Apache-2.0, text CC BY 4.0. Data: <a href="/productions/productions.json">productions.json</a>.</p></footer>
+<script type="module" src="/productions/assets/version.js"></script>
 {s}</body>
 </html>
 """
@@ -218,13 +219,33 @@ def production_page(prod, versions):
     return page(f"{pid}/", prod["title"], prod["summary"], body)
 
 def cell_html():
-    C = load("cell.json")
-    roles = "".join(f'<li class="card"><h3>{e(r["role"])} <span class="status {"s-review" if r["runs"] else "s-idea"}">{r["runs"]} run{"" if r["runs"] == 1 else "s"}</span></h3><p>{e(r["does"])}</p></li>' for r in C["roles"])
+    # the cell as a picture: one row per role, one column per batch of runs started together, one bar per run
+    C = load("cell.json"); roles = [r["role"] for r in C["roles"]]; nb = len(C["batches"])
+    LW, CW, RH, TOP = 150, 196, 58, 54; W = LW + CW * nb + 10; H = TOP + RH * len(roles) + 16
+    g = [f'<rect x="0" y="0" width="{W}" height="{H}" rx="10" class="cv-bg"/>']
+    for b, name in enumerate(C["batches"]):
+        x = LW + CW * b; d, _, what = name.partition(": ")
+        g.append(f'<line x1="{x}" y1="{TOP - 8}" x2="{x}" y2="{H - 10}" class="cv-grid"/><text x="{x + 8}" y="20" class="cv-h">{e(d)}</text><text x="{x + 8}" y="38" class="cv-s">{e(what)}</text>')
+    for k, r in enumerate(C["roles"]):
+        y = TOP + RH * k
+        g.append(f'<line x1="8" y1="{y}" x2="{W - 8}" y2="{y}" class="cv-grid"/><text x="12" y="{y + 24}" class="cv-role{" cv-empty" if not r["runs"] else ""}">{e(r["role"])}</text><text x="12" y="{y + 42}" class="cv-s">{("%d run" % r["runs"]) + ("" if r["runs"] == 1 else "s") if r["runs"] else "not filled yet"}</text>')
+    slot = {}
+    for r in C["runs"]:
+        k = roles.index(r["role"]); b = r["batch"] - 1; n = slot.get((k, b), 0); slot[(k, b)] = n + 1
+        same = sum(1 for q in C["runs"] if q["role"] == r["role"] and q["batch"] == r["batch"]); bh = (RH - 12) / same
+        x = LW + CW * b + 6; y = TOP + RH * k + 6 + n * bh; w = max(34, min(CW - 12, 20 + r["minutes"] * 9.5))
+        label = r["job"] if len(r["job"]) < 30 else r["job"][:28] + "…"
+        g.append(f'<g><title>{e(r["role"])}: {e(r["job"])}. {e(r["result"])}. {r["minutes"]} minutes, {r["tool_uses"]} tool uses. {e(r["status"])}.</title><rect x="{x}" y="{y:.1f}" width="{w:.0f}" height="{bh - 3:.1f}" rx="5" class="cv-run{" cv-out" if r.get("outside") else ""}"/><text x="{x + 6}" y="{y + (bh - 3) / 2 + 4:.1f}" class="cv-t">{e(label)}</text></g>')
     rows = "".join(f'<tr><td>{r["n"]}</td><td>{e(r["role"])}</td><td>{e(r["job"])}</td><td>{e(r["result"])}</td><td>{r["minutes"]} min, {r["tool_uses"]} tool uses</td><td>{e(r["status"])}</td></tr>' for r in C["runs"])
+    does = "".join(f'<li><strong>{e(r["role"])}:</strong> {e(r["does"])}</li>' for r in C["roles"])
     return f"""<h2 id="cell">The cell: who is doing what</h2>
-<p>{e(C["lead"]["agent"].split("@")[0])} leads. {e(C["lead"]["does"])} It starts a sub-agent for each single job; a sub-agent reports back and cannot push or publish. <strong>Working right now: {C["working_now"]}.</strong> <span class="meta">As of {e(C["as_of"])}; written by hand after each run (<a href="cell.json">cell.json</a>). Not live yet.</span></p>
-<ul class="cards">{roles}</ul>
-<div class="table" tabindex="0" role="region" aria-label="Runs of the cell"><table><caption class="vh">Every sub-agent run so far</caption><thead><tr><th scope="col">No.</th><th scope="col">Role</th><th scope="col">Job</th><th scope="col">Result</th><th scope="col">Cost</th><th scope="col">Status</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>{e(C["lead"]["agent"].split("@")[0])} leads and starts a sub-agent for each single job; a sub-agent reports back and cannot push or publish. Each bar below is one run: its row is the role, its column is when it started, its length is how long it took. Bars stacked in one box ran at the same time. <strong>Working right now: {C["working_now"]}.</strong></p>
+<div class="table" tabindex="0" role="region" aria-label="The cell's runs as a picture"><svg class="cellviz" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="A timeline of the cell: {len(C["runs"])} runs in {nb} batches across {len(roles)} roles. Storyboard artist, Sound and Generated footage have no runs yet. The same data is in the table below.">{"".join(g)}</svg></div>
+<p class="meta">Hover or press a bar for its result. Filled bars are sub-agents; the dashed one is another agent. As of {e(C["as_of"])}; written by hand after each run (<a href="cell.json">cell.json</a>), not live yet.</p>
+<details><summary>What each role does, and every run as a table</summary>
+<ul>{does}</ul>
+<div class="table" tabindex="0" role="region" aria-label="Runs of the cell"><table><caption class="vh">Every run so far</caption><thead><tr><th scope="col">No.</th><th scope="col">Role</th><th scope="col">Job</th><th scope="col">Result</th><th scope="col">Cost</th><th scope="col">Status</th></tr></thead><tbody>{rows}</tbody></table></div>
+</details>
 """
 
 def index_page(idx, prods):
@@ -356,6 +377,7 @@ def board_page(prod, ver, P, vhtml):
     body = f"""<p class="meta"><a href="../../">{e(prod["title"])}</a> / <a href="../">version {e(ver)}</a> / storyboard</p>
 <h1>{e(prod["title"])} {e(ver)}: the storyboard</h1>
 <p class="lede">Every scene in order, with three frames, its words and its length. Press a frame to see that moment in the preview; play one scene; mark it and comment.</p>
+<p><span class="status s-{e(prod["status"])}">{e(STATUS_WORDS[prod["status"]])}</span> <span class="meta">{e(prod["status_note"])} {e(next(v["notes"] for v in prod["versions"] if v["version"] == ver))}</span></p>
 <p data-role="signed" class="meta">Checking whether this browser is signed in.</p>
 <div class="suite" data-board>
 <ol class="shots">{cards}</ol>
@@ -379,6 +401,19 @@ def refresh_doc():
 """
     write("session-refresh/how-we-refresh-a-session/index.html", page("session-refresh/how-we-refresh-a-session/", D["title"], "How a long AI agent session is handed over to a fresh one: when, what is written, what is read, what is kept and lost, and the numbers.", body))
 
+def changes_json():
+    # what changed under site/productions, newest first, from the repository's own history
+    import subprocess
+    out = subprocess.run(["git", "log", "-60", "--date=format:%Y-%m-%d %H:%M", "--format=%h%x1f%ad%x1f%s%x1f%b%x1e", "--", "site/productions"], cwd=os.path.dirname(SITE), capture_output=True, text=True).stdout
+    rows = []
+    for rec in out.split("\x1e"):
+        f = rec.strip("\n").split("\x1f")
+        if len(f) < 4: continue
+        body = "\n".join(l for l in f[3].strip().splitlines() if not l.startswith(("Agent:", "Claude-Session:", "Co-Authored-By:"))).strip()
+        rows.append({"commit": f[0], "date_utc": f[1], "what": f[2], "detail": body})
+    d = {"about": "What changed on the productions pages, newest first: one entry per commit that touched site/productions, taken from the repository's history when the pages were last built. The site's current version and commit are in /version.json (the version is made by the deploy from the git tags). The commit that carries this file is not in it.", "version_now": "/version.json", "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions", "changes": rows}
+    write("changes.json", json.dumps(d, indent=1, ensure_ascii=False) + "\n")
+
 def main():
     idx = load("productions.json"); prods = []
     for pid in idx["productions"]:
@@ -396,6 +431,6 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
-    lab_page(); send_page(); refresh_doc()
+    lab_page(); send_page(); refresh_doc(); changes_json()
 
 if __name__ == "__main__": main()
