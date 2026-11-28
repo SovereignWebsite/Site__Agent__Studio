@@ -39,3 +39,9 @@ Written at the hand-over of 28 Nov 2026, for the successor. These are the things
 
 ## Who is where (28 Nov 2026)
 c.conductor starts sessions and holds claims. c.maestro was handed over on 28 Nov; ask c.conductor for its current session. accountant.c measures cost. higgsfield.c reviews and runs the Higgsfield trial with account B. feedback.c waits for Dinis's word to make its key. Ask c.conductor for any session id; do not rely on an old one.
+
+## For the session-refresh film
+- The brief each scene-smith gets, and how the loop is run step by step: `_build/scene-smith-brief.md`.
+- The lane's agent side (drain, reply, grant): `_build/lane_agent.py`. It holds no secret, only paths.
+- A chart can be drawn straight from data in `build.py` (see `refresh_chart` and `cell_html`): cheaper than a scene, and Dinis asked for the analysis first.
+- A key file can only be published in a commit that adds `site/keys/<name>.json` and nothing else, and a name already taken blocks its successor: the old session must retire its own key file first (done on 28 Nov, to `site/keys/retired/`).
