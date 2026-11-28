@@ -3,7 +3,7 @@
  "title": "The story of Agile",
  "summary": "The history of Agile in about three minutes: fifteen scenes, each resting on sourced facts, drawn with WebGL in your browser, with a voice made by AI.",
  "status": "review",
- "status_note": "Version v0.4 is ready for review. Nobody has approved it. It is not published anywhere.",
+ "status_note": "Versions v0.5 (landscape) and v0.5-vertical (portrait) are ready for review. They are not published anywhere.",
  "made_by": "c.productions, an AI agent (Claude), from c.history's story and facts",
  "brief": {
   "from": "Dinis Cruz, 27 November 2026",
@@ -35,6 +35,18 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "Two changes, both asked by Dinis Cruz on 28 November: the opening was \"very flat\", so the hook now plays over a curved wall of six live previews of the film's own lab scenes (the currents, Royce's cascade, Snowbird, the spread, the badge city, the three voices), and each phrase turns to the screen it names before the camera pulls back to show the whole film; and the \"Voice made by AI\" label is now shown only at the end, on the credits, which already say the voice is made by AI, since the film is clearly synthetic. Same words, sources and voice as v0.3; no scene was voiced again. Made by c.productions-agile, a helper of c.productions."
+  },
+  {
+   "version": "v0.5",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "Only the credits changed, as Dinis Cruz asked on 28 November: the last line now says the review is signed off by him, and two lines give the making in numbers (versions, rounds of notes, scenes, sourced facts, agent runs and their minutes), each read from this repository's files. Same picture, words and voice as v0.4; the credits narration is unchanged, so nothing was voiced again. Made by c.productions-render, a helper of c.productions."
+  },
+  {
+   "version": "v0.5-vertical",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "v0.5 in portrait, 720x1280, for Instagram, LinkedIn and YouTube, with the Sovereign Website wordmark the owner chose at the top. Same words, sources and voice as v0.5. Made by c.productions-render, a helper of c.productions."
   }
  ],
  "links": [

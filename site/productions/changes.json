@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "8c7284f",
+   "date_utc": "2026-11-28 15:59",
+   "what": "How we refresh a session v0.7: words on screen, an opening that shows what is coming, and the team as an agile cell",
+   "detail": "- The last scene is lab/refresh-cell, built portrait first by a scene-smith sub-agent in three rounds: the team\n  grows from Dinis Cruz through two maestros on two accounts, a conductor and the lead to its helpers, is drawn\n  round as an agile cell, then is archived, leaving its files on a shelf. Listed in the lab.\n- With the new opening and the words on screen, v0.7 is complete: eleven scenes, about 116 seconds.\n- cell.json records the two scene-smith runs; full-size frames are in the media vault."
+  },
+  {
    "commit": "b9c7e1a",
    "date_utc": "2026-11-28 15:56",
    "what": "c.productions: sessions are started by conductor.c; the Agile Cells film as a productions helper",
@@ -332,36 +338,6 @@
    "date_utc": "2026-11-28 01:09",
    "what": "How we refresh a session: the one-page document, and my own hand-over files",
    "detail": "- session-refresh/how-we-refresh-a-session/: when a hand-over triggers, what the old session writes,\n  what the new one reads first, what carries over, what is lost, how you know it worked, the numbers,\n  and lessons; each point from public files, with links. Relayed by c.conductor from Dinis Cruz's words\n  in its session, after an ask on the Web Summit site. It says plainly that nobody has yet measured the\n  same agent before and after a hand-over. A first draft; the film from it is not started.\n- agent/: my role, what I am doing now, and a restart note that lists what dies with this session\n  (signing key, the feedback lane's keys, the media vault's write key, private helper scripts), so a\n  successor can start from files. No secret values."
-  },
-  {
-   "commit": "367a58a",
-   "date_utc": "2026-11-28 01:06",
-   "what": "Agile v0.3: higgsfield.c's review recorded as an unsigned note",
-   "detail": "The first independent review of the lab scenes, by higgsfield.c (started by c.conductor at Dinis Cruz's\nword), scored per scene on three rubric points with one change each. Recorded as sent, marked unsigned:\nit does not count towards sign-off. The cell's critic role now shows one run."
-  },
-  {
-   "commit": "3746b28",
-   "date_utc": "2026-11-28 01:01",
-   "what": "A storyboard page with a split-screen preview, and the cell: who is doing what",
-   "detail": "Dinis Cruz, 28 Nov 2026: \"I need to be able to see a screenshot of every scene ... and I should be able\nto play it ... split the screen in the middle ... think of this as a movie editing suite\", and \"I need\nto have a much better visibility on what each of the agents are doing\".\n- <version>/board/: every scene in order with three frames, its words and length; one preview player\n  beside it; press a frame to see that moment, play one scene, Good / Not right, comment by text or\n  voice, sent sealed through the feedback lane. Small frames (about 1 MB in all) are on the site; the\n  45 full-size frames are in the media vault (media.json), not in this repository.\n- _build/frames.js takes the frames from the player in headless Chromium.\n- The timeline now shows the cell: its roles (two not filled, a critic that has not run), every\n  sub-agent run with its job, result and cost, and how many are working now. Written by hand, not live."
-  },
-  {
-   "commit": "533ef76",
-   "date_utc": "2026-11-28 00:52",
-   "what": "Productions: a media vault with a published read key, and materials for the Higgsfield agent",
-   "detail": "Dinis Cruz, 28 Nov 2026:\n- Anything big (images, videos) goes in a vault, not in the website's repository. media.json names the\n  productions media vault and its read key, published on purpose; the vault key is not in the repository.\n- handoff/higgsfield.json: what this pipeline is, where everything lives, its state, the rules that apply\n  and how to send work back, so the Higgsfield agent can write its own brief and review this work."
-  },
-  {
-   "commit": "bb23d6d",
-   "date_utc": "2026-11-28 00:49",
-   "what": "Voice: a plain note on who turns your voice into text in this browser",
-   "detail": "Dinis Cruz, 28 Nov 2026: use Chrome's and Safari's own speech recognition, free, with a little note.\nThe note now names the browser's maker (Google in Chrome, Apple in Safari, Microsoft in Edge) and says\nthis site receives no sound. No key and no paid service."
-  },
-  {
-   "commit": "f1dc8e3",
-   "date_utc": "2026-11-28 00:46",
-   "what": "Review scene by scene, under the player, with voice",
-   "detail": "Dinis Cruz, 28 Nov 2026: \"break the whole thing into scenes and allow me to see the scenes in sequence\n... for every scene, I should be able to play and then provide comments\", by voice too.\n- Under the player on every version page: the scenes in order as buttons; each plays only that scene and\n  stops; Good / Not right; a comment written or spoken; one press sends it sealed to the agent through\n  the feedback lane, tagged with production, version and scene. Sent scenes are marked.\n- Voice uses the browser's own speech recognition (in Safari, Apple's dictation), shown live as you speak.\n- The player exposes its scenes and a play-one-scene control.\n- My first sealed reply to the owner's first message on the conversation page.\n- Self-checks re-signed for the new digests (the player changed)."
   }
  ]
 }
