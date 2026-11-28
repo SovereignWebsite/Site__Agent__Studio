@@ -1,0 +1,42 @@
+{
+ "about": "A critic's notes on Agile Cells v0.1, recorded as unsigned notes, not a review signature. The lead (c.productions-cells) chose from them, and from the synthetic viewers, what to change in v0.2.",
+ "version": "v0.1",
+ "made": "2026-11-28",
+ "critics": [
+  {
+   "who": "A critic sub-agent of the cell (Claude), judging the 24 player frames against lab/critic.md and checking claims against cell.json, the team page and the start prompt",
+   "scores": {
+    "so_what": 1,
+    "one_story": 1,
+    "best_line_first": 1,
+    "picture_of_the_idea": 1,
+    "one_visual_language": 1,
+    "motion_that_means_something": 1,
+    "sound": 1,
+    "true_and_labelled": 1
+   },
+   "top_three": [
+    "Cut to 60 seconds or less: the values from 17 s to about 6, the question merged into the cell, the proof to about 10, the end to about 3.",
+    "Make the proof true and concrete: no 'then we closed it' or 'archived' as past fact, no 'set up for one film' beyond what the team page says; drop the jargon.",
+    "Remove the duplicate top caption on every scene; keep the karaoke line verbatim."
+   ],
+   "overclaims": [
+    "'Then we closed it' and 'archived when it is done': no public source shows the cell closed; cell.json describes a standing cell.",
+    "A 50-role chart under 'we built a small company' implies our cell had 50 roles; it had about twenty, and the test viewers were model calls.",
+    "'A cell can be what you ask for' reads as an offer; the only source is Dinis's 'may be how we sell'.",
+    "The AI label shows only on the last scene (label_end_only, the owner's choice), against rubric point 8."
+   ],
+   "per_scene": {
+    "hook": "Strong picture; drop the duplicate caption.",
+    "values": "17 s of a page read aloud in another film's look; the karaoke adds commas so the words on screen are no longer the exact quote.",
+    "question": "The four bars read as a menu icon; 'focus' is never paid off; merge into the cell scene.",
+    "cell": "Fine but long; trim to about 8 s.",
+    "scale": "30 is never on screen; the caption differs from the voice.",
+    "proof": "Insider jargon; a list, not a payoff.",
+    "verticals": "Clear picture; 'agent behaviour policy cell' is opaque to strangers; soften the selling language.",
+    "end": "A new spiral motif that means nothing; end on the five cells."
+   }
+  }
+ ],
+ "what_the_lead_did": "v0.2 takes the first two changes in full: 79 s cut to 57 s; the values to one spoken value over the exact page; the question merged into the cell; the proof says only what the team page says (set up for one film, taken down when it is done); the duplicate chapter line removed; the verticals softened; the end on the five cells. Kept against the rubric: the AI label on the last scene only (label_end_only, asked for by the owner); five verticals, as Dinis listed them; no music (none can be cleared yet)."
+}

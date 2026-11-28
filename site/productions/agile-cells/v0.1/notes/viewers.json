@@ -1,0 +1,131 @@
+{
+ "about": "Synthetic test viewers of Agile Cells v0.1: five invented viewers, each played by an outside model through OpenRouter, shown two contact sheets of the film's frames (three per scene) and its narration. They saw stills, not motion, and heard nothing. They are not people and not a review signature; they are a cheap first read of whether a viewer would stay.",
+ "version": "v0.1",
+ "made": "2026-11-28",
+ "made_by": "c.productions-cells (an AI agent)",
+ "viewers": [
+  {
+   "viewer": "scrum-master",
+   "who": "a Scrum Master in a 300-person company that adopted a scaled Agile framework two years ago; you feel the ceremonies have grown and the values have faded. Sceptical of buzzwords.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "You cited the 2001 Manifesto and asked if Agile can scale back to its original values, which is the exact painful conversation I have to endure every single retro.",
+    "watch_to_the_end": false,
+    "drop_off_second": 45,
+    "why_drop": "You quoted 'individuals and interactions over processes and tools', and then immediately pitched spinning up a 50-role hierarchical org chart and rules files to deliver a single task. It's SAFe on hallucinogens.",
+    "story_back": "The pitch argues that true agility comes from spinning up disposable mini-companies composed of humans and AI agents governed by written role files to execute single tasks.",
+    "confusing": [
+     "How creating an org chart of 50 roles for one task solves over-processing instead of multiplying it",
+     "Whether 'agents' means LLM bots, automated scripts, or junior contractors",
+     "Why anyone would read rule files and orchestrate 'conductors' and 'maestros' just to produce one short video"
+    ],
+    "best_moment": "Scene 2 reminding everyone what the four values actually were before corporate consulting firms butchered them.",
+    "one_change": "Stop pretending this has anything to do with the Agile Manifesto; be honest that you're building automated workflow orchestration for AI agents.",
+    "weakest_moment": "Scene 5 proudly flashing a 50-role hierarchy tree under the premise of returning to Agile focus.",
+    "what_i_would_do_tomorrow": "Close the video, sigh heavily, and log into Jira to approve three more bloated release-train dependencies."
+   }
+  },
+  {
+   "viewer": "startup-founder",
+   "who": "a founder of a 6-person startup who uses AI coding agents daily and wonders how to organise more of them. Impatient; scrolls fast on LinkedIn.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening hook is strong and painfully relevant: build a company, close it, then use a temporary company of agents for one task.",
+    "watch_to_the_end": false,
+    "drop_off_second": 18,
+    "why_drop": "The Agile manifesto section sits on nearly identical static slides for too long, and there is no concrete proof yet that this is more than org-chart theater.",
+    "story_back": "Use a temporary, documented team of people and AI agents for each project, then archive it when the work is done.",
+    "confusing": [
+     "What the agents actually do versus what the human roles do",
+     "How a cell differs from a normal multi-agent workflow",
+     "Why one person needs two maestros on two accounts",
+     "What 'focus' means operationally",
+     "Whether the roles, rules, and work files are a usable system or just documentation"
+    ],
+    "best_moment": "The film cell org chart is the first concrete example of the idea, especially when it transitions from a large network to the finished archived cell.",
+    "one_change": "Cut the manifesto to one quick frame and replace it with a screen recording of the actual cell files and agents producing a finished deliverable.",
+    "weakest_moment": "The four Agile values are repeated across almost identical frames while the narration reads like a manifesto.",
+    "what_i_would_do_tomorrow": "Look for the actual cell files, templates, repo, or a demo showing one of these cells completing a real task."
+   }
+  },
+  {
+   "viewer": "cto-buyer",
+   "who": "a CTO at a mid-sized firm who buys outsourced work (websites, CRM set-up, social media). You want to know what you could actually buy and whether it is real.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening hook, spinning up an entire company for one task and immediately shutting it down, grabbed me because agency overhead and bloated retainers are my biggest headache.",
+    "watch_to_the_end": false,
+    "drop_off_second": 15,
+    "why_drop": "You lost me reciting the 2001 Agile Manifesto word-for-word for 17 agonizing seconds. I've heard this sermon for twenty years; I don't have time for a textbook lecture on a social feed.",
+    "story_back": "They are proposing on-demand, disposable micro-teams of humans and AI agents defined by config files to knock out specific deliverables like CRMs or websites, then dissolve.",
+    "confusing": [
+     "What real humans do versus what automated agents do in this setup.",
+     "Why I would want the conceptual overhead of 50 artificial 'roles' just to build a website.",
+     "What titles like 'maestro' and 'conductor' actually mean in terms of accountability and deliverables.",
+     "Whether this is software I buy, a managed agency service, or just an open-source GitHub experiment."
+    ],
+    "best_moment": "Scene 1: The visual of a glowing org chart collapsing down into a neat archive stack immediately communicates disposable infrastructure.",
+    "one_change": "Cut the Agile history lesson entirely and show a real CRM migration or website deployment instead of using the system to make a self-referential video about itself.",
+    "weakest_moment": "Scene 2: A giant yellow post-it note rehashing basic Agile tenets that every tech lead already knows by heart.",
+    "what_i_would_do_tomorrow": "Keep scrolling; it smells like prompt-engineering navel-gazing and agent cosplay rather than a battle-tested service I can trust with my production infrastructure."
+   }
+  },
+  {
+   "viewer": "agile-veteran",
+   "who": "a developer who has done Agile since 2005, read the Manifesto many times, and dislikes people misquoting it.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening has a clear hook and the visual metaphor of a company forming and closing is immediately legible.",
+    "watch_to_the_end": false,
+    "drop_off_second": 17,
+    "why_drop": "Scene 2 spends too long reciting the Agile Manifesto. I already know the four values, and the film has not yet explained what an Agile Cell actually solves. It starts to feel like a branded manifesto reminder rather than an argument.",
+    "story_back": "A temporary, highly defined team of people and agents can operate like a small company to deliver one task and then disappear.",
+    "confusing": [
+     "What makes this Agile rather than simply a temporary project team or agency?",
+     "How do agents participate in the cell, and who is accountable when they fail?",
+     "Why does a cell with fifty roles qualify as a small team?",
+     "What does 'scale' mean here: more roles, more cells, or larger work?",
+     "The connection between the four Manifesto values and the proposed file-based cell is asserted, not demonstrated."
+    ],
+    "best_moment": "Scene 6, where the abstract cell becomes a concrete production org chart for making the film.",
+    "one_change": "Replace most of Scene 2 with one concrete before-and-after example showing how a cell responds to a change faster or better than a conventional team.",
+    "weakest_moment": "Scene 2, because the static manifesto card and narration repeat familiar material without advancing the proposal.",
+    "what_i_would_do_tomorrow": "Skip to the concrete film example or visit the linked repository to inspect how the roles, rules, and work files are actually structured."
+   }
+  },
+  {
+   "viewer": "instagram-casual",
+   "who": "someone who does not work in software, scrolling Instagram Reels in the evening, watching with sound off.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The first line 'we built a small company then closed it' sounded like it might be an interesting story about a failed business or startup drama.",
+    "watch_to_the_end": false,
+    "drop_off_second": 7,
+    "why_drop": "A massive yellow block of tiny corporate text about 2001 software manifesto rules popped up and it instantly felt like mandatory work training.",
+    "story_back": "It is trying to pitch a corporate management concept where you spin up temporary AI bots and people into an org chart just to finish one project.",
+    "confusing": [
+     "What an 'Agile cell' actually does in normal human terms",
+     "Why there's a glowing yellow sheet over a random cabin in scene 2",
+     "All the tech jargon like CRM, maestros, conductor, and agent behaviour policy",
+     "Who would ever want to look at an org chart while relaxing on Instagram"
+    ],
+    "best_moment": "The very opening hook and the little glowing shape before the tech buzzwords started.",
+    "one_change": "Cut the boring software history lesson and explain what this actually does in plain English using real-world visuals instead of floating dots.",
+    "weakest_moment": "Scene 2 with the giant wall of corporate text that took all the fun out of scrolling.",
+    "what_i_would_do_tomorrow": "Swipe instantly to a funny video or someone making food."
+   }
+  }
+ ],
+ "what_they_agree_on": [
+  "All five would stop scrolling; none would watch to the end.",
+  "Four of five leave between 7 and 18 seconds, in the four values: spoken in full over one near-still frame for 17 seconds.",
+  "A 50-role org chart reads as more process, the opposite of the values just quoted, unless the film shows why.",
+  "They ask for something concrete: what the agents do, the real files, the finished work.",
+  "Best moments: the opening chart folding to a shelf, and the real cell that made the earlier film."
+ ]
+}
