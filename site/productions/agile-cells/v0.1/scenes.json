@@ -140,7 +140,7 @@
      "publisher": "github.com/AgileCells"
     }
    ],
-   "source_line": "agilecells.org",
+   "source_line": "github.com/AgileCells",
    "on_screen": "roles, rules, work",
    "audio": "audio/04-cell.mp3",
    "lead": 0.25,
@@ -245,7 +245,7 @@
      "publisher": "github.com/AgentiCCells"
     }
    ],
-   "source_line": "agilecells.org",
+   "source_line": "github.com/AgentiCCells",
    "on_screen": "Agile Cells. Made by an agile cell of people and agents.",
    "audio": "audio/08-end.mp3",
    "lead": 0.25,
