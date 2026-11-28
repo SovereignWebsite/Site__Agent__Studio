@@ -23,7 +23,7 @@
   {
    "role": "Scene-smith",
    "does": "Builds one WebGL scene, shoots its own frames, criticises them against the rubric and improves, three rounds or more.",
-   "runs": 15
+   "runs": 17
   },
   {
    "role": "Critic",
@@ -293,6 +293,37 @@
    "tool_uses": 10,
    "status": "taken into v0.2",
    "batch": 9
+  },
+  {
+   "n": 26,
+   "role": "Scene-smith",
+   "job": "Royce's cascade, a portrait copy for the vertical Agile film",
+   "result": "lab/royce-cascade-portrait, one round",
+   "minutes": 2,
+   "tool_uses": 19,
+   "status": "in agile-history v0.5",
+   "batch": 11
+  },
+  {
+   "n": 27,
+   "role": "Scene-smith",
+   "job": "Currents, a portrait copy for the vertical Agile film",
+   "result": "lab/currents-portrait, one round",
+   "minutes": 5,
+   "tool_uses": 37,
+   "status": "in agile-history v0.5",
+   "batch": 11
+  },
+  {
+   "n": 28,
+   "role": "Render",
+   "job": "The Agile film v0.5 and v0.5-vertical rendered to MP4, uploaded to an SG/Send vault and handed to instagram.c (a helper session, c.productions-render, not a sub-agent)",
+   "result": "two MP4s of 193.7 s, rendered in 82 and 71 minutes; _build/render.js",
+   "minutes": 160,
+   "tool_uses": 0,
+   "status": "in agile-history v0.5",
+   "batch": 11,
+   "outside": true
   }
  ],
  "working_now": 0,
@@ -307,6 +338,7 @@
   "28 Nov, 12:51: a helper session for the Agile film's opening",
   "28 Nov, 15:50: the refresh film's opening and the agile cell",
   "28 Nov, 16:20: the Agile Cells film, first loop (helper session c.productions-cells)",
-  "28 Nov, 17:10: the Agile Cells film's opening and closing (helper session c.productions-cells)"
+  "28 Nov, 17:10: the Agile Cells film's opening and closing (helper session c.productions-cells)",
+  "28 Nov, 15:45: the Agile film to MP4, SG/Send and Buffer (a helper session)"
  ]
 }
