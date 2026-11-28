@@ -101,7 +101,7 @@ export async function create({ canvas, THREE, reduced }) {
   const thread2 = makePath([...spline([[52, 54], [33, 61], [19, 68], [9.5, 75], [xBase(JOIN + 3) + LOOP_R, JOIN + 3], [xBase(JOIN + 9) + LOOP_R, JOIN + 9]], 120), ...fn(JOIN + 9.5, OLD_END, (d) => xBase(d) + LOOP_R)], 0.3,
     (l, d) => [0.95 * Math.sin(d * 0.7) * ss(JOIN + 2, JOIN + 10, d), 0]);
   const tri = (u) => 4 * Math.abs(u - Math.floor(u) - 0.5) - 1, ZIG = 3.4;
-  const decos = [null, loops(1.9, 7.5, (d) => ss(222, 230, d) * (1 - ss(262, 272, d))), null, (l) => [0.85 * tri(l / ZIG) * ss(0, 8, l), 0], null];
+  const decos = [null, loops(1.9, 7.5, (d) => ss(231, 239, d) * (1 - ss(262, 272, d))), null, (l) => [0.85 * tri(l / ZIG) * ss(0, 8, l), 0], null];
   const currents = [
     { path: thread1, col: '#ffc857', kind: 0, core: 0.085, half: 0.24, bright: 1.0, old: 1, n: 900 },
     { path: thread2, col: '#5fd0c5', kind: 0, core: 0.07, half: 0.22, bright: 0.95, old: 1, n: 520 },
@@ -298,10 +298,10 @@ export async function create({ canvas, THREE, reduced }) {
     up: track([[0, 10], [2.5, 13], [6, 21], [12, 22], [15.8, 14], [17, 8], [20, 13], [34, 30]]),
     ahead: track([[0, 0], [6, 0], [13, 1], [15.8, 9], [17, 14], [20, 26], [34, 24]]) };
   const tgt = new V3(), tmp = new V3(), prj = new V3();
-  const place = (t, portrait) => { const fd = camK.fd(t), inB = ss(16.6, 20, t), wide = portrait ? lerp(1.25, 1.95, inB) : 1;
+  const place = (t, portrait) => { const fd = camK.fd(t), inB = ss(16.6, 20, t), wide = portrait ? lerp(1.25, 1.5, inB) : 1, tall = portrait ? lerp(1.25, 2.3, inB) : 1;
     const cx = lerp(xBase(fd) * 0.6 + LOOP_R - 2.2, 0.8, inB), by = rampY(fd);
-    camera.position.set(cx, by + camK.up(t) * wide, -(fd - camK.back(t) * wide));
-    tgt.set(lerp(xBase(fd + 4) * 0.7 + LOOP_R, 0, inB), by, -(fd + camK.ahead(t) * (portrait ? lerp(1.5, 0.75, inB) : 1))); const fov = portrait ? lerp(52, 58, inB) : lerp(40, 46, ss(19, 32, t)); if (fov !== camera.fov) { camera.fov = fov; camera.updateProjectionMatrix(); } camera.up.set(0, 1, 0); camera.lookAt(tgt); camera.updateMatrixWorld(); };
+    camera.position.set(cx, by + camK.up(t) * tall, -(fd - camK.back(t) * wide));
+    tgt.set(lerp(xBase(fd + 4) * 0.7 + LOOP_R, 0, inB), by, -(fd + camK.ahead(t) * (portrait ? lerp(1.5, 2.1, inB) : 1))); const fov = portrait ? lerp(52, 58, inB) : lerp(40, 46, ss(19, 32, t)); if (fov !== camera.fov) { camera.fov = fov; camera.updateProjectionMatrix(); } camera.up.set(0, 1, 0); camera.lookAt(tgt); camera.updateMatrixWorld(); };
 
   let cw = 0, ch = 0;
   const render = (time, w, h) => {
@@ -315,7 +315,7 @@ export async function create({ canvas, THREE, reduced }) {
       const on = hs > 0.0005 ? 1 : 0, quiet = c.old ? lerp(1, 0.35, ss(16.5, 19, t)) * (1 - ss(24.5, 25.6, t)) : 1, a = on * quiet;
       c.halo.position.copy(tmp).setY(tmp.y + 0.2); c.halo.material.opacity = 0.85 * a; c.halo.scale.setScalar((c.old ? 3.0 : 4.4) * (1 + 0.08 * Math.sin(t * 5 + i)));
       groundU.uH.value[i].set(tmp.x, tmp.y + 1.2, tmp.z, a * (c.old ? 0.55 : 1)); });
-    const well1 = ss(0.25, 1.6, t) * (1 - 0.55 * ss(3, 7, t)); spring1.U.uT.value = t; spring1.U.uA.value = well1; spring1.halo.position.copy(spring1.pos).setY(0.4); spring1.halo.material.opacity = 0.75 * well1; spring1.halo.scale.setScalar(4.2 + 0.5 * Math.sin(t * 2.3));
+    const well1 = ss(-0.7, 1.3, t) * (1 - 0.55 * ss(3, 7, t)); spring1.U.uT.value = t; spring1.U.uA.value = well1; spring1.halo.position.copy(spring1.pos).setY(0.4); spring1.halo.material.opacity = 0.75 * well1; spring1.halo.scale.setScalar(4.2 + 0.5 * Math.sin(t * 2.3));
     const well2 = ss(METHODS[2].at - 2.2, METHODS[2].at - 0.4, t) * (1 - 0.6 * ss(26, 29, t)); spring2.U.uT.value = t; spring2.U.uA.value = well2; spring2.halo.position.copy(spring2.pos).setY(spring2.pos.y + 0.4); spring2.halo.material.opacity = 0.45 * well2; spring2.halo.scale.setScalar(3.4 + 0.5 * Math.sin(t * 2.3));
     steleU.uLit.value = ss(108, 121, headD(t)) * lerp(1, 0.45, ss(17, 19, t));
 
@@ -334,7 +334,7 @@ export async function create({ canvas, THREE, reduced }) {
       if (prj.z > 1 || prj.z < -1) a = 0;
       if (l.isYear) { a *= 1 - ss(safe - h * 0.1, safe - h * 0.02, sy); if (l.post) l.post.material.opacity = 0.5 * a; ox = -l.w / 2; oy = -l.h + l.pad * 0.55; }
       else if (l.idx >= 3) { ox = -l.w / 2; oy = -l.h + l.pad - fs * 0.012; a *= 1 - ss(safe - h * 0.06, safe, sy); }
-      else { const left = l.idx === 0, g = fs * (l.idx === 1 ? 0.085 : 0.022); ox = left ? -l.w - g + l.pad : g - l.pad; oy = -l.h / 2; a *= 1 - ss(safe - h * 0.06, safe, sy); }
+      else { const left = l.idx === 0 || (portrait && l.idx === 2), g = fs * (l.idx === 1 ? 0.085 : 0.022); ox = left ? -l.w - g + l.pad : g - l.pad; oy = -l.h / 2; a *= 1 - ss(safe - h * 0.06, safe, sy); }
       const px = Math.round(clamp(sx + ox, 4 - l.pad, w - l.w - 4 + l.pad)), py = Math.round(Math.max(4, sy + oy));
       l.mesh.material.opacity = a; l.mesh.scale.set(l.w, l.h, 1); l.mesh.position.set(px + l.w / 2, h - py - l.h / 2 - (1 - ss(l.at, l.at + 0.6, t)) * h * 0.01, 0); }
 

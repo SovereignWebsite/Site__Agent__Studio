@@ -7,7 +7,7 @@ async function show() {
   const M = await me(), C = await config(); let S = null;
   try { const got = await acceptFromAddress(); if (got) say(`Signed in as ${got.name}.`); } catch (e) { say(`Not signed in: ${e.message}.`); }
   S = await session();
-  $('[data-role=signin]').hidden = !!S; $('[data-role=chat]').hidden = !S; $('#pk').value = M.code;
+  $('[data-role=signin]').hidden = !!S; $('[data-role=chat]').hidden = !S; $('#pk').value = M.code; if (!S) drawKey(M.code).catch(() => {});
   $('[data-role=state]').textContent = S ? `Signed in as ${S.name} (${S.role}), with this browser’s key ${M.fingerprint}. You are writing to ${C.agent_name}.` : `This browser is not signed in. Its key is ${M.fingerprint}.`;
   if (!S) return;
   const mine = await thread(), theirs = await replies(), box = $('[data-role=thread]'), rated = Object.fromEntries(mine.filter((m) => m.kind === 'reaction').map((m) => [m.re, m.value]));
@@ -29,7 +29,22 @@ $('[data-role=compose]').addEventListener('submit', async (e) => {
 $('[data-role=grant]').addEventListener('submit', async (e) => { e.preventDefault(); try { const s = await accept($('#g-code').value); say(`Signed in as ${s.name}.`); $('#g-code').value = ''; show(); } catch (x) { say(`Not signed in: ${x.message}.`); } });
 $('[data-act=copy]').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('#pk').value); say('Your key is copied: paste it to the agent.'); } catch { $('#pk').select(); say('Select and copy the key above.'); } });
 // a QR picture of the sign-in code, dropped or pasted, where the browser can read one
-async function fromImage(file) { if (!('BarcodeDetector' in window)) throw new Error('this browser cannot read a QR picture: paste the code or open the link instead'); const hits = await new BarcodeDetector({ formats: ['qr_code'] }).detect(await createImageBitmap(file)); if (!hits.length) throw new Error('no QR code was found in that picture'); return accept(hits[0].rawValue); }
+const script = (src) => new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = () => no(new Error('a part of this page could not be loaded')); document.head.append(sc); });
+async function fromImage(file) {
+  const bmp = await createImageBitmap(file); let text = '';
+  if ('BarcodeDetector' in window) { try { const hits = await new BarcodeDetector({ formats: ['qr_code'] }).detect(bmp); if (hits.length) text = hits[0].rawValue; } catch { /* fall through to the bundled reader */ } }
+  if (!text) { if (!window.jsQR) await script('/productions/assets/vendor/jsqr-1.4.0/jsQR.js'); const cv = document.createElement('canvas'); cv.width = bmp.width; cv.height = bmp.height; const cx = cv.getContext('2d'); cx.drawImage(bmp, 0, 0); const d = cx.getImageData(0, 0, cv.width, cv.height), hit = window.jsQR(d.data, d.width, d.height); if (hit) text = hit.data; }
+  if (!text) throw new Error('no QR code was found in that picture');
+  return accept(text);
+}
+// this browser's key as a QR picture (qrcode-generator, MIT), drawn here; nothing is fetched from elsewhere
+async function drawKey(code) {
+  if (!window.qrcode) await script('/productions/assets/vendor/qrcode-generator-1.4.4/qrcode.js');
+  const q = window.qrcode(0, 'L'); q.addData(code); q.make(); const n = q.getModuleCount(), cv = $('#pkqr'), cx = cv.getContext('2d'), cell = Math.floor(cv.width / (n + 8)), off = Math.floor((cv.width - cell * n) / 2);
+  cx.fillStyle = '#ffffff'; cx.fillRect(0, 0, cv.width, cv.height); cx.fillStyle = '#000000';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) cx.fillRect(off + c * cell, off + r * cell, cell, cell);
+}
+$('[data-act=copyqr]').addEventListener('click', () => $('#pkqr').toBlob(async (blob) => { try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]); say('The QR picture is copied: paste it to the agent.'); } catch { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-key-qr.png'; a.click(); say('This browser cannot copy a picture: it was saved as a file instead.'); } }));
 const drop = $('[data-role=drop]'); drop.addEventListener('dragover', (e) => e.preventDefault());
 drop.addEventListener('drop', async (e) => { e.preventDefault(); try { const f = e.dataTransfer.files[0]; const s = f ? await fromImage(f) : await accept(e.dataTransfer.getData('text')); say(`Signed in as ${s.name}.`); show(); } catch (x) { say(`Not signed in: ${x.message}.`); } });
 document.addEventListener('paste', async (e) => { if (await session()) return; const f = [...(e.clipboardData?.files || [])][0]; if (!f) return; e.preventDefault(); try { const s = await fromImage(f); say(`Signed in as ${s.name}.`); show(); } catch (x) { say(`Not signed in: ${x.message}.`); } });

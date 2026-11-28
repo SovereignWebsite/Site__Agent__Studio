@@ -52,3 +52,4 @@ form.review{display:grid;gap:.7rem;max-width:46rem}form.review label{font-weight
 .msg.mine{margin-left:auto;background:var(--code)}.msg.theirs{border-color:var(--accent)}
 .rate button[aria-pressed=true]{border-color:var(--accent);font-weight:700}
 .drop{border:2px dashed var(--line);border-radius:8px;padding:1rem;color:var(--muted);max-width:46rem}
+#pkqr{display:block;width:14rem;height:14rem;border-radius:6px;margin:.5rem 0;image-rendering:pixelated}

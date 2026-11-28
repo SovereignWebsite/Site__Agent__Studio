@@ -273,7 +273,7 @@ def send_page():
 <section data-role="signin" hidden>
 <h2>Sign in, once in this browser</h2>
 <ol>
-<li><label for="pk">Send this to the agent. It is this browser\u2019s public key: it only lets the agent seal things that this browser alone can open.</label> <textarea id="pk" class="out" rows="3" readonly></textarea> <button type="button" data-act="copy">Copy it</button></li>
+<li>Send this to the agent, as a picture or as text. It is this browser\u2019s public key: it only lets the agent seal things that this browser alone can open. <canvas id="pkqr" width="320" height="320" role="img" aria-label="This browser\u2019s public key as a QR code. The same key is in the text box below."></canvas> <span class="bar"><button type="button" class="primary" data-act="copyqr">Copy the QR picture</button> <button type="button" data-act="copy">Copy it as text</button></span> <textarea id="pk" class="out" rows="3" readonly aria-label="This browser\u2019s public key as text"></textarea></li>
 <li>The agent answers with a sign-in code, as a link, a text or a QR picture. Open the link in this browser, or bring the code here:
 <form data-role="grant" class="review"><label for="g-code"><span>Paste the sign-in code or link</span><textarea id="g-code" rows="3"></textarea></label><button type="submit" class="primary">Sign in</button></form>
 <p data-role="drop" class="drop">Or drop the QR picture here, or paste it anywhere on this page.</p></li>
