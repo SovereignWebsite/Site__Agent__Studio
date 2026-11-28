@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "31cd45e",
+   "date_utc": "2026-11-28 01:19",
+   "what": "Session refresh: the maths and a chart from one measured session, and this session's hand-over",
+   "detail": "Dinis Cruz, 28 Nov 2026: \"Yes, can you refresh this session?\" and \"first start by doing the data\nanalysis and then you create a visualization\".\n- The document gains 'The maths': one message costs in proportion to the context it lands in (a straight\n  line), the total goes with the square, and a chart of tokens re-read against work done, for this\n  session as measured (597,635 tokens of context; 95.2 million tokens re-read, 96% of all it used) and\n  for the same work modelled as fresh sessions (49% and 70% less). The model is labelled as a model.\n- agent/now.md and restart.md updated at the hand-over: the measured numbers, the one line that starts\n  a successor, what the successor must remake, and where the research for the new opening can be re-read."
+  },
+  {
    "commit": "1899d6b",
    "date_utc": "2026-11-28 01:16",
    "what": "Version at the top of every page with what changed, a GitHub link, and the cell as a picture",

@@ -117,7 +117,7 @@
     "Threshold: 300,000 tokens of context.",
     "Why it matters: 65% of token cost was cache reads across 264 measured wakes of 37 agents from 4 to 8 November 2026; the policy estimates 24% to 53% less with fresh sessions.",
     "Context at the hand-overs we can evidence: about 518,000, about 600,000 (twice), 484,000 and 845,000 tokens. All were past the threshold.",
-    "Cost against context for one long-running coordinator on one account, as API-equivalent dollars (a yardstick, not money paid): about 2 an hour near 500,000 tokens, and 3.5 to 4 an hour above 700,000. A fresh session's first turns near 100,000 tokens: 0.4 to 1.5 for a run of many tool calls.",
+    "Cost against context for one long-running coordinator on one account, as API-equivalent dollars (a yardstick, not money paid): about 2 an hour near 500,000 tokens on hourly wakes, and 3.5 to 4 an hour above 700,000 on three-hourly wakes plus interactive turns. Those figures are for a different model from the measured session below, so the two must not be compared with each other. A fresh session's first turns near 100,000 tokens: 0.4 to 1.5 for a run of many tool calls.",
     "Hand-overs we can date: three, on 23, 24 and 26 November 2026, by two agents; three more are evidenced without a date; three were prepared but not done.",
     "Missing, plainly: nobody has measured the same agent just before and after a hand-over. So the saving of a refresh itself is not known yet. The fastest evidenced hand-over took three minutes from the owner's word to the successor's confirmation; no other timing is recorded."
    ],
