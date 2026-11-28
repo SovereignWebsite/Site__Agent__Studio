@@ -1,6 +1,6 @@
 # Motion: the Studio's animations as code
 
-By c.motion (an AI agent, account C), 28 November 2026, at Dinis Cruz's word: "productise those animations we are super happy with, and make them super easy for other agents and other pages to use. Extract the variables ... then it's just code that executes it." A design for review; nothing here is on dev until c.productions or Dinis merges it.
+By c.motion (an AI agent, account C), 28 November 2026, at Dinis Cruz's word: "productise those animations we are super happy with, and make them super easy for other agents and other pages to use. Extract the variables ... then it's just code that executes it." Widened the same afternoon (c.maestro to c.motion, 17:30 UTC): this is now the product made from what the productions made, sections 10 to 16. A design for review; nothing here is on dev until c.productions or Dinis merges it.
 
 ## 1. What we studied
 
@@ -141,3 +141,66 @@ The output is ordinary scenes data, so the same runtime plays it in a page, a bo
 ## 9. Not yet
 
 The converter from the two older formats; `timeline`, `before-after`, `quote`, `decision` and `list` as types; voice (the player's Voxtral track would attach as it does now); publishing the brief on a schedule. Each waits on Dinis's word on this proof.
+
+## 10. The product, and its name
+
+What we sell is not a video but a small application that makes one: a set of blocks of the films' quality, each with what a buyer may change and what the movie may never do. Dinis: "we could charge for the creation of these mini movies ... what we're delivering is a team." The buyer changes the words, the counts (5, 10 or 100), the images and the order; the team made the blocks, and keeps them good.
+
+Names to choose from (Dinis decides; none checked for trade marks yet):
+
+| Name | Why |
+| --- | --- |
+| **Cellreel** | a reel made by a cell, and a reel of cells; says both the product and the team behind it |
+| **Showcell** | short, sits under Agile Cells as "a cell that shows"; works as a verb ("showcell it") |
+| **Lightplay** | the films are lights that move; plain, no jargon, works for a town page as well as for agents |
+
+## 11. The block catalogue
+
+A block must be very visual (it moves, it is not changed text) and explain what agents or people are doing. Judged on the lab scenes, 28 November 2026:
+
+| Scene | Block? | Why |
+| --- | --- | --- |
+| refresh-cell | **yes: `handoff`** | the hand-off chain Dinis named; who started whom is the whole story, and it is all variables (actors, links, order) |
+| cells-grow | **yes: `cell`** | a team forming, growing in counts a buyer picks (5, 20, 50), its files kept; the core of every agent explainer |
+| cells-verticals | **yes: `bud`** (next round) | one cell buds into several teams, one per job; the variable is the list of jobs |
+| cells-close | **yes: `library`** (next round) | cells built, working and folded onto shelves; counts and labels are the variables |
+| refresh-shelf | **yes: `shelf`** (next round) | an old agent leaves its files and a new one reads them: the hand-over between sessions, good for any "memory" explainer |
+| refresh-saving, refresh-scroll | **yes: `count`, `before-after`** | a number to true scale, before and after; the numbers come from the buyer's own data |
+| refresh-line | maybe | one threshold and marks beyond it; strong but narrow |
+| refresh-keys | no, for now | keys and sealed envelopes explain our own signing; too specific to sell before the general blocks |
+| currents, royce-cascade, snowbird-page, spread, badge-factory, voices | no | history of Agile: the picture is the fact (1970, seventeen people, one page); a buyer changing it would make it untrue |
+| agile-trailer, refresh-trailer, cells-intro | no | trailers stitched from other scenes; a block catalogue makes these from blocks, not the other way |
+
+## 12. The movie behaviour policy
+
+"Not everything should be manipulable. It's like a movie behaviour policy: the movie can only behave a certain way." Each block declares its policy in code (`policy` beside `render` in `motion.js`) and as data (`policy.json`, `motion.policy/v1`), and `play()` passes every scene through `enforce(type, vars)` before the first frame: anything outside the policy is clamped or dropped, and the page says what it changed.
+
+| | Open to the buyer | Locked |
+| --- | --- | --- |
+| `handoff` | actor labels (40 characters), roles from the palette, 2 to 7 actors, link labels, the carried word, the end line, order of actors | arrival timing (1.2 to 3 s per hand-off), the curve and pulse, layout and margins, glow and type sizes |
+| `cell` | lead and member labels, 1 to 8 named members, file names (up to 4), growth counts (1 to 100), the end line, whether it folds | membrane shape, growth timing, the chart layout, how files leave and return |
+| `count` | from, to, unit, label (40 characters) | easing, duration (2 to 6 s), number format |
+| `title` | text (60 characters), sub (90 characters) | type, place, timing |
+| every block | narration (240 characters), images (same origin only, shown in the block's own frame), palette from a fixed list | never: a person's face or likeness, a logo not the buyer's own, a claim without a source, flashing faster than three times a second |
+
+## 13. One block, both orientations
+
+A scene file has no orientation. Every block lays out from the shape of the box it is drawn in: under 1 (portrait, a phone, a story) the hand-off chain runs down; over 1 (landscape, a page, YouTube) it runs across; it lays out again when the box changes. The page shows the same `handoff` scene in 9:16 and 16:9 side by side, stacked on a phone.
+
+## 14. Narration
+
+By default the words are on screen and in the page as text. "Voice: browser" turns on the browser's own speech (`speechSynthesis`), which costs nothing and sends nothing from our site; it never starts by itself. A recorded voice (the player's Voxtral track) can be given per scene as `audio` and is used when present, labelled as made by AI.
+
+## 15. Three worked uses
+
+1. **A PrompTugal.news town page.** One film for every town: `title` (the town's name), `handoff` (the reader's question, the newsroom agent, the town's sources, the published piece), `count` (the town's own number of articles from the site's data). The only difference between towns is two or three of the town's own public images in the image slots and the counts. Every town has what looks like a made presentation, made by code.
+2. **What an agent behaviour policy is.** `cell` (a team forms for a task), then the policy shown as the cell's wall: `handoff` where one hand-off is refused because the policy says no, and the work goes round it; the end line names the rule. People experience a policy instead of reading its concepts. (A `refusal` link style in `handoff` is the one addition this needs.)
+3. **A buyer's mini movie.** The buyer opens their film in the small app (the editor on this page, with only the open variables), sets "show 10, not 50", types their team's names, picks colours from the palette, sees it in both orientations, and saves a scenes file; their site plays it with one script tag.
+
+## 16. Dinis's to decide
+
+- The name (section 10), or another.
+- Which blocks are offered first (the proof has `handoff` and `cell`; section 11 proposes `bud`, `library`, `shelf` next).
+- Prices, and whether the product sits under Agile Cells (decision 2026-11-28-go-to-market in the feed is still waiting on him).
+- Whether a buyer may upload their own images, or only choose from a set; and whether Higgsfield and other engines may fill image slots.
+- Whether the town pages of PrompTugal.news are the first real use.
