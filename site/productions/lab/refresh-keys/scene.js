@@ -28,7 +28,7 @@ const after = (t, t0, rate) => (t >= t0 ? Math.exp(-(t - t0) * rate) : 0); // a 
 // below; for the test the keys shrink back to the sides and the slips take the lower half. Landscape spreads the same
 // things left and right. Slots are in key units from the key's centre.
 const layout = (portrait, part) => (portrait
-  ? { d: 18.59, cy: 0, visH: 9.96, ks: mix(1.3, 0.5, part), kx: mix(1.45, 2.1, part), ky: mix(0, 1.25, part), lx: mix(1.45, 1.35, part), ly: 2.15, slots: [[0.4, -1.85], [0.4, -2.45], [-0.4, -1.85], [-0.4, -2.45]], shelfY: 2.8, shS: 1.2, slipY: -1.95, slipS: 1.2, liftY: 3.25, liftS: 1.35 }
+  ? { d: 18.59, cy: 0, visH: 9.96, ks: mix(1.3, 0.45, part), kx: mix(1.45, 2.15, part), ky: mix(0, 1.4, part), lx: mix(1.45, 0.75, part), ly: mix(2.15, 1.65, part), slots: [[0.4, -1.85], [0.4, -2.45], [-0.4, -1.85], [-0.4, -2.45]], shelfY: 2.8, shS: 1.2, slipY: -1.78, slipS: 1.3, liftY: 3.25, liftS: 1.35 }
   : { d: 13.44, cy: 0.45, visH: 7.2, ks: 1, kx: 3.0 + part, ky: 1.3, lx: 2.1 + part, ly: 2.35, slots: [[1.23, -2.6], [0.41, -2.6], [-0.41, -2.6], [-1.23, -2.6]], shelfY: 1.9, shS: 1, slipY: -0.8, slipS: 1, liftY: 2.62, liftS: 1.5 });
 
 export async function create({ canvas, THREE, reduced }) {
@@ -142,7 +142,7 @@ export async function create({ canvas, THREE, reduced }) {
   const oldSlip = makeSlip(0xd9c9a0, -1), newSlip = makeSlip(0xf1ead6, GAP_ROW);
   const slipGap = add(newSlip.g, unitL, flat(CORAL, { map: gapTex, transparent: true, depthWrite: false }), -0.69, rowY(GAP_ROW), 0.008, SLIP_ROWS[GAP_ROW] + 0.06, 0.17);
   const ties = SLIP_ROWS.map(() => beam(0x0d9488, false)), tieStub = beam(CORAL, false), scan = beam(TEAL, false), frame = [0, 1, 2, 3, 4, 5].map(() => beam(TEAL, false)), joinGlow = glow(TEAL), gapGlow = glow(CORAL), pageGapGlow = glow(CORAL);
-  const thread = beam(CORAL, false), threadGlow = beam(CORAL), mote = glow(0xffc46a, coreTex), moteHalo = glow(0xffb040), pulseDot = glow(TEAL, coreTex), pulseHalo = glow(TEAL);
+  const moteTrail = beam(0xffb040), thread = beam(CORAL, false), threadGlow = beam(CORAL), mote = glow(0xffc46a, coreTex), moteHalo = glow(0xffb040), pulseDot = glow(TEAL, coreTex), pulseHalo = glow(TEAL);
   [thread, threadGlow, scan, tieStub, ...ties, ...frame].forEach((m) => { m.renderOrder = 12; });
 
   let W = 0, H = 0;
@@ -169,7 +169,7 @@ export async function create({ canvas, THREE, reduced }) {
     bgU.uA.value.set(oldX, oldY, oldI * 1.1); bgU.uB.value.set(newX, newY, Math.min(1.5, newI) * 0.8);
 
     // the keys
-    oldKey.g.position.set(-P.kx, P.ky, 0); newKey.g.position.set(P.kx, P.ky, 0); oldKey.g.scale.setScalar(ks); newKey.g.scale.setScalar(ks);
+    oldKey.g.position.set(-P.kx, P.ky - 0.07 * ks * ease((t - T_STAMP) / 0.25), 0); newKey.g.position.set(P.kx, P.ky, 0); oldKey.g.scale.setScalar(ks); newKey.g.scale.setScalar(ks);
     oldKey.g.rotation.set(0, 0.16 * (1 - retired) * Math.sin(t * 0.9), -0.05 * retired); newKey.g.rotation.set(0, 0.12 * Math.sin(t * 0.8 + 2), 0);
     oldKey.setTeeth((i) => OLD_TEETH[i]); newKey.setTeeth((i) => mix(1, NEW_TEETH[i], ease((t - (T_CUT + i * CUT_LEN / 8)) / 0.17)));
     oldKey.mat.color.copy(BRASS).lerp(GREY, retired).multiplyScalar(dimS); oldKey.mat.metalness = mix(0.55, 0.05, retired); oldKey.mat.roughness = mix(0.42, 0.95, retired); oldKey.mat.emissive.copy(DEAD).multiplyScalar(retired);
@@ -227,15 +227,15 @@ export async function create({ canvas, THREE, reduced }) {
 
     // from the gap to its source, the mend, and the news of it coming back down
     const pg = pages[2].g, ps = pg.scale.x * P.shS, pgx = pg.position.x * P.shS + (-0.3 + PAGE_ROWS[PAGE_GAP] / 2) * ps, pgy = P.shelfY + pg.position.y * P.shS + (0.2 - PAGE_GAP * 0.14) * ps;
-    const reach = ease((t - 12.2) / 0.65), gone2 = 1 - ease((t - 14.75) / 0.4), tx0 = gx + 0.2 * S, ty0 = gy + 0.09 * S; thread.material.color.copy(CORALC).lerp(TEALC, mended); threadGlow.material.color.copy(thread.material.color);
-    lay(thread, tx0, ty0, pgx, pgy - 0.06 * ps, 0.03, 0.8, 0.95 * gone2 * (reach > 0 ? 1 : 0), reach); lay(threadGlow, tx0, ty0, pgx, pgy - 0.06 * ps, 0.1, 0.8, 0.1 * gone2 * (reach > 0 ? 1 : 0), reach);
+    const reach = ease((t - 12.2) / 0.65), gone2 = 1 - ease((t - 14.75) / 0.4), tx0 = sxF + 0.45 * S, ty0 = gy + 0.085 * S, tx1 = pgx + (PAGE_ROWS[PAGE_GAP] / 2 + 0.02) * ps, ty1 = pgy - 0.045 * ps; thread.material.color.copy(CORALC).lerp(TEALC, mended); threadGlow.material.color.copy(thread.material.color);
+    lay(thread, tx0, ty0, tx1, ty1, 0.03, 0.8, 0.95 * gone2 * (reach > 0 ? 1 : 0), reach); lay(threadGlow, tx0, ty0, tx1, ty1, 0.1, 0.8, 0.1 * gone2 * (reach > 0 ? 1 : 0), reach);
     put(pageGapGlow, pgx, pgy, 0.9, 1.5, 0.5 * seen * lift);
     const fly = ease((t - 12.7) / 0.4), px0 = pg.position.x * P.shS + (-0.3) * ps, wx = px0 + PAGE_ROWS[PAGE_GAP] * ps * ease(mendU), mx = mix(oldX, t < T_MEND ? px0 : wx, fly), my = mix(oldY, pgy, fly) + 0.3 * Math.sin(Math.PI * fly);
-    const mo = (t > 12.7 ? 1 : 0) * (1 - ease((t - T_MENDED + 0.05) / 0.3)); put(mote, mx, my, 1.0, 0.3, mo); put(moteHalo, mx, my, 1.0, 1.3 + 0.3 * Math.sin(t * 30), 0.7 * mo);
-    const dn = ease((t - T_MENDED - 0.08) / 0.42), po = (t > T_MENDED + 0.08 ? 1 : 0) * (1 - ease((t - T_FILL - 0.05) / 0.25)); put(pulseDot, mix(pgx, tx0, dn), mix(pgy, ty0, dn), 1.0, 0.3, po); put(pulseHalo, mix(pgx, tx0, dn), mix(pgy, ty0, dn), 1.0, 1.3, 0.75 * po);
+    const mo = (t > 12.7 ? 1 : 0) * (1 - ease((t - T_MENDED + 0.05) / 0.3)); put(mote, mx, my, 1.0, 0.3, mo); put(moteHalo, mx, my, 1.0, 1.3 + 0.3 * Math.sin(t * 30), 0.7 * mo); lay(moteTrail, oldX, oldY, mx, my, 0.03, 0.85, 0.45 * mo, 1);
+    const dn = ease((t - T_MENDED - 0.08) / 0.42), po = (t > T_MENDED + 0.08 ? 1 : 0) * (1 - ease((t - T_FILL - 0.05) / 0.25)); put(pulseDot, mix(tx1, tx0, dn), mix(ty1, ty0, dn), 1.0, 0.3, po); put(pulseHalo, mix(tx1, tx0, dn), mix(ty1, ty0, dn), 1.0, 1.3, 0.75 * po);
 
     // they match: one teal line round both
-    const x0 = -sxF - 0.92 * S, x1 = sxF + 0.92 * S, y0 = sy0 - 1.37 * S, y1 = sy0 + 1.37 * S, f1 = clamp((t - T_JOIN) / 0.2), f2 = clamp((t - T_JOIN - 0.18) / 0.2), f3 = clamp((t - T_JOIN - 0.36) / 0.2), fo = t >= T_JOIN ? 1 : 0;
+    const x0 = -sxF - 0.92 * S, x1 = sxF + 0.92 * S, y0 = sy0 - 1.37 * S, y1 = sy0 + 1.37 * S, f1 = clamp((t - T_JOIN) / 0.15), f2 = clamp((t - T_JOIN - 0.13) / 0.15), f3 = clamp((t - T_JOIN - 0.26) / 0.15), fo = t >= T_JOIN ? 1 : 0;
     lay(frame[0], 0, y1, x0, y1, 0.05, 0.45, fo, f1); lay(frame[1], 0, y1, x1, y1, 0.05, 0.45, fo, f1); lay(frame[2], x0, y1, x0, y0, 0.05, 0.45, fo * (f2 > 0 ? 1 : 0), f2); lay(frame[3], x1, y1, x1, y0, 0.05, 0.45, fo * (f2 > 0 ? 1 : 0), f2); lay(frame[4], x0, y0, 0, y0, 0.05, 0.45, fo * (f3 > 0 ? 1 : 0), f3); lay(frame[5], x1, y0, 0, y0, 0.05, 0.45, fo * (f3 > 0 ? 1 : 0), f3);
     put(joinGlow, 0, sy0, 0.7, 6.5, 0.3 * after(t, T_JOIN + 0.1, 1.6) + 0.1 * matchK);
 
