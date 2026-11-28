@@ -47,3 +47,8 @@ button[disabled]{opacity:.55;cursor:not-allowed}button.primary{background:var(--
 textarea,input[type=text]{font:inherit;width:100%;max-width:46rem;padding:.5rem;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
 textarea.out{font:.8rem/1.4 ui-monospace,Menlo,monospace;height:11rem}
 form.review{display:grid;gap:.7rem;max-width:46rem}form.review label{font-weight:600;display:grid;gap:.25rem}
+.thread{max-height:28rem;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:.8rem;background:var(--card);margin:.6rem 0 1rem;max-width:46rem}
+.msg{border-radius:10px;padding:.5rem .8rem;margin:.5rem 0;max-width:38rem;border:1px solid var(--line)}.msg p{margin:.15rem 0}
+.msg.mine{margin-left:auto;background:var(--code)}.msg.theirs{border-color:var(--accent)}
+.rate button[aria-pressed=true]{border-color:var(--accent);font-weight:700}
+.drop{border:2px dashed var(--line);border-radius:8px;padding:1rem;color:var(--muted);max-width:46rem}

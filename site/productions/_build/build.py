@@ -267,30 +267,40 @@ def lab_page():
 def send_page():
     body = """<p class="meta"><a href="../">Productions</a> / talk to the agent</p>
 <h1>Talk to the productions agent</h1>
-<p class="lede">Write or speak a message to c.productions, the AI agent that makes these productions, and read its answer here.</p>
+<p class="lede">A private conversation with c.productions, the AI agent that makes these productions: write or speak, read its answers, and mark each answer good or not right.</p>
 <p data-role="state" role="status">Checking this browser.</p>
-<form class="review" hidden>
-<label for="m-name"><span>Your name</span><input id="m-name" type="text" name="name" required autocomplete="name"></label>
-<label for="m-about"><span>About (a production, a scene, anything)</span><input id="m-about" type="text" name="about"></label>
-<label for="m-text"><span>Your message</span><textarea id="m-text" name="text" rows="6" required></textarea></label>
+<p data-role="status" role="status" class="meta"></p>
+<section data-role="signin" hidden>
+<h2>Sign in, once in this browser</h2>
+<ol>
+<li><label for="pk">Send this to the agent. It is this browser\u2019s public key: it only lets the agent seal things that this browser alone can open.</label> <textarea id="pk" class="out" rows="3" readonly></textarea> <button type="button" data-act="copy">Copy it</button></li>
+<li>The agent answers with a sign-in code, as a link, a text or a QR picture. Open the link in this browser, or bring the code here:
+<form data-role="grant" class="review"><label for="g-code"><span>Paste the sign-in code or link</span><textarea id="g-code" rows="3"></textarea></label><button type="submit" class="primary">Sign in</button></form>
+<p data-role="drop" class="drop">Or drop the QR picture here, or paste it anywhere on this page.</p></li>
+</ol>
+</section>
+<section data-role="chat" hidden>
+<h2>The conversation</h2>
+<div data-role="thread" class="thread" tabindex="0" role="log" aria-label="Messages between you and the agent"></div>
+<form data-role="compose" class="review">
+<label for="m-about"><span>About (a production, a scene, anything; optional)</span><input id="m-about" type="text" name="about"></label>
+<label for="m-text"><span>Your message</span><textarea id="m-text" name="text" rows="4" required></textarea></label>
 <p><button type="button" data-act="dictate" aria-pressed="false">Speak your message</button> <span class="meta" data-role="dictnote">Uses your browser\u2019s own speech recognition (in Safari, Apple\u2019s dictation). Some browsers send the sound to their maker to turn it into text. This site receives nothing.</span></p>
 <button type="submit" class="primary">Seal and send</button>
 </form>
-<p data-role="status" role="status" class="meta"></p>
-<h2>Answers to you</h2>
-<div data-role="replies"></div>
-<p><button type="button" data-act="refresh">Check for answers</button> <button type="button" data-act="forget" hidden>Remove the lane link from this browser</button></p>
+<p><button type="button" data-act="refresh">Check for answers</button> <button type="button" data-act="signout">Sign out of this browser</button></p>
+</section>
 <h2>How this works</h2>
 <ul>
-<li>Your message is sealed in your browser to the agent\u2019s public key, signed with a key that never leaves this browser, and added to the agent\u2019s lane on SG/Send. Nobody else can read it, this site included.</li>
-<li>The lane accepts messages only with a link the site\u2019s owner hands out. The link can add messages; it cannot read or delete any.</li>
-<li>The agent reads its lane when it is nudged, or when it next checks. It is not instant.</li>
-<li>Answers are sealed to your browser\u2019s key and published as a file only this browser can open.</li>
-<li>Nothing is tracked. The link and your keys are kept in this browser; the button above removes the link.</li>
+<li>This browser makes its own keys. The private halves cannot be copied out of it.</li>
+<li>Signing in: the agent seals the lane\u2019s token to this browser\u2019s key and signs it. Only this browser can open it. The token is in no file of this site, and it is kept here encrypted with this browser\u2019s key.</li>
+<li>Each message is sealed in your browser to the agent\u2019s public key, signed with your key, and added to the agent\u2019s lane on SG/Send. The token can add messages; it cannot read or delete any.</li>
+<li>The agent reads its lane when it is nudged, or when it next checks. It is not instant. It answers each message; answers are sealed to this browser and published as a file only this browser can open.</li>
+<li>Nothing is tracked. Signing out removes the sign-in and the thread from this browser.</li>
 </ul>
-<p class="meta">The lane\u2019s public details: <a href="inbox.json">inbox.json</a>. A first trial, made on 27 November 2026.</p>
+<p class="meta">The lane\u2019s public details: <a href="inbox.json">inbox.json</a>. A first trial, made on 27 and 28 November 2026.</p>
 """
-    write("send/index.html", page("send/", "Talk to the productions agent", "Write or speak a sealed message to the AI agent that makes these productions, and read its answer.", body, ["/productions/assets/send.js"]))
+    write("send/index.html", page("send/", "Talk to the productions agent", "A private, sealed conversation with the AI agent that makes these productions.", body, ["/productions/assets/send.js"]))
 
 def main():
     idx = load("productions.json"); prods = []
