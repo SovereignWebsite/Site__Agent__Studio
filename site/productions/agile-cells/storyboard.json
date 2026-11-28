@@ -145,5 +145,6 @@
   "agilecells.org did not answer on 28 November 2026 (no certificate for the name over HTTPS, and a GitHub Pages 404 over HTTP). The end card should not send people to it until it is live. conductor.c, 28 Nov: agilecells.org waits on a merge in AgileCells__IaC; do not cite it until it answers.",
   "The Agile Cells team's own go-to-market work could not be found in a public place: AgentiCCells__Site__AgileCells-Org, AgentiCCells__Agent__Agile-Cells and AgileCells-AgileCells__IaC hold only the one-line description. The verticals beat stands on Dinis's own words until it is found.",
   "Whether 'may be how we sell' is ready to be said in public: the verticals beat says 'can be what you ask for', not a price or an offer."
- ]
+ ],
+ "changes_after_v0_3": "Dinis Cruz, 28 November 2026: the vertical cells beat is out for now ('we'll add that later'); the Manifesto scene stays; the end card carries sovereignwebsite.org; the AI label at the end only."
 }

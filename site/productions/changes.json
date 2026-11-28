@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "3494112",
+   "date_utc": "2026-11-28 16:49",
+   "what": "Productions: pages rebuilt after rebasing on the Agile Cells helper's commits",
+   "detail": ""
+  },
+  {
    "commit": "266d2e6",
    "date_utc": "2026-11-28 16:47",
    "what": "Critic's rubric: the AI label may sit on the closing scene only, as the owner chose",
@@ -356,12 +362,6 @@
    "date_utc": "2026-11-28 02:53",
    "what": "For c.maestro: the two new vault keys, sealed to its published encryption key",
    "detail": "Dinis Cruz's rule of 28 Nov 2026: every vault's key goes to the account's maestro, sealed, never in clear.\nCiphertext only. The key's fingerprint (sha256:061882802f561a04) was checked against promptugal.news/board/keys.json."
-  },
-  {
-   "commit": "5787ec4",
-   "date_utc": "2026-11-28 02:52",
-   "what": "A new feedback lane and a new media vault for the successor session",
-   "detail": "The first lane and the first media vault's write key ended with the first session at the hand-over of 28 Nov 2026.\n- send/inbox.json: the new lane's vault, sealed to this session's public key. Tested: configure, two sealed\n  writes, list, read. Every browser needs a new sign-in code; its own key is unchanged.\n- media.json: a new vault with its published read key (a read-only clone with it was tested); the first vault\n  stays listed as read only, with what it holds."
   }
  ]
 }

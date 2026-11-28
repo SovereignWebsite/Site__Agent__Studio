@@ -1,0 +1,68 @@
+{
+ "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
+ "production": "agile-cells",
+ "version": "v0.4",
+ "digest": "a64d44521f2e434a99da47de575711f804d90b1cbf56e7955258d0bf491da32e",
+ "files": [
+  {
+   "path": "assets/player.js",
+   "sha256": "34561cce980afe9a3332ef55bc7b85d5f1baae6e1771fb2e60027325ab7e084e"
+  },
+  {
+   "path": "agile-cells/v0.4/scenes.json",
+   "sha256": "1a59b46b22d342b018843f9e9e99979e3b4bc7a2dc50b5668a48303604bf48e4"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/01-hook.mp3",
+   "sha256": "3e9e1773a85fca2117c8d2c6b19fc1a67844c7862d6bc59cf6284ed03c7bafb8"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/02-values.mp3",
+   "sha256": "5df3e0fc9e1e883567b1058f72ecb75c45b236f27ef5a949c86c1071c207f5e7"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/03-cell.mp3",
+   "sha256": "d846a33c15a56bbc7fa485635ddca5fd516173c7ab00cf307601ab7d37c42d1c"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/04-scale.mp3",
+   "sha256": "f65ef87e4864ff65584d821a43c1e88535c4eb84f65cd578f8c5d5081350988e"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/05-made.mp3",
+   "sha256": "6024f74234721bad54fd62f9b8689b5f2229d7a74bf999aac54ebaca586f117d"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/06-proof.mp3",
+   "sha256": "8f67525c0dc27b1eb56646511bde595012892a725e6abe70cdced5fce506c12a"
+  },
+  {
+   "path": "agile-cells/v0.4/audio/07-end.mp3",
+   "sha256": "2c6e42d1d3aa9dc41a55b9ea7a45fd7c5f6f07f84a9e55671f7a61d09ba61b08"
+  },
+  {
+   "path": "assets/brand/sws-wordmark-navy.svg",
+   "sha256": "2e1c35a0e917d21ff9f5e0b21ffee2b67981ef745a0dc80c23c0398bc1d7ee57"
+  },
+  {
+   "path": "lab/cells-grow/scene.js",
+   "sha256": "9ef9fa736e4dd7817da8dd36a4f33098dc4f4b27edf1124f127109e000569273"
+  },
+  {
+   "path": "lab/refresh-cell/scene.js",
+   "sha256": "2c5d37884d2634fa78b89c860a7765111e30037bc22e59816665c14d529c1554"
+  },
+  {
+   "path": "lab/refresh-trailer/scene.js",
+   "sha256": "9a9a6c26548ca98033d58e92ba99164453ae9ddb55985b67491ff7f143e8652b"
+  },
+  {
+   "path": "lab/snowbird-page/scene.js",
+   "sha256": "727d49f1de872789a3fd17adb5d1f99d221338e2134572f9e3e5c1c4047902d1"
+  },
+  {
+   "path": "assets/vendor/three-0.187.0/three.module.min.js",
+   "sha256": "e0df03ddbddcf65926df5b79a04724d1a05af235d6af8b4113767f9107a8c233"
+  }
+ ]
+}

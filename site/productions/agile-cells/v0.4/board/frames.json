@@ -1,0 +1,155 @@
+{
+ "production": "agile-cells",
+ "version": "v0.4",
+ "made": "2026-11-28",
+ "how": "Player frames taken in headless Chromium (software GL) at 30%, 60% and 93% of each scene.",
+ "frames": [
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 1,
+   "t": 1.7,
+   "file": "01-hook-1.png"
+  },
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 2,
+   "t": 3.4,
+   "file": "01-hook-2.png"
+  },
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 3,
+   "t": 5.3,
+   "file": "01-hook-3.png"
+  },
+  {
+   "scene": "values",
+   "n": 2,
+   "k": 1,
+   "t": 8.2,
+   "file": "02-values-1.png"
+  },
+  {
+   "scene": "values",
+   "n": 2,
+   "k": 2,
+   "t": 10.7,
+   "file": "02-values-2.png"
+  },
+  {
+   "scene": "values",
+   "n": 2,
+   "k": 3,
+   "t": 13.5,
+   "file": "02-values-3.png"
+  },
+  {
+   "scene": "cell",
+   "n": 3,
+   "k": 1,
+   "t": 17.6,
+   "file": "03-cell-1.png"
+  },
+  {
+   "scene": "cell",
+   "n": 3,
+   "k": 2,
+   "t": 21.1,
+   "file": "03-cell-2.png"
+  },
+  {
+   "scene": "cell",
+   "n": 3,
+   "k": 3,
+   "t": 25,
+   "file": "03-cell-3.png"
+  },
+  {
+   "scene": "scale",
+   "n": 4,
+   "k": 1,
+   "t": 28.3,
+   "file": "04-scale-1.png"
+  },
+  {
+   "scene": "scale",
+   "n": 4,
+   "k": 2,
+   "t": 30.8,
+   "file": "04-scale-2.png"
+  },
+  {
+   "scene": "scale",
+   "n": 4,
+   "k": 3,
+   "t": 33.5,
+   "file": "04-scale-3.png"
+  },
+  {
+   "scene": "made",
+   "n": 5,
+   "k": 1,
+   "t": 35.8,
+   "file": "05-made-1.png"
+  },
+  {
+   "scene": "made",
+   "n": 5,
+   "k": 2,
+   "t": 37.4,
+   "file": "05-made-2.png"
+  },
+  {
+   "scene": "made",
+   "n": 5,
+   "k": 3,
+   "t": 39.2,
+   "file": "05-made-3.png"
+  },
+  {
+   "scene": "proof",
+   "n": 6,
+   "k": 1,
+   "t": 42.3,
+   "file": "06-proof-1.png"
+  },
+  {
+   "scene": "proof",
+   "n": 6,
+   "k": 2,
+   "t": 45,
+   "file": "06-proof-2.png"
+  },
+  {
+   "scene": "proof",
+   "n": 6,
+   "k": 3,
+   "t": 48,
+   "file": "06-proof-3.png"
+  },
+  {
+   "scene": "end",
+   "n": 7,
+   "k": 1,
+   "t": 50,
+   "file": "07-end-1.png"
+  },
+  {
+   "scene": "end",
+   "n": 7,
+   "k": 2,
+   "t": 51.4,
+   "file": "07-end-2.png"
+  },
+  {
+   "scene": "end",
+   "n": 7,
+   "k": 3,
+   "t": 52.9,
+   "file": "07-end-3.png"
+  }
+ ]
+}
