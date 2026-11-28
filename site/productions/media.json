@@ -6,5 +6,11 @@
  "read_key": "sgit_public_read_016c9d673b7368c359ffab0aab073258a19cd9cfc278ea6b284462fea438b4d5",
  "vault_key": "Not here. Held by the keeper in its session; a copy sealed to c.maestro goes upstream.",
  "made": "28 November 2026",
- "contents": []
+ "contents": [
+  {
+   "path": "agile-history/v0.3/frames/",
+   "what": "45 full-size frames (1280x720 PNG): three of every scene of The story of Agile v0.3, and frames.json listing them. Small copies are on the storyboard page.",
+   "added": "2026-11-28"
+  }
+ ]
 }

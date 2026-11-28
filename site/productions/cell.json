@@ -1,0 +1,129 @@
+{
+ "about": "The cell that makes these productions: one lead agent (c.productions) and the sub-agents it starts for one job each. A sub-agent lives only for its job and reports back; it cannot push or publish. This file is written by hand by the lead after each run, from the runs' own reports. Kept so the owner can see who did what.",
+ "lead": {
+  "agent": "c.productions@SovereignWebsite.dinis",
+  "does": "Takes Dinis Cruz's direction, writes the briefs for each job, looks at every result, joins scenes into versions, runs the site's checks, signs and pushes, answers the feedback lane."
+ },
+ "roles": [
+  {
+   "role": "Researcher",
+   "does": "Finds facts with a public source and an exact quote for each; never invents.",
+   "runs": 2
+  },
+  {
+   "role": "Story editor",
+   "does": "Cuts the script to one through-line, with a 'so what' for every beat.",
+   "runs": 1
+  },
+  {
+   "role": "Storyboard artist",
+   "does": "Not filled yet. Would turn each beat into key frames, camera and motion before any scene is built.",
+   "runs": 0
+  },
+  {
+   "role": "Scene-smith",
+   "does": "Builds one WebGL scene, shoots its own frames, criticises them against the rubric and improves, three rounds or more.",
+   "runs": 7
+  },
+  {
+   "role": "Critic",
+   "does": "Scores against lab/critic.md and names the one change that would help most; never rewrites. So far each scene-smith has only scored itself.",
+   "runs": 0
+  },
+  {
+   "role": "Sound",
+   "does": "Not filled yet. Voice is one AI voice; music and effects are to be asked of the ElevenLabs agent on account B.",
+   "runs": 0
+  },
+  {
+   "role": "Generated footage",
+   "does": "Not filled yet. A Higgsfield agent has been asked for through c.conductor.",
+   "runs": 0
+  }
+ ],
+ "runs": [
+  {
+   "n": 1,
+   "role": "Researcher",
+   "job": "Find the Web Summit explainer animations and the Galaxy's facts",
+   "result": "15 candidates with links; no 'how LLMs work' explainer found",
+   "minutes": 4,
+   "tool_uses": 23,
+   "status": "done"
+  },
+  {
+   "n": 2,
+   "role": "Story editor",
+   "job": "Two 60-second cuts of the Agile story",
+   "result": "'He gave up the word' recommended; v0.1's script scored 1, 1, 0 of 2",
+   "minutes": 3,
+   "tool_uses": 2,
+   "status": "done"
+  },
+  {
+   "n": 3,
+   "role": "Scene-smith",
+   "job": "Royce's cascade",
+   "result": "lab/royce-cascade, 5 rounds",
+   "minutes": 10,
+   "tool_uses": 23,
+   "status": "in v0.2 and v0.3"
+  },
+  {
+   "n": 4,
+   "role": "Scene-smith",
+   "job": "Snowbird: seventeen lights, one page",
+   "result": "lab/snowbird-page, 4 rounds",
+   "minutes": 11,
+   "tool_uses": 26,
+   "status": "in v0.2 and v0.3"
+  },
+  {
+   "n": 5,
+   "role": "Scene-smith",
+   "job": "The badge factory",
+   "result": "lab/badge-factory, 3 rounds",
+   "minutes": 9,
+   "tool_uses": 26,
+   "status": "in v0.2 and v0.3"
+  },
+  {
+   "n": 6,
+   "role": "Scene-smith",
+   "job": "Currents before 2001",
+   "result": "lab/currents, 4 rounds; first half sparse in landscape",
+   "minutes": 17,
+   "tool_uses": 33,
+   "status": "in v0.3"
+  },
+  {
+   "n": 7,
+   "role": "Scene-smith",
+   "job": "The spread",
+   "result": "lab/spread, 3 rounds",
+   "minutes": 13,
+   "tool_uses": 22,
+   "status": "in v0.3"
+  },
+  {
+   "n": 8,
+   "role": "Scene-smith",
+   "job": "Three voices, and the turn",
+   "result": "lab/voices, 3 rounds; first segment the weakest",
+   "minutes": 15,
+   "tool_uses": 32,
+   "status": "in v0.3"
+  },
+  {
+   "n": 9,
+   "role": "Researcher",
+   "job": "Why Agile matters: reach, release cadence, the process solidifying, definitions, early pages",
+   "result": "about 30 sourced items; the Wayback Machine could not be reached from here",
+   "minutes": 8,
+   "tool_uses": 31,
+   "status": "done, not yet used"
+  }
+ ],
+ "working_now": 0,
+ "as_of": "2026-11-28"
+}

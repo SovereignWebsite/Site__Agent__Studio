@@ -58,3 +58,13 @@ form.review{display:grid;gap:.7rem;max-width:46rem}form.review label{font-weight
 .chips button.done::after{content:" \2713"}.chips button.up::after{content:" \1F44D"}.chips button.down::after{content:" \1F44E"}
 .scenes{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.2rem 1rem 1rem;margin:1rem 0}
 .bar button[aria-pressed=true]{border-color:var(--accent);font-weight:700;background:var(--code)}
+main:has(.suite){max-width:104rem}
+.suite{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:1.2rem;align-items:start}
+.suite .preview{position:sticky;top:.5rem}.suite .preview .player{margin-top:0}
+.shots{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}
+.shot{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.6rem .8rem}.shot.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.shot h2{margin:.1rem 0 .4rem;font-size:1.02rem}.shot .num{display:inline-grid;place-items:center;min-width:1.7rem;height:1.7rem;border-radius:999px;background:var(--accent);color:var(--bg);font-size:.85rem}
+.shot.up .num::after{content:" \1F44D"}.shot.down .num::after{content:" \1F44E"}.shot.done .num::after{content:" \2713"}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem}.thumb{padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;min-height:0;background:#05070b}.thumb:hover,.thumb:focus-visible{border-color:var(--accent)}.thumb img{display:block;width:100%;height:auto;border-radius:0}
+.shot .voice{margin:.45rem 0 .2rem;font-size:.95rem;max-width:none}.shot p{max-width:none;margin:.3rem 0}.shot textarea{max-width:none}
+@media (max-width:62rem){.suite{grid-template-columns:1fr}.suite .preview{order:-1;top:0;z-index:2;background:var(--bg);padding-bottom:.3rem}.suite .preview .stage canvas{max-height:38vh;width:auto;max-width:100%}}

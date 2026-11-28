@@ -217,6 +217,16 @@ def production_page(prod, versions):
 """
     return page(f"{pid}/", prod["title"], prod["summary"], body)
 
+def cell_html():
+    C = load("cell.json")
+    roles = "".join(f'<li class="card"><h3>{e(r["role"])} <span class="status {"s-review" if r["runs"] else "s-idea"}">{r["runs"]} run{"" if r["runs"] == 1 else "s"}</span></h3><p>{e(r["does"])}</p></li>' for r in C["roles"])
+    rows = "".join(f'<tr><td>{r["n"]}</td><td>{e(r["role"])}</td><td>{e(r["job"])}</td><td>{e(r["result"])}</td><td>{r["minutes"]} min, {r["tool_uses"]} tool uses</td><td>{e(r["status"])}</td></tr>' for r in C["runs"])
+    return f"""<h2 id="cell">The cell: who is doing what</h2>
+<p>{e(C["lead"]["agent"].split("@")[0])} leads. {e(C["lead"]["does"])} It starts a sub-agent for each single job; a sub-agent reports back and cannot push or publish. <strong>Working right now: {C["working_now"]}.</strong> <span class="meta">As of {e(C["as_of"])}; written by hand after each run (<a href="cell.json">cell.json</a>). Not live yet.</span></p>
+<ul class="cards">{roles}</ul>
+<div class="table" tabindex="0" role="region" aria-label="Runs of the cell"><table><caption class="vh">Every sub-agent run so far</caption><thead><tr><th scope="col">No.</th><th scope="col">Role</th><th scope="col">Job</th><th scope="col">Result</th><th scope="col">Cost</th><th scope="col">Status</th></tr></thead><tbody>{rows}</tbody></table></div>
+"""
+
 def index_page(idx, prods):
     counts = {s: 0 for s in idx["statuses"]}
     for p, _ in prods: counts[p["status"]] += 1
@@ -227,7 +237,7 @@ def index_page(idx, prods):
         ver, P, m, recs, approved = versions[-1]; total = sum(s["seconds"] for s in P["scenes"])
         cards += f"""<li class="card"><span class="status s-{e(p["status"])}">{e(STATUS_WORDS[p["status"]])}</span><h3><a href="{e(p["id"])}/">{e(p["title"])}</a></h3><p>{e(p["summary"])}</p>
 <ul><li>Brief: {e(p["brief"]["from"])}</li><li>{len(P["scenes"])} scenes, {mmss(total)}, {sum(len(s.get("sources", [])) for s in P["scenes"])} source links</li><li>Version {e(ver)} of {e(p["versions"][-1]["date"])}: {len(recs)} review(s), signed for publishing: {"yes" if approved else "no"}</li></ul>
-<p class="links"><a href="{e(p["id"])}/{e(ver)}/">Play and review {e(ver)}<span class="vh"> of {e(p["title"])}</span></a><a href="{e(p["id"])}/">Brief, script and storyboard<span class="vh"> of {e(p["title"])}</span></a></p></li>"""
+<p class="links">{("<a href=\"" + e(p["id"]) + "/" + e(ver) + "/board/\">Storyboard<span class=\"vh\"> of " + e(p["title"]) + "</span></a>") if os.path.exists(os.path.join(ROOT, p["id"], ver, "board", "frames.json")) else ""}<a href="{e(p["id"])}/{e(ver)}/">Play and review {e(ver)}<span class="vh"> of {e(p["title"])}</span></a><a href="{e(p["id"])}/">Brief, script and storyboard<span class="vh"> of {e(p["title"])}</span></a></p></li>"""
     cands = "".join(f'<li class="card"><span class="status s-{e(c["status"])}">{e(STATUS_WORDS[c["status"]])}</span><h3>{e(c["title"])}</h3><p>{e(c["what"])}</p><p class="links">{links(c["links"])}</p></li>' for c in idx["candidates"])
     body = f"""<h1>Productions</h1>
 <p class="lede">Videos being made, in the open: each one is drawn in your browser with WebGL, with its script, its sources, its versions and who signed which. A file is captured only when a platform needs one.</p>
@@ -237,6 +247,7 @@ def index_page(idx, prods):
 <h2>Candidates</h2>
 <p class="note">{e(idx["candidates_note"])}</p>
 <ul class="cards">{cands}</ul>
+{cell_html()}
 <h2>The scene lab</h2>
 <p>Single scenes are built and judged one at a time in <a href="lab/">the scene lab</a>, against <a href="lab/critic.md">the critic\u2019s rubric</a>, before they join a production.</p>
 <h2 id="how">How review and sign-off work</h2>
@@ -317,6 +328,43 @@ def send_page():
 """
     write("send/index.html", page("send/", "Talk to the productions agent", "A private, sealed conversation with the AI agent that makes these productions.", body, ["/productions/assets/send.js"]))
 
+def board_page(prod, ver, P, vhtml):
+    # the storyboard: every scene with its frames on the left, one player on the right, comments per scene
+    pid = prod["id"]; fj = os.path.join(ROOT, pid, ver, "board", "frames.json")
+    if not os.path.exists(fj): return False
+    F = json.load(open(fj)); by = {}
+    for f in F["frames"]: by.setdefault(f["scene"], []).append(f)
+    i = vhtml.index('<section class="player"'); j = vhtml.index('<section class="scenes"'); player = vhtml[i:j]
+    k = player.index('<div class="tele"'); player = player[:k] + player[player.index('<div data-role="out">'):]   # no teleprompter panel here
+    player = player.replace('<button type="button" data-act="tele" aria-expanded="false">Teleprompter</button>\n', '')
+    player = player.replace('data-src="scenes.json"', 'data-src="../scenes.json"')
+    cards = ""; t = 0
+    for n, s in enumerate(P["scenes"], 1):
+        thumbs = "".join(f'<button type="button" class="thumb" data-t="{f["t"]}" data-i="{n - 1}"><img src="frames/{e(f["file"][:-4])}.jpg" width="480" height="270" loading="lazy" alt="Scene {n}, {e(s["id"])}: frame {f["k"]} of 3, at {mmss(f["t"])}"></button>' for f in by.get(s["id"], []))
+        cards += f"""<li class="shot" data-scene="{e(s["id"])}" data-i="{n - 1}" id="b-{e(s["id"])}">
+<h2><span class="num">{n}</span> {e(s.get("title") or s.get("label"))} <span class="meta">{e(s["id"])}, {mmss(t)} to {mmss(t + s["seconds"])}, {s["seconds"]:.0f} s{", lab scene " + e(s["component"]) if s.get("component") else ", plain style"}</span></h2>
+<div class="thumbs">{thumbs}</div>
+<p class="voice">{e(s["narration"])}</p>
+<p class="meta">On screen: {e(on_screen(s) or s.get("title", ""))}</p>
+<div class="bar" role="group" aria-label="Scene {n} review"><button type="button" class="primary" data-act="playscene">Play scene {n}</button><button type="button" data-act="up" aria-pressed="false">👍 Good</button><button type="button" data-act="down" aria-pressed="false">👎 Not right</button><button type="button" data-act="dictate" aria-pressed="false">Speak</button></div>
+<label class="vh" for="bt-{n}">Your comment on scene {n}</label><textarea id="bt-{n}" rows="2" placeholder="Your comment on scene {n}"></textarea>
+<p><button type="button" data-act="sendscene">Send for scene {n}</button> <span class="meta" data-role="sent" role="status"></span></p>
+</li>"""
+        t += s["seconds"]
+    body = f"""<p class="meta"><a href="../../">{e(prod["title"])}</a> / <a href="../">version {e(ver)}</a> / storyboard</p>
+<h1>{e(prod["title"])} {e(ver)}: the storyboard</h1>
+<p class="lede">Every scene in order, with three frames, its words and its length. Press a frame to see that moment in the preview; play one scene; mark it and comment.</p>
+<p data-role="signed" class="meta">Checking whether this browser is signed in.</p>
+<div class="suite" data-board>
+<ol class="shots">{cards}</ol>
+<div class="preview">
+{player}<p class="meta" data-role="dictnote">Voice uses your browser\u2019s own speech recognition. This site receives no sound.</p>
+<p class="meta">Frames: taken from the player in headless Chromium on {e(F["made"])}; the full-size ones are in <a href="/productions/media.json">the media vault</a>. <a href="../">The full review page for this version</a>.</p>
+</div>
+</div>
+"""
+    write(f"{pid}/{ver}/board/index.html", page(f"{pid}/{ver}/board/", f"{prod['title']} {ver}: the storyboard", "Every scene in order with its frames, words and length, a preview beside it, and comments per scene.", body, ["/productions/assets/player.js", "/productions/assets/board.js"])); return True
+
 def main():
     idx = load("productions.json"); prods = []
     for pid in idx["productions"]:
@@ -326,7 +374,9 @@ def main():
             for s in P["scenes"]: assert s.get("sources"), f"{pid} {s['id']}: a beat without a public source"
             assert "AI" in P["label"], "the label must say the voice is made by AI"
             m = manifest(pid, ver, P); recs, approved = reviews(pid, ver, m, prod.get("approvers", []))
-            versions.append((ver, P, m, recs, approved)); write(f"{pid}/{ver}/index.html", version_page(prod, ver, P, m, recs, approved))
+            versions.append((ver, P, m, recs, approved)); vh = version_page(prod, ver, P, m, recs, approved); has_board = board_page(prod, ver, P, vh)
+            if has_board: vh = vh.replace('<h2 id="scenes">Scene by scene</h2>', '<h2 id="scenes">Scene by scene</h2>\n<p><a href="board/"><strong>Open the storyboard: every scene with its frames, and a preview beside it</strong></a></p>')
+            write(f"{pid}/{ver}/index.html", vh)
         if prod["status"] in ("signed", "published") and not versions[-1][4]: sys.exit(f"REFUSED: {pid} is marked {prod['status']} but no approver has signed the digest of {versions[-1][0]}")
         script = f"# {prod['title']}: script, {versions[-1][0]}\n\n" + "\n".join(f"{n}. **{s['id']}** ({s['seconds']:.0f} s): {s['narration']}" for n, s in enumerate(versions[-1][1]["scenes"], 1)) + "\n"
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))

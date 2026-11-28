@@ -1,0 +1,323 @@
+{
+ "production": "agile-history",
+ "version": "v0.3",
+ "made": "2026-11-28",
+ "how": "Player frames taken in headless Chromium (software GL) at 30%, 60% and 93% of each scene.",
+ "frames": [
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 1,
+   "t": 2.3,
+   "file": "01-hook-1.png"
+  },
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 2,
+   "t": 4.7,
+   "file": "01-hook-2.png"
+  },
+  {
+   "scene": "hook",
+   "n": 1,
+   "k": 3,
+   "t": 7.2,
+   "file": "01-hook-3.png"
+  },
+  {
+   "scene": "roots",
+   "n": 2,
+   "k": 1,
+   "t": 13.2,
+   "file": "02-roots-1.png"
+  },
+  {
+   "scene": "roots",
+   "n": 2,
+   "k": 2,
+   "t": 18.7,
+   "file": "02-roots-2.png"
+  },
+  {
+   "scene": "roots",
+   "n": 2,
+   "k": 3,
+   "t": 24.7,
+   "file": "02-roots-3.png"
+  },
+  {
+   "scene": "royce",
+   "n": 3,
+   "k": 1,
+   "t": 29.3,
+   "file": "03-royce-1.png"
+  },
+  {
+   "scene": "royce",
+   "n": 3,
+   "k": 2,
+   "t": 32.7,
+   "file": "03-royce-2.png"
+  },
+  {
+   "scene": "royce",
+   "n": 3,
+   "k": 3,
+   "t": 36.5,
+   "file": "03-royce-3.png"
+  },
+  {
+   "scene": "methods",
+   "n": 4,
+   "k": 1,
+   "t": 42.6,
+   "file": "04-methods-1.png"
+  },
+  {
+   "scene": "methods",
+   "n": 4,
+   "k": 2,
+   "t": 47.9,
+   "file": "04-methods-2.png"
+  },
+  {
+   "scene": "methods",
+   "n": 4,
+   "k": 3,
+   "t": 53.8,
+   "file": "04-methods-3.png"
+  },
+  {
+   "scene": "snowbird",
+   "n": 5,
+   "k": 1,
+   "t": 57.2,
+   "file": "05-snowbird-1.png"
+  },
+  {
+   "scene": "snowbird",
+   "n": 5,
+   "k": 2,
+   "t": 59.4,
+   "file": "05-snowbird-2.png"
+  },
+  {
+   "scene": "snowbird",
+   "n": 5,
+   "k": 3,
+   "t": 61.7,
+   "file": "05-snowbird-3.png"
+  },
+  {
+   "scene": "the-word",
+   "n": 6,
+   "k": 1,
+   "t": 65.3,
+   "file": "06-the-word-1.png"
+  },
+  {
+   "scene": "the-word",
+   "n": 6,
+   "k": 2,
+   "t": 68.4,
+   "file": "06-the-word-2.png"
+  },
+  {
+   "scene": "the-word",
+   "n": 6,
+   "k": 3,
+   "t": 71.8,
+   "file": "06-the-word-3.png"
+  },
+  {
+   "scene": "values",
+   "n": 7,
+   "k": 1,
+   "t": 76.9,
+   "file": "07-values-1.png"
+  },
+  {
+   "scene": "values",
+   "n": 7,
+   "k": 2,
+   "t": 81.3,
+   "file": "07-values-2.png"
+  },
+  {
+   "scene": "values",
+   "n": 7,
+   "k": 3,
+   "t": 86.1,
+   "file": "07-values-3.png"
+  },
+  {
+   "scene": "spread",
+   "n": 8,
+   "k": 1,
+   "t": 93.9,
+   "file": "08-spread-1.png"
+  },
+  {
+   "scene": "spread",
+   "n": 8,
+   "k": 2,
+   "t": 100.6,
+   "file": "08-spread-2.png"
+  },
+  {
+   "scene": "spread",
+   "n": 8,
+   "k": 3,
+   "t": 108,
+   "file": "08-spread-3.png"
+  },
+  {
+   "scene": "industry",
+   "n": 9,
+   "k": 1,
+   "t": 114,
+   "file": "09-industry-1.png"
+  },
+  {
+   "scene": "industry",
+   "n": 9,
+   "k": 2,
+   "t": 118.4,
+   "file": "09-industry-2.png"
+  },
+  {
+   "scene": "industry",
+   "n": 9,
+   "k": 3,
+   "t": 123.2,
+   "file": "09-industry-3.png"
+  },
+  {
+   "scene": "thomas",
+   "n": 10,
+   "k": 1,
+   "t": 126.9,
+   "file": "10-thomas-1.png"
+  },
+  {
+   "scene": "thomas",
+   "n": 10,
+   "k": 2,
+   "t": 129.6,
+   "file": "10-thomas-2.png"
+  },
+  {
+   "scene": "thomas",
+   "n": 10,
+   "k": 3,
+   "t": 132.5,
+   "file": "10-thomas-3.png"
+  },
+  {
+   "scene": "fowler",
+   "n": 11,
+   "k": 1,
+   "t": 136.3,
+   "file": "11-fowler-1.png"
+  },
+  {
+   "scene": "fowler",
+   "n": 11,
+   "k": 2,
+   "t": 139.4,
+   "file": "11-fowler-2.png"
+  },
+  {
+   "scene": "fowler",
+   "n": 11,
+   "k": 3,
+   "t": 142.8,
+   "file": "11-fowler-3.png"
+  },
+  {
+   "scene": "jeffries",
+   "n": 12,
+   "k": 1,
+   "t": 146,
+   "file": "12-jeffries-1.png"
+  },
+  {
+   "scene": "jeffries",
+   "n": 12,
+   "k": 2,
+   "t": 148.5,
+   "file": "12-jeffries-2.png"
+  },
+  {
+   "scene": "jeffries",
+   "n": 12,
+   "k": 3,
+   "t": 151.2,
+   "file": "12-jeffries-3.png"
+  },
+  {
+   "scene": "but",
+   "n": 13,
+   "k": 1,
+   "t": 155.1,
+   "file": "13-but-1.png"
+  },
+  {
+   "scene": "but",
+   "n": 13,
+   "k": 2,
+   "t": 158.3,
+   "file": "13-but-2.png"
+  },
+  {
+   "scene": "but",
+   "n": 13,
+   "k": 3,
+   "t": 161.9,
+   "file": "13-but-3.png"
+  },
+  {
+   "scene": "now",
+   "n": 14,
+   "k": 1,
+   "t": 168.2,
+   "file": "14-now-1.png"
+  },
+  {
+   "scene": "now",
+   "n": 14,
+   "k": 2,
+   "t": 173.6,
+   "file": "14-now-2.png"
+  },
+  {
+   "scene": "now",
+   "n": 14,
+   "k": 3,
+   "t": 179.7,
+   "file": "14-now-3.png"
+  },
+  {
+   "scene": "credits",
+   "n": 15,
+   "k": 1,
+   "t": 184.8,
+   "file": "15-credits-1.png"
+  },
+  {
+   "scene": "credits",
+   "n": 15,
+   "k": 2,
+   "t": 188.6,
+   "file": "15-credits-2.png"
+  },
+  {
+   "scene": "credits",
+   "n": 15,
+   "k": 3,
+   "t": 192.8,
+   "file": "15-credits-3.png"
+  }
+ ]
+}
