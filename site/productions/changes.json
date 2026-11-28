@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "51448cb",
+   "date_utc": "2026-11-28 17:07",
+   "what": "Scene lab: the agile cell, edge fixes in progress (renders without errors at this point)",
+   "detail": ""
+  },
+  {
+   "commit": "7ee182e",
+   "date_utc": "2026-11-28 17:05",
+   "what": "Productions: pages rebuilt after rebase",
+   "detail": ""
+  },
+  {
    "commit": "7ea1e4d",
    "date_utc": "2026-11-28 17:04",
    "what": "Scene lab: the refresh film's opening survives a switch to landscape",
@@ -350,18 +362,6 @@
    "date_utc": "2026-11-28 02:57",
    "what": "Scene lab: the keys and the test, a later state of the work in progress (not listed)",
    "detail": ""
-  },
-  {
-   "commit": "30bf4ec",
-   "date_utc": "2026-11-28 02:56",
-   "what": "Scene lab: two session-refresh scenes in progress (the shelf; the keys and the test), not listed",
-   "detail": "Work in progress by two scene-smith sub-agents, saved as it stands so nothing lives only in the session.\nNo page loads these files yet; they are replaced when each smith reports and its frames have been looked at."
-  },
-  {
-   "commit": "2142f13",
-   "date_utc": "2026-11-28 02:56",
-   "what": "Scene lab: the saving and the lesson, the close of the session-refresh film (not yet listed)",
-   "detail": "Built portrait first by a scene-smith sub-agent in four rounds: two columns of context to true scale\n(859,600 and 118,600), the gap drawn as the thing saved, the floor of about 75,000 that stays, then the\nthree lessons, each beside the object that answers it."
   }
  ]
 }

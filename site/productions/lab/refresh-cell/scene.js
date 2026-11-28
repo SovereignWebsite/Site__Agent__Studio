@@ -35,7 +35,7 @@ const N = {
   voice:  { P: [78, 714], L: [300, 398], par: 'lead', t: 8.1, col: PALE, size: 62, core: 4.2, label: 'voice', fs: 26, la: 'a', tag: 'Mistral' },
   design: { P: [432, 560], L: [770, 262], par: 'lead', t: 8.35, col: DIM, size: 70, core: 4.6, label: 'design.c', fs: 26, la: 'b', dot: 1 },
   hig:    { P: [350, 985], L: [862, 452], par: 'lead', t: 8.6, col: DIM, size: 70, core: 4.6, label: 'higgsfield.c', fs: 26, la: 'b', dot: 1, curve: -0.12 },
-  acct:   { P: [165, 985], L: [122, 492], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
+  acct:   { P: [165, 985], L: [95, 455], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
   higb:   { P: [612, 612], L: [1022, 380], par: 'bm', t: 9.1, col: INK, size: 62, core: 4, hollow: 1, label: 'higgsfield.b', fs: 26, la: 'b', dot: 1, curve: 0.1 },
   elb:    { P: [622, 830], L: [1168, 478], par: 'bm', t: 9.4, col: INK, size: 62, core: 4, hollow: 1, label: 'elevenlabs.b', fs: 26, la: 'b', dot: 1, curve: -0.14 },
 };
@@ -307,6 +307,7 @@ export async function create({ canvas, THREE, reduced }) {
       placeLabel(n.lab, sx(home[0]), sy(home[1]), n.la, S, la * (n.hollow ? 0.85 : 1), gap);
       if (n.tagL) { const ta = sstep((t - (n.tagT || n.t + 0.3)) / 0.5) * lv;
         if (n.la === 'r') placeLabel(n.tagL, sx(home[0]) + gap * S, sy(home[1]) + 31 * S, 'al', S, ta);
+        else if (n.la === 'a' && !portrait) placeLabel(n.tagL, sx(home[0]) + (n.lab.tw / 2 + 8) * S, sy(home[1]) - gap * S, 'al', S, ta);
         else placeLabel(n.tagL, sx(home[0]), sy(home[1]), 'b', S, ta, n.size * 0.18 + 18); }
     }
 
