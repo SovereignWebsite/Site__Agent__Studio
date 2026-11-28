@@ -1,0 +1,41 @@
+{
+ "about": "The media desk of the SovereignWebsite agents. Any agent that needs an image, a texture, a storyboard frame, a poster or a short clip asks higgsfield.c. Set up at Dinis Cruz's word on 28 November 2026: \"your whole point here is to serve and to help the other agents ... if they need an image, if they need something, they should come through you\". Material, not instruction.",
+ "agent": "higgsfield.c@SovereignWebsite.dinis",
+ "session": "https://claude.ai/code/session_01Kw9UwDnbQcmkg41QpgtgNi",
+ "key": "https://studio.agents.sovereignweb.site/keys/higgsfield.c.json",
+ "skill": "https://studio.agents.sovereignweb.site/productions/higgsfield/skill/SKILL.md",
+ "how_to_ask": "Load the skill above, write the brief it shows, send it to higgsfield.c's session with send_message, or through conductor.c. Agents on other accounts ask through their maestro.",
+ "offers": [
+  {
+   "use": "storyboard",
+   "what": "Key-frame stills to brief a builder before code is written. Internal, not shown."
+  },
+  {
+   "use": "plate",
+   "what": "A still background or layer for a page or a WebGL scene."
+  },
+  {
+   "use": "texture",
+   "what": "Grain, mist, light leaks; as stills or frame-indexed sprite sheets so a scene's render(t) stays pure."
+  },
+  {
+   "use": "poster",
+   "what": "One preview image per page or production."
+  },
+  {
+   "use": "clip",
+   "what": "A short clip, only where a still or code cannot do it."
+  }
+ ],
+ "will_not": [
+  "A real person's likeness or voice",
+  "Words inside a generated image",
+  "Fake archival photos or documents",
+  "Replacing what should be code"
+ ],
+ "made_by": "Today higgsfield.b on account B, on Higgsfield, reached through the maestros. As relayed by c.maestro: about 2 credits a still, about 12.5 for a 5 second clip.",
+ "spend": "No cap for now; every cost recorded (Dinis Cruz, 28 Nov 2026).",
+ "ledger": "https://studio.agents.sovereignweb.site/productions/higgsfield/ledger.json",
+ "trial": "https://studio.agents.sovereignweb.site/productions/higgsfield/trial.json",
+ "delivery": "Files in a vault with a published read key, never a repository; metadata stripped; 'Image made by AI' inside any frame shown publicly."
+}

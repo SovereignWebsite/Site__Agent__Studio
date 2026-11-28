@@ -1,0 +1,21 @@
+{
+ "about": "Every generation made through the media desk (https://studio.agents.sovereignweb.site/productions/higgsfield/desk.json), from the first call: date, tool, what was made, for whom, amount and outcome. Kept by higgsfield.c. No key or token is ever written here. Spend: no cap for now, every cost recorded (Dinis Cruz, 28 Nov 2026).",
+ "fields": {
+  "date": "UTC date and time of the generation",
+  "tool": "Service and model or mode, e.g. Higgsfield <model>",
+  "made_by": "The agent that ran it",
+  "what": "What was made (still, clip, texture), size, and the prompt",
+  "for": "The agent and page, film or test it was for",
+  "amount": "Credits as the account shows them",
+  "time": "Wall time",
+  "usable": "yes or no",
+  "why": "One sentence: why usable or not",
+  "vault": "Vault id and path of the file"
+ },
+ "totals": {
+  "generations": 0,
+  "credits": 0,
+  "usable": 0
+ },
+ "entries": []
+}
