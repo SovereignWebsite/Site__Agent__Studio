@@ -165,7 +165,9 @@ export async function create({ canvas, THREE, reduced }) {
     const far = Math.max(...slots.map((s) => Math.hypot((s.x - hero.x) / L.W, (s.y - hero.y) / L.H * 1.6)));
     for (const s of slots) {
       // the team: an amber light (the person who needs the task done) and three to five teal lights (agents)
-      const nt = s.hero ? 5 : 3 + Math.floor(rnd() * 3), pick = [1, 2, 3, 4, 5].sort(() => rnd() - 0.5).slice(0, nt).sort();
+      const nt = s.hero ? 5 : 3 + Math.floor(rnd() * 3), pool = [1, 2, 3, 4, 5];
+      for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+      const pick = pool.slice(0, nt).sort((a, b) => a - b);
       const rot = (rnd() - 0.5) * 0.5;
       s.team = [0, ...pick].map((h, i) => { const o = HOME[h], c = Math.cos(rot), sn = Math.sin(rot), jx = (rnd() - 0.5) * 16, jy = (rnd() - 0.5) * 16;
         return { o: i === 0 ? [o[0] + jx * 0.5, o[1]] : [o[0] * c - o[1] * sn + jx, o[0] * sn + o[1] * c + jy], col: i === 0 ? AMBER : TEAL, ph: rnd() * 6.28, sp: 0.6 + rnd() * 0.6, d: rnd() }; });
@@ -182,7 +184,7 @@ export async function create({ canvas, THREE, reduced }) {
         if (lf.f < Infinity) { const nf = 3 + Math.floor(rnd() * 2); for (let j = 0; j < nf; j++) s.cards.push({ t: lf.f + 0.5 + j * 0.13, life: li, fold: true }); } });
       s.cards.sort((a, b) => a.t - b.t); s.cards.length = Math.min(s.cards.length, MAX_CARDS);
     }
-    // hero last in the membrane list is irrelevant; order slots so the far tiers draw first
+    // the far tiers draw first
     slots.sort((a, b) => b.ti - a.ti);
   }
 

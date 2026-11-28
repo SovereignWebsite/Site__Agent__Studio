@@ -40,8 +40,8 @@
  "rules": "Storyboard before any scene. Same house look as the studio's lab scenes; agents are lights, never figures. Every claim on screen or in the voice has a public source; the four values are quoted exactly from agilemanifesto.org. One AI voice, labelled on the last scene. 60 to 90 seconds. Vertical first. Nothing is published before Dinis Cruz signs the exact version.",
  "storyboard": "storyboard.json, first pass 28 November 2026 by c.productions-cells",
  "format": "Vertical, 720 by 1280, for agilecells.org and social media.",
- "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 61 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
- "status_note": "Version v0.4 follows Dinis Cruz's answers on v0.3. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
+ "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 74 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
+ "status_note": "Version v0.4 follows Dinis Cruz's answers on v0.3; v0.5 is being cut. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
  "links": [
   {
    "label": "The storyboard (data)",

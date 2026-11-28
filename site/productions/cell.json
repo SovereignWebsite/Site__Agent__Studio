@@ -263,6 +263,36 @@
    "tool_uses": 14,
    "status": "in session-refresh v0.8",
    "batch": 9
+  },
+  {
+   "n": 23,
+   "role": "Scene-smith",
+   "job": "Agile Cells: the proposition, an opening (for c.productions-cells)",
+   "result": "lab/cells-intro, four rounds",
+   "minutes": 8,
+   "tool_uses": 26,
+   "status": "in agile-cells v0.5",
+   "batch": 10
+  },
+  {
+   "n": 24,
+   "role": "Scene-smith",
+   "job": "Agile Cells: Agile at any size, a closing (for c.productions-cells)",
+   "result": "lab/cells-close, five rounds",
+   "minutes": 9,
+   "tool_uses": 34,
+   "status": "in agile-cells v0.5",
+   "batch": 10
+  },
+  {
+   "n": 25,
+   "role": "Critic",
+   "job": "Agile Cells v0.1 against the rubric (for c.productions-cells)",
+   "result": "all points 1 of 2; overclaims named; agile-cells/v0.1/notes/critics.json",
+   "minutes": 1,
+   "tool_uses": 10,
+   "status": "taken into v0.2",
+   "batch": 9
   }
  ],
  "working_now": 0,
@@ -276,6 +306,7 @@
   "28 Nov, 03:00: the refresh film, first loop (the successor session)",
   "28 Nov, 12:51: a helper session for the Agile film's opening",
   "28 Nov, 15:50: the refresh film's opening and the agile cell",
-  "28 Nov, 16:20: the Agile Cells film, first loop (helper session c.productions-cells)"
+  "28 Nov, 16:20: the Agile Cells film, first loop (helper session c.productions-cells)",
+  "28 Nov, 17:10: the Agile Cells film's opening and closing (helper session c.productions-cells)"
  ]
 }

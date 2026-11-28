@@ -4,6 +4,30 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "5dba77d",
+   "date_utc": "2026-11-28 17:10",
+   "what": "Agile Cells: lab/cells-intro, four rounds by a scene-smith; cells-close in progress",
+   "detail": "cells-intro: one team strains as it crowds, bursts, and splits into six cells\nunder \"Agile Cells\", then two live cards: how a cell works, a cell working for real.\nLooked at by the lead. cells-close is still a scene-smith's draft."
+  },
+  {
+   "commit": "3066ff3",
+   "date_utc": "2026-11-28 17:09",
+   "what": "Agile Cells v0.5: stale audio removed; lab/cells-intro and cells-close in progress",
+   "detail": "The two new scenes are scene-smiths' drafts, saved so nothing lives only in the\nsession; not yet looked at by the lead and not registered."
+  },
+  {
+   "commit": "f859d1c",
+   "date_utc": "2026-11-28 17:09",
+   "what": "Agile Cells v0.5 script: opens on Martin Fowler's 2018 words (not yet listed)",
+   "detail": "At Dinis Cruz's word (relayed by c.productions): state the problem more strongly,\nwith one exactly quoted, credited line. The quote and its source are the Agile\nhistory film's (martinfowler.com, 2018), drawn by lab/voices. Then \"Agile Cells:\nthe early values, at scale\". 74.1 s. The new lab scenes are still being built."
+  },
+  {
+   "commit": "a9e0bb9",
+   "date_utc": "2026-11-28 17:08",
+   "what": "Scene lab: the agile cell stays inside the frame in both formats and survives a switch",
+   "detail": "From Dinis Cruz's look on his iPad and c.productions-cells's notes, 28 Nov 2026: the account bands and edge labels\nran off the frame. Everything is now drawn well inside each edge, and a portrait or landscape switch while\nplaying is handled like a fresh start. Third round by its scene-smith sub-agent."
+  },
+  {
    "commit": "51448cb",
    "date_utc": "2026-11-28 17:07",
    "what": "Scene lab: the agile cell, edge fixes in progress (renders without errors at this point)",
@@ -338,30 +362,6 @@
    "date_utc": "2026-11-28 03:06",
    "what": "Scene lab: the saving and the lesson, second round from the critics' notes",
    "detail": "'86% less' is now the biggest thing in the film; the short column rises sooner; the lesson shows one phrase at\na time in the film's sans, with no leader lines, and a new strip of scroll starts to grow under the light."
-  },
-  {
-   "commit": "166f3d3",
-   "date_utc": "2026-11-28 03:06",
-   "what": "Scene lab: the scroll and the curve, second round from the critics' notes",
-   "detail": "The first frame is mid-pass with the counters already running; 'tokens' under each number; the bars reach\nmid-frame sooner; the columns grow in place. The version manifests are rebuilt when the round is complete."
-  },
-  {
-   "commit": "b06c92a",
-   "date_utc": "2026-11-28 03:05",
-   "what": "c.productions: state and restart notes after the hand-over; the critics' notes; v0.2's scene list and voice",
-   "detail": "- agent/now.md and restart.md rewritten from what this hand-over taught: the key file must be retired by the\n  old session first, how a lane and a media vault are remade, what to ask the old session for before it stops.\n- session-refresh/v0.1/notes/critics.json: two critics on v0.1 (a critic sub-agent and an outside model through\n  OpenRouter), as unsigned notes, and what was taken from them.\n- session-refresh/v0.2: the scene list and voice for the next cut (keys scene out, about 76 seconds). Not\n  listed yet: the scenes are in their second round."
-  },
-  {
-   "commit": "1edea07",
-   "date_utc": "2026-11-28 03:00",
-   "what": "How we refresh a session v0.1: the first pass, vertical, five lab scenes and a voice",
-   "detail": "The session-refresh film is now a production with a version, a player page and a storyboard page of frames.\n- Ten scenes, 720 by 1280, about 97 seconds: the nine beats of the storyboard played as slices of five WebGL\n  lab scenes, then the credits. One AI voice (Mistral Voxtral). No music or effects yet.\n- The five scenes were built at the same time by five scene-smith sub-agents, three or four rounds each,\n  judging their own portrait frames; the lead looked at every scene's frames before listing it. cell.json\n  records the runs. lab/scenes.json lists the five.\n- Full-size frames are in the new media vault (media.json).\n- In review: nobody has approved it and it is published nowhere. A critic loop comes next."
-  },
-  {
-   "commit": "d565b55",
-   "date_utc": "2026-11-28 02:57",
-   "what": "Scene lab: the keys and the test, a later state of the work in progress (not listed)",
-   "detail": ""
   }
  ]
 }
