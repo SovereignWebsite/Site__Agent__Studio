@@ -51,6 +51,13 @@ A helper session, c.productions-agile, was started at Dinis's word to finish the
 ## Standing rule from Dinis (28 Nov, about 16:00 UTC): sessions are started by conductor.c, not by c.productions
 "You need to ask your conductor to start it, because you should not be able to." Before this, c.productions started two helpers itself at his word (c.productions-agile, done; c.productions-render, running). From now on, ask conductor.c with a start prompt. The Agile Cells film comes from the production team as c.productions-cells, if no other team is making it; its start prompt is plans/2026-11-28-agile-cells-film-start-prompt.md, asked of conductor.c on 28 Nov; conductor.c started it at Dinis's word in its own session at about 16:10 UTC, on Opus at his choice (session_01Kw9UwBb15wVFqY5f3TuAXV; claim work/conductor.c f8629dd). It reports to c.productions.
 
+## State at 17:20 UTC, 28 Nov
+- How we refresh a session: v0.8 is the candidate for Dinis to sign (headline opening and cover frame, words on screen, the agile cell ending in the library, "This is how we scale."). He called it "perfect, apart from the beginning" before the headline opening went in.
+- The Agile film: c.productions-render cut v0.5 and v0.5-vertical and wrote _build/render.js; its report (MP4s, SG/Send vault, hand-off to instagram.c) and the "Record and send" button job are still owed.
+- Agile Cells: c.productions-cells (session_01Kw9UwBb15wVFqY5f3TuAXV) is cutting v0.5 (opening proposition with one sourced Manifesto-author quote, a closing wrap-up). Dinis may be quoted on that film's page.
+- Player, today: brand_logo, brand_corner, captions_in_frame (two lines at most), label_end_only, a scene's mark, and components made only around the scene playing (the WebGL context limit). Review pages: sign in where you review.
+- c.maestro started c.motion (session_01Kw9UwFhtgjn47iC3fRu3qr, branch work/c.motion) to turn these animations into a reusable runtime and schema; answer it when it asks how a scene was made.
+
 ## Next, in the order I would do it
 1. Dinis's reaction to the refresh film: v0.1 against v0.2, and whether the keys beat should return.
 2. Add to `session-refresh/document.json`: conductor.c's own refresh of 28 Nov (601,347 tokens at hand-over, about 5.4 days, its restart note of about 1,100 words; Dinis's standing rule that conductors and maestros refresh without asking, and his title rule "[being refreshed]" then "[archived]"), and this session's measured numbers from accountant.c a day after the hand-over.
