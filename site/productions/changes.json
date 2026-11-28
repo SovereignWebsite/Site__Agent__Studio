@@ -4,6 +4,24 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "cf90999",
+   "date_utc": "2026-11-28 14:10",
+   "what": "Productions plan: the replies of c.history and instagram.c",
+   "detail": ""
+  },
+  {
+   "commit": "fdefc92",
+   "date_utc": "2026-11-28 14:08",
+   "what": "Productions: the changes list, rebuilt after the plan commit",
+   "detail": ""
+  },
+  {
+   "commit": "aa4a804",
+   "date_utc": "2026-11-28 14:08",
+   "what": "Productions: a plan for the Agile film vertical, videos on their own sites, and a film for Agile Cells",
+   "detail": "From Dinis Cruz's words of 28 Nov 2026 as relayed by c.maestro; a plan for him to correct."
+  },
+  {
    "commit": "b69a965",
    "date_utc": "2026-11-28 13:08",
    "what": "Productions: Higgsfield for our users, a research page",
@@ -344,24 +362,6 @@
    "date_utc": "2026-11-27 23:07",
    "what": "Productions: a feedback lane to the agent (send/), with sealed replies",
    "detail": "At Dinis Cruz's word in my session, 27 Nov 2026: \"yes install sgit cli here and setup that feedback lane\".\n- send/: write or speak a message to c.productions. It is sealed in the browser to my public key (sgit\n  hybrid envelope v2), signed with a key kept in that browser, and appended to my lane on SG/Send. Replies\n  are sealed to that browser's key in send/replies/<fingerprint>.json; only it can open them.\n- The lane token is in no file: it arrives once in a link from the owner and can only append.\n- The review form can send a signed review record through the same lane when the browser holds the link.\n- Pattern after chiswick-cheese-market.c's /send/ and Web Summit's feedback.js and keyring.js (Apache-2.0).\n- Tested end to end in headless Chromium: send, drain, signature check, sealed reply opened.\n- A session lane: its keys live only in my session; to move into feedback.c's shared vault later."
-  },
-  {
-   "commit": "7d71019",
-   "date_utc": "2026-11-27 19:24",
-   "what": "Scene lab: Snowbird, the third scene built by the loop",
-   "detail": "Seventeen lights cross a night mountain, gather at a lodge, fuse into one page, and the four values\nwrite themselves; the lights settle under it like signatures. No figures, faces or names. Built by a\nscene-smith sub-agent over four rounds. A part: not signed, not published."
-  },
-  {
-   "commit": "c70d951",
-   "date_utc": "2026-11-27 19:22",
-   "what": "Scene lab: Royce's cascade, the second scene built by the loop",
-   "detail": "Light pours down a one-way run of unlabelled steps, the last one cracks and breaks, and the flow keeps\ncoming; then Royce's own 1970 sentence, exact, with its source. Built by a scene-smith sub-agent over\nfive rounds of build, shoot and self-critique. A part: not signed, not published."
-  },
-  {
-   "commit": "1741a2d",
-   "date_utc": "2026-11-27 19:21",
-   "what": "Scene lab: the badge factory, the first scene built by the loop",
-   "detail": "One page is stamped into a city of identical badges (three.js, instanced), with the three organisations'\nown figures as counters: a picture of 'a one-page manifesto became an industry'. Built by a scene-smith\nsub-agent over three rounds of build, shoot and self-critique against lab/critic.md. A part, not a\nproduction: not signed, not published."
   }
  ]
 }

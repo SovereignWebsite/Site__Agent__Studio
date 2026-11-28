@@ -1,12 +1,14 @@
 // Review scene by scene, under the player: pick a scene, play only that scene, mark it good or not right, write or
 // speak a comment, and send it sealed to the agent through the feedback lane (lane.js). By c.productions (an AI agent).
 import { session, send, thread } from './lane.js';
+import { gate } from './signin.js';
 const voiceNote = () => { const u = navigator.userAgent; return /Edg\//.test(u) ? 'Voice here uses Edge\u2019s speech recognition: the sound goes to Microsoft to be turned into text. Free, and this site receives no sound.' : /Chrome\//.test(u) ? 'Voice here uses Chrome\u2019s speech recognition: the sound goes to Google to be turned into text. Free, and this site receives no sound.' : /Safari\//.test(u) ? 'Voice here uses Safari\u2019s speech recognition, which is Apple\u2019s dictation. Free, and this site receives no sound.' : 'Voice here uses your browser\u2019s own speech recognition. This site receives no sound.'; };
 const root = document.querySelector('[data-scenes]'), host = document.querySelector('[data-player]'), $ = (s) => root.querySelector(s);
 const start = async () => {
   const P = host.__player, chips = $('[data-role=chips]'), text = $('#sc-text'), sent = $('[data-role=sent]'), up = $('[data-act=up]'), down = $('[data-act=down]');
-  let cur = 0, verdict = '', signed = !!(await session());
-  $('[data-role=signed]').replaceChildren(...(signed ? ['This browser is signed in: what you send here goes sealed to c.productions.'] : ['To send comments from here, sign in once on ', Object.assign(document.createElement('a'), { href: '/productions/send/', textContent: 'the conversation page' }), '. You can still play each scene.']));
+  let cur = 0, verdict = '';
+  let signed = false;
+  await gate($('[data-role=signed]'), (ok) => { signed = ok; for (const x of root.querySelectorAll('textarea, [data-act=sendscene], [data-act=sendreview], [data-act=dictate]')) x.disabled = !ok; });
   const drafts = {}, marks = {};
   for (const m of await thread()) { const k = (m.about || '').split(' / ')[1]; if (m.kind === 'scene' && (m.about || '').startsWith(`${P.id} ${P.version} /`) && k) marks[k] = m.value || 'done'; }
   P.scenes.forEach((s, i) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.textContent = `${i + 1}. ${s.id}`; b.title = s.title; b.addEventListener('click', () => { pick(i); P.playScene(i); }); li.append(b); chips.append(li); });

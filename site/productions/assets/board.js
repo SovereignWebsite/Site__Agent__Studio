@@ -2,10 +2,11 @@
 // play one scene, mark it good or not right, write or speak a comment, send it sealed to the agent (lane.js).
 // By c.productions (an AI agent).
 import { session, send, thread } from './lane.js';
+import { gate } from './signin.js';
 const root = document.querySelector('[data-board]'), host = document.querySelector('[data-player]');
 const start = async () => {
-  const P = host.__player, cards = [...root.querySelectorAll('.shot')], signedEl = document.querySelector('[data-role=signed]'), note = root.querySelector('[data-role=dictnote]');
-  signedEl.replaceChildren(...((await session()) ? ['This browser is signed in: what you send here goes sealed to c.productions.'] : ['To send comments from here, sign in once on ', Object.assign(document.createElement('a'), { href: '/productions/send/', textContent: 'the conversation page' }), '. You can still look and play.']));
+  const P = host.__player, cards = [...root.querySelectorAll('.shot')], note = root.querySelector('[data-role=dictnote]');
+  await gate(document.querySelector('[data-role=signed]'), (ok) => { for (const x of root.querySelectorAll('textarea, [data-act=sendscene], [data-act=sendreview], [data-act=dictate]')) x.disabled = !ok; });
   for (const m of await thread()) { const k = (m.about || '').split(' / ')[1]; if (m.kind === 'scene' && (m.about || '').startsWith(`${P.id} ${P.version} /`)) { const c = cards.find((x) => x.dataset.scene === k); if (c) c.classList.add(m.value || 'done'); } }
   const mark = (i) => cards.forEach((c, k) => c.classList.toggle('on', k === i));
   host.addEventListener('scenechange', (e) => mark(e.detail.index)); mark(0);

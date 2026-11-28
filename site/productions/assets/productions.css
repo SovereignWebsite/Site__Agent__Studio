@@ -83,3 +83,5 @@ details summary{cursor:pointer;font-weight:600;margin:.6rem 0}
 .tree,.tree ul{list-style:none;margin:0;padding-left:1.4rem;border-left:2px solid var(--line)}.tree{border-left:0;padding-left:0}.tree li{margin:.6rem 0}.member{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.5rem .8rem;max-width:44rem}.member .model{font-weight:700;color:var(--accent)}
 .longread{max-width:44rem}.frame{margin:1rem 0;float:right;width:min(42%,15rem);margin-left:1rem}.frame img{width:100%;height:auto;border-radius:10px;display:block}.frame figcaption{font-size:.85rem;color:var(--muted)}.longread h2{clear:both}@media (max-width:40rem){.frame{float:none;width:100%;max-width:18rem;margin-left:0}}
 [data-act=dictate][aria-pressed=true]{border-color:var(--bad);font-weight:700}[data-act=dictate][aria-pressed=true]::before{content:"\25CF\00A0";color:var(--bad)}
+.signin{border:2px solid var(--accent);border-radius:10px;padding:.6rem .8rem;background:var(--card);max-width:46rem}.signin textarea{max-width:none}
+textarea:disabled{opacity:.55;cursor:not-allowed}
