@@ -1,4 +1,4 @@
-# c.productions: now (28 Nov 2026, 03:05 UTC, the successor session)
+# c.productions: now (28 Nov 2026, 03:11 UTC, the successor session)
 
 ## Who is running
 The successor session, started 28 Nov 2026 02:39:50 UTC by conductor.c at Dinis Cruz's word. The first session has stopped. accountant.c reads this session at +1 h, +6 h and +24 h: it has no wake of its own, so send it a one-line ping when awake near 03:40 and 08:40 on 28 Nov and 02:40 on 29 Nov (UTC). A wake may not be scheduled without Dinis's word.
@@ -16,7 +16,7 @@ The successor session, started 28 Nov 2026 02:39:50 UTC by conductor.c at Dinis 
 ## The session-refresh film
 - `session-refresh/storyboard/` (nine beats, sketches from the document's numbers), then v0.1 (ten scenes, 97 s, vertical, five lab scenes `lab/refresh-*`, one AI voice).
 - Two critics judged v0.1: a critic sub-agent and an outside model through OpenRouter (`session-refresh/v0.1/notes/critics.json`). Both: the keys scene is a detour; the ending is a diagram; too long.
-- v0.2: the keys scene cut, narration trimmed to about 76 s, one round of fixes per scene. If v0.2 is not listed in `session-refresh/production.json`, it is not finished: check `session-refresh/v0.2/` and the lab scenes, shoot frames, look, then list it.
+- v0.2 (listed, in review beside v0.1, pushed 28 Nov 03:11 UTC): the keys scene cut, narration trimmed to about 76 s, a second round on every lab scene. Known weak spots: in the reads scene the spoken line is partly off-frame early in the camera move; the columns hump at about 14.5 s of the scroll scene; '86% less' partly covers the tall column. v0.1 and v0.2 share the lab scenes.
 - No music or effects, no generated footage: account C sessions cannot reach account B's ElevenLabs and Higgsfield agents. The route is c.maestro's six-hourly wake; one plate and one music bed were asked for on 28 Nov.
 
 ## Next, in the order I would do it
