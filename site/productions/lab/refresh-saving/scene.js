@@ -12,13 +12,13 @@ export const meta = {
   sources: [{ title: 'How we refresh a session: a measured hand-over, context before and after', url: 'https://studio.agents.sovereignweb.site/productions/session-refresh/how-we-refresh-a-session/' }],
 };
 
-const INK = '#f4f1e8', AMBER = '#ffc857', TEAL = '#5fd0c5', SANS = 'system-ui, -apple-system, "Segoe UI", sans-serif', SERIF = 'Georgia, "Times New Roman", serif';
+const INK = '#f4f1e8', AMBER = '#ffc857', TEAL = '#5fd0c5', SANS = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 // True scale: one unit of height is 60,000 tokens, one layer of scroll is 5,000.
 const BEFORE = 859600, AFTER = 118600, FLOOR = 75000, UNIT = 60000, LAYER = 5000, TH = LAYER / UNIT;
 const HT = BEFORE / UNIT, HS = AFTER / UNIT, HF = FLOOR / UNIT, NT = Math.ceil(BEFORE / LAYER), NS = Math.ceil(AFTER / LAYER), NF = FLOOR / LAYER, GROW = 2, CUT = 3;
 const DEPTH = 1.6, SPEED = 8, TURN = 2.0;           // the reading light moves at one speed down both columns, once per turn
-const T = { build: [0.1, 1.9], n1: 2.0, rise: [3.2, 4.5], n2: 4.5, ghost: [5.5, 6.5], n3: 6.3, floor: 8.1, n4: 8.3, go: 10.0, cam: [10.1, 12.0],
-  p1: 10.5, p2: 12.5, p3: 14.5, grow: [11.9, 13.7], still: 9.6 };
+const T = { build: [0.1, 1.4], n1: 1.1, rise: [1.9, 3.3], n2: 2.9, ghost: [4.2, 5.0], n3: 4.85, floor: 6.6, n4: 6.8, go: 10.0, cam: [10.1, 12.0],
+  p1: 10.2, p2: 12.3, p3: 14.4, grow: [10.9, 15.6], still: 9.6 };
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), ease = (x) => { x = clamp(x); return x * x * (3 - 2 * x); }, mix = (a, b, k) => a + (b - a) * k;
 const prng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let x = Math.imul(seed ^ (seed >>> 15), 1 | seed); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
 
@@ -150,19 +150,29 @@ export async function create({ canvas, THREE, reduced }) {
   const legG = keep(new THREE.BoxGeometry(0.09, 0.3, 0.8)); for (const s of [-1, 1]) { const l = solid(legG, 0x2c6a68, false); l.position.set(s * 1.0, 0.15, 0); shelf.add(l); plank.userData['leg' + s] = l; }
   const pageG = keep(new THREE.BoxGeometry(0.58, 0.82, 0.05)), pages = [-0.72, 0, 0.72].map((x, k) => { const p = solid(pageG, 0x5fd0c5, true); p.position.set(x, 0.345 + 0.41, 0.05); p.rotation.x = -0.1; p.rotation.y = 0.12 - k * 0.05; shelf.add(p); return p; });
   scene.add(shelf);
+  // The new scroll: one strip that unrolls upward under the light as it writes.
+  const stripU = { uLen: { value: 0 }, uT: uni.uT }, strip = new THREE.Mesh(keep(new THREE.PlaneGeometry(1, 1)), keep(new THREE.ShaderMaterial({ uniforms: stripU, side: THREE.DoubleSide, transparent: true,
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: /* glsl */`${GL} uniform float uLen; varying vec2 vUv;
+      void main(){ float y = vUv.y * uLen, row = y / 0.105, fr = fract(row), id = floor(row), top = uLen - y;
+        float ink = step(0.3, fr) * step(fr, 0.62) * step(abs(vUv.x - 0.5 + 0.03 * hash(id)), 0.4 - 0.12 * hash(id * 5.3)) * step(0.05, top);
+        vec3 c = mix(TEAL, INK, 0.72) * (0.8 + 0.2 * vUv.y); c = mix(c, vec3(0.1, 0.36, 0.36), ink * 0.85);
+        c += vec3(0.7, 1.0, 0.96) * 0.5 * exp(-top * 7.0); float edge = smoothstep(0.0, 0.03, vUv.x) * smoothstep(1.0, 0.97, vUv.x);
+        gl_FragColor = vec4(c, edge); }` }))); strip.renderOrder = 5; scene.add(strip);
 
   // Words: drawn once per frame size on 2D canvases, laid over the picture, each tied to the thing it names.
   const hud = new THREE.Scene(), hudCam = new THREE.OrthographicCamera(0, 1, 1, 0, -1, 1), unitQ = keep(new THREE.PlaneGeometry(1, 1));
-  const WORDS = [['859,600', AMBER, SANS, 600], ['118,600', TEAL, SANS, 600], ['86% less', INK, SANS, 700], ['floor: about 75,000', INK, SANS, 500],
-    ['Write it early.', INK, SERIF, 400], ['Keep state in files.', INK, SERIF, 400], ['Load only what you need.', INK, SERIF, 400]];
+  const WORDS = [['859,600', AMBER, SANS, 600], ['118,600', TEAL, SANS, 600], ['86% less', '#ffffff', SANS, 800], ['floor: about 75,000', INK, SANS, 500],
+    ['Write it early.', INK, SANS, 600], ['Keep state in files.', INK, SANS, 600], ['Load only what you need.', INK, SANS, 600]];
   const texts = WORDS.map(() => { const c = document.createElement('canvas'), tex = keep(new THREE.CanvasTexture(c)); tex.colorSpace = THREE.SRGBColorSpace; tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
     const mesh = new THREE.Mesh(unitQ, keep(new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, toneMapped: false }))); hud.add(mesh); return { c, tex, mesh }; });
-  const dots = [0, 1, 2].map(() => { const m = new THREE.Mesh(unitQ, keep(new THREE.MeshBasicMaterial({ map: glowTex, color: 0x8ff0e6, transparent: true, depthTest: false, depthWrite: false, toneMapped: false, blending: THREE.AdditiveBlending }))); hud.add(m); return m; });
-  const leaders = [0, 1, 2].map(() => { const m = new THREE.Mesh(unitQ, keep(new THREE.MeshBasicMaterial({ color: 0xf4f1e8, transparent: true, depthTest: false, depthWrite: false, toneMapped: false }))); hud.add(m); return m; });
+  const scrim = new THREE.Mesh(unitQ, keep(new THREE.MeshBasicMaterial({ map: glowTex, color: 0x0b1420, transparent: true, depthTest: false, depthWrite: false, toneMapped: false }))); scrim.renderOrder = 0; hud.add(scrim);
+  texts.forEach((X) => { X.mesh.renderOrder = 1; }); const cAmber = new THREE.Color(AMBER), cTeal = new THREE.Color('#8ff0e6');
   let S = 1;
   function layoutText(w, h, portrait) {
-    S = (portrait ? w : h) / 720; const sizes = portrait ? [42, 38, 46, 30, 50, 50, 50] : [40, 34, 44, 24, 40, 40, 40];
-    texts.forEach((X, i) => { const [word, col, font, weight] = WORDS[i], F = Math.round(sizes[i] * S), x = X.c.getContext('2d'); x.font = `${weight} ${F}px ${font}`;
+    S = (portrait ? w : h) / 720; const sizes = portrait ? [42, 38, 124, 30, 58, 58, 58] : [40, 34, 96, 26, 46, 46, 46];
+    texts.forEach((X, i) => { const [word, col, font, weight] = WORDS[i], x = X.c.getContext('2d'); let F = Math.round(sizes[i] * S); x.font = `${weight} ${F}px ${font}`;
+      const fit = (portrait ? 0.86 : 0.5) * w / x.measureText(word).width; if (fit < 1) { F = Math.floor(F * fit); x.font = `${weight} ${F}px ${font}`; }
       const tw = Math.ceil(x.measureText(word).width), pad = Math.round(F * 0.5); X.c.width = tw + pad * 2; X.c.height = Math.round(F * 1.5) + pad; const c = X.c.getContext('2d');
       c.font = `${weight} ${F}px ${font}`; c.textBaseline = 'middle'; c.shadowColor = 'rgba(8,15,25,0.9)'; c.shadowBlur = F * 0.35; c.fillStyle = col; c.fillText(word, pad, X.c.height / 2); c.shadowBlur = 0; c.fillText(word, pad, X.c.height / 2);
       X.tex.needsUpdate = true; X.tex.dispose(); X.w = X.c.width; X.h = X.c.height; X.pad = pad; X.mesh.scale.set(X.w, X.h, 1); });
@@ -171,7 +181,7 @@ export async function create({ canvas, THREE, reduced }) {
   const place = (i, x, y, align, o, H) => { const X = texts[i]; X.mesh.material.opacity = o; X.mesh.visible = o > 0.003; X.mesh.position.set(Math.round(x - align * (X.w / 2 - X.pad)), Math.round(H - y), 0); };
 
   // Two framings per shape of frame: the whole of the tall column, then close on what is left.
-  const SHOTS = { port: { W: 2.2, a: [1.47, 6.62, 20.9, -0.2, 0.085], b: [3.1, 0.2, 11.1, -0.3, 0.15] }, land: { W: 3.0, a: [1.6, 6.45, 20.2, -0.2, 0.085], b: [4.3, 0.15, 7.2, -0.3, 0.15] } };
+  const SHOTS = { port: { W: 2.2, a: [1.47, 6.62, 20.9, -0.2, 0.085], b: [3.1, 0.95, 11.1, -0.3, 0.15] }, land: { W: 3.0, a: [1.6, 6.45, 20.2, -0.2, 0.085], b: [5.6, 1.0, 7.2, -0.3, 0.15] } };
   let W = 0, Hh = 0, xT = -1.8, xS = 1.8, colW = 2.4, shelfX = 4.6, brX = 3.45; const v = new V3(), tgt = new V3();
   const px = (x, y, z, w, h) => { v.set(x, y, z).project(camera); return [(v.x * 0.5 + 0.5) * w, (0.5 - v.y * 0.5) * h]; };
   const setBar = (m, x, y, z, sx, sy, o) => { m.position.set(x, y, z); m.scale.set(Math.max(sx, 1e-4), Math.max(sy, 1e-4), 0.02); m.material.opacity = o; m.visible = o > 0.003; };
@@ -191,7 +201,7 @@ export async function create({ canvas, THREE, reduced }) {
 
     // the tall column stands first: slow at the foot, then faster, as a long session does
     const nT = NT * Math.pow(clamp((t - T.build[0]) / (T.build[1] - T.build[0])), 1.5) + 0.001, topT = Math.min(HT, nT * TH), gone = clamp((t - T.go) / 1.4);
-    const rise = ease((t - T.rise[0]) / (T.rise[1] - T.rise[0])), g1 = ease((t - T.grow[0]) / 0.6), g2 = ease((t - T.grow[1]) / 0.6), shrink = ease((t - T.p3 - 0.15) / 0.9);
+    const rise = ease((t - T.rise[0]) / (T.rise[1] - T.rise[0])), g1 = 0, g2 = 0, grown = 1.15 * Math.pow(clamp((t - T.grow[0]) / (T.grow[1] - T.grow[0])), 0.75), shrink = ease((t - T.p3 - 0.15) / 0.9);
     const nS = NS * rise + g1 + g2, topS = Math.min(HS, NS * rise * TH) + (g1 + g2) * TH - CUT * TH * shrink;
     uni.uNT.value = nT; uni.uNS.value = nS; uni.uShrink.value = shrink;
     // each turn the light reads its whole column from the top, at the same speed: the old one is hardly ever done
@@ -202,14 +212,15 @@ export async function create({ canvas, THREE, reduced }) {
     // the two lights
     const reading = pT >= 0 && t < T.go ? (pT * SPEED < HT ? 1 : 0.55) : 0.55, oA = clamp((t - 0.1) / 0.4) * (1 - clamp((t - T.go) / 0.5)) * (0.5 + 0.2 * reading + 0.06 * Math.sin(t * 9.1));
     oldLight.position.set(xT, topT + 0.38, 0); oldLight.scale.setScalar(2.6); oldLight.material.opacity = oA; oldLight.visible = oA > 0.003;
-    const ly = topS + 0.36 + 0.035 * Math.sin(t * 1.7), lI = clamp((t - T.rise[0]) / 0.3), blink = pS >= 0 && t >= T.n2 + 0.5 ? Math.exp(-pS * 3.5) : 0;
+    const len = Math.max(0, grown), ly = topS + 0.36 + len + 0.035 * Math.sin(t * 1.7), lI = clamp((t - T.rise[0]) / 0.3), blink = pS >= 0 && t >= T.n2 + 0.5 ? Math.exp(-pS * 3.5) : 0;
     uni.uLight.value.set(xS, ly, 0.05); uni.uLightI.value = lI * (1 + 0.5 * blink);
     newLight.position.set(xS, ly, 0.05); newLight.scale.setScalar(2.3 + 0.5 * blink); newLight.material.opacity = lI * 0.85; newLight.visible = lI > 0.003;
     newCore.position.copy(newLight.position); newCore.scale.setScalar(0.62); newCore.material.opacity = lI; newCore.visible = lI > 0.003;
 
+    stripU.uLen.value = len; strip.visible = len > 0.004; strip.position.set(xS, topS + len / 2, 0.12); strip.scale.set(colW * 0.42, Math.max(len, 0.001), 1);
     // the gap, measured upward from the new column to the height of the old
     const gk = ease((t - T.ghost[0]) / (T.ghost[1] - T.ghost[0])), gA = (1 - ease((t - T.go) / 0.7)), gy = mix(HS, HT, gk);
-    uni.uGhostY.value = gy; uni.uGhostA.value = gA * step01(t - T.ghost[0]); ghost.visible = gA > 0.003 && t > T.ghost[0];
+    uni.uGhostY.value = gy; uni.uGhostA.value = gA * step01(t - T.ghost[0]) * (1 + 1.6 * Math.exp(-Math.max(0, t - T.n3) * 3) * step01(t - T.n3)); ghost.visible = gA > 0.003 && t > T.ghost[0];
     ghost.position.set(xS, (HS + HT) / 2, 0); ghost.scale.set(colW, HT - HS, DEPTH);
     const bw = 0.045 * (portrait ? 1 : 1.5), bo = gA * ease((t - T.ghost[0] - 0.2) / 0.5) * 0.85;
     setBar(brV, brX, (HS + gy) / 2, 0, bw, gy - HS, bo); setBar(brB, brX - 0.12, HS, 0, 0.34, bw, bo); setBar(brT, brX - 0.12, gy, 0, 0.34, bw, bo * gk);
@@ -234,26 +245,24 @@ export async function create({ canvas, THREE, reduced }) {
 
     // words, each beside its thing
     const off = 1 - ease((t - T.go) / 0.5), on = (t0) => ease((t - t0) / 0.5) * off;
+    const payoff = (x, y, w, h) => { const X = texts[2], o = ease((t - T.n3) / 0.22) * off, pop = 1 + 0.35 * Math.pow(1 - clamp((t - T.n3) / 0.45), 3);
+      place(2, x, y, 0, o, h); X.mesh.scale.set(X.w * pop, X.h * pop, 1); X.mesh.material.color.copy(cAmber).lerp(cTeal, ease((t - T.n3 - 0.9) / 1.4));
+      scrim.position.set(x, h - y, 0); scrim.scale.set(X.w * 1.5, X.h * 2.4, 1); scrim.material.opacity = 0.9 * o; scrim.visible = o > 0.003; };
     if (portrait) {
       let p = px(xT, HT, 0, w, h); place(0, p[0], p[1] - 42 * S, 0, on(T.n1), h);
       p = px(brX, HS, 0, w, h); place(1, p[0] + 22 * S, p[1] - 62 * S, -1, on(T.n2), h);
-      p = px(brX, (HS + HT) / 2, 0, w, h); place(2, p[0] + 22 * S, p[1], -1, on(T.n3), h);
+      payoff(w * 0.5, h * 0.4, w, h);
       p = px((xT + xS) / 2, 0, DEPTH / 2, w, h); place(3, p[0], p[1] + 34 * S, 0, on(T.n4), h);
     } else {
       let p = px(xT - colW / 2, HT, 0, w, h); place(0, p[0] - 26 * S, p[1] + 26 * S, 1, on(T.n1), h);
       p = px(brX, HS, 0, w, h); place(1, p[0] + 20 * S, p[1] - 44 * S, -1, on(T.n2), h);
-      p = px(brX, (HS + HT) / 2, 0, w, h); place(2, p[0] + 24 * S, p[1], -1, on(T.n3), h);
+      payoff(w * 0.7, h * 0.4, w, h);
       p = px(xT - colW / 2 - 0.55, HF / 2, 0, w, h); place(3, p[0] - 14 * S, p[1], 1, on(T.n4), h);
     }
-    // the three habits, each set beside the thing that answers it
-    const pg = px(shelfX + pages[0].position.x, 1.22, 0.05, w, h), sh = px(shelfX, 0, 0.45, w, h), shR = px(shelfX + 1.15, 0.3, 0, w, h), fl = px(xS, 0, DEPTH / 2, w, h).slice();
-    const pg2 = pg.slice(), sh2 = sh.slice(), shR2 = shR.slice();
-    const L = portrait ? [[w - 40 * S, pg2[1] - 130 * S, 1, pg2[0], pg2[1] - 100 * S, pg2[0], pg2[1] - 12 * S], [w - 40 * S, sh2[1] + 112 * S, 1, sh2[0], sh2[1] + 82 * S, sh2[0], sh2[1] + 14 * S], [60 * S, sh2[1] + 215 * S, -1, fl[0], sh2[1] + 185 * S, fl[0], fl[1] + 14 * S]]
-      : [[pg2[0] - 24 * S, pg2[1] - 105 * S, -1, pg2[0], pg2[1] - 78 * S, pg2[0], pg2[1] - 10 * S], [shR2[0] + 70 * S, shR2[1], -1, shR2[0] + 58 * S, shR2[1], shR2[0] + 12 * S, shR2[1]], [fl[0] - 130 * S, fl[1] + 64 * S, -1, fl[0], fl[1] + 40 * S, fl[0], fl[1] + 12 * S]];
-    [T.p1, T.p2, T.p3].forEach((t0, i) => { const o = reduced ? 0 : ease((t - t0) / 0.6), [x, y, al, x0, y0, x1, y1] = L[i], hot = [lit1, lit2, pulse3][i];
-      place(4 + i, x, y + (1 - o) * 14 * S, al, o, h);
-      const ld = leaders[i]; ld.position.set((x0 + x1) / 2, h - (y0 + y1) / 2, 0); ld.scale.set(Math.max(Math.abs(x1 - x0) * o, 2 * S), Math.max(Math.abs(y1 - y0) * o, 2 * S), 1); ld.material.opacity = o * 0.55; ld.visible = o > 0.003;
-      const dd = dots[i]; dd.position.set(x1, h - y1, 0); dd.scale.setScalar((22 + 16 * hot) * S); dd.material.opacity = o * (0.6 + 0.4 * hot); dd.visible = o > 0.003; });
+    // the three habits, one at a time, each answered by its object below
+    const PT = [T.p1, T.p2, T.p3];
+    PT.forEach((t0, i) => { const o = reduced ? 0 : ease((t - t0) / 0.3) * (i < 2 ? 1 - ease((t - PT[i + 1] + 0.25) / 0.25) : 1);
+      place(4 + i, w * (portrait ? 0.5 : 0.7), h * (portrait ? 0.215 : 0.3) + (1 - ease((t - t0) / 0.3)) * 16 * S, 0, o, h); });
     renderer.clearDepth(); renderer.render(hud, hudCam);
   }
   function step01(x) { return x > 0 ? 1 : 0; }
