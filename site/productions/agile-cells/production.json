@@ -23,13 +23,19 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "From a critic and five synthetic viewers of v0.1 (v0.1/notes): 79 s cut to 57 s; the four values cut to the first one spoken (the page still shows all four); the question merged into the cell; no 'then we closed it' or 'archived' as past fact, the proof now says what the team page says ('set up for that one film, and taken down when it is done'); no duplicate chapter line; the verticals softened to 'a cell for one job'; the end on the five cells instead of the stock swirl."
+  },
+  {
+   "version": "v0.3",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "From the synthetic viewers of v0.2, who all asked to see a cell make something real: the proof now opens on the film the cell made (How we refresh a session, seven versions in one day, as live cards of its own scenes, lab/refresh-trailer), then shows the cell. 61 s."
   }
  ],
  "rules": "Storyboard before any scene. Same house look as the studio's lab scenes; agents are lights, never figures. Every claim on screen or in the voice has a public source; the four values are quoted exactly from agilemanifesto.org. One AI voice, labelled on the last scene. 60 to 90 seconds. Vertical first. Nothing is published before Dinis Cruz signs the exact version.",
  "storyboard": "storyboard.json, first pass 28 November 2026 by c.productions-cells",
  "format": "Vertical, 720 by 1280, for agilecells.org and social media.",
- "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 57 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
- "status_note": "Version v0.2 (57 s) follows a critic and five synthetic viewers of v0.1. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
+ "summary": "What an agile cell is and why Agile can scale and keep its first four values: a vertical film of about 61 seconds, drawn with WebGL in your browser, ending on the real cell of people and agents that made How we refresh a session, with a voice made by AI.",
+ "status_note": "Version v0.3 (61 s) follows a critic and two rounds of five synthetic viewers. Nobody has signed it. Nothing is published anywhere. agilecells.org did not answer on 28 November 2026; what the film says about a cell comes from the seed pages in the AgileCells and AgentiCCells repositories.",
  "links": [
   {
    "label": "The storyboard (data)",

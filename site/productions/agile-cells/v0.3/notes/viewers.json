@@ -1,0 +1,129 @@
+{
+ "about": "The same five synthetic test viewers, shown v0.3 (stills and narration, through OpenRouter). Not people and not a review signature. Em dashes in their answers are replaced by commas.",
+ "version": "v0.3",
+ "made": "2026-11-28",
+ "made_by": "c.productions-cells (an AI agent)",
+ "viewers": [
+  {
+   "viewer": "scrum-master",
+   "who": "a Scrum Master in a 300-person company that adopted a scaled Agile framework two years ago; you feel the ceremonies have grown and the values have faded. Sceptical of buzzwords.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The quote of the 2001 Agile Manifesto about individuals over processes caught my eye because my daily job is drowning in enterprise process bloat.",
+    "watch_to_the_end": false,
+    "drop_off_second": 30,
+    "why_drop": "You invoked the Agile Manifesto only to pitch an org chart with 'thirty, fifty roles' for a single task. You didn't eliminate the bureaucracy; you just automated it into a robot circus.",
+    "story_back": "The video argues that Agile scaling can be solved by spinning up temporary, disposable mini-companies of AI agents and humans defined by config files to complete single tasks.",
+    "confusing": [
+     "How spinning up 50 algorithmic roles honors 'individuals and interactions over processes and tools'.",
+     "Scene 5 throwing token counts and 'refresh a session' onto the screen without explaining the actual workflow or value.",
+     "Who actually resolves cross-dependency blockages when these ephemeral 'cells' interact."
+    ],
+    "best_moment": "Scene 2 highlighting the core 2001 Manifesto values that scaled corporate frameworks completely ruined.",
+    "one_change": "Drop the disingenuous Agile philosophy angle and just honestly demonstrate how your multi-agent AI system executes complex jobs.",
+    "weakest_moment": "Scene 4 proudly showing an org chart scaling up to 50 roles for one single task, pure structural overkill.",
+    "what_i_would_do_tomorrow": "Close the video and ignore it; it's just another tech-bro rebranding multi-agent prompt chaining with Agile buzzwords."
+   }
+  },
+  {
+   "viewer": "startup-founder",
+   "who": "a founder of a 6-person startup who uses AI coding agents daily and wonders how to organise more of them. Impatient; scrolls fast on LinkedIn.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening idea is sharp and relevant: spin up a small company for one task, then kill it. The glowing org-chart visual makes the premise instantly legible.",
+    "watch_to_the_end": false,
+    "drop_off_second": 9,
+    "why_drop": "It shifts from a compelling AI-team idea into a generic, text-heavy Agile manifesto reference. The words are small, and the visual barely changes.",
+    "story_back": "Agile Cells are temporary teams of humans and AI agents, with explicit roles and rules, assembled to complete one job and then dismantled.",
+    "confusing": [
+     "What agents actually do inside the cell",
+     "Whether the roles are autonomous agents, prompts, or just organisational labels",
+     "Why a cell needs ten, twenty, or fifty roles",
+     "What 'refresh a session' means",
+     "How this differs from a normal AI coding-agent workflow",
+     "Where the files defining the roles and rules can be found"
+    ],
+    "best_moment": "The 'How we refresh a session' section showing seven versions in one day is the first concrete proof that the system was actually used.",
+    "one_change": "Replace the Agile manifesto section with a fast before-and-after demo showing the actual files, agents, handoffs, and final output of one cell.",
+    "weakest_moment": "The repeated 10/20/50-role org-chart shots feel like visual padding and make the concept seem more bureaucratic than useful.",
+    "what_i_would_do_tomorrow": "I would skim the description or click through only if there is a link to the actual cell files, prompts, or workflow used to make the film."
+   }
+  },
+  {
+   "viewer": "cto-buyer",
+   "who": "a CTO at a mid-sized firm who buys outsourced work (websites, CRM set-up, social media). You want to know what you could actually buy and whether it is real.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The collapsing node org chart looked like an architecture diagram for automated workflows.",
+    "watch_to_the_end": false,
+    "drop_off_second": 14,
+    "why_drop": "Lecturing me about the 2001 Agile Manifesto signals theoretical consulting fluff, not a tangible product.",
+    "story_back": "The pitch claims they spin up and shut down multi-agent AI teams orchestrated by one human to complete discrete business tasks.",
+    "confusing": [
+     "Whether this is a software product, an agency service, or open-source research.",
+     "Who assumes liability if an ephemeral agent misconfigures a production CRM.",
+     "Using a meta video-generation example instead of real enterprise deliverables."
+    ],
+    "best_moment": "Scene 7 mapping discrete functional units to practical outputs like CRM, website, and design.",
+    "one_change": "Eliminate the agile philosophy and immediately demonstrate a real CRM or web build executed with exact cost, SLA, and verification steps.",
+    "weakest_moment": "Scene 2 preaching Agile Manifesto history with a cartoon post-it note.",
+    "what_i_would_do_tomorrow": "Keep scrolling; looks like an academic demo or experimental GitHub repo rather than an accountable vendor I can hire."
+   }
+  },
+  {
+   "viewer": "agile-veteran",
+   "who": "a developer who has done Agile since 2005, read the Manifesto many times, and dislikes people misquoting it.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening image makes the temporary-company idea immediately legible, and the premise is specific enough to earn a few seconds.",
+    "watch_to_the_end": true,
+    "drop_off_second": null,
+    "why_drop": "I would not drop off, though the final third repeats the same cell diagram and starts to feel like a pitch deck.",
+    "story_back": "The film argues that work can scale beyond a conventional team by creating a temporary, transparent, agent-assisted organization for each task and dismantling it afterward.",
+    "confusing": [
+     "Calling seventeen people the authors of the four values is imprecise; they created and signed the Manifesto together, but the wording suggests a single authorship event.",
+     "The film never explains what makes an agile cell Agile rather than simply a temporary project team.",
+     "The relationship between the human, lead agent, scene builders, critic, and test viewers is shown visually but not explained operationally.",
+     "The claim that a cell can have fifty roles sounds like inflation of the concept rather than a useful design constraint.",
+     "There is no evidence that the seven-version production was better, faster, or more responsive than ordinary collaboration."
+    ],
+    "best_moment": "The film-production example, especially the screen showing the problem, why, rule, steps, and result, is the first concrete proof that the concept might work.",
+    "one_change": "Replace the repeated role-count and application montage with one readable before-and-after case study showing the cell's files, decisions, iterations, and measurable result.",
+    "weakest_moment": "The last scene restates 'a small company, for one task' without adding a consequence, result, or reason to believe it scales.",
+    "what_i_would_do_tomorrow": "I would look for the actual cell files, roles, rules, and seven versions of the film to see whether this is a working method or just a renamed org chart."
+   }
+  },
+  {
+   "viewer": "instagram-casual",
+   "who": "someone who does not work in software, scrolling Instagram Reels in the evening, watching with sound off.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The glowing neon constellation shape caught my eye for half a second while scrolling in the dark.",
+    "watch_to_the_end": false,
+    "drop_off_second": 7,
+    "why_drop": "A giant ugly yellow corporate memo popped up talking about 'Agile' in 2001, and I realized this is a boring work presentation, not entertainment.",
+    "story_back": "It is explaining a method of setting up temporary teams of AI bots and people to complete single business projects.",
+    "confusing": [
+     "What 'Agile' actually means for a normal human being",
+     "Whether 'agents' means real secret agents, real estate people, or computer programs",
+     "Who 'Dinis Cruz' is and why his name is floating in an org chart",
+     "What the massive 95,247,818 number on the slide in Scene 5 is supposed to mean"
+    ],
+    "best_moment": "The very first glowing blue org chart before any corporate text showed up.",
+    "one_change": "Take it off Instagram Reels and post it on LinkedIn where people actually pretend to care about corporate management frameworks.",
+    "weakest_moment": "Scene 5 with the tiny, unreadable numbered list that looks like a screenshot of someone's work spreadsheet.",
+    "what_i_would_do_tomorrow": "Swipe up immediately to find literally anything else, like a dog video or someone cooking."
+   }
+  }
+ ],
+ "what_they_agree_on": [
+  "The agile veteran now watches to the end; three of five name the film the cell made as the first concrete proof.",
+  "The Manifesto scene still loses the founder, the buyer and the casual viewer (7 to 14 seconds). It is the core of Dinis's brief, so cutting it is his call, not the lead's.",
+  "The buyer wants cost, service levels and verification for a vertical cell: not in any public source yet."
+ ]
+}
