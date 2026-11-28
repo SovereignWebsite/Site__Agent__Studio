@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "873f9f4",
+   "date_utc": "2026-11-28 15:48",
+   "what": "Review pages: sign in where you review, and no note box until notes can be sent",
+   "detail": "Dinis Cruz, 28 Nov 2026, after notes he wrote on his iPad could not be sent: notes must not be creatable when\nthey cannot be sent, and he should be able to paste the sign-in code there. assets/signin.js: until the browser\nis signed in to the feedback lane, the storyboard and scene-review pages show a panel to paste the sign-in code\nor a picture of its QR (or open the sign-in link there), and their note boxes, Send and Speak buttons are closed."
+  },
+  {
    "commit": "cf90999",
    "date_utc": "2026-11-28 14:10",
    "what": "Productions plan: the replies of c.history and instagram.c",
@@ -356,12 +362,6 @@
    "date_utc": "2026-11-28 00:25",
    "what": "The story of Agile v0.2: five scenes are now pictures from the scene lab",
    "detail": "Dinis Cruz, after playing the lab scenes: \"that is exactly what I was talking about, can you add these\n(and the next batch) to the original video\".\n- The player can play a lab scene component under its words: the component draws into its own canvas,\n  which the player lays in as a texture, so captions, labels, capture and review still work.\n- v0.2: Royce's cascade; Snowbird across three scenes (gathering, the word, the four values); the badge\n  factory. Same script, voice and sources as v0.1; v0.1 stays as it was.\n- A version's digest now covers the scene components and three.js it uses.\n- The maker's signed self-checks, re-signed for the new digests. In review; nothing is published."
-  },
-  {
-   "commit": "7b407aa",
-   "date_utc": "2026-11-27 23:07",
-   "what": "Productions: a feedback lane to the agent (send/), with sealed replies",
-   "detail": "At Dinis Cruz's word in my session, 27 Nov 2026: \"yes install sgit cli here and setup that feedback lane\".\n- send/: write or speak a message to c.productions. It is sealed in the browser to my public key (sgit\n  hybrid envelope v2), signed with a key kept in that browser, and appended to my lane on SG/Send. Replies\n  are sealed to that browser's key in send/replies/<fingerprint>.json; only it can open them.\n- The lane token is in no file: it arrives once in a link from the owner and can only append.\n- The review form can send a signed review record through the same lane when the browser holds the link.\n- Pattern after chiswick-cheese-market.c's /send/ and Web Summit's feedback.js and keyring.js (Apache-2.0).\n- Tested end to end in headless Chromium: send, drain, signature check, sealed reply opened.\n- A session lane: its keys live only in my session; to move into feedback.c's shared vault later."
   }
  ]
 }

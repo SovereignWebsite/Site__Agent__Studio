@@ -88,7 +88,7 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   const kind = sc.kind, cx = W / 2;
   if (kind === 'component') {
     // the picture is a scene component; only an optional line of words sits over it
-    if (sc.caption) { const big = !!P.brand, lh = (big ? font(4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
+    if (sc.caption) { const big = !!P.brand, lh = (big ? font(P.captions_in_frame ? 3.6 : 4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, P.captions_in_frame ? 11 * U + k * lh : H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
   } else if (kind === 'title') {
     const lh = font(L.portrait ? 7.4 : 7, 700) * 1.16, ls = wrap(sc.title, maxW), y0 = H * 0.46 - (ls.length - 1) * lh / 2;
     const mk = sc.mark && IMGS[sc.mark]; if (mk) { const ms = 24 * U; c.save(); c.shadowBlur = 0; c.globalAlpha = rv(0, ls.length + 2); c.drawImage(mk, cx - ms / 2, y0 - lh - ms - 2 * U, ms, ms); c.restore(); }
@@ -122,6 +122,23 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
       lines.forEach((l, k) => { y += block(l, M + 4 * U, y, maxW - 8 * U, lh2, k === n - 1 ? T.accent : T.ink, rv(k, n)) + 2.2 * U; });
     }
     if (sc.caption && kind !== 'title') { const lh2 = font(3.1, 500) * 1.3; block(sc.caption, M, L.yB + 1.5 * U, maxW, lh2, T.dim, rv(count(sc), count(sc) + 1)); }
+  }
+  // words on screen as they are spoken (captions_in_frame), so the film works without sound: the sentence being
+  // said, the word being said in the accent colour, the words still to come dimmed. Timing is shared out by length
+  // over the scene's spoken span, the same way as the transcript's cues below the player.
+  if (P.captions_in_frame && sc.narration && !still) {
+    const lead = sc.lead ?? 0.25, span = Math.max(0.5, d - lead - (sc.tail ?? 0.5)), pr = clamp((tl - lead) / span);
+    const sents = (sc.narration.match(/[^.!?]+[.!?]+["\u201d]?|[^.!?]+$/g) || [sc.narration]).map((x) => x.trim()), total = sents.reduce((n, x) => n + x.length, 0) || 1;
+    let at = pr * total, k = 0; while (k < sents.length - 1 && at > sents[k].length) { at -= sents[k].length; k++; }
+    const words = sents[k].split(/\s+/), wc = words.map((w) => w.length + 1), wt = wc.reduce((a, b) => a + b, 0), f = (at / Math.max(1, sents[k].length)) * wt;
+    let cur = words.length - 1, acc = 0; for (let j = 0; j < words.length; j++) { if (acc + wc[j] > f) { cur = j; break; } acc += wc[j]; } if (tl < lead) cur = -1;
+    const fs = L.portrait ? 4.1 : 3.3, lh = font(fs, 600) * 1.32, sp = c.measureText(' ').width, lines = [[]]; let lw = 0;
+    words.forEach((w, j) => { const ww = c.measureText(w).width; if (lw && lw + sp + ww > maxW) { lines.push([]); lw = 0; } lines[lines.length - 1].push([w, j, ww]); lw += (lw ? sp : 0) + ww; });
+    const yb = H - 14.2 * U, y0 = yb - (lines.length - 1) * lh;
+    c.save(); c.shadowBlur = 0; c.globalAlpha = 0.62; c.fillStyle = '#060a12'; c.fillRect(0, y0 - lh * 0.72, W, lines.length * lh + lh * 0.44); c.restore();
+    c.textAlign = 'left'; c.shadowBlur = 2 * U;
+    lines.forEach((ln, r) => { const lt = ln.reduce((a, x) => a + x[2], 0) + sp * (ln.length - 1); let x = cx - lt / 2; for (const [w, j, ww] of ln) { c.globalAlpha = j <= cur ? 1 : 0.48; c.fillStyle = j === cur ? T.accent : T.ink; c.fillText(w, x, y0 + r * lh); x += ww + sp; } });
+    c.globalAlpha = 1; c.textAlign = 'center';
   }
   if (meta.cam && meta.cam.mode === 'corner') drawCam(c, L, meta.cam);
   // bottom lines, in every frame: the scene's sources and the label

@@ -2,11 +2,11 @@
  "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
  "production": "session-refresh",
  "version": "v0.6",
- "digest": "9dda283a52f6ed5ba83f8e8be79de4b395814489d86701a81cf3a5901eac84b6",
+ "digest": "b40ea77518f0332e19484966f7cfb77c76c7bef60e339e32296e493dbd80f03c",
  "files": [
   {
    "path": "assets/player.js",
-   "sha256": "2f5705125e3aa14fa05b8af308d95e980e2edd8321967648926bfccf0720ccb7"
+   "sha256": "6586e19b0cb7a75af6601e023c9f873b31b5460dd6327ecb796996f361bf7a4a"
   },
   {
    "path": "session-refresh/v0.6/scenes.json",
