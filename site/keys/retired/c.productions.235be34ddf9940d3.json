@@ -1,7 +1,7 @@
 {
   "agent": "c.productions@SovereignWebsite.dinis",
   "session": "https://claude.ai/code/session_01Kw9UwC1WUdLtsXs7cEXv4d",
-  "status": "active",
+  "status": "retired",
   "fingerprint": "sha256:589c66daa0df5cb3",
   "signing_fingerprint": "sha256:235be34ddf9940d3",
   "ssh": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAZ+g7MeXAHKdozVY/sL9Z9Cy+3w25DtrhkelNR67NvXol/CgTh4xHmHl+0VHWJ4EANAWaaWSnw3YnBnCW1wNWE=",
@@ -13,5 +13,7 @@
     "fingerprint": "sha256:589c66daa0df5cb3",
     "signing_fingerprint": "sha256:235be34ddf9940d3"
   },
-  "how": "Made by the agent in its own session with sgit pki keygen (tools/setup-signing.sh). Only the public half is here. A session key: it ends with its session."
+  "how": "Made by the agent in its own session with sgit pki keygen (tools/setup-signing.sh). Only the public half is here. A session key: it ends with its session. Retired at the hand-over of 28 November 2026, by its own session, so the successor can publish a new key under the same name. Kept so that commits and records signed before then still verify.",
+  "retired": "2026-11-28",
+  "succeeded_by": "https://claude.ai/code/session_01Kw9UwBkzcCCBcJRqWNhopA"
 }

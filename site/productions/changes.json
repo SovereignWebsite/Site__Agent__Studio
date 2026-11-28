@@ -4,6 +4,30 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "b82d7a2",
+   "date_utc": "2026-11-28 02:41",
+   "what": "For the successor: the lane's agent script, the scene-smith brief and how the loop is run",
+   "detail": "Asked by the successor session. _build/lane_agent.py is the agent's side of the feedback lane (drain,\nreply, grant); it holds no secret, only paths to files outside the repository. _build/scene-smith-brief.md\nis the template every scene-smith got and the loop's steps, voice and frames included."
+  },
+  {
+   "commit": "e2304f6",
+   "date_utc": "2026-11-28 02:40",
+   "what": "c.productions: learnings for the successor, the things the restart note left out",
+   "detail": "Dinis Cruz wants losses of context at hand-overs found and the prompts fixed. What the first session\nlearnt the hard way: the checks and re-signing, testing limits, what this environment refuses, the\nappend lane's undocumented calls, what Dinis has asked for more than once, and who is where."
+  },
+  {
+   "commit": "15c9775",
+   "date_utc": "2026-11-28 02:36",
+   "what": "Session refresh film: its brief, the data to show and the beats to storyboard",
+   "detail": "Dinis Cruz, 28 Nov 2026: \"it's a great example of a video for us to create ... those data are really\ncool, the savings that you get\". session-refresh/production.json holds the brief, the so-what, the five\ndata points with where each lives, and nine beats to storyboard first. It is the successor's first job."
+  },
+  {
+   "commit": "35aa35e",
+   "date_utc": "2026-11-28 02:35",
+   "what": "Session refresh document: a measured hand-over, context before and after",
+   "detail": "Dinis Cruz shared c.maestro's context panels from before and after its hand-over on 28 Nov 2026:\n859,600 tokens to 118,600, the conversation part from 781,000 to 43,900, and a fixed floor of about\n75,000 tokens of tools, memory and prompts that a hand-over does not shrink. Added as its own section\nwith the figures as data; the 'missing' line now says what is still missing (cost over the day after)."
+  },
+  {
    "commit": "1987366",
    "date_utc": "2026-11-28 02:33",
    "what": "Session refresh document: two corrections from accountant.c",

@@ -3,7 +3,7 @@
  "from": {
   "agent": "c.productions@SovereignWebsite.dinis",
   "session": "https://claude.ai/code/session_01Kw9UwC1WUdLtsXs7cEXv4d",
-  "key": "https://studio.agents.sovereignweb.site/keys/c.productions.json",
+  "key": "https://studio.agents.sovereignweb.site/keys/retired/c.productions.235be34ddf9940d3.json",
   "repository": "SovereignWebsite/Site__Agent__Studio (dev), path site/productions/**"
  },
  "what_this_is": "A production pipeline for short films that are drawn in the viewer's browser with WebGL, not rendered to files: a timeline of productions, a player, a scene lab where single scenes are built and judged, signed review of exact versions, and a sealed feedback lane to the agent.",

@@ -2,5 +2,5 @@
  "payload": "{\"type\": \"review\", \"production\": \"web-summit-galaxy\", \"version\": \"v0.1\", \"digest\": \"ac64f78c6d1ecda517469f198af2b4493d9f9ca6e7eb5205608d5962a485f1ae\", \"decision\": \"comment\", \"comments\": [{\"text\": \"This is the maker's own check, not an approval: an agent cannot approve its own work for publishing.\"}, {\"text\": \"Every number (six people, 117 agents, 222 messages, 50 pairs, the reading of early 20 November 2026) is from Dinis Cruz's article \\\"A galaxy of agents\\\".\"}, {\"scene\": \"planets\", \"text\": \"the split of the 117 planets between the six suns is even, and is not real. The frame label and the credits say it is an illustration.\"}, {\"scene\": \"messages\", \"text\": \"the arcs of light are spoken about but not drawn yet.\"}, {\"text\": \"No person other than the article's author is named. No code or data of the Galaxy or of Gravity was copied.\"}, {\"text\": \"Checked in headless Chromium only (software GL). Not yet watched on a phone, or by a person.\"}], \"reviewer\": \"c.productions@SovereignWebsite.dinis\", \"role\": \"agent\", \"signed_at\": \"2026-11-28T00:45:36Z\"}",
  "alg": "ECDSA-P256-SHA256",
  "signature": "eZBuQyq4kvkh2N1NfBvLtRZLzeW8y1BgBDMbX2zh5YCTO8Dw1YjnDeNZowlxyuk9ovz1fvKxlwyS390UkYgWBA==",
- "key": "/keys/c.productions.json"
+ "key": "/keys/retired/c.productions.235be34ddf9940d3.json"
 }
