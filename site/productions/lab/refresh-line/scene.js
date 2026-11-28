@@ -19,9 +19,9 @@ export const meta = {
 const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', TAU = Math.PI * 2;
 const LEN = 20, LINE = 0.3, END = 0.845, RAIL = 0.5, HALF = 0.5;         // the gauge is LEN long; u is 0..1 along it
 const T_LINE = 2.5, T_END = 6.5, SPEED = (END - LINE) / (T_END - T_LINE), T_GO = T_LINE - LINE / SPEED;  // one steady speed
-const HANDOVERS = [{ u: 0.484, z: 0.15 }, { u: 0.518, z: -0.15 }, { u: 0.6, z: 0.42 }, { u: 0.6, z: -0.42 }, { u: 0.845, z: 0 }];
+const HANDOVERS = [{ u: 0.484, z: 0.44 }, { u: 0.518, z: 0.2 }, { u: 0.6, z: -0.04 }, { u: 0.6, z: -0.48 }, { u: 0.845, z: 0 }];
 const T_MARK = HANDOVERS.map((m, i) => T_GO + m.u / SPEED + (i === 3 ? 0.45 : 0));   // each lands as the light passes it
-const PIN_TOP = 2.7, BW = 1.5, BAR_Y = 0.8, T_FLICK = 7.15, STILL_T = 7.4;
+const PIN_TOP = 2.4, BW = 1.5, BAR_Y = 0.8, T_FLICK = 7.15, STILL_T = 7.4;
 const CAM = {
   land: { sx: 0.8, close: { d: 17.5, tx: -2.2 }, fov: 34, a: [0.5, 0.62], el: [0.2, 0.25], d: [21, 19.5], tx: [-0.5, 0.7], ty: [1.2, 1.2], tz: 0 },
   port: { sx: 0.5, close: { d: 9.6, tx: -2.3 }, fov: 40, a: [1.36, 1.26], el: [0.78, 0.66], d: [15.4, 15.0], tx: [0.75, 1.05], ty: [0.6, 0.9], tz: 0 },
@@ -168,7 +168,7 @@ export async function create({ canvas, THREE, reduced }) {
     { ...mkLabel('0', '#f4f1e8', 600), p: [X(0), 0, 2.1], ax: 0, ay: 0, t: 0.15, size: 0.9, dim: 0.8 },
     { ...mkLabel('1,000,000', '#f4f1e8', 600), p: [X(1), 0, 2.1], ax: 0, ay: 0, t: 0.15, size: 0.9, dim: 0.8 },
     { ...mkLabel(['hand over before', '300,000'], '#5fd0c5', 700), p: [X(LINE), BAR_Y, -BW - 0.25], ax: 1, ay: 0, slide: true, t: 0.3, size: 1, dim: 1, land: { slide: false, ...mkLabel('hand over before 300,000', '#5fd0c5', 700), p: [X(LINE), 0, BW + 0.5], ax: -1, ay: -1 } },
-    { ...mkLabel('484,000', '#f4f1e8', 700), p: [X(0.484), PIN_TOP, 0], ax: 0, ay: 1, t: T_MARK[0] + 0.1, size: 0.95, dim: 1 },
+    { ...mkLabel('484,000', '#f4f1e8', 700), p: [X(0.484), PIN_TOP, 0.44], ax: -0.75, ay: 1, t: T_MARK[0] + 0.1, size: 0.95, dim: 1 },
     { ...mkLabel('845,000', '#f4f1e8', 700), p: [X(0.845), PIN_TOP, 0], ax: 0, ay: 1, t: T_MARK[4] + 0.05, size: 1.25, dim: 1 },
   ];
 
@@ -227,7 +227,7 @@ export async function create({ canvas, THREE, reduced }) {
       const L = !portrait && L0.land ? { ...L0, ...L0.land } : L0;
       let al = (reduced ? (t >= L.t ? 1 : 0) : ease((t - L.t) / 0.4)) * L.dim; let s = fpx * L.size / F0; if (L.cw * s > w * 0.9) s = w * 0.9 / L.cw; const lw = L.cw * s, lh = L.ch * s, pad = 26 * s;
       v.set(L.p[0] * K.sx, L.p[1], L.p[2]).project(camera); const px = (v.x * 0.5 + 0.5) * w, py = (v.y * 0.5 + 0.5) * h;
-      const ax = L.slide ? mix(-1, 1, k2) : L.ax, ay = L.slide ? mix(1.15, 0, k2) : L.ay; let cx = px + ax * (lw / 2 - pad + gap), cy = py + ay * (lh * 0.36 + gap);
+      const ax = L.slide ? mix(-1, 1, k2) : L.ax, ay = L.slide ? mix(1.15, 0.6, k2) : L.ay; let cx = px + ax * (lw / 2 - pad + gap), cy = py + ay * (lh * 0.36 + gap);
       al *= clamp((py - h * 0.03) / (h * 0.05)); cx = clamp(cx, lw / 2 + w * 0.01, w - lw / 2 - w * 0.01); cy = clamp(cy, h * 0.16 + lh / 2, h * 0.915 - lh / 2);
       L.mesh.scale.set(lw, lh, 1); L.mesh.position.set(Math.round(cx), Math.round(cy), 0); L.mesh.material.opacity = al; L.mesh.visible = al > 0.003;
     }
