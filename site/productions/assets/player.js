@@ -146,7 +146,7 @@ export async function mount(root) {
   const mq = matchMedia('(prefers-reduced-motion: reduce)'); let still = mq.matches; mq.addEventListener('change', () => { still = mq.matches; frame(); });
   const gl = canvas.getContext('webgl', { alpha: false, antialias: false, premultipliedAlpha: false });
   const text = document.createElement('canvas'), tc = text.getContext('2d');
-  let L, pos = 0, playing = false, raf = 0, clock0 = 0, pos0 = 0, cam = null, onEnd = null;
+  let L, pos = 0, playing = false, raf = 0, clock0 = 0, pos0 = 0, cam = null, onEnd = null, stopAt = 0, lastScene = -1;
   let pq, pb, pp, qbuf, pbuf, abuf, tex; const data = new Float32Array(N * 4), alpha = new Float32Array(N), o = { x: 0, y: 0, s: 1, h: 0, al: 0 }, o2 = { x: 0, y: 0, s: 1, h: 0, al: 0 }, sd = [0, 0, 0, 0];
   if (gl) {
     pq = program(gl, VS_Q, FS_TX); pb = program(gl, VS_Q, FS_BG); pp = program(gl, VS_P, FS_P);
@@ -209,6 +209,7 @@ export async function mount(root) {
   let lastCue = -2;
   function ui(i, tl) {
     seek.value = pos.toFixed(1); time.textContent = `${fmt(pos)} / ${fmt(total)}`; seek.setAttribute('aria-valuetext', `${fmt(pos)} of ${fmt(total)}, scene ${i + 1} of ${scenes.length}: ${scenes[i].title}`);
+    if (i !== lastScene) { lastScene = i; root.dispatchEvent(new CustomEvent('scenechange', { detail: { index: i } })); }
     let k = cues.findIndex((c) => pos >= c.t && pos < c.end); if (k === lastCue) return; lastCue = k;
     capEl.textContent = k >= 0 ? cues[k].text : '';
     if (script) { for (const p of script.children) p.classList.toggle('on', +p.dataset.k === k); const el = script.children[k]; if (el && !script.closest('[hidden]')) script.scrollTo({ top: el.offsetTop - script.clientHeight / 2 + el.clientHeight / 2, behavior: still ? 'auto' : 'smooth' }); }
@@ -227,7 +228,7 @@ export async function mount(root) {
   function startAudio() { if (!buffers) return; const now = ac.currentTime + 0.05; scenes.forEach((s, i) => { const b = buffers[i]; if (!b) return; const at = starts[i] + (s.lead ?? 0.25) - pos; if (at + b.duration <= 0) return; const src = ac.createBufferSource(); src.buffer = b; src.connect(gain); if (at >= 0) src.start(now + at); else src.start(now, -at); live.push(src); }); }
   async function play() {
     if (playing) return; if (pos >= total - 0.05) pos = 0; await loadAudio(); await ac.resume(); startAudio(); clock0 = ac.currentTime + 0.05; pos0 = pos; playing = true; playBtn.textContent = 'Pause'; playBtn.setAttribute('aria-pressed', 'true');
-    const tick = () => { if (!playing) return; pos = Math.max(pos0, pos0 + ac.currentTime - clock0); if (pos >= total) { pos = total; pause(); playBtn.textContent = 'Play again'; if (onEnd) { const f = onEnd; onEnd = null; f(); } return; } frame(); raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick);
+    const tick = () => { if (!playing) return; pos = Math.max(pos0, pos0 + ac.currentTime - clock0); if (stopAt && pos >= stopAt) { pos = stopAt - 0.02; stopAt = 0; pause(); return; } if (pos >= total) { pos = total; pause(); playBtn.textContent = 'Play again'; if (onEnd) { const f = onEnd; onEnd = null; f(); } return; } frame(); raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick);
   }
   function pause() { if (!playing) { frame(); return; } playing = false; cancelAnimationFrame(raf); stopAudio(); playBtn.textContent = 'Play'; playBtn.setAttribute('aria-pressed', 'false'); frame(); if (cam) idle(); }
   function go(t) { const was = playing; if (was) { playing = false; cancelAnimationFrame(raf); stopAudio(); } pos = clamp(t, 0, total); frame(); if (was) play(); }
@@ -265,7 +266,7 @@ export async function mount(root) {
 
   // ---- controls and keys
   const acts = {
-    play: () => (rec ? acts.stop() : playing ? pause() : play()), prev: () => { const i = sceneAt(pos); go(pos - starts[i] > 1.5 || i === 0 ? starts[i] : starts[i - 1]); },
+    play: () => { stopAt = 0; return rec ? acts.stop() : playing ? pause() : play(); }, prev: () => { const i = sceneAt(pos); go(pos - starts[i] > 1.5 || i === 0 ? starts[i] : starts[i - 1]); },
     next: () => go(starts[Math.min(scenes.length - 1, sceneAt(pos) + 1)]),
     format: (b) => { const p = L.H > L.W; size(p ? 1280 : 720, p ? 720 : 1280); b.textContent = p ? 'Portrait 9:16' : 'Landscape 16:9'; frame(); },
     full: () => { const el = $('.stage'); document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); },
@@ -281,7 +282,8 @@ export async function mount(root) {
   });
   if (still) say('Reduced motion is on: scenes change without movement.');
   pos = Math.min(total, scenes[0].seconds * 0.8); frame(); pos = 0; seek.value = 0; time.textContent = `0:00 / ${fmt(total)}`;
-  root.dataset.ready = '1';
-  return { go, play, pause, frame, get total() { return total; }, get position() { return pos; }, size };
+  const api = { scenes: scenes.map((s, i) => ({ id: s.id, title: s.title || s.label || s.id, narration: s.narration || '', start: starts[i], seconds: s.seconds })), id: P.id, version: P.version, sceneIndex: () => sceneAt(pos), showScene: (i) => { stopAt = 0; go(starts[i] + 0.01); }, playScene: async (i) => { if (playing) pause(); pos = starts[i] + 0.01; stopAt = i + 1 < scenes.length ? starts[i + 1] : 0; await play(); },
+    go, play, pause, frame, get total() { return total; }, get position() { return pos; }, size };
+  root.__player = api; root.dataset.ready = '1'; root.dispatchEvent(new CustomEvent('playerready')); return api;
 }
 for (const el of document.querySelectorAll('[data-player]')) mount(el).catch((e) => { const s = el.querySelector('[data-role=status]'); if (s) s.textContent = `The player could not start (${e.message}). The transcript below has the whole story.`; });

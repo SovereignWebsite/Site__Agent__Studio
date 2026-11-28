@@ -151,6 +151,21 @@ def version_page(prod, ver, P, m, recs, approved):
 </div>
 <div data-role="out"></div>
 </section>
+<section class="scenes" data-scenes aria-label="Review scene by scene">
+<h2 id="scenes">Scene by scene</h2>
+<p data-role="signed" class="meta">Checking whether this browser is signed in.</p>
+<ol class="chips" data-role="chips" aria-label="The scenes, in order"></ol>
+<h3 data-role="now" aria-live="polite">Scene 1</h3>
+<p data-role="words" class="meta"></p>
+<div class="bar" role="group" aria-label="Scene controls"><button type="button" class="primary" data-act="playscene">Play this scene</button><button type="button" data-act="prevscene">Previous scene</button><button type="button" data-act="nextscene">Next scene</button></div>
+<form class="review" data-role="comment">
+<div class="bar" role="group" aria-label="Your verdict on this scene"><button type="button" data-act="up" aria-pressed="false">👍 Good</button><button type="button" data-act="down" aria-pressed="false">👎 Not right</button></div>
+<label for="sc-text"><span>Your comment on this scene</span><textarea id="sc-text" name="text" rows="3"></textarea></label>
+<p><button type="button" data-act="dictate" aria-pressed="false">Speak your comment</button> <span class="meta" data-role="dictnote">Your browser turns your voice into text (in Safari, Apple\u2019s dictation). Some browsers send the sound to their maker to do it. This site receives no sound.</span></p>
+<button type="submit" class="primary">Send for this scene</button>
+<p data-role="sent" role="status" class="meta"></p>
+</form>
+</section>
 <p class="note">Keys, with the player in focus: Space or K plays and pauses, the left and right arrows change scene, Home goes back to the start. With reduced motion set on your device, scenes change without movement. “Capture a file” plays the production from the start and records the picture and the voice in your browser, for a platform that needs a file. {voice}</p>
 
 <h2 id="transcript">Transcript and sources</h2>
@@ -176,7 +191,7 @@ def version_page(prod, ver, P, m, recs, approved):
 </form>
 </div>
 """
-    return page(f"{pid}/{ver}/", f"{prod['title']}: {ver}", prod["summary"], body, ["/productions/assets/player.js", "/productions/assets/review.js"])
+    return page(f"{pid}/{ver}/", f"{prod['title']}: {ver}", prod["summary"], body, ["/productions/assets/player.js", "/productions/assets/review.js", "/productions/assets/scenes.js"])
 
 def production_page(prod, versions):
     pid = prod["id"]; ver, P, m, recs, approved = versions[-1]

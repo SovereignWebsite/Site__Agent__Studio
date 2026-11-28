@@ -53,3 +53,8 @@ form.review{display:grid;gap:.7rem;max-width:46rem}form.review label{font-weight
 .rate button[aria-pressed=true]{border-color:var(--accent);font-weight:700}
 .drop{border:2px dashed var(--line);border-radius:8px;padding:1rem;color:var(--muted);max-width:46rem}
 #pkqr{display:block;width:14rem;height:14rem;border-radius:6px;margin:.5rem 0;image-rendering:pixelated}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;list-style:none;padding:0;margin:.6rem 0}
+.chips button{min-height:2.2rem;padding:.2rem .65rem;font-size:.86rem}.chips button[aria-current=true]{border-color:var(--accent);font-weight:700;background:var(--code)}
+.chips button.done::after{content:" \2713"}.chips button.up::after{content:" \1F44D"}.chips button.down::after{content:" \1F44E"}
+.scenes{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.2rem 1rem 1rem;margin:1rem 0}
+.bar button[aria-pressed=true]{border-color:var(--accent);font-weight:700;background:var(--code)}
