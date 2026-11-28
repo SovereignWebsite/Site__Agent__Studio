@@ -2,7 +2,7 @@
  "about": "The cell that makes these productions: one lead agent (c.productions) and the sub-agents it starts for one job each. A sub-agent lives only for its job and reports back; it cannot push or publish. Runs started together share a batch. This file is written by hand by the lead after each run, from the runs' own reports. Kept so the owner can see who did what.",
  "lead": {
   "agent": "c.productions@SovereignWebsite.dinis",
-  "does": "Takes Dinis Cruz's direction, writes the briefs for each job, looks at every result, joins scenes into versions, runs the site's checks, signs and pushes, answers the feedback lane."
+  "does": "Takes Dinis Cruz's direction, writes the briefs for each job, looks at every result, joins scenes into versions, runs the site's checks, signs and pushes, answers the feedback lane. Since the hand-over of 28 Nov 2026 the lead is a successor session."
  },
  "roles": [
   {
@@ -17,13 +17,13 @@
   },
   {
    "role": "Storyboard artist",
-   "does": "Not filled yet. Would turn each beat into key frames, camera and motion before any scene is built.",
+   "does": "Turns each beat into a sketch, its words, picture and motion before any scene is built. First done by the lead itself for the session-refresh film (session-refresh/storyboard/), not by a sub-agent.",
    "runs": 0
   },
   {
    "role": "Scene-smith",
    "does": "Builds one WebGL scene, shoots its own frames, criticises them against the rubric and improves, three rounds or more.",
-   "runs": 7
+   "runs": 12
   },
   {
    "role": "Critic",
@@ -152,6 +152,56 @@
    "status": "recorded as an unsigned note",
    "batch": 5,
    "outside": true
+  },
+  {
+   "n": 12,
+   "role": "Scene-smith",
+   "job": "The scroll and the curve (session refresh, vertical)",
+   "result": "lab/refresh-scroll, 4 rounds; the stacking is busy in a still",
+   "minutes": 8,
+   "tool_uses": 24,
+   "status": "in session-refresh v0.1",
+   "batch": 6
+  },
+  {
+   "n": 13,
+   "role": "Scene-smith",
+   "job": "The 300,000 line",
+   "result": "lab/refresh-line, 4 rounds; the two 600,000 marks do not read as a pair",
+   "minutes": 8,
+   "tool_uses": 27,
+   "status": "in session-refresh v0.1",
+   "batch": 6
+  },
+  {
+   "n": 14,
+   "role": "Scene-smith",
+   "job": "The shelf",
+   "result": "lab/refresh-shelf, 3 rounds; the new light does not pass the roll",
+   "minutes": 10,
+   "tool_uses": 18,
+   "status": "in session-refresh v0.1",
+   "batch": 6
+  },
+  {
+   "n": 15,
+   "role": "Scene-smith",
+   "job": "The keys and the test",
+   "result": "lab/refresh-keys, 4 rounds; the stamp reads as a slab",
+   "minutes": 12,
+   "tool_uses": 24,
+   "status": "in session-refresh v0.1",
+   "batch": 6
+  },
+  {
+   "n": 16,
+   "role": "Scene-smith",
+   "job": "The saving and the lesson",
+   "result": "lab/refresh-saving, 4 rounds; the lesson half is a labelled diagram",
+   "minutes": 10,
+   "tool_uses": 23,
+   "status": "in session-refresh v0.1",
+   "batch": 6
   }
  ],
  "working_now": 0,
@@ -161,6 +211,7 @@
   "27 Nov, night: first loop",
   "28 Nov, 00:15: second loop",
   "28 Nov, 00:45: the new opening",
-  "28 Nov, 01:00: review and refresh"
+  "28 Nov, 01:00: review and refresh",
+  "28 Nov, 03:00: the refresh film, first loop (the successor session)"
  ]
 }

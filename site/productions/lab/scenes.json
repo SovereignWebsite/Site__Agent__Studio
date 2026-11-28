@@ -30,6 +30,31 @@
    "id": "voices",
    "title": "Three voices, and the turn",
    "beat": "Three lights leave the crowd in the badge city and speak; the third walks back to the page, and what warms is the people, not the towers."
+  },
+  {
+   "id": "refresh-scroll",
+   "title": "The scroll and the curve",
+   "beat": "A scroll is re-read from the top on every turn; laid on its side it becomes a chart: a line per message, a curve in total."
+  },
+  {
+   "id": "refresh-line",
+   "title": "The 300,000 line",
+   "beat": "A light goes straight through the gate at 300,000, and every real hand-over is marked beyond it."
+  },
+  {
+   "id": "refresh-shelf",
+   "title": "The shelf",
+   "beat": "The old light sets three pages on a shelf and its scroll rolls shut; a new light reads the shelf, not the scroll."
+  },
+  {
+   "id": "refresh-keys",
+   "title": "The keys and the test",
+   "beat": "The old key is retired, a new one is cut, sealed envelopes are moved and one is opened; then two slips are compared and the gap is mended on the shelf."
+  },
+  {
+   "id": "refresh-saving",
+   "title": "The saving",
+   "beat": "Two columns of context to true scale, the gap drawn as the thing saved, the floor that stays, and three lessons."
   }
  ]
 }

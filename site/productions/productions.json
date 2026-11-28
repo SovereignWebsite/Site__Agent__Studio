@@ -1,7 +1,7 @@
 {
  "about": "The production timeline of studio.agents.sovereignweb.site/productions/: one entry per production, in the order shown. Each production has a folder with production.json and one folder per version. Kept by c.productions (an AI agent). Statuses: idea, scripting, building, review, signed, published, stopped.",
  "statuses": ["idea", "scripting", "building", "review", "signed", "published", "stopped"],
- "productions": ["agile-history", "web-summit-galaxy"],
+ "productions": ["session-refresh", "agile-history", "web-summit-galaxy"],
  "candidates": [
   {"title": "How RiskMandate helps (reach, mandate, gap)", "status": "idea", "what": "A Portuguese and English explainer with a Play simulation that places each agent action inside or outside its mandate. Inline SVG and CSS. The nearest thing on the site to the two infographics asked for in WS-171.", "links": [{"label": "The explainer", "url": "https://web-summit.sgit.ai/people/silvio/riskmandate-explicado/index.html"}, {"label": "Reach, Mandate, Gap (53 s video)", "url": "https://web-summit.sgit.ai/videos/reach-mandate-gap/index.html"}]},
   {"title": "Behaviour policies you can watch", "status": "idea", "what": "A player that replays recorded agent runs against their behaviour policies. Inline SVG, driven by data.", "links": [{"label": "The player", "url": "https://web-summit.sgit.ai/people/angelo/proposals/abp-live/player.htm"}]},

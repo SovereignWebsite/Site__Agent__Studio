@@ -28,7 +28,7 @@ const after = (t, t0, rate) => (t >= t0 ? Math.exp(-(t - t0) * rate) : 0); // a 
 // below; for the test the keys shrink back to the sides and the slips take the lower half. Landscape spreads the same
 // things left and right. Slots are in key units from the key's centre.
 const layout = (portrait, part) => (portrait
-  ? { d: 18.59, cy: 0, visH: 9.96, ks: mix(1.3, 0.45, part), kx: mix(1.45, 2.15, part), ky: mix(0, 1.4, part), lx: mix(1.45, 0.75, part), ly: mix(2.15, 1.65, part), slots: [[0.4, -1.85], [0.4, -2.45], [-0.4, -1.85], [-0.4, -2.45]], shelfY: 2.8, shS: 1.2, slipY: -1.78, slipS: 1.3, liftY: 3.25, liftS: 1.35 }
+  ? { d: 18.59, cy: 0, visH: 9.96, ks: mix(1.3, 0.45, part), kx: mix(1.45, 2.38, part), ky: mix(0, 1.4, part), lx: mix(1.45, 0.75, part), ly: mix(2.15, 1.65, part), slots: [[0.4, -1.85], [0.4, -2.45], [-0.4, -1.85], [-0.4, -2.45]], shelfY: 2.8, shS: 1.2, slipY: -1.78, slipS: 1.3, liftY: 3.25, liftS: 1.35 }
   : { d: 13.44, cy: 0.45, visH: 7.2, ks: 1, kx: 3.0 + part, ky: 1.3, lx: 2.1 + part, ly: 2.35, slots: [[1.23, -2.6], [0.41, -2.6], [-0.41, -2.6], [-1.23, -2.6]], shelfY: 1.9, shS: 1, slipY: -0.8, slipS: 1, liftY: 2.62, liftS: 1.5 });
 
 export async function create({ canvas, THREE, reduced }) {
@@ -135,7 +135,7 @@ export async function create({ canvas, THREE, reduced }) {
   const headTex = texOf(640, 100, (x) => { x.fillStyle = '#16263a'; x.font = `700 74px ${FONT}`; x.textAlign = 'left'; x.textBaseline = 'middle'; x.fillText('what is next', 6, 54); });
   const STROKE = col(0x1d2c40), MATCHED = col(0x0d7d74), rowY = (i) => 0.56 - i * 0.31;
   const makeSlip = (paperHex, missing) => { const g = new THREE.Group(); scene.add(g);
-    const paper = add(g, unit, flat(0xffffff), 0, 0, 0, 1.7, 2.6), head = add(g, unit, flat(0xffffff, { map: headTex, transparent: true, depthWrite: false }), -0.03, 0.98, 0.006, 1.3, 1.3 * 100 / 640);
+    add(g, unit, flat(0x050a12, { transparent: true, opacity: 0.45, depthWrite: false }), 0.05, -0.07, -0.02, 1.74, 2.64); const paper = add(g, unit, flat(0xffffff), 0, 0, 0, 1.7, 2.6), head = add(g, unit, flat(0xffffff, { map: headTex, transparent: true, depthWrite: false }), -0.03, 0.98, 0.006, 1.3, 1.3 * 100 / 640);
     add(g, unitL, flat(0x1d2c40), -0.66, 0.8, 0.005, 1.32, 0.012);
     const rows = SLIP_ROWS.map((L, i) => add(g, unitL, flat(0x1d2c40), -0.66, rowY(i), 0.006, (i === missing ? 0.001 : L), 0.085));
     return { g, paper, head, rows, base: col(paperHex) }; };
@@ -221,13 +221,13 @@ export async function create({ canvas, THREE, reduced }) {
       lay(ties[i], -sxF + 0.56 * S, sy0 + rowY(i) * S, sxF - 0.56 * S, sy0 + rowY(i) * S, 0.05 * S, 0.42, done, 1); });
     newSlip.rows[GAP_ROW].scale.x = Math.max(0.001, SLIP_ROWS[GAP_ROW] * fillU);
     const gapOn = ease((t - T_GAP) / 0.18) * (1 - fillU), beat = 0.7 + 0.3 * Math.sin((t - T_GAP) * 8); slipGap.visible = gapOn > 0.01; slipGap.material.opacity = gapOn * (0.8 + 0.2 * beat);
-    const gx = sxF + (-0.69 + (SLIP_ROWS[GAP_ROW] + 0.06) / 2) * S, gy = sy0 + rowY(GAP_ROW) * S; put(gapGlow, gx, gy, 0.6, 1.9 + 0.3 * beat, 0.55 * gapOn * beat);
+    const gx = sxF + (-0.69 + (SLIP_ROWS[GAP_ROW] + 0.06) / 2) * S, gy = sy0 + rowY(GAP_ROW) * S; put(gapGlow, gx, gy, 0.6, 1.9 + 0.3 * beat, 0.3 * gapOn * beat);
     lay(tieStub, -sxF + 0.56 * S, gy, sxF - 0.56 * S, gy, 0.05 * S, 0.42, gapOn, 0.42);
     const scanCol = hold && t > T_GAP - 0.05; scan.material.color.copy(scanCol ? CORALC : TEALC); lay(scan, -sxF - 0.93 * S, scanY ?? 0, sxF + 0.93 * S, scanY ?? 0, 0.022, 0.43, scanY === null || go < 1 ? 0 : 0.85 * scanOp * (scanCol ? 1 - ease((t - 12.3) / 0.5) * 0.6 : 1) * (hold ? 1 - fillU : 1));
 
     // from the gap to its source, the mend, and the news of it coming back down
     const pg = pages[2].g, ps = pg.scale.x * P.shS, pgx = pg.position.x * P.shS + (-0.3 + PAGE_ROWS[PAGE_GAP] / 2) * ps, pgy = P.shelfY + pg.position.y * P.shS + (0.2 - PAGE_GAP * 0.14) * ps;
-    const reach = ease((t - 12.2) / 0.65), gone2 = 1 - ease((t - 14.75) / 0.4), tx0 = sxF + 0.45 * S, ty0 = gy + 0.085 * S, tx1 = pgx + (PAGE_ROWS[PAGE_GAP] / 2 + 0.02) * ps, ty1 = pgy - 0.045 * ps; thread.material.color.copy(CORALC).lerp(TEALC, mended); threadGlow.material.color.copy(thread.material.color);
+    const reach = ease((t - 12.2) / 0.65), gone2 = 1 - ease((t - 14.75) / 0.4), tx0 = sxF + 0.33 * S, ty0 = gy + 0.085 * S, tx1 = pgx + (PAGE_ROWS[PAGE_GAP] / 2 + 0.02) * ps, ty1 = pgy - 0.045 * ps; thread.material.color.copy(CORALC).lerp(TEALC, mended); threadGlow.material.color.copy(thread.material.color);
     lay(thread, tx0, ty0, tx1, ty1, 0.03, 0.8, 0.95 * gone2 * (reach > 0 ? 1 : 0), reach); lay(threadGlow, tx0, ty0, tx1, ty1, 0.1, 0.8, 0.1 * gone2 * (reach > 0 ? 1 : 0), reach);
     put(pageGapGlow, pgx, pgy, 0.9, 1.5, 0.5 * seen * lift);
     const fly = ease((t - 12.7) / 0.4), px0 = pg.position.x * P.shS + (-0.3) * ps, wx = px0 + PAGE_ROWS[PAGE_GAP] * ps * ease(mendU), mx = mix(oldX, t < T_MEND ? px0 : wx, fly), my = mix(oldY, pgy, fly) + 0.3 * Math.sin(Math.PI * fly);

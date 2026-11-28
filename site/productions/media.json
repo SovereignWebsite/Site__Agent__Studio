@@ -6,7 +6,13 @@
  "read_key": "sgit_public_read_4cb9ed44b397a86af60628281fc663ac5d5c504a9da43d80aff46ff272358877",
  "vault_key": "Not here. Held by the keeper in its session; a copy sealed to c.maestro is owed and goes upstream once c.maestro's public encryption key is known.",
  "made": "28 November 2026, by the successor session",
- "contents": [],
+ "contents": [
+  {
+   "path": "session-refresh/v0.1/frames/",
+   "what": "30 full-size frames (720x1280 PNG): three of every scene of How we refresh a session v0.1, and frames.json listing them. Small copies are on the storyboard page.",
+   "added": "2026-11-28"
+  }
+ ],
  "earlier": [
   {
    "vault_id": "l9bf0dri",

@@ -266,8 +266,6 @@ def index_page(idx, prods):
 <ul class="lanes" aria-label="How many productions are at each stage">{lanes}</ul>
 <h2>In production</h2>
 <ul class="cards">{cards}</ul>
-<h2>Being written</h2>
-<ul class="cards"><li class="card"><span class="status s-scripting">Scripting</span><h3><a href="session-refresh/how-we-refresh-a-session/">How we refresh a session</a></h3><p>How a long agent session is handed over to a fresh one. The one-page document is drafted and the film has a first storyboard; no scene is built yet.</p><p class="links"><a href="session-refresh/storyboard/">Storyboard<span class="vh"> of How we refresh a session</span></a></p></li></ul>
 <h2>Candidates</h2>
 <p class="note">{e(idx["candidates_note"])}</p>
 <ul class="cards">{cands}</ul>

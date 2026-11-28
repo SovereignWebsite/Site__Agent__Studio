@@ -4,6 +4,42 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "d565b55",
+   "date_utc": "2026-11-28 02:57",
+   "what": "Scene lab: the keys and the test, a later state of the work in progress (not listed)",
+   "detail": ""
+  },
+  {
+   "commit": "30bf4ec",
+   "date_utc": "2026-11-28 02:56",
+   "what": "Scene lab: two session-refresh scenes in progress (the shelf; the keys and the test), not listed",
+   "detail": "Work in progress by two scene-smith sub-agents, saved as it stands so nothing lives only in the session.\nNo page loads these files yet; they are replaced when each smith reports and its frames have been looked at."
+  },
+  {
+   "commit": "2142f13",
+   "date_utc": "2026-11-28 02:56",
+   "what": "Scene lab: the saving and the lesson, the close of the session-refresh film (not yet listed)",
+   "detail": "Built portrait first by a scene-smith sub-agent in four rounds: two columns of context to true scale\n(859,600 and 118,600), the gap drawn as the thing saved, the floor of about 75,000 that stays, then the\nthree lessons, each beside the object that answers it."
+  },
+  {
+   "commit": "6414c95",
+   "date_utc": "2026-11-28 02:55",
+   "what": "Scene lab: the scroll and the curve, the opening of the session-refresh film (not yet listed)",
+   "detail": "Built portrait first by a scene-smith sub-agent in four rounds: a scroll re-read from the top on every turn,\nthe two measured totals, then the scroll as a chart floor: a line per message, a curve in total."
+  },
+  {
+   "commit": "641be8a",
+   "date_utc": "2026-11-28 02:54",
+   "what": "Scene lab: the 300,000 line, the first scene of the session-refresh film (not yet listed)",
+   "detail": "Built portrait first (720 by 1280) by a scene-smith sub-agent in four rounds: a gate at 300,000, a light that\ngoes straight through it, and the five evidenced hand-overs as marks beyond it. Not yet in lab/scenes.json."
+  },
+  {
+   "commit": "4f8f325",
+   "date_utc": "2026-11-28 02:54",
+   "what": "Session refresh film: the scene list and the voice for a first version, not yet listed",
+   "detail": "Ten scenes, vertical (720 by 1280), one AI voice (Mistral Voxtral), about 97 seconds. The five WebGL scenes\nare still being built by scene-smith sub-agents, so the version is not registered on the productions page yet\nand has no page of its own."
+  },
+  {
    "commit": "910d09f",
    "date_utc": "2026-11-28 02:53",
    "what": "For c.maestro: the two new vault keys, sealed to its published encryption key",
