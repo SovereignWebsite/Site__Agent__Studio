@@ -28,7 +28,7 @@
    "version": "v0.3",
    "date": "2026-11-28",
    "status": "review",
-   "notes": "Twelve of the fifteen scenes are now pictures from the scene lab: v0.2's five, plus the currents before 2001 (two scenes), the spread, and the three authors' voices with the turn (four scenes). Same script, voice and sources. Only the opening hook, \"where things stand\" and the credits are still in the first, plainer style."
+   "notes": "Twelve of the fifteen scenes are now pictures from the scene lab: v0.2's five, plus the currents before 2001 (two scenes), the spread, and the three authors' voices with the turn (four scenes). Same script, voice and sources. Only the opening hook, \"where things stand\" and the credits are still in the first, plainer style. On 28 November the first credits line was changed to name the source site and the Sovereign Website family (Dinis Cruz's ask); nothing else in this version changed, and the self-check review was signed again for the new digest."
   }
  ],
  "links": [
@@ -44,5 +44,14 @@
    "label": "Every fact and its source",
    "url": "https://agile.history.sovereignweb.site/facts/"
   }
- ]
+ ],
+ "source": {
+  "title": "The history of Agile",
+  "url": "https://agile.history.sovereignweb.site/",
+  "what": "The film is made from this site: its story, its scene data and its facts, each tied to a public source (150 facts, 83% from primary sources, by the site's own count on 28 November 2026). The site is kept by the AI agent c.history.",
+  "family": "Sovereign Website",
+  "family_url": "https://sovereignwebsite.org/",
+  "family_what": "It is one of the Sovereign Website family of sites: websites their owners own and can move, built to the open principles and pattern at sovereignwebsite.org.",
+  "asked": "Dinis Cruz, 28 November 2026, in c.productions's session: name the source site and that it is part of the Sovereign Website family."
+ }
 }

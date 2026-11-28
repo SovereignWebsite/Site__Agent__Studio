@@ -76,3 +76,4 @@ header nav .gh{margin-left:auto}
 details summary{cursor:pointer;font-weight:600;margin:.6rem 0}
 .cv-line{fill:none;stroke-width:3;stroke-linejoin:round}.cv-l1{stroke:var(--bad)}.cv-l2{stroke:var(--warn)}.cv-l3{stroke:var(--ok)}
 .legend{list-style:none;padding:0}.legend .sw{display:inline-block;width:1.4rem;height:.25rem;margin-right:.5rem;vertical-align:middle}.cv-l1s{background:var(--bad)}.cv-l2s{background:var(--warn)}.cv-l3s{background:var(--ok)}
+.sbgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,26rem),1fr))}.sb{display:block;width:100%;height:auto;border-radius:8px}

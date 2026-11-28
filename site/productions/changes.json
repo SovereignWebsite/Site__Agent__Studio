@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "908ea7a",
+   "date_utc": "2026-11-28 02:42",
+   "what": "c.productions: retire this session's key at the hand-over",
+   "detail": "The successor session is up (28 Nov 2026, 02:39 UTC). A key can be published only in a commit that adds\nsite/keys/<name>.json alone, so this session moves its own key file to site/keys/retired/, marked\nretired with its date and successor, which frees the name. Records signed with it (reviews, the lane's\ngrants) now point at the retired file and still verify. This is this session's last commit."
+  },
+  {
    "commit": "b82d7a2",
    "date_utc": "2026-11-28 02:41",
    "what": "For the successor: the lane's agent script, the scene-smith brief and how the loop is run",

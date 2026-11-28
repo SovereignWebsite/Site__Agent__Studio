@@ -1,0 +1,135 @@
+{
+ "id": "session-refresh",
+ "title": "How we refresh a session",
+ "status": "First storyboard by c.productions (an AI agent), 28 November 2026, before any scene is built. Sketches, not frames. Nothing here is approved. The film is vertical (720 by 1280). These first sketches were drawn wide before that was decided: they fix what each beat shows and in what order, not the framing. The scenes are composed for the tall frame.",
+ "through_line": "A long chat re-reads itself every turn. Write a short note, start fresh, and one agent's context fell by 86%.",
+ "look": "The ink look of the Agile lab scenes: dark ground, one warm light per agent, green for what is kept, amber for what costs. Agents are lights, never figures. 'Voice made by AI' in every frame.",
+ "numbers_from": "Every number in a sketch is read from document.json when the page is built.",
+ "beats": [
+  {
+   "id": "hook",
+   "title": "The number",
+   "seconds": 7,
+   "words": "This agent wrote three quarters of a million tokens. To do it, it re-read ninety-five million.",
+   "picture": "A long scroll hangs in the dark. A light runs down it from the top, again and again, and the scroll grows a little each time. Two counters: a small one for what was written, a large one for what was re-read.",
+   "motion": "Each pass of the light is one turn. The passes get longer as the scroll grows; the large counter races ahead of the small one. Ends on both final numbers held still.",
+   "numbers": [
+    "measured.output_tokens",
+    "measured.cache_read_tokens"
+   ],
+   "source": "document.json, 'measured': one session's own usage record, 28 November 2026.",
+   "so_what": "Almost all of what a long session uses is re-reading itself."
+  },
+  {
+   "id": "why",
+   "title": "A line per message, a curve in total",
+   "seconds": 10,
+   "words": "Every turn, a chat re-reads itself from the top. So each message costs a little more than the last. That is a straight line. Add the lines up, and you get a curve.",
+   "picture": "The scroll turns on its side and becomes the floor of a chart. Each turn drops one bar, each a little taller than the last: a straight slope. The bars then stack into the area under it, and its outline is the curve.",
+   "motion": "Bars fall left to right in time with the light's passes from the first beat. The camera pulls back as the stacked total outgrows the frame.",
+   "numbers": [
+    "measured.context_tokens",
+    "measured.cache_read_tokens"
+   ],
+   "source": "document.json, 'The maths': a straight line per message, the square in total. The curve is drawn from the measured session.",
+   "so_what": "Nothing is going wrong. It is arithmetic, so it can be planned for."
+  },
+  {
+   "id": "moment",
+   "title": "The line nobody stops at",
+   "seconds": 8,
+   "words": "The rule says: hand over before three hundred thousand tokens. Every hand-over we can evidence came later. The latest, at eight hundred and forty-five thousand.",
+   "picture": "A gauge the width of the frame, nought to a million. A green line at 300,000. The light crosses it and keeps going. Five marks light up where real hand-overs happened, all to the right of the line.",
+   "motion": "The light does not slow at the line. The marks appear one by one, left to right, the last far across the gauge.",
+   "numbers": [
+    "threshold",
+    "evidenced_handovers"
+   ],
+   "source": "document.json, section 7: the threshold, and the context at the hand-overs that can be evidenced.",
+   "so_what": "The rule exists and was not followed, so the cost was paid at its highest."
+  },
+  {
+   "id": "writes",
+   "title": "What the old session writes",
+   "seconds": 9,
+   "words": "So the old session writes down what the next one needs. What is open. What it learnt. What to do first. A few pages, in the repository. Nothing may live only in the session.",
+   "picture": "A desk in the light's glow, scattered with half-made tools. The light sets three thin pages, one at a time, on a shelf at the edge of the frame. Behind it the tools on the desk lose their outlines.",
+   "motion": "Pages travel desk to shelf and turn green as they land. The desk dims; the shelf stays lit.",
+   "numbers": [
+    "note_size"
+   ],
+   "source": "document.json, sections 2 and 5: the hand-over files are 0.8 to 4.3 KB each; scratch space is lost.",
+   "so_what": "What matters has to leave the session before the session ends."
+  },
+  {
+   "id": "reads",
+   "title": "What the new one reads",
+   "seconds": 8,
+   "words": "A person starts a new session with one line. It reads the rules, its role, its state. It never opens the old transcript.",
+   "picture": "An empty room. One line of text is spoken into it and a new, small light appears. It goes to the shelf and reads the three pages in order. The old scroll stands rolled and dim at the edge of the frame, untouched.",
+   "motion": "The new light moves shelf page to shelf page, 1, 2, 3, and brightens a little at each. It passes the old scroll without turning.",
+   "numbers": [],
+   "source": "document.json, section 3: rules, role, then state; the old transcript is not read.",
+   "so_what": "The new session is small because it starts from the note, not the history."
+  },
+  {
+   "id": "keys",
+   "title": "What is lost, and what carries",
+   "seconds": 9,
+   "words": "Some things are lost on purpose. The old key is retired; the new session cuts its own. Secrets sealed to the old key are sealed again, and checked to open.",
+   "picture": "Two keys. The old one is stamped 'retired' and goes grey. The new light cuts a second key of a different shape. Sealed envelopes addressed to the old key are re-addressed to the new one; one is opened to show it works.",
+   "motion": "The stamp lands, the old key dims. Envelopes slide from one key to the other; the last one opens and glows green.",
+   "numbers": [],
+   "source": "document.json, sections 4 and 5: a successor always makes a new key; sealed secrets carry once re-sealed and checked.",
+   "so_what": "A hand-over is safe only if what was locked to the old session is deliberately moved."
+  },
+  {
+   "id": "test",
+   "title": "Did it work",
+   "seconds": 7,
+   "words": "The test: does the fresh session reach the same next step as the old one? If not, a file is missing. Fix the file.",
+   "picture": "Two slips of paper, one from each light, each saying what comes next. They are laid side by side and match. Then a variant: one slip has a gap; a page on the shelf is corrected and the gap closes.",
+   "motion": "The slips slide together and a green line joins them. In the variant the mend happens on the shelf, not on the slip.",
+   "numbers": [],
+   "source": "document.json, section 6: the restart test; a gap means a file is missing.",
+   "so_what": "The files are the thing to repair, because the files are what the next session will have."
+  },
+  {
+   "id": "saving",
+   "title": "The saving",
+   "seconds": 10,
+   "words": "One measured hand-over. Before: eight hundred and sixty thousand tokens of context. After: one hundred and nineteen thousand. Eighty-six per cent less to re-read, on every turn. About seventy-five thousand is a floor that stays.",
+   "picture": "Two bars side by side on the gauge from the third beat. The tall one is the old session, the short one the new. A band across the foot of both is the fixed load: tools, memory, the system prompt.",
+   "motion": "The tall bar stands first; the short one rises beside it and stops early. The floor band lights last, across both, and does not move.",
+   "numbers": [
+    "measured_handover.before.used",
+    "measured_handover.after.used",
+    "floor",
+    "saving_percent"
+   ],
+   "source": "document.json, 'measured_handover': the two sessions' own context panels, 28 November 2026. One hand-over; context size, not yet cost over time.",
+   "so_what": "The saving is large and real, and the part a hand-over cannot touch is visible too."
+  },
+  {
+   "id": "lesson",
+   "title": "The lesson",
+   "seconds": 7,
+   "words": "Write it early. Keep state in files. Load only what you need.",
+   "picture": "The shelf, the small new light, and a short scroll just starting to grow. Three lines of words, one per phrase. Then the label and where the sources are.",
+   "motion": "Each phrase arrives with one object lighting: the page, the shelf, the floor band shrinking a little.",
+   "numbers": [],
+   "source": "document.json, 'Lessons, for someone copying this'.",
+   "so_what": "Three habits a viewer can copy tomorrow."
+  }
+ ],
+ "open_questions": [
+  "The hook uses this pipeline's own measured session. The successor's numbers (a day after the hand-over) are still owed and could replace or join the saving beat.",
+  "The model figures (49% and 70% less) are left out of the film to keep one story; they stay on the document page, labelled as a model.",
+  "Length: the nine beats come to about 75 seconds. A 60-second cut would drop the test beat or fold it into the keys beat."
+ ],
+ "format": {
+  "w": 720,
+  "h": 1280,
+  "why": "Dinis Cruz, 28 November 2026: plan this film as vertical from the beginning, for shorts."
+ }
+}

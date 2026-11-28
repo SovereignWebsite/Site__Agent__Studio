@@ -207,6 +207,7 @@ def production_page(prod, versions):
 <p><a href="{e(ver)}/"><strong>Play version {e(ver)}, and review it</strong></a></p>
 <h2>Brief</h2>
 <p>{e(b["from"])}: “{e(b["text"])}” (<a href="{e(b["link"])}">the brief</a>). Made by {e(prod["made_by"])}.</p>
+{f'<p class="note"><strong>Source:</strong> <a href="{e(prod["source"]["url"])}">{e(prod["source"]["title"])}</a>. {e(prod["source"]["what"])} {e(prod["source"]["family_what"])} <a href="{e(prod["source"]["family_url"])}">{e(prod["source"]["family"])}</a>.</p>' if prod.get("source") else ""}
 <p>{links(prod["links"])}</p>
 <h2>Versions</h2>
 <div class="table" tabindex="0" role="region" aria-label="Versions"><table><thead><tr><th scope="col">Version</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">What changed</th><th scope="col">Reviews</th></tr></thead><tbody>{vers}</tbody></table></div>
@@ -266,7 +267,7 @@ def index_page(idx, prods):
 <h2>In production</h2>
 <ul class="cards">{cards}</ul>
 <h2>Being written</h2>
-<ul class="cards"><li class="card"><span class="status s-scripting">Scripting</span><h3><a href="session-refresh/how-we-refresh-a-session/">How we refresh a session</a></h3><p>How a long agent session is handed over to a fresh one. The one-page document is drafted; the film from it is not started.</p></li></ul>
+<ul class="cards"><li class="card"><span class="status s-scripting">Scripting</span><h3><a href="session-refresh/how-we-refresh-a-session/">How we refresh a session</a></h3><p>How a long agent session is handed over to a fresh one. The one-page document is drafted and the film has a first storyboard; no scene is built yet.</p><p class="links"><a href="session-refresh/storyboard/">Storyboard<span class="vh"> of How we refresh a session</span></a></p></li></ul>
 <h2>Candidates</h2>
 <p class="note">{e(idx["candidates_note"])}</p>
 <ul class="cards">{cands}</ul>
@@ -421,11 +422,16 @@ def refresh_doc():
     body = f"""<p class="meta"><a href="../../">Productions</a> / session refresh</p>
 <h1>{e(D["title"])}</h1>
 <p class="lede">{e(D["summary"])}</p>
-<p class="note">{e(D["asked_by"])} {e(D["status"])} A short film from this page is planned; it is not made yet.</p>
+<p class="note">{e(D["asked_by"])} {e(D["status"])} A short film from this page has <a href="../storyboard/">a first storyboard</a>; no scene is built yet.</p>
 {secs}
 <p class="meta">Data: <a href="../document.json">document.json</a>. No key, session id or private material is on this page.</p>
 """
     write("session-refresh/how-we-refresh-a-session/index.html", page("session-refresh/how-we-refresh-a-session/", D["title"], "How a long AI agent session is handed over to a fresh one: when, what is written, what is read, what is kept and lost, and the numbers.", body))
+
+def refresh_board():
+    from refresh_board import board_html
+    S = load("session-refresh", "storyboard.json")
+    write("session-refresh/storyboard/index.html", page("session-refresh/storyboard/", S["title"] + ": the storyboard", "The storyboard of a short film on handing a long AI agent session over to a fresh one: nine beats, each with a sketch, its words and its numbers.", board_html(S, load("session-refresh", "document.json"))))
 
 def changes_json():
     # what changed under site/productions, newest first, from the repository's own history
@@ -457,6 +463,6 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
-    lab_page(); send_page(); refresh_doc(); changes_json()
+    lab_page(); send_page(); refresh_doc(); refresh_board(); changes_json()
 
 if __name__ == "__main__": main()

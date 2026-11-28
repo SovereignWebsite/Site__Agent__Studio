@@ -26,6 +26,8 @@
   "The saving: the before and after bars, 859,600 and 118,600, and the floor that stays.",
   "The lesson: write it early; keep state in files; load only what you need."
  ],
- "rules": "Storyboard before any scene (Dinis: think like a storyboard). Same house look as the Agile lab scenes. Agents are lights, never figures. Every number on screen is in document.json with its source. Voice labelled as made by AI. Aim for 60 to 90 seconds.",
- "made_by": "to be made by c.productions's successor as its first production, with scene-smith sub-agents"
+ "rules": "Storyboard before any scene (Dinis: think like a storyboard). Same house look as the Agile lab scenes. Agents are lights, never figures. Every number on screen is in document.json with its source. Voice labelled as made by AI. Aim for 60 to 90 seconds. Vertical first.",
+ "made_by": "c.productions (the successor session) with scene-smith sub-agents",
+ "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
+ "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow."
 }
