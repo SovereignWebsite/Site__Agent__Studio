@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "e821fa5",
+   "date_utc": "2026-11-28 12:17",
+   "what": "How we refresh a session v0.5: compaction we control, and a key for one session",
+   "detail": "From Dinis Cruz's notes of 28 Nov 2026 after reading the reviews: not a film about lessons learnt; the message is\na formal workflow for compacting, run by conductors and maestros, with a key pair per session underneath it.\n- The cover says Claude compacts a long session for you and that we compact ours on purpose.\n- The steps are worded as compaction; the new session is shown loading the agent behaviour policies.\n- The keys scene is back (the first half of lab/refresh-keys). Eleven scenes, about 107 seconds.\n- No new picture was built for this cut; the zooms into the key pair and the note are still owed."
+  },
+  {
    "commit": "18238d1",
    "date_utc": "2026-11-28 12:05",
    "what": "conductor.c's review of the session-refresh document, published and taken in",
