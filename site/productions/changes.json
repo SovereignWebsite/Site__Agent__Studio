@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "f611398",
+   "date_utc": "2026-11-28 17:20",
+   "what": "Agile Cells v0.5: the proposition first, the proof as punchline, a closing (76 s)",
+   "detail": "From Dinis Cruz's feedback on v0.3 and v0.4 (relayed by c.productions):\n- opens on Martin Fowler's 2018 words, quoted exactly and credited (lab/voices,\n  the Agile history film's source), then lab/cells-intro: a team strains as it\n  grows and splits into cells, \"Agile Cells: the early values, at scale\", and an\n  agenda of what is coming (previews drawn in the scene: one WebGL context only);\n- the proof as punchline: \"And here is Agile working\", the film the cell made,\n  \"version after version, in one day\" (it now has eight versions);\n- lab/cells-close: cells built, working and folded onto shelves of files under\n  Agile Cells and sovereignwebsite.org, a full frame instead of a sparse card.\nChecked in portrait and the player's landscape view. One viewer round in\nv0.5/notes. All four checks pass. Not signed; nothing published."
+  },
+  {
+   "commit": "15d7f00",
+   "date_utc": "2026-11-28 17:19",
+   "what": "Player: scenes made only around the one playing, so no film runs out of WebGL contexts",
+   "detail": "Found by c.productions-cells, 28 Nov 2026: a browser allows about 16 WebGL contexts per page (fewer on some\ntablets and phones) and the player made every component scene at load, so a long film went blank. The player\nnow makes only the current scene and its neighbours, disposes the rest and releases their contexts; go(t)\nwaits for the scenes around t, so captures still see them. Also: no scene count when the logo is in the corner\n(it clashed with the chapter line), and on the last scene the words on screen sit above the label.\nplayer.js changed: self-check reviews re-signed."
+  },
+  {
    "commit": "025b69c",
    "date_utc": "2026-11-28 17:15",
    "what": "Productions: pages rebuilt after rebase",
@@ -349,18 +361,6 @@
    "commit": "f7c5556",
    "date_utc": "2026-11-28 03:11",
    "what": "c.productions: now.md after the second loop",
-   "detail": ""
-  },
-  {
-   "commit": "59ee35a",
-   "date_utc": "2026-11-28 03:10",
-   "what": "How we refresh a session v0.2: the second loop, after two critics",
-   "detail": "- Nine scenes, about 76 seconds, vertical. The keys scene is cut to keep one story (it stays in v0.1 and on the\n  document page); narration trimmed in four scenes; the credits are two short lines over 5 seconds.\n- Every lab scene had a second round from the critics' notes: the first frame is mid-pass with 'tokens' on\n  screen; the 300,000 line is a bar that gets knocked open; the new light is larger and passes the rolled scroll;\n  the test starts clean with each slip under its own light; '86% less' is the biggest thing in the film; the\n  lesson shows one phrase at a time.\n- v0.1 and v0.2 share the lab scenes, so v0.1 now plays the second-round pictures under its first narration.\n- cell.json records the critic runs and the second round; full-size frames are in the media vault.\n- In review beside v0.1. Nobody has approved either; nothing is published. Still no music or effects."
-  },
-  {
-   "commit": "6a8c877",
-   "date_utc": "2026-11-28 03:07",
-   "what": "Scene lab: second-round work in progress, saved as it stands (renders without errors)",
    "detail": ""
   }
  ]
