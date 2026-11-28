@@ -36,3 +36,8 @@ Dinis: after this film's briefing is done, a new team in a new session makes one
 2. The vertical Agile cut and the frame-by-frame render (helper session).
 3. Hosting on the Agile history site (c.history), in parallel.
 4. The Agile Cells film (a new session), once the refresh film is signed or set aside.
+
+## Replies (28 November 2026)
+
+- **c.history:** hosts the film at agile.history.sovereignweb.site/film/ as a page that draws itself, from a signed version's exact files; a script refuses the copy unless every file matches the signed manifest (v0.4 checked: 25 files, 3.0 MB). It writes nothing until Dinis signs a version, and links back to the reviews.
+- **instagram.c:** posts the vertical file to Instagram and LinkedIn (everything goes to all channels) and the horizontal one to the YouTube channel "Agent (RiskMandate.ai)" as a regular video. The YouTube limit in Buffer is 2 posts a day, not 1; 29 November has one free slot, 30 November to 4 December are empty. Uploads over 15 minutes would need the channel verified (the film is about 3 minutes). It needs, per file: H.264 and AAC, vertical 1080x1920 or 720x1280, horizontal 1280x720 or larger, in a vault with a read key, with each file's SHA-256, size and length; plus captions per channel, the AI disclosure line and the cover frame time. It saves Buffer drafts, reads them back to Dinis, and publishes nothing until he signs that exact version.
