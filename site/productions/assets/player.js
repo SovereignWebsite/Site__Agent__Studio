@@ -83,12 +83,13 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   // branding, when the production names one: the same top line on every scene, over a soft shade
   const logo = P.brand_logo && IMGS[P.brand_logo];
   if (P.brand || logo) { c.save(); c.shadowBlur = 0; const g2 = c.createLinearGradient(0, 0, 0, 10 * U); g2.addColorStop(0, 'rgba(6,10,18,.78)'); g2.addColorStop(1, 'rgba(6,10,18,0)'); c.fillStyle = g2; c.fillRect(0, 0, W, 10 * U); c.restore();
-    if (logo) { const lw = (L.portrait ? 0.4 : 0.24) * W, lh = lw * logo.height / logo.width; c.shadowBlur = 0; c.globalAlpha = 1; c.drawImage(logo, (W - lw) / 2, 2.4 * U, lw, lh); font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 2.4 * U + lh / 2, T.dim, 1, 'right'); }
+    if (logo && P.brand_corner) { font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 4 * U, T.dim, 1, 'right'); }
+    else if (logo) { const lw = (L.portrait ? 0.4 : 0.24) * W, lh = lw * logo.height / logo.width; c.shadowBlur = 0; c.globalAlpha = 1; c.drawImage(logo, (W - lw) / 2, 2.4 * U, lw, lh); font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 2.4 * U + lh / 2, T.dim, 1, 'right'); }
     else { font(2.3, 700); put(P.brand.toUpperCase(), M, 4.6 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 4.6 * U, T.dim, 1, 'right'); } }
   const kind = sc.kind, cx = W / 2;
   if (kind === 'component') {
     // the picture is a scene component; only an optional line of words sits over it
-    if (sc.caption) { const big = !!P.brand, lh = (big ? font(P.captions_in_frame ? 3.6 : 4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, P.captions_in_frame ? 11 * U + k * lh : H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
+    if (sc.caption) { const big = !!P.brand, lh = (big ? font(P.captions_in_frame ? 3.6 : 4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, P.captions_in_frame ? (P.brand_corner ? 5 : 11) * U + k * lh : H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
   } else if (kind === 'title') {
     const lh = font(L.portrait ? 7.4 : 7, 700) * 1.16, ls = wrap(sc.title, maxW), y0 = H * 0.46 - (ls.length - 1) * lh / 2;
     const mk = sc.mark && IMGS[sc.mark]; if (mk) { const ms = 24 * U; c.save(); c.shadowBlur = 0; c.globalAlpha = rv(0, ls.length + 2); c.drawImage(mk, cx - ms / 2, y0 - lh - ms - 2 * U, ms, ms); c.restore(); }
@@ -141,11 +142,14 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
     c.globalAlpha = 1; c.textAlign = 'center';
   }
   if (meta.cam && meta.cam.mode === 'corner') drawCam(c, L, meta.cam);
+  // the brand in the bottom right corner (brand_corner), clear of the picture's top
+  if (logo && P.brand_corner) { const lw = (L.portrait ? 0.3 : 0.17) * W, lh2 = lw * logo.height / logo.width; c.save(); c.shadowBlur = 0; c.globalAlpha = 0.95; c.drawImage(logo, W - M * 0.6 - lw, H - 2.2 * U - lh2, lw, lh2); c.restore(); }
   // bottom lines, in every frame: the scene's sources and the label
   c.globalAlpha = 1; font(2.15, 500);
-  if (sc.source_line) { const s = wrap('Source: ' + sc.source_line, maxW)[0]; c.fillStyle = T.dim; c.textAlign = 'center'; c.fillText(s, cx, H - 9.4 * U); }
+  const pillUp = logo && P.brand_corner && (!P.label_end_only || meta.i === meta.n - 1); // the label rises over the source line, clear of the corner logo
+  if (sc.source_line && !pillUp) { const s = wrap('Source: ' + sc.source_line, maxW)[0]; c.fillStyle = T.dim; c.textAlign = 'center'; c.fillText(s, cx, H - 9.4 * U); }
   // the label: on every frame, or (label_end_only) only on the last scene, where the credits say it
-  if (!P.label_end_only || meta.i === meta.n - 1) {   font(2.45, 700); const lw = c.measureText(P.label).width + 5 * U, lhh = 4.6 * U; c.shadowBlur = 0; c.fillStyle = 'rgba(0,0,0,.62)'; c.beginPath(); c.roundRect(cx - lw / 2, H - 6.9 * U, lw, lhh, lhh / 2); c.fill();   c.fillStyle = '#ffffff'; c.textAlign = 'center'; c.fillText(P.label, cx, H - 6.9 * U + lhh / 2 + 0.1 * U); }
+  if (!P.label_end_only || meta.i === meta.n - 1) {   font(2.45, 700); const lw = c.measureText(P.label).width + 5 * U, lhh = 4.6 * U; c.shadowBlur = 0; c.fillStyle = 'rgba(0,0,0,.62)'; c.beginPath(); c.roundRect(cx - lw / 2, (pillUp ? H - 11.2 * U : H - 6.9 * U), lw, lhh, lhh / 2); c.fill();   c.fillStyle = '#ffffff'; c.textAlign = 'center'; c.fillText(P.label, cx, (pillUp ? H - 11.2 * U : H - 6.9 * U) + lhh / 2 + 0.1 * U); }
 }
 function drawCam(c, L, cam) {
   const v = cam.video; if (!v || v.readyState < 2) return; const { W, H, U, M } = L, vw = v.videoWidth, vh = v.videoHeight; c.save(); c.shadowBlur = 0; c.globalAlpha = 1;

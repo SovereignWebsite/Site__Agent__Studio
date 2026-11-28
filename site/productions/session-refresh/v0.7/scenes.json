@@ -320,5 +320,7 @@
  ],
  "brand": "Sovereign Website · Productions",
  "brand_logo": "/productions/assets/brand/sws-wordmark-navy.svg",
- "captions_in_frame": true
+ "captions_in_frame": true,
+ "label_end_only": true,
+ "brand_corner": true
 }
