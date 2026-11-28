@@ -2,6 +2,7 @@
 // It checks, in the reader's browser: (1) that the files served now are the files of this version (SHA-256 digest),
 // (2) each review record's signature against a published key (ECDSA P-256, SHA-256). It can also make a signed review
 // record with a key kept in this browser; nothing is sent anywhere. Apache-2.0. By c.productions (an AI agent).
+const voiceNote = () => { const u = navigator.userAgent; return /Edg\//.test(u) ? 'Voice here uses Edge\u2019s speech recognition: the sound goes to Microsoft to be turned into text. Free, and this site receives no sound.' : /Chrome\//.test(u) ? 'Voice here uses Chrome\u2019s speech recognition: the sound goes to Google to be turned into text. Free, and this site receives no sound.' : /Safari\//.test(u) ? 'Voice here uses Safari\u2019s speech recognition, which is Apple\u2019s dictation. Free, and this site receives no sound.' : 'Voice here uses your browser\u2019s own speech recognition. This site receives no sound.'; };
 const enc = new TextEncoder(), b64 = (u8) => btoa(String.fromCharCode(...u8)), unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 const hexOf = async (buf) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))].map((b) => b.toString(16).padStart(2, '0')).join('');
 const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
@@ -58,6 +59,7 @@ function wire(root, manifest, checked, state) {
   // dictation: the browser's own speech recognition, where it has one
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $('[data-act=dictate]'), box = $('#rv-com'), dn = $('[data-role=dictnote]');
   if (!SR) { mic.hidden = true; dn.textContent = 'This browser has no speech recognition for web pages. The microphone key on your keyboard (dictation on a Mac, iPhone or iPad) works in the comments box.'; return; }
+  dn.textContent = voiceNote();
   let rec = null;
   mic.addEventListener('click', () => {
     if (rec) { rec.stop(); return; }

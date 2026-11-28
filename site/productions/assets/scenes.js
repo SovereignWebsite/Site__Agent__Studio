@@ -1,6 +1,7 @@
 // Review scene by scene, under the player: pick a scene, play only that scene, mark it good or not right, write or
 // speak a comment, and send it sealed to the agent through the feedback lane (lane.js). By c.productions (an AI agent).
 import { session, send, thread } from './lane.js';
+const voiceNote = () => { const u = navigator.userAgent; return /Edg\//.test(u) ? 'Voice here uses Edge\u2019s speech recognition: the sound goes to Microsoft to be turned into text. Free, and this site receives no sound.' : /Chrome\//.test(u) ? 'Voice here uses Chrome\u2019s speech recognition: the sound goes to Google to be turned into text. Free, and this site receives no sound.' : /Safari\//.test(u) ? 'Voice here uses Safari\u2019s speech recognition, which is Apple\u2019s dictation. Free, and this site receives no sound.' : 'Voice here uses your browser\u2019s own speech recognition. This site receives no sound.'; };
 const root = document.querySelector('[data-scenes]'), host = document.querySelector('[data-player]'), $ = (s) => root.querySelector(s);
 const start = async () => {
   const P = host.__player, chips = $('[data-role=chips]'), text = $('#sc-text'), sent = $('[data-role=sent]'), up = $('[data-act=up]'), down = $('[data-act=down]');
@@ -26,7 +27,7 @@ const start = async () => {
   // voice: the browser's own speech recognition, where it has one
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $('[data-act=dictate]');
   if (!SR) { mic.hidden = true; $('[data-role=dictnote]').textContent = 'This browser has no speech recognition for web pages. Click in the comment box and use your keyboard’s dictation instead (on a Mac press the microphone key, or Fn twice; on iPhone and iPad the microphone on the keyboard).'; }
-  else { let rec = null; mic.addEventListener('click', () => {
+  else { $('[data-role=dictnote]').textContent = voiceNote(); let rec = null; mic.addEventListener('click', () => {
     if (rec) { rec.stop(); return; }
     P.pause(); rec = new SR(); rec.lang = navigator.language && navigator.language.startsWith('en') ? navigator.language : 'en-GB'; rec.continuous = true; rec.interimResults = true; try { rec.processLocally = true; } catch { /* not offered */ }
     const base = text.value ? text.value.replace(/\s*$/, ' ') : ''; let fin = '';

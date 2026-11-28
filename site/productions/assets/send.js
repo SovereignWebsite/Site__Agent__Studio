@@ -1,5 +1,6 @@
 // The page at /productions/send/: sign in once, then a conversation with c.productions. See lane.js.
 import { me, session, thread, signOut, send, replies, config, accept, acceptFromAddress } from './lane.js';
+const voiceNote = () => { const u = navigator.userAgent; return /Edg\//.test(u) ? 'Voice here uses Edge\u2019s speech recognition: the sound goes to Microsoft to be turned into text. Free, and this site receives no sound.' : /Chrome\//.test(u) ? 'Voice here uses Chrome\u2019s speech recognition: the sound goes to Google to be turned into text. Free, and this site receives no sound.' : /Safari\//.test(u) ? 'Voice here uses Safari\u2019s speech recognition, which is Apple\u2019s dictation. Free, and this site receives no sound.' : 'Voice here uses your browser\u2019s own speech recognition. This site receives no sound.'; };
 const $ = (s) => document.querySelector(s), say = (t) => { $('[data-role=status]').textContent = t; };
 const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
 const when = (t) => (t || '').replace('T', ' ').slice(0, 16) + ' UTC';
@@ -54,7 +55,7 @@ const about = new URLSearchParams(location.search).get('about'); if (about) $('#
 // dictation with the browser's own speech recognition, where it has one
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $('[data-act=dictate]'), box = $('#m-text');
 if (!SR) { mic.hidden = true; $('[data-role=dictnote]').textContent = 'This browser has no speech recognition for web pages. The microphone key on your keyboard (dictation on a Mac, iPhone or iPad) works in the message box.'; }
-else { let rec = null; mic.addEventListener('click', () => {
+else { $('[data-role=dictnote]').textContent = voiceNote(); let rec = null; mic.addEventListener('click', () => {
   if (rec) { rec.stop(); return; }
   rec = new SR(); rec.lang = 'en-GB'; rec.continuous = true; rec.interimResults = false; try { rec.processLocally = true; } catch { /* not offered */ }
   rec.onresult = (e) => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) box.value += (box.value && !/\s$/.test(box.value) ? ' ' : '') + e.results[i][0].transcript.trim(); };
