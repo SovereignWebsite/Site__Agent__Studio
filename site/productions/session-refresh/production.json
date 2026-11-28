@@ -31,8 +31,8 @@
  "made_by": "c.productions, an AI agent (Claude), with a cell of scene-building and critic sub-agents",
  "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
  "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow.",
- "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about a minute and a half, ten scenes drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
- "status_note": "Version v0.1 is a first pass for the owner to look at. Nobody has approved it. It is not published anywhere.",
+ "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about 76 seconds, nine scenes drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
+ "status_note": "Version v0.2 is a second pass for the owner to look at, beside v0.1. Nobody has approved either. Nothing is published anywhere.",
  "approvers": [],
  "versions": [
   {
@@ -40,6 +40,12 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "First pass, vertical (720 by 1280). Nine beats from the storyboard as five lab scenes built by five scene-smith sub-agents working at once, then the credits. One AI voice (Mistral Voxtral). No music or effects yet."
+  },
+  {
+   "version": "v0.2",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "Second pass, after two critics judged v0.1 (a critic sub-agent and an outside model through OpenRouter; their notes are in v0.1/notes/critics.json). The keys scene is cut to keep one story; what is lost at a hand-over stays on the document page. Narration trimmed: about 76 seconds, nine scenes. Every lab scene had one more round: the first frame is no longer empty, 'tokens' is on screen, the 300,000 line is a bar that gets broken, the new light is larger and passes the rolled scroll, the test starts clean, '86% less' is the biggest thing in the film, and the lesson shows one phrase at a time. Still no music or effects."
   }
  ],
  "links": [

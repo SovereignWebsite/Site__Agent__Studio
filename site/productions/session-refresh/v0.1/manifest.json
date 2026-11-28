@@ -2,7 +2,7 @@
  "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
  "production": "session-refresh",
  "version": "v0.1",
- "digest": "2fa3363cc064e7c62f95339e89d2ed2c66eb9103e0262c6bb4e5acf863257b5e",
+ "digest": "b42e5ef3c7169dd6a605bcfbb8cea2418f073a328add9301d4b17964a145db94",
  "files": [
   {
    "path": "assets/player.js",
@@ -54,23 +54,23 @@
   },
   {
    "path": "lab/refresh-keys/scene.js",
-   "sha256": "cc31d8a110d245c19d784bceabf30e7502b8d38384ffd019255554855c7e9485"
+   "sha256": "b2639c7d824bad849587f6101af78611a0f9331a9871b51a2f8e716a4ccf4e09"
   },
   {
    "path": "lab/refresh-line/scene.js",
-   "sha256": "672a3f505c4f1485746d63265185985df326a18abd9fa21ac097c09abb4a2f75"
+   "sha256": "a0cbbd49a91f606bd8a38e3e17ffc1effe00b8d766490a500ebe4b86fc09ef15"
   },
   {
    "path": "lab/refresh-saving/scene.js",
-   "sha256": "f264cad95348f8f7a654604d8f5bee6643e260bc5178c7517b318c05f28a56c3"
+   "sha256": "c9ef7ef1a76a5b2b52730d6e4c4cee5b802fcc814ab725ff3efaf83736cf0e75"
   },
   {
    "path": "lab/refresh-scroll/scene.js",
-   "sha256": "8515479c146d183c11bec5bd405591affc084e53eaf34e8f44cdbb4368f8a05f"
+   "sha256": "8e3be4238724a68d4dd23d88e73fbf4586afed57786bf31aab5b109a58e9b973"
   },
   {
    "path": "lab/refresh-shelf/scene.js",
-   "sha256": "ffbb84f1420006548bb7f282c1a388b3620e967c750104608520bd65d0c11b1b"
+   "sha256": "fe28bae4143c438cadd8d2bc912b8cce55011c8619bb35b913fbd24e428c7079"
   },
   {
    "path": "assets/vendor/three-0.187.0/three.module.min.js",

@@ -13,21 +13,23 @@ export const meta = {
 };
 
 const LABELS = ['restart', 'role', 'now'], LINE = 'Read restart.md and continue.';
-const LAND = [2.5, 4.0, 5.5], READ = [11.5, 13.0, 14.5], T_ROLL = 6.2, ROLL_LEN = 2.7, T_LINE = 9.45, T_BORN = 10.25, T_GO = 10.62, STILL_T = 15.3;
+const LAND = [2.5, 4.0, 5.5], READ = [11.5, 13.0, 14.5], T_ROLL = 6.5, ROLL_LEN = 1.9, T_LINE = 9.45, T_BORN = 10.25, T_GO = 10.45, T_AT = 10.8, T_ON = 11.05, STILL_T = 15.3;
 const DESK_Y = 1.5, RIB_N = 720, RIB_W = 0.46, TAU = Math.PI * 2;
 const AMBER = [1.0, 0.784, 0.341], TEAL = [0.373, 0.816, 0.773], INK = [0.957, 0.945, 0.91];
 const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
 
 // Two layouts of the same objects. Portrait stacks: shelf as a ladder up the right, desk below, scroll at the foot.
 const LAY = {
-  port: { fov: 42, cam1: { p: [0, 4.5, 15.3], l: [0, 3.95, 0] }, cam2: { p: [0, 4.5, 16], l: [0, 4.0, 0] },
-    desk: { x: -0.75, w: 3.4 }, old: [-0.95, 3.3, 0], slots: [[2.0, 3.7], [2.0, 5.5], [2.0, 7.3]], slotZ: -0.5, pw: 1.3, ph: 1.7,
-    planks: [[2.1, 3.7, 2.0], [2.1, 5.5, 2.0], [2.1, 7.3, 2.0]], ups: [1.15, 3.05], upH: 9.15, roll: [2.45, 0, 0.7], d: 1, mx: 0.2,
-    text: { x0: -3.1, x1: 2.2, y: 2.05, z: 0.9 }, born: [2.42, 2.0, 0.9], readOff: [-1.12, 1.0, 0.7], oldSize: 6.6 },
-  land: { fov: 30, cam1: { p: [2.2, 2.9, 11], l: [2.2, 2.15, 0] }, cam2: { p: [0.3, 2.7, 13.8], l: [0.3, 2.0, 0] },
+  port: { fov: 42, cam1: { p: [0, 4.5, 15.3], l: [0, 3.95, 0] },
+    cams: [{ p: [-0.42, 4.0, 14.1], l: [-0.42, 3.55, 0] }, { p: [2.0, 5.6, 11.0], l: [2.0, 5.5, 0] }, { p: [1.1, 4.0, 13.6], l: [1.1, 3.65, 0] }],
+    desk: { x: -0.75, w: 3.4 }, old: [-0.95, 3.3, 0], slots: [[2.0, 2.8], [2.0, 4.55], [2.0, 6.3]], slotZ: -0.5, pw: 1.3, ph: 1.65,
+    planks: [[2.1, 2.8, 2.0], [2.1, 4.55, 2.0], [2.1, 6.3, 2.0]], ups: [1.15, 3.05], upH: 8.2, roll: [1.4, 0, 0.75], d: 1, mx: 0.2,
+    text: { x0: -3.08, x1: 0.28, y: 1.85, z: 0.9 }, born: [0.48, 1.82, 0.9], hold: [1.42, 1.78, 1.0], readOff: [1.3, 1.0, 0.7], oldSize: 6.6, lineOut: 1, readSide: 1 },
+  land: { fov: 30, cam1: { p: [2.2, 2.9, 11], l: [2.2, 2.15, 0] },
+    cams: [{ p: [0.2, 2.7, 13.8], l: [0.2, 2.0, 0] }, { p: [0.2, 2.7, 13.8], l: [0.2, 2.0, 0] }, { p: [0.2, 2.7, 13.8], l: [0.2, 2.0, 0] }],
     desk: { x: 0.6, w: 4.4 }, old: [0.4, 3.1, 0], slots: [[3.8, 2.9], [4.95, 2.9], [6.1, 2.9]], slotZ: -0.6, pw: 1.0, ph: 1.35,
-    planks: [[5.0, 2.9, 3.7]], ups: [3.2, 6.8], upH: 4.7, roll: [-1.35, 0, 0.7], d: -1, mx: -2.4,
-    text: { x0: -5.75, x1: -2.2, y: 2.5, z: 0.5 }, born: [-2.02, 2.47, 0.5], readOff: [-0.3, 1.67, 0.6], oldSize: 5.2 },
+    planks: [[5.0, 2.9, 3.7]], ups: [3.2, 6.8], upH: 4.7, roll: [-2.1, 0, 0.7], d: -1, mx: -2.6,
+    text: { x0: -5.85, x1: -3.0, y: 2.3, z: 0.5 }, born: [-2.82, 2.27, 0.5], hold: [-2.0, 2.2, 0.8], readOff: [-0.3, 1.75, 0.6], oldSize: 5.2, lineOut: 0.5, readSide: 0 },
 };
 
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -98,15 +100,15 @@ export async function create({ canvas, THREE, reduced }) {
     x.fillStyle = '#ff0000'; for (let r = 0; r < 6; r++) x.fillRect(26, 122 + r * 34, 208 * (r === 5 ? 0.45 : 0.72 + rnd() * 0.28), 10);
     const tex = keep(new THREE.CanvasTexture(c)); tex.colorSpace = THREE.NoColorSpace; tex.anisotropy = 4;
     const u = { uTex: { value: tex }, uTeal: { value: 0 }, uFlash: { value: 0 }, uRead: { value: 0 }, uBright: { value: 1 } };
-    const mat = keep(new THREE.ShaderMaterial({ side: THREE.DoubleSide, uniforms: u,
+    const mat = keep(new THREE.ShaderMaterial({ side: THREE.DoubleSide, transparent: true, uniforms: u,
       vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: `precision highp float; uniform sampler2D uTex; uniform float uTeal, uFlash, uRead, uBright; varying vec2 vUv;
         void main(){ vec3 m = texture2D(uTex, vUv).rgb; vec3 pc = mix(vec3(${AMBER}), vec3(${TEAL}), uTeal);
           float edge = 1.0 - uRead * 1.12 + 0.06, on = step(0.001, uRead), band = exp(-pow((vUv.y - edge) / 0.045, 2.0)) * on * step(uRead, 0.995);
           float done = mix(0.5, 1.0, on * smoothstep(edge - 0.02, edge + 0.02, vUv.y));
-          vec3 col = pc * (0.13 + 0.5 * uFlash + 0.07 * on) + pc * m.r * done * 0.95 + pc * m.g * (0.75 + 0.25 * on) + vec3(${INK}) * m.b * 1.05 + mix(pc, vec3(${INK}), 0.5) * band * 0.9;
+          vec3 col = pc * (0.13 + 0.22 * uFlash + 0.07 * on) + pc * m.r * done * 0.95 + pc * m.g * (0.75 + 0.25 * on) + vec3(${INK}) * m.b * 1.05 + mix(pc, vec3(${INK}), 0.5) * band * 0.9;
           gl_FragColor = vec4(col * uBright, 1.0); }` }));
-    const mesh = new THREE.Mesh(unitPlane, mat); scene.add(mesh); return { mesh, u };
+    const mesh = new THREE.Mesh(unitPlane, mat); mesh.renderOrder = 22; scene.add(mesh); return { mesh, u };
   });
 
   // glows (billboards)
@@ -117,8 +119,8 @@ export async function create({ canvas, THREE, reduced }) {
         void main(){ float d = length(vUv - 0.5) * 2.0; float g = (exp(-d * d * 5.0) * uH + exp(-d * d * uCore) * 1.6 + 0.10 / (1.0 + d * d * 30.0)) * smoothstep(1.0, 0.55, d);
           gl_FragColor = vec4(mix(uCol, vec3(1.0, 0.98, 0.92), exp(-d * d * uCore * 2.5)) * g * uA, 1.0); }` })));
     m.renderOrder = 20; scene.add(m); return { m, u }; };
-  const oldGlow = glow([1.0, 0.72, 0.27], 22, 0.85), newGlow = glow([0.90, 0.97, 0.93], 46), pageGlows = pages.map(() => glow(TEAL, 3));
-  for (const g of pageGlows) g.m.renderOrder = 1;
+  const oldGlow = glow([1.0, 0.72, 0.27], 22, 0.85), newGlow = glow([0.90, 0.97, 0.93], 34, 0.42), pageGlows = pages.map(() => glow(TEAL, 3));
+  for (const g of pageGlows) g.m.renderOrder = 1; newGlow.m.renderOrder = 30;
 
   // the scroll: one long ribbon, unrolled along a path or wound into a standing roll
   const ribPos = new Float32Array((RIB_N + 1) * 6), ribUv = new Float32Array((RIB_N + 1) * 4), ribIdx = [];
@@ -132,7 +134,7 @@ export async function create({ canvas, THREE, reduced }) {
       void main(){ float s = vUv.y * 0.5 + 0.5, x = vUv.x * uLen * 3.2, row = floor(s * 7.0), fr = fract(s * 7.0);
         float hv = h(vec2(floor(x), row)), mark = step(0.28, fr) * step(fr, 0.62) * step(fract(x), 0.3 + 0.65 * hv) * step(0.18, hv) * step(0.5, row) * step(row, 5.5);
         float dist = length(uCam - vWp); vec3 lit = vec3(0.07, 0.085, 0.10);
-        for (int i = 0; i < 3; i++) { vec3 d = uLp[i] - vWp; lit += uLc[i] * 0.55 / (1.0 + dot(d, d) * 0.16); }
+        for (int i = 0; i < 3; i++) { vec3 d = uLp[i] - vWp; lit += uLc[i] * 0.55 * (i == 1 ? 0.22 : 1.0) / (1.0 + dot(d, d) * 0.16); }
         float near = uGlow * exp(-vUv.x * uLen / 7.0);
         vec3 paper = vec3(0.50, 0.40, 0.27), col = paper * (lit + vec3(1.0, 0.7, 0.3) * near * 0.5) * (1.0 - 0.45 * mark * uRolled);
         col += vec3(${AMBER}) * mark * (0.05 + 0.50 * uGlow + 0.8 * near) * (1.0 - uRolled);
@@ -144,9 +146,23 @@ export async function create({ canvas, THREE, reduced }) {
   const pathA = new Float32Array((RIB_N + 1) * 3), pathW = new Float32Array((RIB_N + 1) * 3); let lastTau = -1;
 
   // threads: the old light to a page it is writing, the new light to a page it is reading, and the new light's straight path
-  const lineOf = (n, color) => { const g = keep(new THREE.BufferGeometry()); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
-    const l = new THREE.Line(g, keep(new THREE.LineBasicMaterial({ color, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending }))); l.frustumCulled = false; l.renderOrder = 15; scene.add(l); return l; };
-  const tethers = pages.map(() => lineOf(24, 0xffc857)), readLine = lineOf(2, 0x5fd0c5), TRAIL = 140, trail = lineOf(TRAIL, 0xd6f3ea);
+  const stripOf = (n, col, order = 15) => { const g = keep(new THREE.BufferGeometry()), side = new Float32Array(n * 2), idx = [];
+    for (let k = 0; k < n; k++) { side[k * 2] = -1; side[k * 2 + 1] = 1; if (k < n - 1) { const a = k * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); } }
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 6), 3)); g.setAttribute('aS', new THREE.BufferAttribute(side, 1)); g.setIndex(idx);
+    const u = { uCol: { value: new V3(...col) }, uA: { value: 1 } };
+    const m = new THREE.Mesh(g, keep(new THREE.ShaderMaterial({ transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, uniforms: u,
+      vertexShader: 'attribute float aS; varying float vS; void main(){ vS = aS; gl_Position = projectionMatrix * viewMatrix * vec4(position, 1.0); }',
+      fragmentShader: 'precision highp float; uniform vec3 uCol; uniform float uA; varying float vS; void main(){ gl_FragColor = vec4(uCol * uA * (1.0 - vS * vS), 1.0); }' })));
+    m.frustumCulled = false; m.renderOrder = order; scene.add(m); return { m, u, n, pts: new Float32Array(n * 3) }; };
+  const sv = new V3(), tv = new V3(), vv = new V3();
+  function setStrip(st, width, camPos) { const P = st.pts, n = st.n, pos = st.m.geometry.attributes.position; sv.set(0, 0, 0);
+    for (let k = 0; k < n; k++) { const a = Math.max(0, k - 1) * 3, b = Math.min(n - 1, k + 1) * 3, c = k * 3;
+      tv.set(P[b] - P[a], P[b + 1] - P[a + 1], P[b + 2] - P[a + 2]); vv.set(camPos.x - P[c], camPos.y - P[c + 1], camPos.z - P[c + 2]); tv.cross(vv);
+      if (tv.lengthSq() > 1e-10) sv.copy(tv).normalize().multiplyScalar(width);
+      pos.setXYZ(k * 2, P[c] - sv.x, P[c + 1] - sv.y, P[c + 2] - sv.z); pos.setXYZ(k * 2 + 1, P[c] + sv.x, P[c + 1] + sv.y, P[c + 2] + sv.z); }
+    if (n > 1) { pos.setXYZ(0, P[0] - pos.getX(2) + P[3], P[1] - pos.getY(2) + P[4], P[2] - pos.getZ(2) + P[5]); pos.setXYZ(1, P[0] - pos.getX(3) + P[3] + 0, P[1] - pos.getY(3) + P[4], P[2] - pos.getZ(3) + P[5]); }
+    pos.needsUpdate = true; }
+  const tethers = pages.map(() => stripOf(24, AMBER, 23)), readLine = stripOf(2, TEAL, 31), TRAIL = 160, trail = stripOf(TRAIL, [0.84, 0.95, 0.92]);
 
   // motes: what was in the tools, drawn out into each page as it is written
   const MOTES = 150, mPos = new Float32Array(MOTES * 3), mAux = new Float32Array(MOTES * 2), moteGeo = keep(new THREE.BufferGeometry());
@@ -176,7 +192,7 @@ export async function create({ canvas, THREE, reduced }) {
   lineMesh.renderOrder = 18; scene.add(lineMesh);
 
   // ---- layout ----
-  let lay = null, isPortrait = null; const formP = new V3(), tmp = new V3(), tmp2 = new V3();
+  let lay = null, isPortrait = null, jF = 40; const formP = new V3(), tmp = new V3(), tmp2 = new V3();
   function place(portrait) {
     isPortrait = portrait; lay = portrait ? LAY.port : LAY.land; lastTau = -1;
     const { desk, d } = lay;
@@ -191,27 +207,35 @@ export async function create({ canvas, THREE, reduced }) {
     const sgn = Math.sign(lay.slots[0][0] - lay.old[0]) || 1; formP.set(lay.old[0] + sgn * 0.75, lay.old[1] - 0.75, 0.7); moteU.uForm.value.copy(formP);
     // the scroll's path: from the light, along the desk, off its edge, then far back across the floor in widening folds
     const edge = desk.x + d * desk.w / 2, pts = [new V3(...lay.old), new V3(lay.old[0] + d * 0.5, DESK_Y + 0.35, 0.05), new V3(lay.old[0] + d * 1.0, DESK_Y + 0.04, 0.1), new V3(edge - d * 0.15, DESK_Y + 0.05, 0.2),
-      new V3(edge + d * 0.45, 0.6, 0.45), new V3(edge + d * 0.95, 0.04, 0.6)];
+      new V3((edge + lay.roll[0]) / 2, 0.55, 0.5), new V3(lay.roll[0], 0.04, lay.roll[2]), new V3(lay.roll[0] + d * 0.7, 0.04, lay.roll[2] - 0.25)];
     for (let i = 1; i <= 15; i++) pts.push(new V3(lay.mx + d * (i % 2 ? -1 : 1) * (1.0 + 0.32 * i) + (i === 1 ? d * 0.6 : 0), 0.04, 0.4 - 2.3 * Math.pow(i, 1.18)));
     const curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal'), sp = curve.getSpacedPoints(RIB_N); ribU.uLen.value = curve.getLength();
     for (let j = 0; j <= RIB_N; j++) { const a = sp[Math.max(0, j - 1)], b = sp[Math.min(RIB_N, j + 1)]; let wx = -(b.z - a.z), wz = b.x - a.x; const n = Math.hypot(wx, wz); if (n < 1e-4) { wx = 0; wz = d; } else { wx /= n; wz /= n; }
       pathA.set([sp[j].x, sp[j].y, sp[j].z], j * 3); pathW.set([wx, 0, wz], j * 3); }
+    { let best = 1e9; for (let j = 0; j <= RIB_N / 4; j++) { const dd = Math.hypot(sp[j].x - lay.roll[0], sp[j].y - 0.04, sp[j].z - lay.roll[2]); if (dd < best) { best = dd; jF = j; } } }
     const tx = lay.text, tw = (tx.x1 - tx.x0) / tc._frac; lineMesh.scale.set(tw, tw * tc.height / tc.width, 1); lineMesh.position.set(tx.x0 + tw / 2, tx.y, tx.z);
   }
-  const ROLL_R = 0.56, ROLL_W = 0.55, rollAx = () => -lay.d * 0.55;
-  const rollTop = (out) => out.set(lay.roll[0] + Math.sin(rollAx()) * (ROLL_W + 0.02), ROLL_R + 0.03, lay.roll[2] + Math.cos(rollAx()) * (ROLL_W + 0.02));
+  const ROLL_R = 0.56, TURNS = 9, rollC = new V3(), rollFace = new V3();
+  const pathAt = (q, o, arr) => { q = clamp(q, 0, RIB_N); const j = Math.min(RIB_N - 1, Math.floor(q)), f = q - j, a = j * 3; o[0] = lerp(arr[a], arr[a + 3], f); o[1] = lerp(arr[a + 1], arr[a + 4], f); o[2] = lerp(arr[a + 2], arr[a + 5], f); return o; };
+  const pa = [0, 0, 0], pw = [0, 0, 0];
   function buildRibbon(tau) {
-    if (tau === lastTau) return; lastTau = tau; const [rx, , rz] = lay.roll, ph = rollAx(), sb = Math.sin(ph), cb = Math.cos(ph), axx = sb * ROLL_W, axz = cb * ROLL_W;
-    for (let j = 0; j <= RIB_N; j++) { const u = j / RIB_N, k = sstep((tau - 0.45 * u) / 0.55), su = Math.sqrt(u), th = su * 9 * TAU - 2.2, r = 0.04 + (ROLL_R - 0.04) * su;
-      const cx = rx + Math.cos(th) * r * cb, cy = ROLL_R + 0.03 + Math.sin(th) * r, cz = rz - Math.cos(th) * r * sb, ax = pathA[j * 3], ay = pathA[j * 3 + 1], az = pathA[j * 3 + 2], wx = pathW[j * 3] * RIB_W, wz = pathW[j * 3 + 2] * RIB_W, lift = Math.sin(Math.PI * k) * 0.5;
-      ribPos.set([lerp(ax - wx, cx - axx, k), lerp(ay, cy, k) + lift, lerp(az - wz, cz - axz, k), lerp(ax + wx, cx + axx, k), lerp(ay, cy, k) + lift, lerp(az + wz, cz + axz, k)], j * 6); }
+    const uF = jF / RIB_N, kA = sstep(tau / 0.22), kB = clamp((tau - 0.12) / 0.88), uS = uF + (1 - uF) * kB * kB * (3 - 2 * kB), rS = 0.05 + (ROLL_R - 0.05) * Math.sqrt(uS), thS = Math.sqrt(uS) * TURNS * TAU;
+    const fa = jF * 3, fx = pathA[fa], fz = pathA[fa + 2], wxF = pathW[fa], wzF = pathW[fa + 2]; let tx = pathA[fa + 3] - pathA[fa - 3], tz = pathA[fa + 5] - pathA[fa - 1]; const tn = Math.hypot(tx, tz) || 1; tx /= tn; tz /= tn;
+    rollC.set(fx, rS + 0.04, fz); const sg = wzF >= 0 ? 1 : -1; rollFace.set(fx + wxF * sg * (RIB_W + 0.03), rS + 0.04, fz + wzF * sg * (RIB_W + 0.03));
+    if (tau === lastTau) return; lastTau = tau;
+    for (let j = 0; j <= RIB_N; j++) { const u = j / RIB_N; let x, y, z, wx, wz;
+      const su = Math.sqrt(u), r = 0.05 + (ROLL_R - 0.05) * su, ang = -Math.PI / 2 - (thS - su * TURNS * TAU), sx = fx + tx * Math.cos(ang) * r, sy = rS + 0.04 + Math.sin(ang) * r, sz = fz + tz * Math.cos(ang) * r;
+      if (u <= uS && j > jF) { x = sx; y = sy; z = sz; wx = wxF; wz = wzF; }
+      else if (j > jF) { pathAt(jF + (u - uS) * RIB_N, pa, pathA); pathAt(jF + (u - uS) * RIB_N, pw, pathW); x = pa[0]; y = pa[1]; z = pa[2]; wx = pw[0]; wz = pw[2]; }
+      else { const a = j * 3; x = lerp(pathA[a], sx, kA); y = lerp(pathA[a + 1], sy, kA); z = lerp(pathA[a + 2], sz, kA); wx = lerp(pathW[a], wxF, kA); wz = lerp(pathW[a + 2], wzF, kA); }
+      ribPos.set([x - wx * RIB_W, y, z - wz * RIB_W, x + wx * RIB_W, y, z + wz * RIB_W], j * 6); }
     ribGeo.attributes.position.needsUpdate = true;
   }
   const readPos = (i, out) => out.set(lay.slots[i][0] + lay.readOff[0], lay.slots[i][1] + lay.readOff[1], lay.slotZ + lay.readOff[2]);
-  const stops = [new V3(), new V3(), new V3(), new V3()];
-  function newPos(t, out) { // straight legs between the place the line lands and the three pages
-    const K = [[T_GO, READ[0]], [READ[0] + 0.95, READ[1]], [READ[1] + 0.95, READ[2]]]; out.copy(stops[0]);
-    for (let i = 0; i < 3; i++) if (t > K[i][0]) out.lerpVectors(stops[i], stops[i + 1], sstep((t - K[i][0]) / (K[i][1] - K[i][0])));
+  const stops = [new V3(), new V3(), new V3(), new V3(), new V3()], oldP = new V3();
+  const LEGS = [[T_GO, T_AT], [T_ON, READ[0]], [READ[0] + 0.95, READ[1]], [READ[1] + 0.95, READ[2]]];
+  function newPos(t, out) { // straight legs: where the line lands, a beat beside the roll, then the three pages
+    out.copy(stops[0]); for (let i = 0; i < 4; i++) if (t > LEGS[i][0]) out.lerpVectors(stops[i], stops[i + 1], sstep((t - LEGS[i][0]) / (LEGS[i][1] - LEGS[i][0])));
     return out;
   }
 
@@ -222,17 +246,18 @@ export async function create({ canvas, THREE, reduced }) {
     const t = reduced ? STILL_T : clamp(time, 0, meta.seconds), px = h / (portrait ? 1280 : 720);
 
     // camera: a slow settle, then a move that opens the room for the second half
-    const ck = sstep((t - 8.3) / 1.7), dr = 0.25 * (1 - t / 9) * (1 - ck);
-    cp.set(...lay.cam1.p).lerp(tmp.set(...lay.cam2.p), ck); cl.set(...lay.cam1.l).lerp(tmp.set(...lay.cam2.l), ck); cp.z -= dr * 1.6; cp.x += 0.12 * Math.sin(t * 0.23);
+    const C = lay.cams, k0 = sstep((t - 8.3) / 1.6), k1 = sstep((t - 10.95) / 1.3), k2 = sstep((t - 15.1) / 1.3), dr = 0.25 * (1 - t / 9) * (1 - k0);
+    cp.set(...lay.cam1.p).lerp(tmp.set(...C[0].p), k0).lerp(tmp.set(...C[1].p), k1).lerp(tmp.set(...C[2].p), k2);
+    cl.set(...lay.cam1.l).lerp(tmp.set(...C[0].l), k0).lerp(tmp.set(...C[1].l), k1).lerp(tmp.set(...C[2].l), k2); cp.z -= dr * 1.6; cp.x += 0.1 * Math.sin(t * 0.23);
     camera.fov = lay.fov; camera.aspect = w / h; camera.position.copy(cp); camera.lookAt(cl); camera.updateProjectionMatrix(); camera.updateMatrixWorld(); shared.uCam.value.copy(cp); sky.position.copy(cp);
 
     // the old light: gives a little away with each page, then rolls up
     const tau = clamp((t - T_ROLL) / ROLL_LEN), given = LAND.reduce((s, L) => s + sstep((t - (L - 1.0)) / 1.0), 0);
     const oldI = lerp(1 - 0.12 * given, 0.035, sstep(tau * 1.15)) * (1 + 0.035 * Math.sin(t * 2.1) * (1 - tau));
-    const op = tmp.set(...lay.old); op.y += 0.06 * Math.sin(t * 0.9); const go = sstep(tau / 0.6), oldP = stops[3].copy(op).lerp(rollTop(tmp2), go).clone(); oldP.y += Math.sin(Math.PI * go) * 0.4;
-    oldGlow.m.position.copy(oldP); oldGlow.m.quaternion.copy(camera.quaternion); oldGlow.m.scale.setScalar(lerp(lay.oldSize * (1 - 0.05 * given), 0.75, sstep(tau * 1.1))); oldGlow.u.uA.value = lerp(0.95 - 0.08 * given, 0.16, sstep(tau * 1.15));
+    buildRibbon(tau); const go = sstep(tau / 0.24); oldP.set(...lay.old); oldP.y += 0.06 * Math.sin(t * 0.9); oldP.lerp(rollFace, go);
+    oldGlow.m.position.copy(oldP); oldGlow.m.quaternion.copy(camera.quaternion); oldGlow.m.scale.setScalar(lerp(lay.oldSize * (1 - 0.05 * given), 0.7, sstep(tau * 1.3))); oldGlow.u.uA.value = lerp(0.95 - 0.08 * given, 0.13, sstep(tau * 1.15));
     shared.uLp.value[0].copy(oldP); shared.uLc.value[0].set(1.0, 0.70, 0.30).multiplyScalar(2.6 * oldI);
-    buildRibbon(tau); ribU.uGlow.value = oldI; ribU.uRolled.value = sstep((tau - 0.5) / 0.5);
+    ribU.uGlow.value = oldI; ribU.uRolled.value = sstep((tau - 0.5) / 0.5);
 
     // desk and tools: each group loses its outline as its page is written; the desk goes with the light
     const deskOp = 1 - sstep((t - 7.9) / 1.3); deskG.visible = deskOp > 0.004; deskMat.uniforms.uOp.value = deskOp;
@@ -251,25 +276,27 @@ export async function create({ canvas, THREE, reduced }) {
       pg.mesh.rotation.set(-0.1 - 0.5 * a * (1 - form * 0.5), 0.9 * a * (i % 2 ? -1 : 1), 0.35 * Math.sin(a * Math.PI) * (i % 2 ? 1 : -1));
       const sc = (0.08 + 0.92 * form) * (0.72 + 0.28 * fl); pg.mesh.scale.set(lay.pw * sc, lay.ph * sc, 1);
       const teal = sstep(dt / 0.35), flash = landed ? Math.exp(-dt * 3.2) : 0, rk = clamp((t - READ[i]) / 0.85);
-      pg.u.uTeal.value = teal; pg.u.uFlash.value = flash + 0.25 * (1 - fl) * form; pg.u.uRead.value = rk; pg.u.uBright.value = 0.92 + 0.2 * rk + 0.5 * flash;
-      shelfI += teal * (0.42 + 0.12 * rk) + flash * 0.8;
-      const pgw = pageGlows[i]; pgw.m.visible = landed; pgw.m.position.set(ex, ey, ez - 0.05); pgw.m.quaternion.copy(camera.quaternion); pgw.m.scale.setScalar(lay.ph * 2.6); pgw.u.uA.value = 0.20 * teal + 0.5 * flash + 0.08 * rk;
+      pg.u.uTeal.value = teal; pg.u.uFlash.value = flash + 0.25 * (1 - fl) * form; pg.u.uRead.value = rk; const wait = 0.34 * sstep((t - 8.6) / 1.4) * (1 - rk), done = t > READ[i] + 0.85 ? Math.exp(-(t - READ[i] - 0.85) * 3) : 0;
+      pg.u.uBright.value = 0.95 - wait + 0.3 * rk + 0.25 * flash + 0.3 * done;
+      shelfI += teal * (0.42 - 0.2 * wait / 0.34 + 0.25 * rk) + flash * 0.8 + done * 0.5;
+      const pgw = pageGlows[i]; pgw.m.visible = landed; pgw.m.position.set(ex, ey, ez - 0.05); pgw.m.quaternion.copy(camera.quaternion); pgw.m.scale.setScalar(lay.ph * 2.6); pgw.u.uA.value = (0.20 - 0.4 * wait) * teal + 0.4 * flash + 0.22 * rk + 0.3 * done;
       // the thread from the old light to the page it is setting down
-      const th = tethers[i], ta = form * (1 - sstep(dt / 0.5)) * (1 - tau); th.visible = ta > 0.01; th.material.opacity = 0.75 * ta;
-      if (th.visible) { const p = th.geometry.attributes.position; for (let k = 0; k < 24; k++) { const q = k / 23; p.setXYZ(k, lerp(oldP.x, pg.mesh.position.x, q), lerp(oldP.y, pg.mesh.position.y, q) - Math.sin(q * Math.PI) * 0.25 * (1 - fl * 0.6), lerp(oldP.z, pg.mesh.position.z, q)); } p.needsUpdate = true; }
+      const th = tethers[i], ta = form * (1 - sstep(dt / 0.5)) * (1 - tau); th.m.visible = ta > 0.01; th.u.uA.value = 0.9 * ta;
+      if (th.m.visible) { for (let k = 0; k < 24; k++) { const q = k / 23; th.pts.set([lerp(oldP.x, pg.mesh.position.x, q), lerp(oldP.y, pg.mesh.position.y, q) - Math.sin(q * Math.PI) * 0.25 * (1 - fl * 0.6), lerp(oldP.z, pg.mesh.position.z, q)], k * 3); } setStrip(th, 0.028, cp); }
     });
     shared.uLp.value[2].set(sx, sy, lay.slotZ + 1.3); shared.uLc.value[2].set(...TEAL).multiplyScalar(shelfI * 1.5);
 
     // the spoken line and the new light
-    const rev = clamp((t - T_LINE) / (T_BORN - T_LINE)); lineU.uReveal.value = rev; lineU.uA.value = sstep((t - T_LINE) / 0.2) * (1 - 0.5 * sstep((t - 12.2) / 1.5)); lineMesh.visible = t > T_LINE; lineMesh.quaternion.copy(camera.quaternion);
-    stops[0].set(...lay.born); for (let i = 0; i < 3; i++) readPos(i, stops[i + 1]);
-    const np = newPos(t, tmp), born = sstep((t - T_BORN) / 0.35), pop = t > T_BORN ? Math.exp(-(t - T_BORN) * 5) : 0, lvl = READ.reduce((s, R) => s + sstep((t - R) / 0.85), 0);
+    const rev = clamp((t - T_LINE) / (T_BORN - T_LINE)); lineU.uReveal.value = rev; lineU.uA.value = sstep((t - T_LINE) / 0.2) * (1 - lay.lineOut * sstep((t - 11.1) / 1.0)); lineMesh.visible = t > T_LINE; lineMesh.quaternion.copy(camera.quaternion);
+    stops[0].set(...lay.born); stops[1].set(...lay.hold); for (let i = 0; i < 3; i++) readPos(i, stops[i + 2]);
+    const np = newPos(t, tmp), born = sstep((t - T_BORN) / 0.3), pop = t > T_BORN ? Math.exp(-(t - T_BORN) * 5) : 0, lvl = READ.reduce((s, R) => s + sstep((t - R) / 0.85), 0);
+    const pulse = READ.reduce((s, R) => s + (t > R + 0.85 ? Math.exp(-(t - R - 0.85) * 3.5) : 0), 0);
     np.y += 0.05 * Math.sin(t * 2.3) * born;
-    newGlow.m.visible = born > 0.001; newGlow.m.position.copy(np); newGlow.m.quaternion.copy(camera.quaternion); newGlow.m.scale.setScalar((1.6 + 0.26 * lvl + 1.1 * pop) * born); newGlow.u.uA.value = (0.62 + 0.2 * lvl + 0.6 * pop) * born;
-    shared.uLp.value[1].copy(np); shared.uLc.value[1].set(0.9, 0.96, 0.92).multiplyScalar((0.75 + 0.22 * lvl) * born);
-    { const p = trail.geometry.attributes.position, te = Math.max(T_GO, t); for (let k = 0; k < TRAIL; k++) { newPos(lerp(T_GO, te, k / (TRAIL - 1)), tmp2); p.setXYZ(k, tmp2.x, tmp2.y, tmp2.z); } p.needsUpdate = true; trail.visible = t > T_GO; trail.material.opacity = 0.6; }
+    newGlow.m.visible = born > 0.001; newGlow.m.position.copy(np); newGlow.m.quaternion.copy(camera.quaternion); newGlow.m.scale.setScalar((2.3 + 0.55 * lvl + 1.0 * pop + 0.8 * pulse) * born); newGlow.u.uA.value = (0.66 + 0.13 * lvl + 0.5 * pop + 0.25 * pulse) * born;
+    shared.uLp.value[1].copy(np); shared.uLc.value[1].set(0.9, 0.96, 0.92).multiplyScalar((0.7 + 0.3 * lvl + 0.5 * pulse) * born);
+    { const te = Math.max(T_GO, t); for (let k = 0; k < TRAIL; k++) { newPos(lerp(T_GO, te, k / (TRAIL - 1)), tmp2); trail.pts.set([tmp2.x, tmp2.y, tmp2.z], k * 3); } trail.m.visible = t > T_GO + 0.02; trail.u.uA.value = 0.5; if (trail.m.visible) setStrip(trail, 0.026, cp); }
     let ri = -1, rk = 0; READ.forEach((R, i) => { const k = (t - R) / 0.85; if (k > 0 && k < 1) { ri = i; rk = k; } });
-    readLine.visible = ri >= 0; if (ri >= 0) { const p = readLine.geometry.attributes.position, pm = pages[ri].mesh.position; p.setXYZ(0, np.x, np.y, np.z); p.setXYZ(1, pm.x, pm.y + lay.ph * (0.5 - rk * 1.0) * 0.9, pm.z); p.needsUpdate = true; readLine.material.opacity = 0.8 * Math.sin(Math.PI * rk); }
+    readLine.m.visible = ri >= 0; if (ri >= 0) { const pm = pages[ri].mesh.position; readLine.pts.set([np.x, np.y, np.z, pm.x + lay.readSide * lay.pw * 0.42, pm.y + lay.ph * (0.5 - rk) * 0.9, pm.z + 0.02]); setStrip(readLine, 0.035, cp); readLine.u.uA.value = 0.9 * Math.sin(Math.PI * rk); }
 
     renderer.render(scene, camera);
   }

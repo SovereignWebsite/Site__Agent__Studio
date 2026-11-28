@@ -11,6 +11,11 @@
    "path": "session-refresh/v0.1/frames/",
    "what": "30 full-size frames (720x1280 PNG): three of every scene of How we refresh a session v0.1, and frames.json listing them. Small copies are on the storyboard page.",
    "added": "2026-11-28"
+  },
+  {
+   "path": "session-refresh/v0.2/frames/",
+   "what": "27 full-size frames (720x1280 PNG): three of every scene of How we refresh a session v0.2, and frames.json listing them.",
+   "added": "2026-11-28"
   }
  ],
  "earlier": [
