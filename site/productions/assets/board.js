@@ -14,6 +14,7 @@ const start = async () => {
   for (const card of cards) {
     const i = +card.dataset.i, $ = (s) => card.querySelector(s), text = $('textarea'), sent = $('[data-role=sent]'), up = $('[data-act=up]'), down = $('[data-act=down]'), mic = $('[data-act=dictate]'); let verdict = '';
     const paint = () => { up.setAttribute('aria-pressed', String(verdict === 'up')); down.setAttribute('aria-pressed', String(verdict === 'down')); };
+    $('[data-act=stopfilm]')?.addEventListener('click', () => { P.pause(); mark(i); });
     for (const th of card.querySelectorAll('.thumb')) th.addEventListener('click', () => { P.pause(); P.go(+th.dataset.t); mark(i); });
     $('[data-act=playscene]').addEventListener('click', () => { mark(i); P.playScene(i); });
     up.addEventListener('click', () => { verdict = verdict === 'up' ? '' : 'up'; paint(); }); down.addEventListener('click', () => { verdict = verdict === 'down' ? '' : 'down'; paint(); });

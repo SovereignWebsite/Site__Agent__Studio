@@ -1,0 +1,98 @@
+{
+ "about": "Synthetic test viewers of How we refresh a session v0.3: five invented viewers, each played by an outside model through OpenRouter, shown three contact sheets of the film's frames and its narration. They saw stills, not motion, and heard nothing. They are not people and not a review signature; they are a cheap first read of whether a viewer would stay. The questions borrow from how short videos are studied: the hook, pacing, where a script re-hooks, the pay-off.",
+ "version": "v0.3",
+ "made": "2026-11-28",
+ "viewers": [
+  {
+   "viewer": "maxed-out-developer",
+   "who": "a solo developer who uses Claude Code all day in one long session and hits the usage limit most weeks. You have never heard of 'refreshing a session'. You are impatient and practical.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening line about burning through Claude tokens in long sessions hit my exact weekly frustration immediately.",
+    "watch_to_the_end": true,
+    "drop_off_second": null,
+    "why_drop": "I stayed because cutting token consumption by eighty-six per cent is too valuable to ignore when hitting rate limits.",
+    "story_back": "Instead of letting one long chat accumulate massive re-reading costs, dump your state and next steps into local markdown files and spin up a fresh session.",
+    "what_i_would_do_tomorrow": "Create a restart markdown file detailing current progress and next steps, then start a clean Claude Code session whenever context starts bloating.",
+    "confusing": [
+     "The abstract glowing orb and track in scene five",
+     "What exact 'one line' prompt is used to reboot the session",
+     "Whether this hand-over is manual or fully automated by a script"
+    ],
+    "best_moment": "The direct visual comparison of the token towers in scene eight showing an eighty-six per cent drop.",
+    "weakest_moment": "The floating shelves labelled 'now, role, restart' in scene six felt overly conceptual rather than showing real files.",
+    "missing_context": "A quick visual of an actual terminal window showing Claude Code reading a restart.md file would have anchored all the abstract diagrams.",
+    "one_change": "Show the concrete terminal command and markdown template rather than abstract 3D shelving and glowing balls.",
+    "title_idea": "Stop hitting Claude token limits: refresh your sessions",
+    "score_out_of_10": 8
+   }
+  },
+  {
+   "viewer": "team-lead-with-the-bill",
+   "who": "an engineering team lead who pays for the team's AI usage and has just been told the bill doubled. You want something you can tell the team to do on Monday.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening immediately frames a familiar cost problem—long Claude sessions consuming too many tokens—and promises a fix.",
+    "watch_to_the_end": true,
+    "drop_off_second": 18,
+    "why_drop": "The abstract token graph and rapidly changing figures could feel more like a technical cost report than a practical team instruction.",
+    "story_back": "Long sessions repeatedly reread their entire history, so we should write state to files and start fresh sessions before the context becomes huge.",
+    "what_i_would_do_tomorrow": "Add a hand-over file containing the current state, role, open work and next step, then have the next session load that file instead of the old transcript.",
+    "confusing": [
+     "Why the stated 300,000-token hand-over rule was ignored",
+     "Whether the figures are tokens written, tokens reread, or both",
+     "What exact files and one-line command the team should use"
+    ],
+    "best_moment": "The before-and-after comparison showing 860,000 tokens falling to 119,000 makes the potential saving immediately tangible.",
+    "weakest_moment": "The hand-over rule versus the 845,000-token example sounds contradictory without explaining whether this is a failure being diagnosed or an accepted practice.",
+    "missing_context": "The film needed one explicit example of the hand-over file and the exact first instruction used to start the fresh session.",
+    "one_change": "Show a concrete Monday-ready hand-over template and command immediately after the saving figure.",
+    "title_idea": "Stop Paying for Your Chat History",
+    "score_out_of_10": 7
+   }
+  },
+  {
+   "viewer": "curious-scroller",
+   "who": "a product designer who uses chat assistants casually, is not technical, and does not know what a token or a context window is. You scroll shorts fast.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "raw": "{\n  \"stop_scrolling\": true,\n  \"why_stop\": \"I use Claude for design feedback, so the promise of fixing expensive chats caught my eye despite the abstract visual.\",\n  \"watch_to_the_end\": false,\n  \"drop_off_second\": 14,\n  \"why_drop\": \"I was instantly overwhelmed by massive numbers and technical talk about 'tokens' and 'agents'.\",\n  \"story_back\": \"Long chat threads become bloated because the AI re-reads everything, so you should"
+   }
+  },
+  {
+   "viewer": "sceptical-engineer",
+   "who": "a senior engineer who distrusts AI hype and looks for claims without evidence, hand-waving, and numbers that do not add up.",
+   "model": "openai/gpt-5.6-luna",
+   "answer": {
+    "stop_scrolling": true,
+    "why_stop": "The opening immediately promises a concrete explanation for why a Claude session is consuming more tokens, with an unusually large number hinted at.",
+    "watch_to_the_end": false,
+    "drop_off_second": 19,
+    "why_drop": "The animated curve illustrates the idea but does not show the calculation or evidence clearly enough to justify staying through the abstract explanation.",
+    "story_back": "Long sessions repeatedly reread their history, so the proposed fix is to write the agent's state to files and start a fresh session from those files.",
+    "what_i_would_do_tomorrow": "Create a small restart file containing the current state, role, open work and next action, then test whether a fresh session reaches the same next step.",
+    "confusing": [
+     "Which specific rule requires handing over before 300,000 tokens, and why was it ignored?",
+     "The numbers change between frames, so it is unclear whether they are animation states or different measurements.",
+     "What exactly is in the restart files, and how was 'the same next step' verified?"
+    ],
+    "best_moment": "The before-and-after comparison of 859,600 versus 118,600 context tokens is the clearest and most actionable part.",
+    "weakest_moment": "The closing source card says the work is unpublished and awaiting review, which weakens the confident presentation of all the preceding numerical claims.",
+    "missing_context": "A session is the running conversation, and every new turn sends much of that conversation back to the model, whereas a hand-over replaces the transcript with a deliberately written state summary.",
+    "one_change": "Show a reproducible real example with the actual restart files, token-count calculation and linked source data instead of relying on abstract animations and unsupported claims.",
+    "title_idea": "Your AI Session Re-reads 95 Million Tokens",
+    "score_out_of_10": 5
+   }
+  },
+  {
+   "viewer": "shorts-editor",
+   "who": "an editor of short vertical videos who studies why viral videos work: the hook in the first seconds, pacing and information density, where a script re-hooks the viewer (open loops, pattern interrupts, rising stakes), and the pay-off.",
+   "model": "google/gemini-3.8-flash",
+   "answer": {
+    "raw": "{\n  \"stop_scrolling\": false,\n  \"why_stop\": \"A slow, sterile particle swirl paired with a dry title card looks like a corporate slide deck and offers zero visual friction or urgency in the opening three seconds.\",\n  \"watch_to_the_end\": false,\n  \"drop_off_second\": 25,\n  \"why_drop\": \"Once the initial shock of the 95-million-token stat passes, the video bogs down into slow, abstract 3D diagrams without showing real-world terminal prompts or code.\",\n  \"story_back\": \"Long AI coding chats become exponentially expensive because the model re-reads the entire history every turn, so you should export project state into standalone Markdown files and restart fresh sessions.\",\n  \"what_"
+   }
+  }
+ ]
+}

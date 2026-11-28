@@ -85,7 +85,7 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   const kind = sc.kind, cx = W / 2;
   if (kind === 'component') {
     // the picture is a scene component; only an optional line of words sits over it
-    if (sc.caption) { const lh = font(3.3, 500, true) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, H - 13.2 * U - (ls.length - 1 - k) * lh, T.ink, rv(1, 3), 'center')); }
+    if (sc.caption) { const big = !!P.brand, lh = (big ? font(4.7, 700) : font(3.3, 500, true)) * 1.3, ls = wrap(sc.caption, maxW); c.shadowBlur = 3 * U; ls.forEach((l, k) => put(l, cx, H - (big ? 14.5 : 13.2) * U - (ls.length - 1 - k) * lh, big ? T.accent : T.ink, big ? 1 : rv(1, 3), 'center')); }
   } else if (kind === 'title') {
     const lh = font(L.portrait ? 7.4 : 7, 700) * 1.16, ls = wrap(sc.title, maxW), y0 = H * 0.46 - (ls.length - 1) * lh / 2;
     ls.forEach((l, k) => put(l, cx, y0 + k * lh, T.ink, rv(k, ls.length + 2), 'center'));

@@ -368,7 +368,7 @@ def board_page(prod, ver, P, vhtml):
 <div class="thumbs">{thumbs}</div>
 <p class="voice">{e(s["narration"])}</p>
 <p class="meta">On screen: {e(on_screen(s) or s.get("title", ""))}</p>
-<div class="bar" role="group" aria-label="Scene {n} review"><button type="button" class="primary" data-act="playscene">Play scene {n}</button><button type="button" data-act="up" aria-pressed="false">👍 Good</button><button type="button" data-act="down" aria-pressed="false">👎 Not right</button><button type="button" data-act="dictate" aria-pressed="false">Speak</button></div>
+<div class="bar" role="group" aria-label="Scene {n} review"><button type="button" class="primary" data-act="playscene">Play scene {n}</button><button type="button" data-act="stopfilm">Stop the film</button><button type="button" data-act="up" aria-pressed="false">👍 Good</button><button type="button" data-act="down" aria-pressed="false">👎 Not right</button><button type="button" data-act="dictate" aria-pressed="false">Speak</button></div>
 <label class="vh" for="bt-{n}">Your comment on scene {n}</label><textarea id="bt-{n}" rows="2" placeholder="Your comment on scene {n}"></textarea>
 <p><button type="button" data-act="sendscene">Send for scene {n}</button> <span class="meta" data-role="sent" role="status"></span></p>
 </li>"""
@@ -461,6 +461,12 @@ def main():
         write(f"{pid}/script.md", script); write(f"{pid}/index.html", production_page(prod, versions)); prods.append((prod, versions))
         print(pid, versions[-1][0], versions[-1][2]["digest"][:16], f"{len(versions[-1][3])} review(s), approved: {versions[-1][4]}")
     write("index.html", index_page(idx, prods))
-    lab_page(); send_page(); refresh_doc(); refresh_board(); changes_json()
+    lab_page(); send_page(); refresh_doc(); refresh_board()
+    # each production as a small website: its reviews, script, team and article pages, and one menu on every page of it
+    import prod_site
+    for prod, versions in prods:
+        prod_site.reviews_page(ROOT, prod, page, write); prod_site.script_page(ROOT, prod, versions[-1][1], page, write)
+        prod_site.team_page(ROOT, prod, page, write); prod_site.article_page(ROOT, prod, page, write); prod_site.inject(ROOT, prod)
+    changes_json()
 
 if __name__ == "__main__": main()

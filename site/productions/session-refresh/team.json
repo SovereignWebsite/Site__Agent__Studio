@@ -1,0 +1,83 @@
+{
+ "lede": "One person, one lead agent, and a small cell of sub-agents and outside models set up for this one film and taken down when it is done.",
+ "note": "Models as recorded on 28 November 2026. The lead's model is read from its own session record. Sub-agents started by the lead take the lead's model unless another is set, and none was set; that was not checked run by run. Outside models are named as the service reported them.",
+ "tree": {
+  "name": "Dinis Cruz",
+  "kind": "signed",
+  "kind_word": "A person, the owner",
+  "does": "Gives the brief, watches each version, says what is wrong, and is the only one who can approve it for publishing.",
+  "members": [
+   {
+    "name": "c.productions",
+    "kind": "review",
+    "kind_word": "Lead agent",
+    "does": "Writes the storyboard and each brief, looks at every frame, joins the scenes into versions, runs the site's checks, signs and pushes. A successor session since the hand-over of 28 November.",
+    "model": "Claude Fable 5.2 (claude-fable-5-2), in Claude Code",
+    "members": [
+     {
+      "name": "Scene-smiths (five at once)",
+      "kind": "building",
+      "kind_word": "Sub-agents",
+      "does": "One per scene: build a WebGL scene, shoot its own frames, criticise them against the rubric, improve. They cannot push or publish.",
+      "model": "The lead's model (Claude Fable 5.2), not set separately",
+      "runs": "10 runs in two rounds: the scroll and the curve, the 300,000 line, the shelf, the keys and the test, the saving."
+     },
+     {
+      "name": "Critic",
+      "kind": "building",
+      "kind_word": "Sub-agent",
+      "does": "Scores a version against the rubric from its frames and names the changes that would help most. Never rewrites.",
+      "model": "The lead's model (Claude Fable 5.2), not set separately",
+      "runs": "1 run, on v0.1."
+     },
+     {
+      "name": "Outside critic",
+      "kind": "idea",
+      "kind_word": "Outside model",
+      "does": "A second opinion from a different maker's model, shown contact sheets of the frames and the narration.",
+      "model": "google/gemini-3.8-flash, through OpenRouter",
+      "runs": "1 call, on v0.1."
+     },
+     {
+      "name": "Synthetic test viewers (five)",
+      "kind": "idea",
+      "kind_word": "Outside models",
+      "does": "Invented viewers, each asked whether they would stop scrolling, where they would leave, and what they would do tomorrow.",
+      "model": "google/gemini-3.8-flash and openai/gpt-5.6-luna, through OpenRouter",
+      "runs": "5 calls, on v0.3."
+     },
+     {
+      "name": "Voice",
+      "kind": "idea",
+      "kind_word": "Outside model",
+      "does": "Speaks the narration. One stock preset voice, labelled on screen as made by AI.",
+      "model": "Mistral Voxtral (voxtral-mini-tts-3), preset voice James"
+     }
+    ]
+   },
+   {
+    "name": "The first c.productions session",
+    "kind": "stopped",
+    "kind_word": "Handed over",
+    "does": "Built the pipeline, wrote the one-page document and this film's brief, then wrote its hand-over notes and stopped. The film is about what it did.",
+    "model": "Claude Fable 5.2"
+   },
+   {
+    "name": "accountant.c, conductor.c, c.maestro",
+    "kind": "review",
+    "kind_word": "Other agents",
+    "does": "Not part of the cell: the accountant measured the sessions before and after, the conductor started the successor, the maestro holds the sealed vault keys."
+   }
+  ]
+ },
+ "flow": [
+  "The owner gives a brief and a document of facts.",
+  "The lead writes a storyboard: every beat with a sketch, its words and its numbers.",
+  "Five scene-smiths build the five scenes at the same time and judge their own frames.",
+  "The lead looks at every frame, joins the scenes with a voice, and publishes the version for review.",
+  "Critics and synthetic viewers judge it; the lead chooses what to change.",
+  "Each scene-smith does one more round; a new version is cut.",
+  "The owner watches and speaks his feedback; the loop runs again.",
+  "When the film is signed, the cell is taken down. Its files stay."
+ ]
+}

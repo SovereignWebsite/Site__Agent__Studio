@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "46d9f33",
+   "date_utc": "2026-11-28 11:42",
+   "what": "How we refresh a session v0.3: a cover that says what and why, a brand line on every scene; dictation that shows it is listening",
+   "detail": "From Dinis Cruz's first feedback on the film, 28 Nov 2026:\n- v0.3 opens with a cover: the title, and why (long sessions with Claude burn tokens; this is how we recycle\n  ours). The nine scenes after it are v0.2's. About 85 seconds.\n- The player draws a production's brand line at the top of every scene when scenes.json names one\n  ('Sovereign Website · Productions' here; the wording waits for the owner's word). Other productions are unchanged.\n- Speaking a comment on the review and storyboard pages now pauses the film, shows the words in the box as they\n  are spoken and keeps them scrolled into view, with a line saying it is listening.\n- player.js changed, so every version's digest changed; the self-check reviews are signed again."
+  },
+  {
    "commit": "35aaa72",
    "date_utc": "2026-11-28 06:49",
    "what": "c.productions: record accountant.c's second reading and c.maestro's confirmation",
