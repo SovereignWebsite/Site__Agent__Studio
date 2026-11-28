@@ -35,9 +35,9 @@ const N = {
   voice:  { P: [78, 714], L: [300, 398], par: 'lead', t: 8.1, col: PALE, size: 62, core: 4.2, label: 'voice', fs: 26, la: 'a', tag: 'Mistral' },
   design: { P: [432, 560], L: [770, 262], par: 'lead', t: 8.35, col: DIM, size: 70, core: 4.6, label: 'design.c', fs: 26, la: 'b', dot: 1 },
   hig:    { P: [350, 985], L: [862, 452], par: 'lead', t: 8.6, col: DIM, size: 70, core: 4.6, label: 'higgsfield.c', fs: 26, la: 'b', dot: 1, curve: -0.12 },
-  acct:   { P: [165, 985], L: [112, 545], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
+  acct:   { P: [165, 985], L: [122, 492], par: 'lead', t: 8.85, col: DIM, size: 70, core: 4.6, label: 'accountant.c', fs: 26, la: 'b', dot: 1, curve: 0.12 },
   higb:   { P: [612, 612], L: [1022, 380], par: 'bm', t: 9.1, col: INK, size: 62, core: 4, hollow: 1, label: 'higgsfield.b', fs: 26, la: 'b', dot: 1, curve: 0.1 },
-  elb:    { P: [640, 830], L: [1168, 478], par: 'bm', t: 9.4, col: INK, size: 62, core: 4, hollow: 1, label: 'elevenlabs.b', fs: 26, la: 'b', dot: 1, curve: -0.14 },
+  elb:    { P: [622, 830], L: [1168, 478], par: 'bm', t: 9.4, col: INK, size: 62, core: 4, hollow: 1, label: 'elevenlabs.b', fs: 26, la: 'b', dot: 1, curve: -0.14 },
 };
 // Clusters of small helper lights round the lead, each with one line from the lead and a short label.
 const CL = [
@@ -54,7 +54,7 @@ const LAY = {
     cell: { c: [640, 338], h: [627, 264], r: 56 }, cellLab: [640, 601],
     lib: [250, 178, 600, 350, 4, 4], libLab: [550, 572], vault: [1052, 440], vaultLab: [1052, 520], punch: [640, 108], punchFs: 50 },
 };
-const BAND_T = [2.3, 2.8], CELL_T0 = 10.0, CELL_T1 = 11.3;
+const BAND_T = [2.3, 2.8], CELL_T0 = 10.0, CELL_T1 = 11.3, K = 0.92; // K draws every position in a little, keeping 4% clear at each edge
 
 export async function create({ canvas, THREE, reduced }) {
   const rnd = prng(20261128);
@@ -171,16 +171,20 @@ export async function create({ canvas, THREE, reduced }) {
 
   // labels: canvas text, drawn at twice the design size, with a soft navy backing so lines can pass beneath
   const labels = [];
-  function label(text, fs, opt = {}) {
-    const c = document.createElement('canvas'), x = c.getContext('2d'), S = 2, f = `${opt.bold ? 650 : 500} ${fs * S}px ${FONT}`; x.font = f;
-    const rows = text.split('\n'), tw = Math.ceil(Math.max(...rows.map((r) => x.measureText(r).width))), pad = 14 * S, lh = fs * S * 1.22;
-    c.width = tw + pad * 2; c.height = Math.ceil(fs * S * 1.5 + pad + lh * (rows.length - 1));
+  function drawLabel(L, R) {
+    const { text, fs, opt } = L, c = document.createElement('canvas'), x = c.getContext('2d'), f = `${opt.bold ? 650 : 500} ${fs * R}px ${FONT}`; x.font = f;
+    const rows = text.split('\n'), tw = Math.ceil(Math.max(...rows.map((r) => x.measureText(r).width))), pad = 14 * R, lh = fs * R * 1.22;
+    c.width = tw + pad * 2; c.height = Math.ceil(fs * R * 1.5 + pad + lh * (rows.length - 1));
     x.font = f; x.textBaseline = 'middle'; x.textAlign = 'center';
-    x.fillStyle = 'rgba(9,18,30,0.62)'; x.filter = `blur(${7 * S}px)`; const r = c.height * 0.32; x.beginPath(); x.roundRect(pad * 0.6, pad * 0.5, c.width - pad * 1.2, c.height - pad, r); x.fill(); x.filter = 'none';
-    x.shadowColor = 'rgba(5,10,18,0.9)'; x.shadowBlur = 6 * S; x.fillStyle = opt.color || '#f4f1e8'; rows.forEach((row, i) => x.fillText(row, c.width / 2, c.height / 2 + fs * S * 0.04 + (i - (rows.length - 1) / 2) * lh));
-    const tex = keep(new THREE.CanvasTexture(c)); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false;
-    const m = new THREE.Mesh(unitPlane, keep(new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, opacity: 0 })));
-    m.renderOrder = 20; m.frustumCulled = false; scene.add(m); const L = { m, w: c.width / S, h: c.height / S, tw: tw / S, pad: pad / S }; labels.push(L); return L;
+    x.fillStyle = 'rgba(9,18,30,0.62)'; x.filter = `blur(${7 * R}px)`; const r = c.height * 0.32; x.beginPath(); x.roundRect(pad * 0.6, pad * 0.5, c.width - pad * 1.2, c.height - pad, r); x.fill(); x.filter = 'none';
+    x.shadowColor = 'rgba(5,10,18,0.9)'; x.shadowBlur = 6 * R; x.fillStyle = opt.color || '#f4f1e8'; rows.forEach((row, i) => x.fillText(row, c.width / 2, c.height / 2 + fs * R * 0.04 + (i - (rows.length - 1) / 2) * lh));
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false;
+    if (L.tex) L.tex.dispose(); L.tex = tex; L.m.material.map = tex; L.m.material.needsUpdate = true;
+    L.w = c.width / R; L.h = c.height / R; L.tw = tw / R; L.pad = pad / R; L.R = R;
+  }
+  function label(text, fs, opt = {}) {
+    const m = new THREE.Mesh(unitPlane, keep(new THREE.MeshBasicMaterial({ transparent: true, depthTest: false, depthWrite: false, opacity: 0 })));
+    m.renderOrder = 20; m.frustumCulled = false; scene.add(m); const L = { m, text, fs, opt }; drawLabel(L, 2); labels.push(L); return L;
   }
   function placeLabel(L, x, y, anchor, s, a, gap = 0) {
     const w = L.w * s, h = L.h * s, tw = L.tw * s, pad = L.pad * s; let cx = x, cy = y;
@@ -222,7 +226,7 @@ export async function create({ canvas, THREE, reduced }) {
     return items.length;
   }
 
-  let lay = null, isPortrait = null, nItems = 0;
+  let lay = null, isPortrait = null, nItems = 0, lastW = 0, lastH = 0;
   function place(portrait) { isPortrait = portrait; lay = portrait ? LAY.port : LAY.land; nItems = archiveOrder(lay); }
 
   // geometry helpers
@@ -246,15 +250,19 @@ export async function create({ canvas, THREE, reduced }) {
   let X0 = 0, Y0 = 0, S = 1; const X = (x) => X0 + x * S;
 
   function render(time, w, h) {
-    const portrait = h > w; if (portrait !== isPortrait) place(portrait);
-    if (canvas.width !== w || canvas.height !== h) renderer.setSize(w, h, false); renderer.setViewport(0, 0, w, h);
+    // a change of size is a fresh start in that size: new layout, new drawing buffer, words redrawn at the new scale
+    const portrait = h > w;
+    if (w !== lastW || h !== lastH) { lastW = w; lastH = h; place(portrait); renderer.setSize(w, h, false);
+      const sc = Math.min(w / lay.W, h / lay.H), R = Math.min(4, Math.max(1, Math.ceil(sc * 2 * 4) / 4)); for (const L of labels) if (L.R !== R) drawLabel(L, R); }
+    renderer.setViewport(0, 0, w, h);
     const t = reduced ? STILL_T : clamp(time, 0, meta.seconds), key = portrait ? 'P' : 'L';
     S = Math.min(w / lay.W, h / lay.H); X0 = (w - lay.W * S) / 2; Y0 = (h - lay.H * S) / 2;
     camera.left = 0; camera.right = w; camera.top = 0; camera.bottom = -h; camera.updateProjectionMatrix();
     const tm = Math.min(t, T_HOLD); bgU.uRes.value.set(w, h); bgU.uT.value = tm; lineMesh.material.uniforms.uS.value = S; glows.material.uniforms.uS.value = S;
     const Z = lerp(1.14, 1, sstep((t - 6.4) / 2.4)), oy = N.owner[key][1], cxm = lay.W / 2;
-    const Z2 = 1 + 0.06 * sstep((t - 12.8) / 2.2) * (1 - sstep((t - 15.6) / 4.4)), CX = w / 2, CY = Y0 + (lay.lib[1] + lay.lib[3] / 2) * S;
-    const sx = (x) => CX + (X0 + (cxm + (x - cxm) * Z) * S - CX) * Z2, sy = (y) => CY + (Y0 + (oy + (y - oy) * Z) * S - CY) * Z2, P = (p) => [sx(p[0]), sy(p[1])];
+    const Z2 = 1 + 0.06 * sstep((t - 12.8) / 2.2) * (1 - sstep((t - 15.6) / 4.4)), CX = w / 2, CY = Y0 + (lay.H / 2 + (lay.lib[1] + lay.lib[3] / 2 - lay.H / 2) * K) * S;
+    const cym = lay.H / 2, oyk = cym + (oy - cym) * K, kx = (x) => cxm + (x - cxm) * K, ky = (y) => cym + (y - cym) * K;
+    const sx = (x) => CX + (X0 + (cxm + (kx(x) - cxm) * Z) * S - CX) * Z2, sy = (y) => CY + (Y0 + (oyk + (ky(y) - oyk) * Z) * S - CY) * Z2, P = (p) => [sx(p[0]), sy(p[1])];
     li = 0; gi = 0; for (const L of labels) { L.m.visible = false; L.m.material.opacity = 0; }
     const live = (o) => (o.out === undefined ? 1 : 1 - sstep((t - o.out) / 0.22));
     const outFlare = (o) => (o.out === undefined || t < o.out - 0.05 ? 0 : Math.exp(-Math.max(0, t - o.out) * 9) * (t < o.out + 0.4 ? 1 : 0));
@@ -268,11 +276,11 @@ export async function create({ canvas, THREE, reduced }) {
     // account bands: open with their maestro, grow downward with the cell
     const deepest = Math.max(...nodes.filter((n) => !n.dot && n.id !== 'owner').map((n) => (t > n.t - 0.6 ? n[key][1] : 0)), 0);
     bands.forEach((b, i) => { const [x0, x1] = lay.bands[i], [y0, y1] = lay.bandY, k = sstep((t - BAND_T[i]) / 0.8);
-      b.u.uC.value.set(X0 + (x0 + x1) / 2 * S, sy((y0 + y1) / 2)); b.u.uH.value.set((x1 - x0) / 2 * S, (y1 - y0) / 2 * S * Z); b.u.uR.value = 26 * S;
+      b.u.uC.value.set(X0 + kx((x0 + x1) / 2) * S, sy((y0 + y1) / 2)); b.u.uH.value.set((x1 - x0) / 2 * S * K, (y1 - y0) / 2 * S * Z * K); b.u.uR.value = 26 * S;
       const grow = i === 0 ? lerp(Math.max(sy(y0 + 150), sy(deepest + 130)), sy(y1 + 60), sstep((t - 6.9) / 2.2)) : lerp(sy(y0 + 150), sy(y1 + 60), sstep((t - 8.6) / 1.2));
       b.u.uRev.value = grow; const fade = 1 - sstep((t - 12.0) / 0.9);
       b.u.uFill.value = 0.055 * k * fade; b.u.uEdge.value = 0.20 * k * fade; b.m.visible = k * fade > 0.002;
-      placeLabel(bandLabs[i], i ? X0 + (x1 - 18) * S - bandLabs[i].tw * S : X0 + (x0 + 18) * S, sy(lay.bandLab), 'al', S, 0.92 * sstep((t - BAND_T[i] - 0.2) / 0.5) * fade); });
+      placeLabel(bandLabs[i], i ? X0 + kx(x1 - 18) * S - bandLabs[i].tw * S : X0 + kx(x0 + 18) * S, sy(lay.bandLab), 'al', S, 0.92 * sstep((t - BAND_T[i] - 0.2) / 0.5) * fade); });
 
     // the named lights and the lines to whoever started or briefed them
     const posOf = (n) => n[key];
@@ -326,7 +334,7 @@ export async function create({ canvas, THREE, reduced }) {
     // the membrane: draws itself round everyone, then tightens a little and fades as the cell is archived
     { const cc = lay.cell, sh = lay.cell.c, fold = 0.25 * sstep((t - 12.1) / 1.4), sweep = sstep((t - CELL_T0) / (CELL_T1 - CELL_T0));
       const ccx = lerp(cc.c[0], sh[0], fold), ccy = lerp(cc.c[1], sh[1] - 20, fold), hx = lerp(cc.h[0], 170, fold), hy = lerp(cc.h[1], 60, fold);
-      cell.u.uC.value.set(sx(ccx), sy(ccy)); cell.u.uH.value.set(hx * S, hy * S); cell.u.uR.value = lerp(cc.r, 40, fold) * S; cell.u.uT.value = tm; cell.u.uWob.value = S * (1 - fold);
+      cell.u.uC.value.set(sx(ccx), sy(ccy)); cell.u.uH.value.set(hx * S * K, hy * S * K); cell.u.uR.value = lerp(cc.r, 40, fold) * S; cell.u.uT.value = tm; cell.u.uWob.value = S * (1 - fold);
       cell.u.uSweep.value = sweep >= 0.999 ? 2 : sweep; const ca = (t > CELL_T0 ? 1 : 0) * (1 - sstep((t - 12.3) / 1.0));
       cell.u.uEdge.value = 0.75 * ca; cell.u.uFill.value = 0.05 * ca * sstep((t - CELL_T1 + 0.4) / 0.6); cell.m.visible = ca > 0.002;
       placeLabel(cellLab, sx(lay.cellLab[0]), sy(lay.cellLab[1]), 'c', S, sstep((t - 10.9) / 0.5) * (1 - sstep((t - 12.15) / 0.5))); }
@@ -343,9 +351,9 @@ export async function create({ canvas, THREE, reduced }) {
       if (t > f.ta) a *= 1 - (t - f.ta) / 0.25; void k; void drift;
       addGlow(sx(p[0]), -sy(p[1]), f.big ? [0.62, 0.9, 0.86] : f.it.col, a * (0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, (t - o.out) * 2))), (f.big ? 56 : 36) * S * Z2, 3 * S, 3); }
     const grow = sstep((t - 14.0) / 1.5);
-    libU.uRect.value.set(sx(lx0), sy(ly0), lw, lh); libU.uS.value = S * Z2; libU.uNC.value = nc; libU.uNS.value = ns; libU.uT.value = tm;
+    libU.uRect.value.set(sx(lx0), sy(ly0), lw, lh); libU.uS.value = S * Z2 * K; libU.uNC.value = nc; libU.uNS.value = ns; libU.uT.value = tm;
     libU.uA.value = grow * (0.85 + 0.15 * sstep((t - 18.5) / 1.5)); libU.uGrow.value = grow; libU.uFill.value = 0.22 + 0.78 * filled / Math.max(1, nReg);
-    libU.uV.value.set(sx(lay.vault[0]), sy(lay.vault[1]), 1); libU.uVA.value = 0.75 * sstep((t - 15.0) / 1.0); libU.uVF.value = Math.min(1, vf);
+    libU.uV.value.set(sx(lay.vault[0]), sy(lay.vault[1]), K); libU.uVA.value = 0.75 * sstep((t - 15.0) / 1.0); libU.uVF.value = Math.min(1, vf);
     placeLabel(libLab, sx(lay.libLab[0]), sy(lay.libLab[1]), 'c', S, sstep((t - 16.0) / 0.8));
     placeLabel(vaultLabs[portrait ? 0 : 1], sx(lay.vaultLab[0]), sy(lay.vaultLab[1]), 'c', S, 0.8 * sstep((t - 16.6) / 0.8));
     { const k = sstep((t - 19.2) / 1.0); placeLabel(punchLabs[portrait ? 0 : 1], sx(lay.punch[0]), sy(lay.punch[1] + 14 * (1 - k)), 'c', S, k); }
@@ -356,6 +364,6 @@ export async function create({ canvas, THREE, reduced }) {
     lGeo.setDrawRange(0, li * SEG * 6); ['position', 'aUV', 'aCol', 'aP', 'aH'].forEach((n) => { lGeo.attributes[n].needsUpdate = true; });
     renderer.render(scene, camera);
   }
-  function dispose() { for (const d of disposables) d.dispose(); renderer.dispose(); }
+  function dispose() { for (const d of disposables) d.dispose(); for (const L of labels) L.tex.dispose(); renderer.dispose(); }
   return { render, dispose };
 }
