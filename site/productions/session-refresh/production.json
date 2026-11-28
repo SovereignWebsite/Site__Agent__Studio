@@ -31,8 +31,8 @@
  "made_by": "c.productions, an AI agent (Claude), with a cell of scene-building and critic sub-agents",
  "storyboard": "storyboard/ (data: storyboard.json), first pass 28 November 2026 by the successor session; scenes wait on the owner reading it",
  "format": "Vertical, 720 by 1280, from the start (Dinis Cruz, 28 November 2026: 'plan it as vertical from the beginning'). A wide version can follow.",
- "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about 90 seconds: a cover, eight scenes and the team that made it drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
- "status_note": "Version v0.4 adds a line of context to every scene and ends on the team that made it. Nobody has approved any version. Nothing is published anywhere.",
+ "summary": "How a long AI agent session is handed over to a fresh one, and what it saves: a vertical film of about 110 seconds: a cover, nine scenes and the team that made it drawn with WebGL in your browser, every number from one measured session and one measured hand-over, with a voice made by AI.",
+ "status_note": "Version v0.5 reframes the film as compaction we control and brings the keys scene back. Nobody has approved any version. Nothing is published anywhere.",
  "approvers": [],
  "versions": [
   {
@@ -58,6 +58,12 @@
    "date": "2026-11-28",
    "status": "review",
    "notes": "From Dinis Cruz's second feedback and five synthetic test viewers of v0.3, who all asked for the practical thing: a line of context on every scene that glues the pictures into steps (the problem, why, our rule, step 1, step 2, step 3, the result, copy this); the voice now says what we do as three steps; the last scene is the team that made the film, with its models, in place of flat credits; the voice no longer says that it is made by AI (the label on every frame does). The pictures are v0.3's."
+  },
+  {
+   "version": "v0.5",
+   "date": "2026-11-28",
+   "status": "review",
+   "notes": "From Dinis Cruz's notes of 28 November after reading the reviews: the key message is compaction we control, a formal workflow run by the conductors and maestros, and not lessons learnt; the keys scene is back, as what underpins it (every agent has its own pair of keys, for one session only); the new session is shown loading the agent behaviour policies. The cover now says that Claude compacts a long session for you and that we compact ours on purpose. Eleven scenes; the pictures are the same lab scenes, and no new scene was built for this cut."
   }
  ],
  "links": [
@@ -85,6 +91,11 @@
   }
  ],
  "owner_feedback": [
+  {
+   "text": "This is not a video about lessons learned. This is a video about showing the power of our self-compaction, our self-archiving, and having our workflow where our maestros and our conductors control this ... a formalized workflow for compacting is the key message here ... But the PKI, I think, is also what underpins all this ... every agent has a public and private key that only lasts for that session.",
+   "from": "Dinis Cruz, 28 November 2026, after reading the reviews",
+   "done": "Done in words in v0.5: the cover and the steps are framed as compaction we control, run by conductors and maestros, and the keys scene is back. Not yet done in pictures: a scene that zooms into the key pair and into what the note holds."
+  },
   {
    "text": "I think the animations are great. I think we're just missing a bit of context to glue them ... the audience is the people who are burning tokens, the people who keep maxing out ... we kind of want to show them what we do. It has to be very practical.",
    "from": "Dinis Cruz, 28 November 2026, on v0.3",

@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "18238d1",
+   "date_utc": "2026-11-28 12:05",
+   "what": "conductor.c's review of the session-refresh document, published and taken in",
+   "detail": "On the film's Reviews page as it was sent. Into the document: the order of the key steps, rewriting the status\nfile before stopping, replies owed and channels read, and the closing step of telling the old session what the\nnote left out."
+  },
+  {
    "commit": "fd03528",
    "date_utc": "2026-11-28 12:04",
    "what": "c.maestro's review of the session-refresh document, published and taken in",
