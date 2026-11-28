@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "025b69c",
+   "date_utc": "2026-11-28 17:15",
+   "what": "Productions: pages rebuilt after rebase",
+   "detail": ""
+  },
+  {
    "commit": "398e90c",
    "date_utc": "2026-11-28 17:14",
    "what": "How we refresh a session v0.8: the opening starts on a headline, and its last frame is the cover",
@@ -355,12 +361,6 @@
    "commit": "6a8c877",
    "date_utc": "2026-11-28 03:07",
    "what": "Scene lab: second-round work in progress, saved as it stands (renders without errors)",
-   "detail": ""
-  },
-  {
-   "commit": "f92f485",
-   "date_utc": "2026-11-28 03:07",
-   "what": "Scene lab: the test, second round finished: a clean start at 9 s, each slip under its own light, the ink look",
    "detail": ""
   }
  ]

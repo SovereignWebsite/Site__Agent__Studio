@@ -83,7 +83,7 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
   // branding, when the production names one: the same top line on every scene, over a soft shade
   const logo = P.brand_logo && IMGS[P.brand_logo];
   if (P.brand || logo) { c.save(); c.shadowBlur = 0; const g2 = c.createLinearGradient(0, 0, 0, 10 * U); g2.addColorStop(0, 'rgba(6,10,18,.78)'); g2.addColorStop(1, 'rgba(6,10,18,0)'); c.fillStyle = g2; c.fillRect(0, 0, W, 10 * U); c.restore();
-    if (logo && P.brand_corner) { font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 4 * U, T.dim, 1, 'right'); }
+    if (logo && P.brand_corner) { /* the chapter line has the top; no scene count */ }
     else if (logo) { const lw = (L.portrait ? 0.4 : 0.24) * W, lh = lw * logo.height / logo.width; c.shadowBlur = 0; c.globalAlpha = 1; c.drawImage(logo, (W - lw) / 2, 2.4 * U, lw, lh); font(2.3, 700); put(`${meta.i + 1} / ${meta.n}`, W - M, 2.4 * U + lh / 2, T.dim, 1, 'right'); }
     else { font(2.3, 700); put(P.brand.toUpperCase(), M, 4.6 * U, T.accent, 1); put(`${meta.i + 1} / ${meta.n}`, W - M, 4.6 * U, T.dim, 1, 'right'); } }
   const kind = sc.kind, cx = W / 2;
@@ -137,7 +137,7 @@ function drawText(c, L, P, sc, tl, d, still, meta) {
     words.forEach((w, j) => { const ww = c.measureText(w).width; if (lw && lw + sp + ww > maxW) { lines.push([]); lw = 0; } lines[lines.length - 1].push([w, j, ww]); lw += (lw ? sp : 0) + ww; });
     // at most two lines on screen: a long sentence is shown two lines at a time, the pair that holds the word being said
     if (lines.length > 2) { const r = Math.max(0, lines.findIndex((ln) => ln.some((x) => x[1] === Math.max(0, cur)))); lines = lines.slice(Math.floor(r / 2) * 2, Math.floor(r / 2) * 2 + 2); }
-    const yb = H - 14.2 * U, y0 = yb - (lines.length - 1) * lh;
+    const pillHere = logo && P.brand_corner && (!P.label_end_only || meta.i === meta.n - 1), yb = H - (pillHere ? 17.8 : 14.2) * U, y0 = yb - (lines.length - 1) * lh;
     c.save(); c.shadowBlur = 0; c.globalAlpha = 0.62; c.fillStyle = '#060a12'; c.fillRect(0, y0 - lh * 0.72, W, lines.length * lh + lh * 0.44); c.restore();
     c.textAlign = 'left'; c.shadowBlur = 2 * U;
     lines.forEach((ln, r) => { const lt = ln.reduce((a, x) => a + x[2], 0) + sp * (ln.length - 1); let x = cx - lt / 2; for (const [w, j, ww] of ln) { c.globalAlpha = j <= cur ? 1 : 0.48; c.fillStyle = j === cur ? T.accent : T.ink; c.fillText(w, x, y0 + r * lh); x += ww + sp; } });
@@ -189,18 +189,35 @@ export async function mount(root) {
   size(P.format?.w || 1280, P.format?.h || 720);
   for (const u of [P.brand_logo, ...scenes.map((x) => x.mark)].filter(Boolean)) { if (IMGS[u]) continue; try { const im = new Image(); im.src = u; await im.decode(); IMGS[u] = im; } catch { /* drawn without it */ } }
   // scene components (built in the lab): each draws into its own canvas, which this player lays under the words
-  const comps = {}; let ctex = null;
+  // scene components (built in the lab), made only when needed: the current scene and its neighbours. A browser
+  // allows about 16 WebGL contexts per page (fewer on some phones and tablets) and every component has its own, so
+  // components further away are disposed and their contexts released. go(t) returns a promise that settles when
+  // the scenes around t are ready, so captures wait for them.
+  const comps = {}, mods = {}, making = {}; let ctex = null, THREE = null;
+  const lose = (cv) => { for (const k of ['webgl2', 'webgl']) { try { const g = cv.getContext(k), x = g && g.getExtension('WEBGL_lose_context'); if (x) { x.loseContext(); return; } } catch { /* already gone */ } } };
+  function ensure(i) {
+    if (!THREE) return Promise.resolve();
+    const want = new Set([i - 1, i, i + 1].filter((k) => k >= 0 && k < scenes.length).map((k) => scenes[k].component).filter(Boolean));
+    for (const id of Object.keys(comps)) if (!want.has(id)) { try { comps[id].scene.dispose(); } catch { /* best effort */ } lose(comps[id].canvas); delete comps[id]; }
+    return Promise.all([...want].map((id) => comps[id] ? null : making[id] || (making[id] = (async () => {
+      const m = mods[id], cv = document.createElement('canvas'); cv.width = L.W; cv.height = L.H;
+      const sc = await m.create({ canvas: cv, THREE, reduced: still }); delete making[id];
+      if (want.has(id)) comps[id] = { canvas: cv, seconds: m.meta.seconds, scene: sc }; else { try { sc.dispose(); } catch { /* best effort */ } lose(cv); }
+    })())));
+  }
   { const ids = [...new Set(scenes.map((s) => s.component).filter(Boolean))];
     if (ids.length && gl) {
-      say('Loading the scenes.'); const THREE = await import(new URL('./vendor/three-0.187.0/three.module.min.js', import.meta.url));
-      for (const id of ids) { const m = await import(new URL(`../lab/${id}/scene.js`, import.meta.url)), cv = document.createElement('canvas'); cv.width = L.W; cv.height = L.H; comps[id] = { canvas: cv, seconds: m.meta.seconds, scene: await m.create({ canvas: cv, THREE, reduced: still }) }; }
+      say('Loading the scenes.'); THREE = await import(new URL('./vendor/three-0.187.0/three.module.min.js', import.meta.url));
+      for (const id of ids) mods[id] = await import(new URL(`../lab/${id}/scene.js`, import.meta.url));
       ctex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, ctex); for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
-      gl.bindTexture(gl.TEXTURE_2D, tex); say('');
+      gl.bindTexture(gl.TEXTURE_2D, tex); await ensure(0); say('');
     } }
   const sceneAt = (t) => { let i = scenes.length - 1; while (i > 0 && starts[i] > t) i--; return i; };
   const shapeOf = (sc) => SHAPES[sc.shape || DEFAULT_SHAPE[sc.kind]] || SHAPES.swirl;
 
+  let lastNear = -1;
   function frame() {
+    { const k = sceneAt(pos); if (k !== lastNear) { lastNear = k; ensure(k).then(() => { if (!playing) frame(); }); } }
     const i = sceneAt(pos), sc = scenes[i], tl = Math.min(pos - starts[i], sc.seconds), d = sc.seconds, t = still ? 0 : pos;
     drawText(tc, L, P, sc, tl, d, still, { i, n: scenes.length, cam });
     if (gl) {
@@ -262,7 +279,7 @@ export async function mount(root) {
     const tick = () => { if (!playing) return; pos = Math.max(pos0, pos0 + ac.currentTime - clock0); if (stopAt && pos >= stopAt) { pos = stopAt - 0.02; stopAt = 0; pause(); return; } if (pos >= total) { pos = total; pause(); playBtn.textContent = 'Play again'; if (onEnd) { const f = onEnd; onEnd = null; f(); } return; } frame(); raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick);
   }
   function pause() { if (!playing) { frame(); return; } playing = false; cancelAnimationFrame(raf); stopAudio(); playBtn.textContent = 'Play'; playBtn.setAttribute('aria-pressed', 'false'); frame(); if (cam) idle(); }
-  function go(t) { const was = playing; if (was) { playing = false; cancelAnimationFrame(raf); stopAudio(); } pos = clamp(t, 0, total); frame(); if (was) play(); }
+  function go(t) { const was = playing; if (was) { playing = false; cancelAnimationFrame(raf); stopAudio(); } pos = clamp(t, 0, total); frame(); if (was) play(); return ensure(sceneAt(pos)).then(() => frame()); }
   function idle() { const loop = () => { if (playing || !cam) return; frame(); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
 
   // ---- recording: the canvas and one audio track, in the browser, to a file the viewer keeps
