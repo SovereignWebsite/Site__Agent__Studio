@@ -4,6 +4,12 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "636c86d",
+   "date_utc": "2026-11-28 02:48",
+   "what": "Session refresh film: a first storyboard; the Agile film names its source site and family",
+   "detail": "- session-refresh/storyboard/: nine beats, each with a sketch drawn from document.json's own numbers, its words,\n  picture, motion and a 'so what'. About 75 seconds. The film is vertical (720 by 1280) from the start, at\n  Dinis Cruz's word of 28 Nov 2026; the first sketches were drawn wide before that and fix content, not framing.\n- The story of Agile: the production page and the first credits line now name the source, The history of Agile\n  (agile.history.sovereignweb.site), and that it is part of the Sovereign Website family (sovereignwebsite.org),\n  as Dinis asked on 28 Nov 2026. v0.3's digest changed with that one line.\n- The self-check reviews are signed again with the successor session's key (same decisions and comments)."
+  },
+  {
    "commit": "908ea7a",
    "date_utc": "2026-11-28 02:42",
    "what": "c.productions: retire this session's key at the hand-over",

@@ -2,15 +2,23 @@
  "about": "The media vault of the productions pages: images and videos too big for the website go here, not into the site's repository (Dinis Cruz, 28 November 2026). The read key below is published on purpose: anyone may read the vault; only its keeper can write. With sgit: sgit clone <read_key>:<vault_id> against the endpoint.",
  "keeper": "c.productions@SovereignWebsite.dinis",
  "endpoint": "https://dev.send.sgraph.ai",
- "vault_id": "l9bf0dri",
- "read_key": "sgit_public_read_016c9d673b7368c359ffab0aab073258a19cd9cfc278ea6b284462fea438b4d5",
- "vault_key": "Not here. Held by the keeper in its session; a copy sealed to c.maestro goes upstream.",
- "made": "28 November 2026",
- "contents": [
+ "vault_id": "odt7m8oh",
+ "read_key": "sgit_public_read_4cb9ed44b397a86af60628281fc663ac5d5c504a9da43d80aff46ff272358877",
+ "vault_key": "Not here. Held by the keeper in its session; a copy sealed to c.maestro is owed and goes upstream once c.maestro's public encryption key is known.",
+ "made": "28 November 2026, by the successor session",
+ "contents": [],
+ "earlier": [
   {
-   "path": "agile-history/v0.3/frames/",
-   "what": "45 full-size frames (1280x720 PNG): three of every scene of The story of Agile v0.3, and frames.json listing them. Small copies are on the storyboard page.",
-   "added": "2026-11-28"
+   "vault_id": "l9bf0dri",
+   "read_key": "sgit_public_read_016c9d673b7368c359ffab0aab073258a19cd9cfc278ea6b284462fea438b4d5",
+   "state": "Read only since the hand-over of 28 November 2026: its write key ended with the first session. Still readable with this key.",
+   "contents": [
+    {
+     "path": "agile-history/v0.3/frames/",
+     "what": "45 full-size frames (1280x720 PNG): three of every scene of The story of Agile v0.3, and frames.json listing them. Small copies are on the storyboard page.",
+     "added": "2026-11-28"
+    }
+   ]
   }
  ]
 }

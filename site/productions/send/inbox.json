@@ -4,12 +4,12 @@
  "agent_name": "c.productions, the productions agent",
  "site": "productions",
  "endpoint": "https://dev.send.sgraph.ai",
- "vault_id": "unm905gx",
+ "vault_id": "a2tb8hpe",
  "recipient": {
-  "fingerprint": "sha256:589c66daa0df5cb3",
-  "signing_fingerprint": "sha256:235be34ddf9940d3",
-  "encrypt": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApuMaIcGvjI7r2qP0/HJj\nK8fyM6RHIU1PPdt4lV3xEV8RlUOwI/zHlB4xRoc22lWJnPlouwJ1W9Hu+/y2pseG\nuAzd+rjh0P+UWDrLkPO1FG5/1TUnuNyY/zDyVYMg4xn1hmW7UwgHGMNbd5er+7gQ\n/t0Vd6gSWJQUTg5wtPp+7QCxG8m9nQCcdmwoDBtgKYG6XrnJs5eMko/J7I1dTlTS\nxgp9h3aMDpyw1RR7KNTMQJhNyf/ejjOESOSAhGiSw5NjuXkHBThcrwHIAUIWYtBz\n5vbt0Ipbl/2Q3qhVXv/7uGu59F0z8+se1XTX6dqpIBbQNa38UvWDofcfrAoSqgXJ\ngczKDJxMYj/cE2GNyn/EVYiY40K1PPmZgT1Y8oqyUcfp0WGGnWB552J0pk8TJv8U\n91P0RmaQqx3KkKqUBf1NDrt7MzMUegh4FRmY8vIZ7XuB3SQZM/BAZDtxIfCBurPu\nLRzFOU1kPTWhFmeM0TMwHRZGRslANLJj/z0TSWu7R0rWa3lGAJjteq55EBAZdl/G\n7qTNtNiLwLo5HKDUZXJhXs6qKK+nSjwtVZsGbatS0NzIWfKJajdPl9SWXzrPlY3B\noH1C/TDRGWa0ikHTzRqGISNEuPgJsWkUn40uTT37Bnec1+Zn2wAwJPRe43ayzE4G\nzRHHPFNqxvYi3b2dyQVmZ/UCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+  "fingerprint": "sha256:99d88a74f7735558",
+  "signing_fingerprint": "sha256:34655095aa324c98",
+  "encrypt": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0aYzZuNy78g0zqhhrfXU\nUdsJSRbVX5XkJit40iOUnMN/cUVdrVhJpmUmd2OiTXK4KKQCROCvQtpp/q+bIySB\nTnkrdZzPG2Ga02lHHVT/l8PTJqqNugTZ4Tj8aAms7FcrrBL1YLm325DPa+btceTq\nkvvHY+WZV68Sc8jGQdJCWFpZsHAmwHXCtf9LDIRhWYO8xIKp8bNKbpU5kourGaoy\nM5ExR2dFjboEkMWTeo3rgFG6naIdz1AsXal11zxbdnsT4bNsP1I5xsWyb17tAvqF\nPj1IyQsLXx5T87r8LRclPyZua5N+MqSvxGK5Adiftg2Q49dBaIFJmNNEqDIxpt0l\nYiItzJqQ1eSWS/BI+88cVwrvhF29aFOhUspiyn/W/jYJDXTMKtpw/lKA1/8zfwuG\n7VRhg2Lz4AVW0dQFv91mSLeHDjeP0gjbBEOh5QQUxQ+AbSrQQZuGehVG+7W9TPLS\nYMXTWo7UiC8oXk/dovVRRKPeDtDDRqd/7dByS7cAxwvwW/xOkMrgnYaj290j8TXn\n07Ti1Y8g7mDWSbJBeEZut5xSDv+g/bGBOeilF31Jjr24AQDppOyyMqmmJOjPBHnq\nCWdq2XUvGyjh/U/Yt4EkWBEEzQoPH2+nVltfWrw0EoCIN6r9AQRFZCUTwzScCsqw\nowAwKDX7XWD5XuUEAQTiHl0CAwEAAQ==\n-----END PUBLIC KEY-----\n"
  },
- "made": "27 November 2026, by c.productions at Dinis Cruz's word in its session (\"yes install sgit cli here and setup that feedback lane\"). A session lane: its keys end with that session.",
- "agent_key": "/keys/retired/c.productions.235be34ddf9940d3.json"
+ "made": "28 November 2026, by c.productions's successor session, after the hand-over: the first lane (unm905gx, made 27 November at Dinis Cruz's word, \"yes install sgit cli here and setup that feedback lane\") ended with its session. A session lane: its keys end with this session. Every browser needs a new sign-in code; its own key is unchanged.",
+ "agent_key": "/keys/c.productions.json"
 }
