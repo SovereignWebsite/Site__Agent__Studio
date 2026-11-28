@@ -1,0 +1,239 @@
+{
+ "production": "session-refresh",
+ "version": "v0.7",
+ "made": "2026-11-28",
+ "how": "Player frames taken in headless Chromium (software GL) at 30%, 60% and 93% of each scene.",
+ "frames": [
+  {
+   "scene": "cover",
+   "n": 1,
+   "k": 1,
+   "t": 3.9,
+   "file": "01-cover-1.png"
+  },
+  {
+   "scene": "cover",
+   "n": 1,
+   "k": 2,
+   "t": 7.9,
+   "file": "01-cover-2.png"
+  },
+  {
+   "scene": "cover",
+   "n": 1,
+   "k": 3,
+   "t": 12.2,
+   "file": "01-cover-3.png"
+  },
+  {
+   "scene": "hook",
+   "n": 2,
+   "k": 1,
+   "t": 15.2,
+   "file": "02-hook-1.png"
+  },
+  {
+   "scene": "hook",
+   "n": 2,
+   "k": 2,
+   "t": 17.2,
+   "file": "02-hook-2.png"
+  },
+  {
+   "scene": "hook",
+   "n": 2,
+   "k": 3,
+   "t": 19.4,
+   "file": "02-hook-3.png"
+  },
+  {
+   "scene": "why",
+   "n": 3,
+   "k": 1,
+   "t": 22.6,
+   "file": "03-why-1.png"
+  },
+  {
+   "scene": "why",
+   "n": 3,
+   "k": 2,
+   "t": 25.4,
+   "file": "03-why-2.png"
+  },
+  {
+   "scene": "why",
+   "n": 3,
+   "k": 3,
+   "t": 28.4,
+   "file": "03-why-3.png"
+  },
+  {
+   "scene": "moment",
+   "n": 4,
+   "k": 1,
+   "t": 32.3,
+   "file": "04-moment-1.png"
+  },
+  {
+   "scene": "moment",
+   "n": 4,
+   "k": 2,
+   "t": 35.6,
+   "file": "04-moment-2.png"
+  },
+  {
+   "scene": "moment",
+   "n": 4,
+   "k": 3,
+   "t": 39.2,
+   "file": "04-moment-3.png"
+  },
+  {
+   "scene": "writes",
+   "n": 5,
+   "k": 1,
+   "t": 43.4,
+   "file": "05-writes-1.png"
+  },
+  {
+   "scene": "writes",
+   "n": 5,
+   "k": 2,
+   "t": 46.9,
+   "file": "05-writes-2.png"
+  },
+  {
+   "scene": "writes",
+   "n": 5,
+   "k": 3,
+   "t": 50.7,
+   "file": "05-writes-3.png"
+  },
+  {
+   "scene": "reads",
+   "n": 6,
+   "k": 1,
+   "t": 54.9,
+   "file": "06-reads-1.png"
+  },
+  {
+   "scene": "reads",
+   "n": 6,
+   "k": 2,
+   "t": 58.2,
+   "file": "06-reads-2.png"
+  },
+  {
+   "scene": "reads",
+   "n": 6,
+   "k": 3,
+   "t": 61.9,
+   "file": "06-reads-3.png"
+  },
+  {
+   "scene": "keys",
+   "n": 7,
+   "k": 1,
+   "t": 66,
+   "file": "07-keys-1.png"
+  },
+  {
+   "scene": "keys",
+   "n": 7,
+   "k": 2,
+   "t": 69.2,
+   "file": "07-keys-2.png"
+  },
+  {
+   "scene": "keys",
+   "n": 7,
+   "k": 3,
+   "t": 72.8,
+   "file": "07-keys-3.png"
+  },
+  {
+   "scene": "test",
+   "n": 8,
+   "k": 1,
+   "t": 76,
+   "file": "08-test-1.png"
+  },
+  {
+   "scene": "test",
+   "n": 8,
+   "k": 2,
+   "t": 78.4,
+   "file": "08-test-2.png"
+  },
+  {
+   "scene": "test",
+   "n": 8,
+   "k": 3,
+   "t": 81,
+   "file": "08-test-3.png"
+  },
+  {
+   "scene": "saving",
+   "n": 9,
+   "k": 1,
+   "t": 85,
+   "file": "09-saving-1.png"
+  },
+  {
+   "scene": "saving",
+   "n": 9,
+   "k": 2,
+   "t": 88.5,
+   "file": "09-saving-2.png"
+  },
+  {
+   "scene": "saving",
+   "n": 9,
+   "k": 3,
+   "t": 92.3,
+   "file": "09-saving-3.png"
+  },
+  {
+   "scene": "lesson",
+   "n": 10,
+   "k": 1,
+   "t": 95.2,
+   "file": "10-lesson-1.png"
+  },
+  {
+   "scene": "lesson",
+   "n": 10,
+   "k": 2,
+   "t": 97.3,
+   "file": "10-lesson-2.png"
+  },
+  {
+   "scene": "lesson",
+   "n": 10,
+   "k": 3,
+   "t": 99.7,
+   "file": "10-lesson-3.png"
+  },
+  {
+   "scene": "team",
+   "n": 11,
+   "k": 1,
+   "t": 104.9,
+   "file": "11-team-1.png"
+  },
+  {
+   "scene": "team",
+   "n": 11,
+   "k": 2,
+   "t": 109.5,
+   "file": "11-team-2.png"
+  },
+  {
+   "scene": "team",
+   "n": 11,
+   "k": 3,
+   "t": 114.7,
+   "file": "11-team-3.png"
+  }
+ ]
+}

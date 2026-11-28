@@ -2,7 +2,7 @@
  "about": "The files that make this version's picture and sound. The digest is the SHA-256 of the lines '<sha256>  <path>\\n' in this order. A review signs this digest.",
  "production": "session-refresh",
  "version": "v0.7",
- "digest": "029dff4abbca6783d9a1c3888139d6d6e0de3ce0084671ec7f259f3e883f5160",
+ "digest": "a626b10fd929948b044ab841e9970a6f4cd4cd6456ff68ed9d870ce8ea855b27",
  "files": [
   {
    "path": "assets/player.js",
@@ -10,7 +10,7 @@
   },
   {
    "path": "session-refresh/v0.7/scenes.json",
-   "sha256": "adab29ccb6b78eb6a4399e9dc9addc61a9ab6d2ed560a95368016c6e8cd35bf9"
+   "sha256": "990ba9b26189bee9ffd8e69609a188abd2faafdc6ff8556cdfde77a7d63b57dc"
   },
   {
    "path": "session-refresh/v0.7/audio/01-cover.mp3",
@@ -59,6 +59,10 @@
   {
    "path": "assets/brand/sws-wordmark-navy.svg",
    "sha256": "2e1c35a0e917d21ff9f5e0b21ffee2b67981ef745a0dc80c23c0398bc1d7ee57"
+  },
+  {
+   "path": "lab/refresh-cell/scene.js",
+   "sha256": "e8c5e1a1f5bacce3b5866642d97467465e86c51d4d022e37d755c11e2d7b351f"
   },
   {
    "path": "lab/refresh-keys/scene.js",

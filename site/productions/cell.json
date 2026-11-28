@@ -23,7 +23,7 @@
   {
    "role": "Scene-smith",
    "does": "Builds one WebGL scene, shoots its own frames, criticises them against the rubric and improves, three rounds or more.",
-   "runs": 12
+   "runs": 14
   },
   {
    "role": "Critic",
@@ -213,6 +213,26 @@
    "status": "in agile-history v0.4",
    "batch": 7,
    "outside": true
+  },
+  {
+   "n": 18,
+   "role": "Scene-smith",
+   "job": "The refresh film's opening: an agenda of live thumbnails",
+   "result": "lab/refresh-trailer, four rounds",
+   "minutes": 7,
+   "tool_uses": 35,
+   "status": "in session-refresh v0.7",
+   "batch": 8
+  },
+  {
+   "n": 19,
+   "role": "Scene-smith",
+   "job": "The team as an agile cell, archived at the end",
+   "result": "lab/refresh-cell, three rounds",
+   "minutes": 7,
+   "tool_uses": 19,
+   "status": "in session-refresh v0.7",
+   "batch": 8
   }
  ],
  "working_now": 0,
@@ -224,6 +244,7 @@
   "28 Nov, 00:45: the new opening",
   "28 Nov, 01:00: review and refresh",
   "28 Nov, 03:00: the refresh film, first loop (the successor session)",
-  "28 Nov, 12:51: a helper session for the Agile film's opening"
+  "28 Nov, 12:51: a helper session for the Agile film's opening",
+  "28 Nov, 15:50: the refresh film's opening and the agile cell"
  ]
 }

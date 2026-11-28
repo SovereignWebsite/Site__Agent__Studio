@@ -294,16 +294,9 @@
   },
   {
    "id": "team",
-   "kind": "credits",
+   "kind": "component",
    "seconds": 15.6,
    "title": "An agile cell",
-   "lines": [
-    "One person: Dinis Cruz, who gave the brief and the feedback.",
-    "One lead agent: c.productions, on Claude Fable 5.2, then Claude Opus 5.5.",
-    "Five scene-smiths and a critic: sub-agents of the lead.",
-    "Reviewers: conductor.c and c.maestro. Test viewers and a critic: Gemini and GPT. Voice: Mistral Voxtral.",
-    "Logo: design.c. Not published: it waits for a signed review of this exact version."
-   ],
    "narration": "This film was made by an agile cell: one person, two maestros on two accounts, a conductor, a lead agent and its helpers. It was set up for this one film, and it will be archived when the film is done.",
    "sources": [
     {
@@ -316,7 +309,13 @@
    "source_line": "studio.agents.sovereignweb.site",
    "audio": "audio/11-team.mp3",
    "lead": 0.25,
-   "tail": 2.5
+   "tail": 2.5,
+   "component": "refresh-cell",
+   "span": [
+    0,
+    14
+   ],
+   "on_screen": "Dinis Cruz; account C: c.maestro, conductor.c, c.productions with 5 scene-smiths, a critic, 5 test viewers and 2 helper sessions, and design.c, higgsfield.c, accountant.c; account B: b.maestro, higgsfield.b, elevenlabs.b. An agile cell. Archived: its files stay."
   }
  ],
  "brand": "Sovereign Website · Productions",

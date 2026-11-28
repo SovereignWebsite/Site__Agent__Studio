@@ -4,6 +4,18 @@
  "repository": "https://github.com/SovereignWebsite/Site__Agent__Studio/commits/dev/site/productions",
  "changes": [
   {
+   "commit": "b9c7e1a",
+   "date_utc": "2026-11-28 15:56",
+   "what": "c.productions: sessions are started by conductor.c; the Agile Cells film as a productions helper",
+   "detail": "Dinis Cruz, 28 Nov 2026: the Agile Cells film comes from the production team if no team is already making it,\nand the conductor starts the session, not c.productions. Recorded in now.md and learnings.md; the start prompt\nnames the helper c.productions-cells and its scope."
+  },
+  {
+   "commit": "04a50b3",
+   "date_utc": "2026-11-28 15:55",
+   "what": "Productions: pages rebuilt in full (the previous build was cut short)",
+   "detail": ""
+  },
+  {
    "commit": "c5255cb",
    "date_utc": "2026-11-28 15:54",
    "what": "How we refresh a session v0.7: the opening previews what is coming",
@@ -350,18 +362,6 @@
    "date_utc": "2026-11-28 00:46",
    "what": "Review scene by scene, under the player, with voice",
    "detail": "Dinis Cruz, 28 Nov 2026: \"break the whole thing into scenes and allow me to see the scenes in sequence\n... for every scene, I should be able to play and then provide comments\", by voice too.\n- Under the player on every version page: the scenes in order as buttons; each plays only that scene and\n  stops; Good / Not right; a comment written or spoken; one press sends it sealed to the agent through\n  the feedback lane, tagged with production, version and scene. Sent scenes are marked.\n- Voice uses the browser's own speech recognition (in Safari, Apple's dictation), shown live as you speak.\n- The player exposes its scenes and a play-one-scene control.\n- My first sealed reply to the owner's first message on the conversation page.\n- Self-checks re-signed for the new digests (the player changed)."
-  },
-  {
-   "commit": "893ee80",
-   "date_utc": "2026-11-28 00:41",
-   "what": "The story of Agile v0.3: twelve of fifteen scenes are lab pictures",
-   "detail": "The second batch from the loop joins the film, as Dinis Cruz asked (\"add these (and the next batch) to\nthe original video\"): the currents before 2001 (roots, methods), the spread, and three voices with the\nturn (Thomas, Fowler, Jeffries, and Jeffries again). Both new scenes are listed in the lab. Same script,\nvoice and sources; v0.1 and v0.2 stay as they were. The maker's signed self-check lists what is weak.\nIn review; nothing is published."
-  },
-  {
-   "commit": "a90cac1",
-   "date_utc": "2026-11-28 00:39",
-   "what": "Sign-in: the browser's key as a QR picture, and QR pictures read in any browser",
-   "detail": "Dinis Cruz on the first sign-in: \"this should have been a QR code because this is really bad user\nexperience\". The page now draws the browser's public key as a QR code with 'Copy the QR picture'\n(the text stays below it), and reads a dropped or pasted QR picture with a bundled reader where the\nbrowser has none of its own. qrcode-generator 1.4.4 (MIT) and jsQR 1.4.0 (Apache-2.0), served from this site."
   }
  ]
 }
