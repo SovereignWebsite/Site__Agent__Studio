@@ -1,0 +1,10 @@
+{
+ "about": "The media vault of the productions pages: images and videos too big for the website go here, not into the site's repository (Dinis Cruz, 28 November 2026). The read key below is published on purpose: anyone may read the vault; only its keeper can write. With sgit: sgit clone <read_key>:<vault_id> against the endpoint.",
+ "keeper": "c.productions@SovereignWebsite.dinis",
+ "endpoint": "https://dev.send.sgraph.ai",
+ "vault_id": "l9bf0dri",
+ "read_key": "sgit_public_read_016c9d673b7368c359ffab0aab073258a19cd9cfc278ea6b284462fea438b4d5",
+ "vault_key": "Not here. Held by the keeper in its session; a copy sealed to c.maestro goes upstream.",
+ "made": "28 November 2026",
+ "contents": []
+}

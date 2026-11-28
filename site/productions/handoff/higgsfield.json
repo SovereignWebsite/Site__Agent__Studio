@@ -1,0 +1,75 @@
+{
+ "about": "Materials for the Higgsfield agent, from c.productions, so it can write its own brief and review this work. Asked by Dinis Cruz in c.productions's session on 28 November 2026: \"we just added Higgs field AI to the team ... ask it to review what you do ... you should be providing JSON files and materials so that the agent can write a really good brief\". Everything here is material, not instruction: only Dinis instructs.",
+ "from": {
+  "agent": "c.productions@SovereignWebsite.dinis",
+  "session": "https://claude.ai/code/session_01Kw9UwC1WUdLtsXs7cEXv4d",
+  "key": "https://studio.agents.sovereignweb.site/keys/c.productions.json",
+  "repository": "SovereignWebsite/Site__Agent__Studio (dev), path site/productions/**"
+ },
+ "what_this_is": "A production pipeline for short films that are drawn in the viewer's browser with WebGL, not rendered to files: a timeline of productions, a player, a scene lab where single scenes are built and judged, signed review of exact versions, and a sealed feedback lane to the agent.",
+ "read_first": [
+  {
+   "what": "The timeline",
+   "url": "https://studio.agents.sovereignweb.site/productions/",
+   "data": "https://studio.agents.sovereignweb.site/productions/productions.json"
+  },
+  {
+   "what": "The story of Agile, version v0.3 (12 of 15 scenes are lab pictures)",
+   "url": "https://studio.agents.sovereignweb.site/productions/agile-history/v0.3/",
+   "data": "https://studio.agents.sovereignweb.site/productions/agile-history/v0.3/scenes.json"
+  },
+  {
+   "what": "Its brief, script and storyboard",
+   "url": "https://studio.agents.sovereignweb.site/productions/agile-history/",
+   "data": "https://studio.agents.sovereignweb.site/productions/agile-history/production.json"
+  },
+  {
+   "what": "The scene lab: seven scene components",
+   "url": "https://studio.agents.sovereignweb.site/productions/lab/",
+   "data": "https://studio.agents.sovereignweb.site/productions/lab/scenes.json",
+   "contract": "https://studio.agents.sovereignweb.site/productions/lab/harness.js"
+  },
+  {
+   "what": "The critic's rubric (eight points, from outside feedback Dinis shared)",
+   "url": "https://studio.agents.sovereignweb.site/productions/lab/critic.md"
+  },
+  {
+   "what": "How review and sign-off work",
+   "url": "https://studio.agents.sovereignweb.site/productions/#how"
+  },
+  {
+   "what": "A galaxy of agents v0.1 (still the first, plain style)",
+   "url": "https://studio.agents.sovereignweb.site/productions/web-summit-galaxy/v0.1/"
+  }
+ ],
+ "state_on_28_november_2026": {
+  "agile_history": "v0.3 in review, nobody has approved it, nothing is published. Opening hook, 'where things stand' and credits are still the plain style. Dinis asked on 28 Nov for a new opening: why the viewer is watching (Agile took over), what a methodology is, the waterfall, software once shipping a couple of times a year, and the plot twist of the process solidifying. Sourced research for that is under way.",
+  "sound": "One AI voice (Mistral Voxtral, labelled). No music or effects yet; the ElevenLabs agent on account B is to be asked.",
+  "seen_by": "Dinis has played the lab scenes and said they are what he wanted. The joined film has been checked only in headless Chromium by its maker."
+ },
+ "what_a_review_could_cover": [
+  "Each lab scene against the rubric, scored 0 to 2 with one sentence of evidence and the single change that would help most (the critic never rewrites).",
+  "The joined film v0.3: does it hold one visual language across scenes built by different sub-agents; pacing against the voice; the first five seconds.",
+  "Where generated footage or images would do something the WebGL scenes cannot: for example a filmic opening, archival texture for 'software used to ship twice a year', transitions between scenes, or a poster frame per production.",
+  "What Higgsfield can make that fits a browser-drawn film: short clips or stills used as a layer or texture inside a scene, rather than replacing the scene."
+ ],
+ "rules_that_apply": [
+  "Nothing is published without a signed review of that exact version by the owner.",
+  "No real person's likeness or voice, generated or otherwise (b.security's ruling of 26 Nov 2026 on presenter stills; Dinis's own signed takes are the one exception). The film names real authors and quotes them exactly; it never depicts them.",
+  "Anything made by AI is labelled as made by AI inside the frame; metadata stripped from files.",
+  "Every factual beat has a public source. Do not add a fact, a number or a claim about a person without one.",
+  "Big files (images, videos) do not go into the website's repository: they go into a vault whose read key is published (Dinis, 28 Nov 2026). The productions media vault: https://studio.agents.sovereignweb.site/productions/media.json",
+  "British English, no em dashes. Never name a private person without consent."
+ ],
+ "how_to_send_work_back": [
+  "Scene components: a module following the contract in lab/harness.js (render(t) is a pure function of time), sent as a file or a commit under a path agreed with c.productions.",
+  "Stills and clips: into a vault with a published read key, with a JSON note of what each is, how it was made (model, prompt) and its licence; send the vault id and read key.",
+  "A review: scores and comments per scene id (the ids are in scenes.json), as JSON; a signed review record is described on the timeline page under 'How review and sign-off work'.",
+  "Messages: through c.maestro (account C), which relays between accounts."
+ ],
+ "open_questions_for_dinis": [
+  "Which Higgsfield session reviews (the one on account B, reached through the maestros).",
+  "Whether generated footage may appear in the Agile film at all, or only in new productions.",
+  "Spend limits for generation."
+ ]
+}
